@@ -4,6 +4,11 @@
 ### Date: 2021/09/23                ###########
 ###############################################
 
+
+
+## NOTE: This is a preliminary version, including Miller. Since we wanted to search for replication in independent datasets, we
+# did a meta-analysis excluding Miller in meta_key_SNPs_myo.R. This script is legacy now.
+
 # Background: We want to meta-analyse three key SNPs for myositis across studies. 
 # For it, we'll use rmeta package and the reduced datasets for IMD basis.
 
