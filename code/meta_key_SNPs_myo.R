@@ -98,3 +98,44 @@ res[, Z:=BETA/SE][, P:=pnorm(-abs(Z))*2]
 
 fwrite(res, "../tables/3SNPs_meta_results.tsv", sep="\t")
 
+
+## Forest plot of results.
+
+# We're interested in following-up rs2476601, so we'll make a forest plot including all available data for this SNP + the results of the meta-analysis
+
+# Let's bring Miller
+
+milmyo <- fread(paste0(fpath, "MYO_Miller_26291516_1-ft.tsv")) %>% .[SNPID == "rs2476601", c("SNPID","BETA","SE")] %>% .[, study:="Myositis / Miller"]
+miljdm <- fread(paste0(fpath, "JDM_Miller_26291516_1-ft.tsv")) %>% .[SNPID == "rs2476601", c("SNPID","BETA","SE")] %>% .[, study:="JDM / Miller"]
+mildm <- fread(paste0(fpath, "DMY_Miller_26291516_1-ft.tsv")) %>% .[SNPID == "rs2476601", c("SNPID","BETA","SE")] %>% .[, study:="DM / Miller"]
+milpm <- fread(paste0(fpath, "PM_Miller_26291516_1-ft.tsv")) %>% .[SNPID == "rs2476601", c("SNPID","BETA","SE")] %>% .[, study:="PM / Miller"]
+
+# Plus FinnGen PM and Meta elements
+finpm <- fread(paste0(fpath, "M13_POLYMYO_FinnGen_FinnGenR5_1-ft.tsv")) %>% .[SNPID == "rs2476601", c("SNPID","BETA","SE")] %>% .[, study:="PM / FinnGen"]
+
+rs24.myo[, study:=c("Myositis / UKBB", "Myositis / FinnGen")]
+
+# Refurbish results
+res.r24 <- res[SNPID=="rs2476601", c("SNPID","BETA","SE")][, study:="Meta Myositis / UKBB + FinnGen"]
+
+rs24total <- rbindlist(list(rs24.myo, milmyo, miljdm, mildm, milpm, finpm,res.r24))
+
+rs24total[,Trait:=gsub(" \\/.*$","", study)][,study:=gsub(".+\\/ ","", study)]
+
+rs24total[, Trait:=factor(Trait, levels=rev(c("Meta Myositis", "Myositis", "PM", "DM", "JDM")))]
+
+# Plot!
+
+library(ggplot2)
+library(cowplot)
+fplot <- ggplot(rs24total, aes(y = study, x = BETA, xmin=BETA-SE, xmax=BETA+SE, colour = Trait))+
+  geom_pointrange()+
+  geom_vline(xintercept = 0, col="red", lty=2)+
+#  coord_flip()+
+  xlab("Beta")+
+  ggtitle("Delta Plot rs2476601 in Myositis and subtypes")+
+  facet_grid(Trait~., scales = "free", space = "free", switch = "y")+
+  theme_cowplot(16)+
+ theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank())
+  fplot
+
