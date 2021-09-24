@@ -101,7 +101,7 @@ fwrite(res, "../tables/3SNPs_meta_results.tsv", sep="\t")
 
 ## Forest plot of results.
 
-# We're interested in following-up rs2476601, so we'll make a forest plot including all available data for this SNP + the results of the meta-analysis
+# We're interested in following-up rs2476601, so we'll make a forest plot including all available data for this SNP
 
 # Let's bring Miller
 
@@ -118,7 +118,7 @@ rs24.myo[, study:=c("Myositis / UKBB", "Myositis / FinnGen")]
 # Refurbish results
 res.r24 <- res[SNPID=="rs2476601", c("SNPID","BETA","SE")][, study:="Meta Myositis / UKBB + FinnGen"]
 
-rs24total <- rbindlist(list(rs24.myo, milmyo, miljdm, mildm, milpm, finpm,res.r24))
+rs24total <- rbindlist(list(rs24.myo, milmyo, miljdm, mildm, milpm, finpm))
 
 rs24total[,Trait:=gsub(" \\/.*$","", study)][,study:=gsub(".+\\/ ","", study)]
 
@@ -132,10 +132,12 @@ fplot <- ggplot(rs24total, aes(y = study, x = BETA, xmin=BETA-SE, xmax=BETA+SE, 
   geom_pointrange()+
   geom_vline(xintercept = 0, col="red", lty=2)+
 #  coord_flip()+
-  xlab("Beta")+
-  ggtitle("Delta Plot rs2476601 in Myositis and subtypes")+
+  xlab("log(OR)")+
+  ggtitle("Effect sizes for rs2476601 in Myositis and subtypes")+
   facet_grid(Trait~., scales = "free", space = "free", switch = "y")+
-  theme_cowplot(16)+
- theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank())
-  fplot
+  theme_cowplot(8)+
+ theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank(), plot.title = element_text(size = 8))
+#  fplot
+
+ ggsave("../figures/rs2476601_plot.png", fplot, bg = "white", units = "mm", width=125,height=60)
 
