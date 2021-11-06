@@ -69,9 +69,8 @@ plot(rep(1,100),col=pal1,pch=15,cex=5)
 # Palette for clusters
 pal2 <- brewer.pal(12, name = "Paired")
 
-#color = pal1,
-hmp <- pheatmap(bigpsm,  cluster_rows = TRUE, cluster_cols = TRUE, annotation_row=ann$ann[,"cluster", drop=FALSE], annotation_colors = list(cluster=ann$colors$cluster), fontsize_row = 8)
-rhmp
+hmp <- pheatmap(bigpsm, color = pal1, cluster_rows = TRUE, cluster_cols = TRUE, annotation_row=ann$ann[,"cluster", drop=FALSE], annotation_colors = list(cluster=ann$colors$cluster), fontsize_row = 8)
+hmp
 # Save the Heatmap
 save_pheatmap_png <- function(x, filename, width=1200, height=1000, res = 150) {
   png(filename, width = width, height = height, res = res)
@@ -80,5 +79,5 @@ save_pheatmap_png <- function(x, filename, width=1200, height=1000, res = 150) {
   dev.off()
 }
 
-save_pheatmap_png(hmp, filename = "../figures/clustering_heatmap_v2.png", width = 1200,height = 1500)
+save_pheatmap_png(hmp, filename = "../figures/clustering_heatmap_v2.png", width = 1500,height = 1500)
 
