@@ -128,7 +128,9 @@ QC.sig <- QC.filt[FDR.overall < 0.01,]
 table(QC.sig$Trait_class)
 
 # Apply 5% FDR correction by trait and PC to projections, then filter by overall significant traits
-PT.filt[, FDR.PC:=p.adjust(P, method = "BH"), by = c("PC", "Trait_class")][, stars:=ifelse(!is.na(FDR.PC) & FDR.PC<0.01,"•","")] ### Change here significance thresholds for the figure!
+PT.filt[, FDR.PC:=p.adjust(P, method = "BH"), by = c("PC", "Trait_class")][, stars:=ifelse(!is.na(FDR.PC) & FDR.PC<0.05,"○","")][ FDR.PC < 0.01 , stars:="●"] ### Change here significance thresholds for the figure!
+# ◑ Alternative
+# • Original significant
 # Filter PT.filt by overall significant traits
 PT.sig <- PT.filt[Trait %in% QC.sig$Trait,]
 ```
@@ -184,7 +186,25 @@ bp
 Save the heatmap.
 
 ```{r eval=FALSE}
-ggsave(file="../figures/202111_Nov21/Basis_heatmap_r.svg", plot=bp, width=12, height=12)
+# ggsave(file="../figures/202111_Nov21/Basis_heatmap_r.svg", plot=bp, width=18, height=18)   # ggsave doesn't export heatmap to svg correctly, so we need the workaround below.
+
+save_pheatmap_png <- function(x, filename, width=1200, height=1000, res = 150) {
+  png(filename, width = width, height = height, res = res)
+  grid::grid.newpage()
+  grid::grid.draw(x$gtable)
+  dev.off()
+}
+
+save_pheatmap_svg <- function(x, filename, width=16, height=16) { 
+  svg(filename, width = width, height = height, bg = "white", ) # Warning: Size in inches, can't change it to pixels
+  grid::grid.newpage()
+  grid::grid.draw(x$gtable)
+  dev.off()
+}
+
+save_pheatmap_png(bp, filename = "../figures/202111_Nov21/Basis_heatmap_r.png", width = 1500, height = 1500)
+save_pheatmap_svg(bp, filename = "../figures/202111_Nov21/Basis_heatmap_r.svg", width = 8, height = 8)
+
 ```
 
 Now for the myositis heatmap. We can join them together using Inkscape, for example.
@@ -206,8 +226,9 @@ my
 Save the heatmap
 
 ```{r eval = FALSE}
-ggsave(file="../figures/202111_Nov21/Myo_heatmap_r.svg", plot=my, width=12, height=12)
-ggsave(file="../figures/202111_Nov21/Myo_heatmap_r.png", plot=my, width=12, height=12)
+save_pheatmap_png(my, filename = "../figures/202111_Nov21/Myo_heatmap_r.png", width = 1500, height = 1500)
+save_pheatmap_svg(my, filename = "../figures/202111_Nov21/Myo_heatmap_r.svg", width = 8, height = 8)
+
 ```
 
 
@@ -264,7 +285,7 @@ PT.sel[,shorttrait:=NULL]
 
 PT.myo <- PT.sel[First_Author %in% c("Miller", "Rothwell")]  # Extract Miller and Rothwell to be added later, this is similar to the previous PT.myo, but without IBM
 PT.sel <- PT.sel[!First_Author %in% c("Miller", "Rothwell")] # Remove it to avoid repetitions
-PT.delta <- PT.sel[stars == "•"]
+PT.delta <- PT.sel[stars != ""] # Significant projections at FDR 5%.
 PT.delta <- rbindlist(list(PT.basis, PT.delta, PT.myo),fill = TRUE) # Merge everything
 PT.delta[, Var.Delta:=as.numeric(Var.Delta)]
 PT.delta[Var.Delta != 0, ci:=sqrt(Var.Delta) * 1.96][is.na(ci),ci:=0] 
@@ -313,40 +334,40 @@ ggsave("../figures/202111_Nov21/Ladder_plot_PC13.png", forest.plots[["PC13"]], u
 
 
 
-```{r}
+<!-- ```{r} -->
 
-# Removing datasets for better visualisation
-# unwanted <- "FinnGenR2|UKBB|Astle|Chen_32888493_6|ASTHMA_CHILD_EXMORE_FinnGen_FinnGenR3_1|EOSC_Chen_32888493_3"
-#Ferreira_19853236|Kanai|Chen_32888493_[1-4,6]|
-unwanted <- "Chen_32888493_6|ASTHMA_CHILD_EXMORE_FinnGen_FinnGenR5_1|L12_DERM_NAS_FinnGen_FinnGenR5_1|DM_RETINOPATHY_EXMORE|H7_RETINOPATHYDIAB|GRAVD_Okada_UP_[23]|K11_UC_STRICT2|H7_RETINOPATHYDIAB_PROLIF_|H7_MACULOPATHYDIAB_|DM_NEPHROPATHY_EXMORE_|PanUKBB|E4_HYPOGLYC_FinnGen_FinnGenR5_1|E4_GLUCOPANCREAS_FinnGen_FinnGenR5_1|E4_DM2OPTH_FinnGen_FinnGenR5_1|M13_OSTEOMYELITIS_FinnGen_FinnGenR5_1|RA_Kubo_BBJ_1|RA_Ishigaki_doi101101795948_1|20002_1276_Neale_UKBB_1|K11_FIBROCHIRLIV_FinnGen_FinnGenR5_1|N14_GLOMEINOTH_FinnGen_FinnGenR5_1|K11_LIP_ORAL_MUCOSA_FinnGen_FinnGenR5_1|TONS_Tian_28928442_1|RX_ANTIHYP_FinnGen_FinnGenR5_1|M13_MUSCULOSKELETAL_FinnGen_FinnGenR5_1|K11_OTHDIG_FinnGen_FinnGenR5_1|TG_Sakaue_doi1011012020102320213652_1|CEI_Tian_28928442_1|TPROT_Sakaue_doi1011012020102320213652_1|NEUC_Sakaue_doi1011012020102320213652_1|RA_Sakaue_doi1011012020102320213652_1|G6_DISSOTH_FinnGen_FinnGenR5_1|L12_VITILIGO_FinnGen_FinnGenR5_1" # Here we'll add the datasets we don't want to visualise at all because they're problematic for some reason (see below)
-# For IMD we added DM_RETINOPATHY_EXMORE|H7_RETINOPATHYDIAB|GRAVD_Okada_UP_[23]|K11_UC_STRICT2|H7_RETINOPATHYDIAB_PROLIF_|H7_MACULOPATHYDIAB_|DM_NEPHROPATHY_EXMORE_, since they're redundant in name with other significant datasets.
-# We also remove PanUKBB from visualisation, for now, since they're over 180 datasets
-# We remove E4_HYPOGLYC_FinnGen_FinnGenR5_1, 	E4_GLUCOPANCREAS_FinnGen_FinnGenR5_1, E4_DM2OPTH_FinnGen_FinnGenR5_1, M13_OSTEOMYELITIS_FinnGen_FinnGenR5_1, RA_Kubo_BBJ_1, RA_Ishigaki_doi101101795948_1, 20002_1276_Neale_UKBB_1, K11_FIBROCHIRLIV_FinnGen_FinnGenR5_1, N14_GLOMEINOTH_FinnGen_FinnGenR5_1, K11_LIP_ORAL_MUCOSA_FinnGen_FinnGenR5_1, TONS_Tian_28928442_1, RX_ANTIHYP_FinnGen_FinnGenR5_1, M13_MUSCULOSKELETAL_FinnGen_FinnGenR5_1, K11_OTHDIG_FinnGen_FinnGenR5_1, TG_Sakaue_doi1011012020102320213652_1, CEI_Tian_28928442_1, TPROT_Sakaue_doi1011012020102320213652_1, NEUC_Sakaue_doi1011012020102320213652_1, RA_Sakaue_doi1011012020102320213652_1, G6_DISSOTH_FinnGen_FinnGenR5_1, and L12_VITILIGO_FinnGen_FinnGenR5_1 because they had no significant PCs.
+<!-- # Removing datasets for better visualisation -->
+<!-- # unwanted <- "FinnGenR2|UKBB|Astle|Chen_32888493_6|ASTHMA_CHILD_EXMORE_FinnGen_FinnGenR3_1|EOSC_Chen_32888493_3" -->
+<!-- #Ferreira_19853236|Kanai|Chen_32888493_[1-4,6]| -->
+<!-- unwanted <- "Chen_32888493_6|ASTHMA_CHILD_EXMORE_FinnGen_FinnGenR5_1|L12_DERM_NAS_FinnGen_FinnGenR5_1|DM_RETINOPATHY_EXMORE|H7_RETINOPATHYDIAB|GRAVD_Okada_UP_[23]|K11_UC_STRICT2|H7_RETINOPATHYDIAB_PROLIF_|H7_MACULOPATHYDIAB_|DM_NEPHROPATHY_EXMORE_|PanUKBB|E4_HYPOGLYC_FinnGen_FinnGenR5_1|E4_GLUCOPANCREAS_FinnGen_FinnGenR5_1|E4_DM2OPTH_FinnGen_FinnGenR5_1|M13_OSTEOMYELITIS_FinnGen_FinnGenR5_1|RA_Kubo_BBJ_1|RA_Ishigaki_doi101101795948_1|20002_1276_Neale_UKBB_1|K11_FIBROCHIRLIV_FinnGen_FinnGenR5_1|N14_GLOMEINOTH_FinnGen_FinnGenR5_1|K11_LIP_ORAL_MUCOSA_FinnGen_FinnGenR5_1|TONS_Tian_28928442_1|RX_ANTIHYP_FinnGen_FinnGenR5_1|M13_MUSCULOSKELETAL_FinnGen_FinnGenR5_1|K11_OTHDIG_FinnGen_FinnGenR5_1|TG_Sakaue_doi1011012020102320213652_1|CEI_Tian_28928442_1|TPROT_Sakaue_doi1011012020102320213652_1|NEUC_Sakaue_doi1011012020102320213652_1|RA_Sakaue_doi1011012020102320213652_1|G6_DISSOTH_FinnGen_FinnGenR5_1|L12_VITILIGO_FinnGen_FinnGenR5_1" # Here we'll add the datasets we don't want to visualise at all because they're problematic for some reason (see below) -->
+<!-- # For IMD we added DM_RETINOPATHY_EXMORE|H7_RETINOPATHYDIAB|GRAVD_Okada_UP_[23]|K11_UC_STRICT2|H7_RETINOPATHYDIAB_PROLIF_|H7_MACULOPATHYDIAB_|DM_NEPHROPATHY_EXMORE_, since they're redundant in name with other significant datasets. -->
+<!-- # We also remove PanUKBB from visualisation, for now, since they're over 180 datasets -->
+<!-- # We remove E4_HYPOGLYC_FinnGen_FinnGenR5_1, 	E4_GLUCOPANCREAS_FinnGen_FinnGenR5_1, E4_DM2OPTH_FinnGen_FinnGenR5_1, M13_OSTEOMYELITIS_FinnGen_FinnGenR5_1, RA_Kubo_BBJ_1, RA_Ishigaki_doi101101795948_1, 20002_1276_Neale_UKBB_1, K11_FIBROCHIRLIV_FinnGen_FinnGenR5_1, N14_GLOMEINOTH_FinnGen_FinnGenR5_1, K11_LIP_ORAL_MUCOSA_FinnGen_FinnGenR5_1, TONS_Tian_28928442_1, RX_ANTIHYP_FinnGen_FinnGenR5_1, M13_MUSCULOSKELETAL_FinnGen_FinnGenR5_1, K11_OTHDIG_FinnGen_FinnGenR5_1, TG_Sakaue_doi1011012020102320213652_1, CEI_Tian_28928442_1, TPROT_Sakaue_doi1011012020102320213652_1, NEUC_Sakaue_doi1011012020102320213652_1, RA_Sakaue_doi1011012020102320213652_1, G6_DISSOTH_FinnGen_FinnGenR5_1, and L12_VITILIGO_FinnGen_FinnGenR5_1 because they had no significant PCs. -->
 
-# This monstruous line will more or less accurately define a Label variable that will help us visualise  datasets more easily
-# Basically, we
-# (1) Remove unwanted files
-# (2) Use the full trait definition + Author + Population.
-# (3) Use only full trait for FinnGenR3, since "FinnGen" is defined in Trait_long
-# (4) Don't expand cytokines
+<!-- # This monstruous line will more or less accurately define a Label variable that will help us visualise  datasets more easily -->
+<!-- # Basically, we -->
+<!-- # (1) Remove unwanted files -->
+<!-- # (2) Use the full trait definition + Author + Population. -->
+<!-- # (3) Use only full trait for FinnGenR3, since "FinnGen" is defined in Trait_long -->
+<!-- # (4) Don't expand cytokines -->
 
 
-PT.sigviz <- PT.sig[!grepl(unwanted, Trait),][,Label:=str_trunc(paste0( Trait_long, " (",First_Author,") ", Population), width = 65)][,Label:=ifelse(grepl("FinnGen", Label), Trait_long, Label)][,Label:=ifelse(grepl("GOUT_FinnGen", Trait), "Gout (FinnGen)", Label)][,Label:=ifelse(grepl("Interleukin|TRAIL|VEGF|PDGF|CXCL1|MIP1a|MIG", Label), paste0(Trait_ID_2.0, " levels (",First_Author, ") ", Population), Label)]
-#[, Label:=gsub("ILD", "Interstitial Lung Disease (ILD)", Label)]
-# For IMD, we added MIG in the list of expanded cytokines
+<!-- PT.sigviz <- PT.sig[!grepl(unwanted, Trait),][,Label:=str_trunc(paste0( Trait_long, " (",First_Author,") ", Population), width = 65)][,Label:=ifelse(grepl("FinnGen", Label), Trait_long, Label)][,Label:=ifelse(grepl("GOUT_FinnGen", Trait), "Gout (FinnGen)", Label)][,Label:=ifelse(grepl("Interleukin|TRAIL|VEGF|PDGF|CXCL1|MIP1a|MIG", Label), paste0(Trait_ID_2.0, " levels (",First_Author, ") ", Population), Label)] -->
+<!-- #[, Label:=gsub("ILD", "Interstitial Lung Disease (ILD)", Label)] -->
+<!-- # For IMD, we added MIG in the list of expanded cytokines -->
 
-QC.sigviz <- QC.sig[Trait %in% unique(PT.sigviz$Trait),]
-nrow(QC.sigviz)
+<!-- QC.sigviz <- QC.sig[Trait %in% unique(PT.sigviz$Trait),] -->
+<!-- nrow(QC.sigviz) -->
 
-# This is a finer remover, as we'll remove datasets that are perfectly fine but are redundant so we remove them to diminish cluttering. 
-unwanted.fine <- "SLE_FG_FinnGen_FinnGenR5_1|L12_BULLOUS_FinnGen_FinnGenR5_1|GOUT_STRICT_FinnGen_FinnGenR5_1|D3_PURPURA_AND3_OTHER_HAEMORRHAGIC_FinnGen_FinnGenR5_1|SSC_LopezIsac_31672989_1|E4_DM1NASCOMP_FinnGen_FinnGenR5_1|I9_HEARTFAIL_AND_ANTIHYPERT_FinnGen_FinnGenR5_1|FG_CVD_FinnGen_FinnGenR5_1|I9_CHD_FinnGen_FinnGenR5_1|I9_CORATHER_FinnGen_FinnGenR5_1|I9_IHD_FinnGen_FinnGenR5_1|I9_ISCHHEART_FinnGen_FinnGenR5_1|I9_ANGINA_EXNONE_FinnGen_FinnGenR5_1|I9_ANGINA_FinnGen_FinnGenR5_1|	
-MYELOPROF_NONCML_FinnGen_FinnGenR5_1|ASTHMA_NOS_EXMORE_FinnGen_FinnGenR5_1|ALLERG_ASTHMA_EXMORE_FinnGen_FinnGenR5_1|NONALLERG_ASTHMA_EXMORE_FinnGen_FinnGenR5_1|ASTHMA_NONALLERG_FinnGen_FinnGenR5_1|ASTHMA_ACUTE_RESPIRATORY_INFECTIONS_FinnGen_FinnGenR5_1|ASTHMA_HOSPITAL_MAIN_FinnGen_FinnGenR5_1|J10_ASTHMA_INCLAVO_FinnGen_FinnGenR5_1|J10_ASTHMA_MAIN_EXMORE_FinnGen_FinnGenR5_1|J10_ASTHMA_MAIN_FinnGen_FinnGenR5_1|J10_ASTHMA_EXMORE_FinnGen_FinnGenR5_1|ASTHMA_NAS_FinnGen_FinnGenR5_1|ASTHMA_ALLERG_EXMORE_FinnGen_FinnGenR5_1|ATOPIC_STRICT_FinnGen_FinnGenR5_1|ATOPIC_STRICT_REIMB_FinnGen_FinnGenR5_1|ASTHMA_PNEUMONIA_FinnGen_FinnGenR5_1|E4_HYTHYNAS_FinnGen_FinnGenR5_1|E4_HYTHY_AI_STRICT_PURCH_FinnGen_FinnGenR5_1|HYPOTHY_LEVOTHY_FinnGen_FinnGenR5_1|HYPOTHY_PURCHASE_FinnGen_FinnGenR5_1|HYPOTHY_REIMB_FinnGen_FinnGenR5_1|E4_DM1NOCOMP_FinnGen_FinnGenR5_1|T1D_WIDE1_FinnGen_FinnGenR5_1|T1D_WIDE_FinnGen_FinnGenR5_1|K11_REIMB_202_FinnGen_FinnGenR5_1|M13_JUVEARTH_FinnGen_FinnGenR5_1|D3_ANAEMIANAS_FinnGen_FinnGenR5_1|D3_OTHERANAEMIA_FinnGen_FinnGenR5_1|I9_REVACS_EXNONE_FinnGen_FinnGenR5_1|I9_REVASC_EXNONE_FinnGen_FinnGenR5_1|I9_CABG_EXNONE_FinnGen_FinnGenR5_1|MYELOPROF_NONCML_FinnGen_FinnGenR5_1"
-# Ferreira_19853236|Kanai|Chen_32888493_[1-4]|Vuckovic| removed from this list
+<!-- # This is a finer remover, as we'll remove datasets that are perfectly fine but are redundant so we remove them to diminish cluttering.  -->
+<!-- unwanted.fine <- "SLE_FG_FinnGen_FinnGenR5_1|L12_BULLOUS_FinnGen_FinnGenR5_1|GOUT_STRICT_FinnGen_FinnGenR5_1|D3_PURPURA_AND3_OTHER_HAEMORRHAGIC_FinnGen_FinnGenR5_1|SSC_LopezIsac_31672989_1|E4_DM1NASCOMP_FinnGen_FinnGenR5_1|I9_HEARTFAIL_AND_ANTIHYPERT_FinnGen_FinnGenR5_1|FG_CVD_FinnGen_FinnGenR5_1|I9_CHD_FinnGen_FinnGenR5_1|I9_CORATHER_FinnGen_FinnGenR5_1|I9_IHD_FinnGen_FinnGenR5_1|I9_ISCHHEART_FinnGen_FinnGenR5_1|I9_ANGINA_EXNONE_FinnGen_FinnGenR5_1|I9_ANGINA_FinnGen_FinnGenR5_1|	 -->
+<!-- MYELOPROF_NONCML_FinnGen_FinnGenR5_1|ASTHMA_NOS_EXMORE_FinnGen_FinnGenR5_1|ALLERG_ASTHMA_EXMORE_FinnGen_FinnGenR5_1|NONALLERG_ASTHMA_EXMORE_FinnGen_FinnGenR5_1|ASTHMA_NONALLERG_FinnGen_FinnGenR5_1|ASTHMA_ACUTE_RESPIRATORY_INFECTIONS_FinnGen_FinnGenR5_1|ASTHMA_HOSPITAL_MAIN_FinnGen_FinnGenR5_1|J10_ASTHMA_INCLAVO_FinnGen_FinnGenR5_1|J10_ASTHMA_MAIN_EXMORE_FinnGen_FinnGenR5_1|J10_ASTHMA_MAIN_FinnGen_FinnGenR5_1|J10_ASTHMA_EXMORE_FinnGen_FinnGenR5_1|ASTHMA_NAS_FinnGen_FinnGenR5_1|ASTHMA_ALLERG_EXMORE_FinnGen_FinnGenR5_1|ATOPIC_STRICT_FinnGen_FinnGenR5_1|ATOPIC_STRICT_REIMB_FinnGen_FinnGenR5_1|ASTHMA_PNEUMONIA_FinnGen_FinnGenR5_1|E4_HYTHYNAS_FinnGen_FinnGenR5_1|E4_HYTHY_AI_STRICT_PURCH_FinnGen_FinnGenR5_1|HYPOTHY_LEVOTHY_FinnGen_FinnGenR5_1|HYPOTHY_PURCHASE_FinnGen_FinnGenR5_1|HYPOTHY_REIMB_FinnGen_FinnGenR5_1|E4_DM1NOCOMP_FinnGen_FinnGenR5_1|T1D_WIDE1_FinnGen_FinnGenR5_1|T1D_WIDE_FinnGen_FinnGenR5_1|K11_REIMB_202_FinnGen_FinnGenR5_1|M13_JUVEARTH_FinnGen_FinnGenR5_1|D3_ANAEMIANAS_FinnGen_FinnGenR5_1|D3_OTHERANAEMIA_FinnGen_FinnGenR5_1|I9_REVACS_EXNONE_FinnGen_FinnGenR5_1|I9_REVASC_EXNONE_FinnGen_FinnGenR5_1|I9_CABG_EXNONE_FinnGen_FinnGenR5_1|MYELOPROF_NONCML_FinnGen_FinnGenR5_1" -->
+<!-- # Ferreira_19853236|Kanai|Chen_32888493_[1-4]|Vuckovic| removed from this list -->
 
-PT.redviz <- PT.sigviz[!grepl(unwanted.fine,Trait, perl = TRUE)]
-QC.redviz <- QC.sig[Trait %in% unique(PT.redviz$Trait),]
+<!-- PT.redviz <- PT.sigviz[!grepl(unwanted.fine,Trait, perl = TRUE)] -->
+<!-- QC.redviz <- QC.sig[Trait %in% unique(PT.redviz$Trait),] -->
 
-```
+<!-- ``` -->
 
 
 
