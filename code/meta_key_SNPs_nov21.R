@@ -32,126 +32,101 @@ crds = c("2:198029415", "7:128933913", "1:113834946")
 
 # Load datasets
 # Myositis
-myo1 <- fread(paste0(fpath, "MYO_Miller_26291516_1-ft.tsv")) %>% .[SNPID %in% rsids, c("SNPID","BETA","SE")] %>% .[, study:="MYO_Miller"]
-myo2 <- fread(paste0(fpath, "20002_1322_Neale_UKBB_1-ft.tsv"))  %>% .[pid38 %in% crds, c("SNPID","BETA","SE")] %>% .[, study:="MYO_UKBB"] %>% .[, SNPID:=rsids[c(3,1,2)]] # Need little adjustment to match pids and rsids
-myo3 <- fread(paste0(fpath, "M13_MYOSITIS_FinnGen_FinnGenR5_1-ft.tsv")) %>% .[SNPID %in% rsids, c("SNPID","BETA","SE")] %>% .[, study:="MYO_FinnGen"]
-myo4 <- fread(paste0(fpath,"IIM_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% crds, c("SNPID", "BETA","SE")] %>% .[, study:="MYO_Rothwell"] %>% .[, SNPID:=rsids[c(3,1,2)]] 
+myo1 <- fread(paste0(fpath, "MYO_Miller_26291516_1-ft.tsv")) %>% .[SNPID %in% rsids, c("SNPID","BETA","SE","P")] %>% .[, study:="Miller"] %>% .[, trait:="Myositis"]
+myo2 <- fread(paste0(fpath, "20002_1322_Neale_UKBB_1-ft.tsv"))  %>% .[pid38 %in% crds, c("SNPID","BETA","SE","P")] %>% .[, study:="UKBB"] %>% .[,trait:="Myositis"] %>% .[, SNPID:=rsids[c(3,1,2)]] # Need little adjustment to match pids and rsids
+myo3 <- fread(paste0(fpath, "M13_MYOSITIS_FinnGen_FinnGenR5_1-ft.tsv")) %>% .[SNPID %in% rsids, c("SNPID","BETA","SE","P")] %>% .[, study:="FinnGen"] %>% .[, trait:="Myositis"]
+myo4 <- fread(paste0(fpath,"IIM_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% crds, c("SNPID", "BETA","SE","P")] %>% .[, study:="Rothwell"] %>% .[, trait:="Myositis"] %>% .[, SNPID:=rsids[c(3,1,2)]] 
 myo <- rbindlist(list(myo1,myo2,myo3,myo4))
 myo
-#          SNPID       BETA         SE        study
-#  1:  rs2476601 -0.1810966 0.06765641   MYO_Miller
-#  2: rs10196612  0.1653285 0.04288243   MYO_Miller
-#  3:  rs4728142  0.1523248 0.03977460   MYO_Miller
-#  4:  rs2476601 -0.1969849 0.19350606     MYO_UKBB
-#  5: rs10196612 -0.1652154 0.11776730     MYO_UKBB
-#  6:  rs4728142  0.1444594 0.11830524     MYO_UKBB
-#  7:  rs2476601 -0.2148000 0.11000000  MYO_FinnGen
-#  8: rs10196612  0.1219000 0.07960000  MYO_FinnGen
-#  9:  rs4728142  0.1148000 0.07930000  MYO_FinnGen
-# 10:  rs2476601 -0.2600580 0.04884170 MYO_Rothwell
-# 11: rs10196612  0.1307940 0.03141090 MYO_Rothwell
-# 12:  rs4728142  0.1208990 0.03138790 MYO_Rothwell
+#          SNPID       BETA         SE           P    study    trait
+#  1:  rs2476601 -0.1810966 0.06765641 7.43500e-03   Miller Myositis
+#  2: rs10196612  0.1653285 0.04288243 1.15543e-04   Miller Myositis
+#  3:  rs4728142  0.1523248 0.03977460 1.28300e-04   Miller Myositis
+#  4:  rs2476601 -0.1969849 0.19350606 3.08689e-01     UKBB Myositis
+#  5: rs10196612 -0.1652154 0.11776730 1.60648e-01     UKBB Myositis
+#  6:  rs4728142  0.1444594 0.11830524 2.22059e-01     UKBB Myositis
+#  7:  rs2476601 -0.2148000 0.11000000 5.08900e-02  FinnGen Myositis
+#  8: rs10196612  0.1219000 0.07960000 1.25700e-01  FinnGen Myositis
+#  9:  rs4728142  0.1148000 0.07930000 1.47800e-01  FinnGen Myositis
+# 10:  rs2476601 -0.2600580 0.04884170 1.62873e-07 Rothwell Myositis
+# 11: rs10196612  0.1307940 0.03141090 3.04470e-05 Rothwell Myositis
+# 12:  rs4728142  0.1208990 0.03138790 1.17873e-04 Rothwell Myositis
 
 # DM
-dm1 <- fread(paste0(fpath, "DMY_Miller_26291516_1-ft.tsv")) %>% .[SNPID %in% rsids, c("SNPID","BETA","SE")] %>% .[, study:="DM_Miller"]
-dm2 <- fread(paste0(fpath, "M13_DERMATOPOLY_FinnGen_FinnGenR5_1-ft.tsv")) %>% .[SNPID %in% rsids, c("SNPID","BETA","SE")] %>% .[, study:="DM_FinnGen"]
-dm3 <- fread(paste0(fpath,"DMY_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% crds, c("SNPID", "BETA","SE")] %>% .[, study:="DM_Rothwell"] %>% .[, SNPID:=rsids[c(3,1,2)]] 
+dm1 <- fread(paste0(fpath, "DMY_Miller_26291516_1-ft.tsv")) %>% .[SNPID %in% rsids, c("SNPID","BETA","SE","P")] %>% .[, study:="Miller"] %>% .[, trait:="DM"]
+dm2 <- fread(paste0(fpath, "M13_DERMATOPOLY_FinnGen_FinnGenR5_1-ft.tsv")) %>% .[SNPID %in% rsids, c("SNPID","BETA","SE","P")] %>% .[, study:="FinnGen"] %>% .[, trait:="DM"]
+dm3 <- fread(paste0(fpath,"DMY_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% crds, c("SNPID", "BETA","SE","P")] %>% .[, study:="Rothwell"] %>% .[, SNPID:=rsids[c(3,1,2)]] %>% .[, trait:="DM"]
 dm <- rbindlist(list(dm1,dm2, dm3))
 dm
-#         SNPID        BETA         SE       study
-# 1:  rs2476601 -0.04672777 0.09762755   DM_Miller
-# 2: rs10196612  0.17961666 0.06187896   DM_Miller
-# 3:  rs4728142  0.17949114 0.05739437   DM_Miller
-# 4:  rs2476601 -0.64550000 0.14330000  DM_FinnGen
-# 5: rs10196612  0.03740000 0.10010000  DM_FinnGen
-# 6:  rs4728142  0.36080000 0.10010000  DM_FinnGen
-# 7:  rs2476601 -0.10920000 0.08925710 DM_Rothwell
-# 8: rs10196612  0.14804700 0.05549940 DM_Rothwell
-# 9:  rs4728142  0.11392600 0.05581850 DM_Rothwell
+#         SNPID        BETA         SE           P    study trait
+# 1:  rs2476601 -0.04672777 0.09762755 0.632200000   Miller    DM
+# 2: rs10196612  0.17961666 0.06187896 0.003699460   Miller    DM
+# 3:  rs4728142  0.17949114 0.05739437 0.001764000   Miller    DM
+# 4:  rs2476601 -0.64550000 0.14330000 0.000006666  FinnGen    DM
+# 5: rs10196612  0.03740000 0.10010000 0.708300000  FinnGen    DM
+# 6:  rs4728142  0.36080000 0.10010000 0.000315100  FinnGen    DM
+# 7:  rs2476601 -0.10920000 0.08925710 0.224673000 Rothwell    DM
+# 8: rs10196612  0.14804700 0.05549940 0.007530510 Rothwell    DM
+# 9:  rs4728142  0.11392600 0.05581850 0.041302500 Rothwell    DM
 
 # PM
-pm1 <- fread(paste0(fpath, "PM_Miller_26291516_1-ft.tsv")) %>% .[SNPID %in% rsids, c("SNPID","BETA","SE")] %>% .[, study:="PM_Miller"]
-pm2 <- fread(paste0(fpath, "PM_Sakaue_doi1011012020102320213652_1-ft.tsv"))%>% .[SNPID %in% rsids, c("SNPID","BETA","SE")] %>% .[, study:="PM_Sakaue"]
-pm3 <- fread(paste0(fpath,"PM_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% crds, c("SNPID", "BETA","SE")] %>% .[, study:="PM_Rothwell"] %>% .[, SNPID:=rsids[c(3,1,2)]] 
-pm <- rbindlist(list(pm1,pm2, pm3))
+pm1 <- fread(paste0(fpath, "PM_Miller_26291516_1-ft.tsv")) %>% .[SNPID %in% rsids, c("SNPID","BETA","SE","P")] %>% .[, study:="Miller"]  %>% .[, trait:="PM"]
+pm2 <- fread(paste0(fpath, "PM_Sakaue_doi1011012020102320213652_1-ft.tsv"))%>% .[SNPID %in% rsids, c("SNPID","BETA","SE","P")] %>% .[, study:="Sakaue"]  %>% .[, trait:="PM"]
+pm3 <- fread(paste0(fpath,"PM_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% crds, c("SNPID", "BETA","SE","P")] %>% .[, study:="Rothwell"] %>% .[, SNPID:=rsids[c(3,1,2)]]  %>% .[, trait:="PM"]
+pm4 <- fread(paste0(fpath, "M13_POLYMYO_FinnGen_FinnGenR5_1-ft.tsv")) %>% .[SNPID %in% rsids , c("SNPID","BETA","SE","P")] %>% .[, study:="FinnGen"]  %>% .[, trait:="PM"]
+pm <- rbindlist(list(pm1,pm2, pm3, pm4))
 pm
-#         SNPID       BETA         SE       study
-# 1:  rs2476601 -0.4767877 0.11332527   PM_Miller
-# 2: rs10196612  0.1470304 0.07181533   PM_Miller
-# 3:  rs4728142  0.1712436 0.06662292   PM_Miller
-# 4: rs10196612 -0.1511835 0.20078347   PM_Sakaue
-# 5:  rs4728142  0.4454922 0.29878545   PM_Sakaue
-# 6:  rs2476601 -0.3855370 0.07789430 PM_Rothwell
-# 7: rs10196612  0.1236040 0.05275360 PM_Rothwell
-# 8:  rs4728142  0.1219290 0.05314870 PM_Rothwell
+#          SNPID       BETA         SE            P    study trait
+#  1:  rs2476601 -0.4767877 0.11332527 2.585000e-05   Miller    PM
+#  2: rs10196612  0.1470304 0.07181533 4.062420e-02   Miller    PM
+#  3:  rs4728142  0.1712436 0.06662292 1.016000e-02   Miller    PM
+#  4: rs10196612 -0.1511835 0.20078347 4.514693e-01   Sakaue    PM
+#  5:  rs4728142  0.4454922 0.29878545 1.359588e-01   Sakaue    PM
+#  6:  rs2476601 -0.3855370 0.07789430 1.247330e-06 Rothwell    PM
+#  7: rs10196612  0.1236040 0.05275360 1.896910e-02 Rothwell    PM
+#  8:  rs4728142  0.1219290 0.05314870 2.182920e-02 Rothwell    PM
+#  9:  rs2476601 -0.7855000 0.18910000 3.273000e-05  FinnGen    PM
+# 10: rs10196612 -0.0069000 0.13180000 9.580000e-01  FinnGen    PM
+# 11:  rs4728142  0.3619000 0.13160000 5.937000e-03  FinnGen    PM
 
 
 # Meta-analysis time
 
-# rs10196612
-rs10.myo  <- myo[SNPID == "rs10196612"] 
+# Here we'll meta-analyse some specific SNPs for which we have external dataset information from UKBB and FinnGen
+
+# rs10196612 in Myositis
+rs10.myo  <- myo[SNPID == "rs10196612" & study %in% c("UKBB", "FinnGen")] # Note: different sign 
 meta.myo.rs10 <- meta.summaries(rs10.myo$BETA, rs10.myo$SE, names= rs10.myo$study, method="fixed") 
 
-rs10.dm  <- dm[SNPID == "rs10196612"] 
-meta.dm.rs10 <- meta.summaries(rs10.dm$BETA, rs10.dm$SE, names= rs10.dm$study, method="fixed") 
-
-rs10.pm  <- pm[SNPID == "rs10196612"] 
-meta.pm.rs10 <- meta.summaries(rs10.pm$BETA, rs10.pm$SE, names= rs10.pm$study, method="fixed") 
-
-res.rs10  <- data.table(SNPID ="rs10196612", Trait = c("MYO","DM","PM"), BETA = c(meta.myo.rs10$summary, meta.dm.rs10$summary, meta.pm.rs10$summary), SE = c(meta.myo.rs10$se.summary, meta.dm.rs10$se.summary, meta.pm.rs10$se.summary), chisq_het = c(meta.myo.rs10$het[1], meta.dm.rs10$het[1], meta.pm.rs10$het[1]) , df_het = c(meta.myo.rs10$het[2], meta.dm.rs10$het[2], meta.pm.rs10$het[2]), P_het = c(meta.myo.rs10$het[3], meta.dm.rs10$het[3], meta.pm.rs10$het[3]))
+res.rs10  <- data.table(SNPID ="rs10196612", Trait = "Myositis", BETA = meta.myo.rs10$summary, SE = meta.myo.rs10$se.summary, chisq_het = meta.myo.rs10$het[1] , df_het = meta.myo.rs10$het[2], P_het = meta.myo.rs10$het[3])
+res.rs10[, Z:=BETA/SE][, P:=pnorm(-abs(Z))*2]
 res.rs10
-#         SNPID Trait      BETA         SE chisq_het df_het      P_het
-# 1: rs10196612   MYO 0.1285745 0.02365405  6.969972      3 0.07286104
-# 2: rs10196612    DM 0.1439664 0.03819074  1.470702      2 0.47933707
-# 3: rs10196612    PM 0.1196701 0.04159337  1.970464      2 0.37335260
+#         SNPID    Trait       BETA         SE chisq_het df_het      P_het
+# 1: rs10196612 Myositis 0.03186376 0.06594854  4.079883      1 0.04339668
+#           Z         P
+# 1: 0.483161 0.6289815
 
 
-# rs4728142
 
-rs47.myo  <- myo[SNPID == "rs4728142"] 
+# rs4728142 in myositis
+rs47.myo  <- myo[SNPID == "rs4728142" & study %in% c("UKBB", "FinnGen")] 
 meta.myo.rs47 <- meta.summaries(rs47.myo$BETA, rs47.myo$SE, names= rs47.myo$study, method="fixed") 
 
-rs47.dm  <- dm[SNPID == "rs4728142"] 
-meta.dm.rs47 <- meta.summaries(rs47.dm$BETA, rs47.dm$SE, names= rs47.dm$study, method="fixed") 
-
-rs47.pm  <- pm[SNPID == "rs4728142"] 
-meta.pm.rs47 <- meta.summaries(rs47.pm$BETA, rs47.pm$SE, names= rs47.pm$study, method="fixed") 
-
-res.rs47  <- data.table(SNPID ="rs4728142", Trait = c("MYO","DM","PM"), BETA = c(meta.myo.rs47$summary, meta.dm.rs47$summary, meta.pm.rs47$summary), SE = c(meta.myo.rs47$se.summary, meta.dm.rs47$se.summary, meta.pm.rs47$se.summary),chisq_het = c(meta.myo.rs47$het[1], meta.dm.rs47$het[1], meta.pm.rs47$het[1]),df_het = c(meta.myo.rs47$het[2], meta.dm.rs47$het[2], meta.pm.rs47$het[2]),  P_het = c(meta.myo.rs47$het[3], meta.dm.rs47$het[3], meta.pm.rs47$het[3]))
-
+res.rs47  <- data.table(SNPID ="rs4728142", Trait = "Myositis", BETA = meta.myo.rs47$summary, SE = meta.myo.rs47$se.summary, chisq_het = meta.myo.rs47$het[1] , df_het = meta.myo.rs47$het[2], P_het = meta.myo.rs47$het[3])
+res.rs47[, Z:=BETA/SE][, P:=pnorm(-abs(Z))*2]
 res.rs47
-#        SNPID Trait      BETA         SE chisq_het df_het      P_het
-# 1: rs4728142   MYO 0.1318587 0.02307805 0.4443023      3 0.93094602
-# 2: rs4728142    DM 0.1754201 0.03715632 4.6484369      2 0.09785989
-# 3: rs4728142    PM 0.1468818 0.04115169 1.3529615      2 0.50840306
+#        SNPID    Trait      BETA         SE  chisq_het df_het     P_het
+# 1: rs4728142 Myositis 0.1239948 0.06587092 0.04336673      1 0.8350363
+#          Z          P
+# 1: 1.88239 0.05978305
 
 
-# rs2476601
+# rs2476601 in PM
+# We don't have info on PM for UKBB so we'll simply look at the independent FinnGen result 
+pm[SNPID == "rs2476601" & study == "FinnGen"]
+#        SNPID    BETA     SE         P   study trait
+# 1: rs2476601 -0.7855 0.1891 3.273e-05 FinnGen    PM
 
-rs24.myo  <- myo[SNPID == "rs2476601"] 
-meta.myo.rs24 <- meta.summaries(rs24.myo$BETA, rs24.myo$SE, names= rs24.myo$study, method="fixed") 
-
-rs24.dm  <- dm[SNPID == "rs2476601"] # Note: two studies only 
-meta.dm.rs24 <- meta.summaries(rs24.dm$BETA, rs24.dm$SE, names= rs24.dm$study, method="fixed") 
-
-# No Sakaue for this SNP, so only Miller and Rothwell available for meta-analsysis
-rs24.pm  <- pm[SNPID == "rs2476601"] 
-meta.pm.rs24 <- meta.summaries(rs24.pm$BETA, rs24.pm$SE, names= rs24.pm$study, method="fixed") 
-
-res.rs24  <- data.table(SNPID ="rs2476601", Trait = c("MYO","DM", "PM"), BETA = c(meta.myo.rs24$summary, meta.dm.rs24$summary, meta.pm.rs24$summary), SE = c(meta.myo.rs24$se.summary, meta.dm.rs24$se.summary, meta.pm.rs24$se.summary), chisq_het = c(meta.myo.rs24$het[1], meta.dm.rs24$het[1], meta.pm.rs24$het[1]), df_het = c(meta.myo.rs24$het[2], meta.dm.rs24$het[2], meta.pm.rs24$het[2])  ,  P_het = c(meta.myo.rs24$het[3], meta.dm.rs24$het[3], meta.pm.rs24$het[3]))
-
-res.rs24
-#        SNPID Trait       BETA         SE  chisq_het df_het      P_het
-# 1: rs2476601   MYO -0.2297037 0.03658776  0.9493449      3 0.81350632
-# 2: rs2476601    DM -0.1792802 0.05985371 13.0448627      2 0.00147009
-# 3: rs2476601    PM -0.4148158 0.06419262  0.4403296      1 0.50696339
-
-
-res <- rbindlist(list(res.rs10, res.rs47, res.rs24))
-# Add significance for difference from zero
-res[, Z:=BETA/SE][, P:=pnorm(-abs(Z))*2]
-
-fwrite(res, "../tables/3SNPs_meta_results_Nov21.tsv", sep="\t")
 
 ## Forest plot of results.
 
@@ -169,19 +144,22 @@ rotmyo <-  fread(paste0(fpath,"IIM_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% "1:1
 rotjdm <- fread(paste0(fpath,"JDM_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% "1:113834946", c("SNPID","BETA","SE")] %>% .[,SNPID:="rs2476601"] %>% .[, study:="JDM / Rothwell"]
 rotdm <-fread(paste0(fpath,"DMY_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% "1:113834946", c("SNPID","BETA","SE")] %>% .[,SNPID:="rs2476601"] %>% .[, study:="DM / Rothwell"] 
 rotpm <- fread(paste0(fpath,"PM_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% "1:113834946", c("SNPID","BETA","SE")] %>% .[,SNPID:="rs2476601"] %>% .[, study:="PM / Rothwell"] 
+rotjo1 <-  fread(paste0(fpath,"JO1M_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% "1:113834946", c("SNPID","BETA","SE")] %>% .[,SNPID:="rs2476601"] %>% .[, study:="Jo1+ / Rothwell"] 
+rotibm  <- fread(paste0(fpath,"IBM_Rothwell_up_1-ft.tsv")) %>% .[pid38 %in% "1:113834946", c("SNPID","BETA","SE")] %>% .[,SNPID:="rs2476601"] %>% .[, study:="IBM / Rothwell"] 
+ 
 
 # Plus FinnGen PM 
 finpm <- fread(paste0(fpath, "M13_POLYMYO_FinnGen_FinnGenR5_1-ft.tsv")) %>% .[SNPID == "rs2476601", c("SNPID","BETA","SE")] %>% .[, study:="PM / FinnGen"]
 
-# FinnGen + UKBB Meta
+# FinnGen + UKBB 
 ukbbmyo <- fread(paste0(fpath, "20002_1322_Neale_UKBB_1-ft.tsv"))  %>% .[pid38 %in% "1:113834946", c("SNPID","BETA","SE")]  %>% .[,SNPID:="rs2476601"] %>% .[, study:="Myositis / UKBB"]  
 finmyo <- fread(paste0(fpath, "M13_MYOSITIS_FinnGen_FinnGenR5_1-ft.tsv")) %>% .[SNPID == "rs2476601", c("SNPID","BETA","SE")] %>% .[, study:="Myositis / FinnGen"]
 
-rs24total <- rbindlist(list(milmyo, miljdm, mildm, milpm, rotmyo, rotjdm, rotdm, rotpm, finpm, ukbbmyo,finmyo))
+rs24total <- rbindlist(list(milmyo, miljdm, mildm, milpm, rotmyo, rotjdm, rotdm, rotpm, rotibm, rotjo1, finpm, ukbbmyo,finmyo))
 
 rs24total[,Trait:=gsub(" \\/.*$","", study)][,study:=gsub(".+\\/ ","", study)]
 
-rs24total[, Trait:=factor(Trait, levels=rev(c("Myositis", "PM", "DM", "JDM")))]
+rs24total[, Trait:=factor(Trait, levels=rev(c("Myositis", "Jo1+", "PM", "DM", "JDM", "IBM")))]
 
 # Plot!
 
@@ -198,5 +176,5 @@ fplot <- ggplot(rs24total, aes(y = study, x = BETA, xmin=BETA-SE, xmax=BETA+SE, 
  theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank(), plot.title = element_text(size = 8))
 #  fplot
 
- ggsave("../figures/202111_Nov21/rs2476601_plot.png", fplot, bg = "white", units = "mm", width=125,height=60)
+ ggsave("../figures/202111_Nov21/rs2476601_plot.png", fplot, bg = "white", units = "mm", width=125,height=70)
 
