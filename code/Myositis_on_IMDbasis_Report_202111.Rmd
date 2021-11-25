@@ -45,6 +45,7 @@ library(cowplot)
 library(ggrepel)
 library(gridExtra)
 library(stringr)
+library(purrr)
 #library(chromoMap)
 
 
@@ -259,10 +260,11 @@ make.labels <- function(x){
     .[, Label:=gsub(" \\(UKBB\\)", "", Label)] %>% 
     .[, Label:=gsub(" \\(FinnGen\\)", "", Label)] %>% 
     .[, Label:=gsub(" \\(FG\\)", "", Label)] %>% 
-    .[, Label:=paste0(Label, " / ", First_Author)] %>% 
-    .[, Label:=gsub("Neale", "UKBB", Label)] %>% 
     .[, Label:=gsub("Crohn disease \\(strict definition, all UC cases excluded\\)", "Crohn's, strict", Label)] %>% 
-    .[, Label:=gsub("Eosinophilic Granulomatosis with Polyangiitis", "EGPA", Label)]
+    .[, Label:=gsub("Eosinophilic Granulomatosis with Polyangiitis", "EGPA", Label)] %>% 
+    .[, Label:=paste0(str_trunc(paste0(Label, " (", Population,")"), width = 50), " / ", First_Author)] %>% 
+    .[, Label:=gsub("Neale", "UKBB", Label)]
+
 }
 
 # Load clustering files, just to extract selection
@@ -324,10 +326,122 @@ ggsave("../figures/202111_Nov21/Ladder_plot_PC13.png", forest.plots[["PC13"]], u
 
 
 
+## Looking beyond selected traits
+
+To enhance our vision beyond the selected clustered traits, we'll take a look at all traits that were significant (excl. PanUKBB again for being redundant --  we can use PanUKBB instead of Neale later). We'll also remove other redundant traits.
+
+```{r fig.height=40}
+unwanted <- "Chen_32888493_6|ASTHMA_CHILD_EXMORE_FinnGen_FinnGenR5_1|L12_DERM_NAS_FinnGen_FinnGenR5_1|DM_RETINOPATHY_EXMORE|H7_RETINOPATHYDIAB|GRAVD_Okada_UP_[23]|K11_UC_STRICT2|H7_RETINOPATHYDIAB_PROLIF_|H7_MACULOPATHYDIAB_|DM_NEPHROPATHY_EXMORE_|PanUKBB|G6_DISSOTH_FinnGen_FinnGenR5_1|L12_VITILIGO_FinnGen_FinnGenR5_1|20002_1276_Neale_UKBB_1|OTHER_SYSTCON_FG|KELA_DIAB_INSUL_EXMORE_FinnGen_FinnGenR5_1" # Borrowed from IMD report. Updated with OTHER_SYSTCON_FG and KELA_DIAB_INSUL_EXMORE_FinnGen_FinnGenR5_1 for being redundant
+
+PT.viz <- PT.sig[!grepl(unwanted, Trait),]
+QC.viz <- QC.sig[Trait %in% unique(PT.viz$Trait)]
+
+# 500 traits is a lot! Let's remove more and see
+
+unwanted.fine <- "SLE_FG_FinnGen_FinnGenR5_1|L12_BULLOUS_FinnGen_FinnGenR5_1|GOUT_STRICT_FinnGen_FinnGenR5_1|D3_PURPURA_AND3_OTHER_HAEMORRHAGIC_FinnGen_FinnGenR5_1|SSC_LopezIsac_31672989_1|E4_DM1NASCOMP_FinnGen_FinnGenR5_1|I9_HEARTFAIL_AND_ANTIHYPERT_FinnGen_FinnGenR5_1|FG_CVD_FinnGen_FinnGenR5_1|I9_CHD_FinnGen_FinnGenR5_1|I9_CORATHER_FinnGen_FinnGenR5_1|I9_IHD_FinnGen_FinnGenR5_1|I9_ISCHHEART_FinnGen_FinnGenR5_1|I9_ANGINA_EXNONE_FinnGen_FinnGenR5_1|I9_ANGINA_FinnGen_FinnGenR5_1|	MYELOPROF_NONCML_FinnGen_FinnGenR5_1|ASTHMA_NOS_EXMORE_FinnGen_FinnGenR5_1|ALLERG_ASTHMA_EXMORE_FinnGen_FinnGenR5_1|NONALLERG_ASTHMA_EXMORE_FinnGen_FinnGenR5_1|ASTHMA_NONALLERG_FinnGen_FinnGenR5_1|ASTHMA_ACUTE_RESPIRATORY_INFECTIONS_FinnGen_FinnGenR5_1|ASTHMA_HOSPITAL_MAIN_FinnGen_FinnGenR5_1|J10_ASTHMA_INCLAVO_FinnGen_FinnGenR5_1|J10_ASTHMA_MAIN_EXMORE_FinnGen_FinnGenR5_1|J10_ASTHMA_MAIN_FinnGen_FinnGenR5_1|J10_ASTHMA_EXMORE_FinnGen_FinnGenR5_1|ASTHMA_NAS_FinnGen_FinnGenR5_1|ASTHMA_ALLERG_EXMORE_FinnGen_FinnGenR5_1|ATOPIC_STRICT_FinnGen_FinnGenR5_1|ATOPIC_STRICT_REIMB_FinnGen_FinnGenR5_1|ASTHMA_PNEUMONIA_FinnGen_FinnGenR5_1|E4_HYTHYNAS_FinnGen_FinnGenR5_1|E4_HYTHY_AI_STRICT_PURCH_FinnGen_FinnGenR5_1|HYPOTHY_LEVOTHY_FinnGen_FinnGenR5_1|HYPOTHY_PURCHASE_FinnGen_FinnGenR5_1|HYPOTHY_REIMB_FinnGen_FinnGenR5_1|E4_DM1NOCOMP_FinnGen_FinnGenR5_1|T1D_WIDE1_FinnGen_FinnGenR5_1|T1D_WIDE_FinnGen_FinnGenR5_1|K11_REIMB_202_FinnGen_FinnGenR5_1|M13_JUVEARTH_FinnGen_FinnGenR5_1|D3_ANAEMIANAS_FinnGen_FinnGenR5_1|D3_OTHERANAEMIA_FinnGen_FinnGenR5_1|I9_REVACS_EXNONE_FinnGen_FinnGenR5_1|I9_REVASC_EXNONE_FinnGen_FinnGenR5_1|I9_CABG_EXNONE_FinnGen_FinnGenR5_1|MYELOPROF_NONCML_FinnGen_FinnGenR5_1|T1D_FinnGen_FinnGenR5_1|E4_DM1COMA|E4_DM1KETO|E4_DM1NEU|E4_DM1OPTH|E4_DM1PERIPH|E4_DM1REN|ASTHMA_MIXED|APPENDACUT_NOCOMPLIC|APPENDICITIS_BROAD_|K11_PSC_COLITIS_FinnGen_FinnGenR5_1|K11_CD_STRICT|CHRONNAS|CHRONOTH|DERMATOPOLY_FG_FinnGen_FinnGenR5_1|DM_MACULOPATHY_EXMORE|ULCERNAS|T1D_STRICT1"
+# Ferreira_19853236|Kanai|Chen_32888493_[1-4]|Vuckovic| removed from this list
+
+PT.redviz <- PT.viz[!grepl(unwanted.fine,Trait)]
+QC.redviz <- QC.viz[Trait %in% unique(PT.redviz$Trait),]
+
+# 450 traits. Still a lot, but let's move forward with this
+
+PT.redviz <- make.labels(PT.redviz)
+
+nosigPC <- PT.redviz[, all(stars == ""), by=Trait] %>% .[.$V1 , Trait] # Remove traits with no significant PCs if any.
+
+PT.redviz <- PT.redviz[!Trait %in% nosigPC]
+QC.redviz <- QC.viz[Trait %in% unique(PT.redviz$Trait),]
+
+# 430 Traits now
+
+# Since we have MANY datasets, we use an accessory function to highlight the myositis datasets. Fromhttps://github.com/raivokolde/pheatmap/issues/48
+# use this function to make row or column names bold
+# parameters:
+#   mat: the matrix passed to pheatmap
+#   rc_fun: either rownames or colnames
+#   rc_names: vector of names that should appear in boldface
+make_bold_names <- function(mat, rc_fun, rc_names) {
+  bold_names <- rc_fun(mat)
+  ids <- rc_names %>% match(rc_fun(mat))
+  ids %>%
+    walk(
+      function(i)
+        bold_names[i] <<-
+        bquote(bold(.(rc_fun(mat)[i]))) %>%
+        as.expression()
+    )
+  bold_names
+}
 
 
 
+M.red <- acast(PT.redviz[,c("PC", "Label", "Delta")], Label ~ PC) # PC, Trait, and Delta columns only
+M.red.stars <- acast(PT.redviz[,c("PC","Label","stars")], Label ~ PC)
+M.red <- M.red[,PCorder]
+M.red.stars <- M.red.stars[,PCorder]
+range <- max(abs(M.red))
 
+# Datasets to bolden
+myo <- grep("Miller|Rothwell", rownames(M.red), value = TRUE)
+
+# Let's also annotate by type of trait
+annviz <- data.frame(Trait_class = QC.redviz$Trait_class, row.names = unique(PT.redviz$Label)) # QC.redviz doesn't have "Label" column, but traits are in the same order
+colannviz = list(Trait_class = c(BMK = "#06D6A0", IMD = "#EF476F", INF = "#FFD166", CAN = "#F9DAD0", OTH ="#26547c", PSD="#818AA3"))
+
+hmred <- pheatmap(M.red, breaks = seq(-range, range, length.out = 100), cluster_cols = FALSE, display_numbers = M.red.stars, fontsize_row = 8, fontsize_number = 11, color = rev(hmcol), labels_row = make_bold_names(M.red, rownames, myo), annotation_row = annviz, annotation_colors = colannviz)
+hmred
+```
+
+Save it
+
+```{r eval= FALSE}
+save_pheatmap_png(hmred, filename = "../figures/202111_Nov21/Redsig_heatmap_v1.png", width = 1500, height = 7000)
+```
+
+Now for the forest plots. 
+
+Now we can afford being a bit more stringent, so we'll plot only datasets significant at FDR 1% in each component
+
+```{r}
+
+
+PT.delta <- PT.redviz[FDR.PC < 0.01] # Significant projections at FDR 1%.
+PT.delta <- rbindlist(list(PT.basis, PT.delta),fill = TRUE) # Merge everything
+PT.delta[, Var.Delta:=as.numeric(Var.Delta)]
+PT.delta[Var.Delta != 0, ci:=sqrt(Var.Delta) * 1.96][is.na(ci),ci:=0] 
+PCs <- unique(PT.delta$PC)
+
+forest.plots <- lapply(setNames(PCs, PCs), function(x){
+  dt <- PT.delta[PC == x,][order(Delta, decreasing = TRUE),][,colours:=ifelse(ci != 0, "black", "red")][First_Author %in% c("Miller", "Rothwell"), colours:="darkgreen"]
+  fplot <- ggplot(dt, aes(x = reorder(Label, -Delta), y = Delta, ymin=Delta-ci, ymax=Delta+ci, colour = colours))+
+    geom_pointrange()+
+    scale_colour_manual(values = c("red" = "red", "black" = "black", "darkgreen" = "darkgreen"))+
+    geom_hline(yintercept = 0, col="red", lty=2)+
+    coord_flip()+
+    xlab("Traits")+
+    ylab("Delta")+
+    ggtitle(paste("Ladder Plot ", x, sep = ""))+
+    theme_minimal()+
+    theme(axis.text.y = element_text(colour = dt$colours), legend.position = "none")
+  fplot
+})
+
+forest.plots[["PC1"]]
+forest.plots[["PC3"]]
+forest.plots[["PC9"]]
+forest.plots[["PC12"]]
+forest.plots[["PC13"]]
+```
+
+Save the plots
+```{r eval=FALSE}
+ggsave("../figures/202111_Nov21/Redviz_Ladder_plot_PC1.png", forest.plots[["PC1"]], units = "mm", width = 250, height = 700, dpi = 300, bg="white")
+ggsave("../figures/202111_Nov21/Redviz_Ladder_plot_PC3.png", forest.plots[["PC3"]], units = "mm", width = 250, height = 600, dpi = 300, bg="white")
+ggsave("../figures/202111_Nov21/Redviz_Ladder_plot_PC9.png", forest.plots[["PC9"]], units = "mm", width = 250, height = 300, dpi = 300, bg="white")
+ggsave("../figures/202111_Nov21/Redviz_Ladder_plot_PC12.png", forest.plots[["PC12"]], units = "mm", width = 250, height = 450, dpi = 300, bg="white")
+ggsave("../figures/202111_Nov21/Redviz_Ladder_plot_PC13.png", forest.plots[["PC13"]], units = "mm", width = 250, height = 700, dpi = 300, bg="white")
+```
 
 
 
