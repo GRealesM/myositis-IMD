@@ -406,7 +406,7 @@ Now we can afford being a bit more stringent, so we'll plot only datasets signif
 ```{r}
 
 
-PT.delta <- PT.redviz[FDR.PC < 0.01] # Significant projections at FDR 1%.
+PT.delta <- PT.redviz[FDR.PC < 0.01 | First_Author %in% c("Miller", "Rothwell")] # Significant projections at FDR 1% or Myositis (Miller or Rothwell).
 PT.delta <- rbindlist(list(PT.basis, PT.delta),fill = TRUE) # Merge everything
 PT.delta[, Var.Delta:=as.numeric(Var.Delta)]
 PT.delta[Var.Delta != 0, ci:=sqrt(Var.Delta) * 1.96][is.na(ci),ci:=0] 
@@ -437,6 +437,7 @@ forest.plots[["PC13"]]
 Save the plots
 ```{r eval=FALSE}
 ggsave("../figures/202111_Nov21/Redviz_Ladder_plot_PC1.png", forest.plots[["PC1"]], units = "mm", width = 250, height = 700, dpi = 300, bg="white")
+ggsave("../figures/202111_Nov21/Redviz_Ladder_plot_PC2.png", forest.plots[["PC2"]], units = "mm", width = 250, height = 400, dpi = 300, bg="white")
 ggsave("../figures/202111_Nov21/Redviz_Ladder_plot_PC3.png", forest.plots[["PC3"]], units = "mm", width = 250, height = 600, dpi = 300, bg="white")
 ggsave("../figures/202111_Nov21/Redviz_Ladder_plot_PC9.png", forest.plots[["PC9"]], units = "mm", width = 250, height = 300, dpi = 300, bg="white")
 ggsave("../figures/202111_Nov21/Redviz_Ladder_plot_PC12.png", forest.plots[["PC12"]], units = "mm", width = 250, height = 450, dpi = 300, bg="white")
