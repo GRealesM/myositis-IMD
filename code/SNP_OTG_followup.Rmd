@@ -1,0 +1,454 @@
+---
+title: "SNP follow-up for Myositis (PC1-3, 8-9, and 12-13)"
+author: "Guillermo Reales"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+  pdf_document: default
+---
+
+
+# Background
+  
+We projected ten myositis summary statistics datasets from Miller et al., 2015, and unpublished ones (Rothwell), that resulted from ImmunoChip + imputation onto the IMD basis. Both groups of datasets are within the MYOGEN consortium framework.
+Most of these datasets (except for Inclusion-bofy myositis) were significant at FDR <1%, and some were significant at FDR 1% or 5% for some PCs, namely PC1-3, PC8-9 and PC12-13 (see heatmap below).
+
+We now want to follow up a number of driver SNPs for our Myositis-relevant components in the IMD basis. To do so, we retrieved Open Targets Genetics annotations to relate driver SNPs and genes, for subsequential network and enrichment analysis.
+
+
+![Myositis heatmap](../figures/202111_Nov21/Basis_heatmap_Nov_v1.png)
+
+First we load libraries and the list of SNPs.
+
+```{r message=FALSE, warning=FALSE}
+library(data.table)
+library(readr)
+library(seqminer)
+library(magrittr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(gprofiler2)
+# The following packages are Bioconductor's so they need to be installed differently
+library(GenomicRanges)
+library(biomaRt)
+library(STRINGdb)
+library(VennDiagram)
+library(RColorBrewer)
+
+```
+
+
+```{r}
+# SNP manifest
+manifest.translator <- fread("../data/Manifest_build_translator.tsv")
+manifest.translator[,pid19:=paste(CHR19, BP19, sep = ":")][, pid38:=paste(CHR38, BP38, sep = ":")]
+manifest.translator <- manifest.translator[,c(1,8:9)]
+SNP.manifest <- merge(manifest.translator, copy(cupcake::SNP.manifest), by.x = "pid19", by.y = "pid")
+
+# Annotations
+otg <- readRDS("../data/imdbasis-driver-snps-otg-annotations.RDS")
+otg <- merge(SNP.manifest[,.(pid38, SNPID, ref_a1, ref_a2)], otg, by.x="pid38", by.y="pid")
+# Check concordance in alleles
+all(otg$ref_a1 == otg$ref_allele)
+all(otg$ref_a2 == otg$alt_allele) # FALSE, let's see
+nrow(otg[otg$ref_a2 != otg$alt_allele]) # 152 instances of alt allele discordance. We'll weed them out
+
+otg <- otg[ref_a2 == alt_allele]
+
+# Remove redundant columns
+otg[, c("source_list", "source_score_list", "wh.vep") := NULL]
+
+#prcols <- c("source_score_list", "source_list", "wh.vep", "vep_score", "eqtl_score", "pqtl_score", "tss_score") # Remove the columns to change and other columns we won't need.
+#cols <- setdiff(names(otg), prcols)
+
+#otg[, source_score_list:=sapply(source_score_list, as.list)]
+#otg[, lapply(.SD, unlist), .SDcols = c("source_score_list", "source_list"), by = cols]
+
+
+```
+
+We'll start by investigating the PCs using the full dataset by using network (STRING-db) and enrichment/pathway analysis (gprofiler2).
+
+For network analysis, we need to assign STRING ids for all genes
+
+```{r }
+string_db <- STRINGdb$new( version="11", species=9606, score_threshold=200, input_directory="")
+```
+
+
+We'll do the mapping, but we'll do it just once, then save the result.
+
+```{r eval=FALSE}
+otg <- as.data.table(string_db$map(otg, "gene_id", takeFirst = TRUE))
+saveRDS(otg, "../data/OTG_annotations_with_STRING.RDS")
+```
+37% of identifiers couldn't be mapped. That's too bad!
+
+Load the full data
+```{r}
+otg <- readRDS("../data/OTG_annotations_with_STRING.RDS")
+```
+
+
+
+Now we're ready to explore the networks
+
+
+# PC1
+
+PC1 was previously characterised as dividing autoinflammatory and autoimmune diseases. We'll now explore the connectivity of the proteins associated with PC1 driver SNPs.
+
+## Network
+
+We'll focus on gene proximity, so we'll use the SNP-gene associations with the largest score (ie. the nearest ones, typically with transcription start site <50kbp away from the variant)
+
+```{r fig.height=12, fig.width=12}
+str1 <- otg[PC1==TRUE & tss_score == 1]$STRING_id %>% unique()
+# Plot networks
+string_db$plot_network(str1, required_score = 200)
+```
+
+
+We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below
+<details><summary>GeneID list</summary>
+<p>
+
+```{r comment=NA}
+cat(str1, sep = "\n")
+```
+
+
+</p>
+</details>
+
+
+
+## Enrichment analysis
+
+We'll use gprofiler2 to see which biological pathways these proteins are involved in.
+
+**gProfiler2** is a toolset to perform enrichment analysis and visualisation on list of genes. It contains Gene Ontology (GO or by branch GO:MF, GO:BP, GO:CC)
+KEGG (KEGG), Reactome (REAC), WikiPathways (WP), TRANSFAC (TF), miRTarBase (MIRNA), Human Protein Atlas (HPA), CORUM (CORUM), and Human phenotype ontology (HP),  as data sources, so it's quite complete. g:Profiler is originally a webtool, but it also has an R package, so we'll use that. See [here](https://cran.r-project.org/web/packages/gprofiler2/vignettes/gprofiler2.html) for vignette and use examples.
+
+gProfiler2 provides plenty of options, but we'll use the following for the first round:
+
+* Unordered query. gProfiler2 accepts ordered lists of genes, in cases where an ordering makes sense (eg. differential expression analyses).
+* Exclude IEA. IEA are automatic, not curated annotations, we'll exlude those.
+* Threshold 0.01 and correction method FDR. 
+* Custom domain, as we're supplying the universe.
+
+```{r}
+gpr1 <- otg[PC1==TRUE & tss_score == 1]$gene_id %>% unique() # Note that here we have more gene IDs (196) than STRING_ids (118). This is because STRING-db couldn't map a good proportion of our gene_ids. However, it's likely that gprofiler2 won't be able either, so not to worry
+
+# Run gProfiler2 for PC1
+gostpc1 <- gost(query = gpr1, 
+                organism = "hsapiens", ordered_query = FALSE, 
+                multi_query = FALSE, significant = TRUE, exclude_iea = TRUE, 
+                measure_underrepresentation = FALSE, evcodes = TRUE, 
+                user_threshold = 0.01, correction_method = "fdr", 
+           #     domain_scope = "custom", custom_bg = u, 
+                numeric_ns = "", sources = "GO:BP", as_short_link = FALSE)
+resgpr1 <- as.data.table(gostpc1$result)
+
+# Ensembl IDs are not very informative. Extract gene names
+find.gene.names <- function(input){
+  sapply(strsplit(input$intersection, split = ","), function(x) { unique(otg[gene_id %in% x]$hgnc_symbol)}) %>% sapply(. , paste, collapse= ", ")
+}
+# Where input is the data.table result from gprofiler2
+
+resgpr1[, intersection_genes:= find.gene.names(resgpr1)]
+resgpr1
+```
+
+
+# PC2
+
+PC2 wasn't previously characterised. Interestingly, many IMDs (VIT, LADA, T1D, IgA nephropathy, and UC) in the basis seem to fall on one side, whereas PBC and SLE fall on the opposite. All myositis fall on the SLE and PBC side, with Rothwell's general myositis and PM being significant at FDR 1%.
+
+
+## Network
+
+
+```{r fig.height=18, fig.width=18}
+str2 <- otg[PC2==TRUE & tss_score == 1]$STRING_id %>% unique() # 169 genes
+# Plot networks
+string_db$plot_network(str2, required_score = 200)
+```
+
+
+We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below
+<details><summary>GeneID list</summary>
+<p>
+
+```{r comment=NA}
+cat(str2, sep = "\n")
+```
+
+
+</p>
+</details>
+
+
+
+## Enrichment analysis
+
+```{r}
+gpr2 <- otg[PC2==TRUE & tss_score == 1]$gene_id %>% unique() #  287 gene ids
+
+# Run gProfiler2 for PC2
+gostpc2 <- gost(query = gpr2, 
+                organism = "hsapiens", ordered_query = FALSE, 
+                multi_query = FALSE, significant = TRUE, exclude_iea = TRUE, 
+                measure_underrepresentation = FALSE, evcodes = TRUE, 
+                user_threshold = 0.01, correction_method = "fdr", 
+           #     domain_scope = "custom", custom_bg = u, 
+                numeric_ns = "", sources = "GO:BP", as_short_link = FALSE)
+resgpr2 <- as.data.table(gostpc2$result)
+resgpr2[, intersection_genes:= find.gene.names(resgpr2)]
+resgpr2
+```
+
+
+# PC3
+
+PC3 was characterised in the IMD basis as associated with increased levels of MIG and IP-10. Myositis, PM, and anti-Jo1+ were significant for this component at FDR 1%.
+
+
+## Network
+
+
+```{r fig.height=22, fig.width=22}
+str3 <- otg[PC3==TRUE & tss_score == 1]$STRING_id %>% unique() # 189 genes
+# Plot networks
+string_db$plot_network(str3, required_score = 200)
+```
+
+
+We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below
+<details><summary>GeneID list</summary>
+<p>
+
+```{r comment=NA}
+cat(str3, sep = "\n")
+```
+
+
+</p>
+</details>
+
+
+
+## Enrichment analysis
+
+```{r}
+gpr3 <- otg[PC3==TRUE & tss_score == 1]$gene_id %>% unique() #  311 gene ids
+
+# Run gProfiler3 for PC3
+gostpc3 <- gost(query = gpr3, 
+                organism = "hsapiens", ordered_query = FALSE, 
+                multi_query = FALSE, significant = TRUE, exclude_iea = TRUE, 
+                measure_underrepresentation = FALSE, evcodes = TRUE, 
+                user_threshold = 0.01, correction_method = "fdr", 
+           #     domain_scope = "custom", custom_bg = u, 
+                numeric_ns = "", sources = "GO:BP", as_short_link = FALSE)
+resgpr3 <- as.data.table(gostpc3$result)
+resgpr3[, intersection_genes:= find.gene.names(resgpr3)]
+resgpr3
+```
+
+
+# PC8
+
+PC8 wasn't characterised before. Only general myositis (Rothwell) is significant for this component at FDR 1%.
+
+
+## Network
+
+
+```{r fig.height=22, fig.width=22}
+str8 <- otg[PC8==TRUE & tss_score == 1]$STRING_id %>% unique() # 165 genes
+# Plot networks
+string_db$plot_network(str8, required_score = 200)
+```
+
+
+We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below
+<details><summary>GeneID list</summary>
+<p>
+
+```{r comment=NA}
+cat(str8, sep = "\n")
+```
+
+
+</p>
+</details>
+
+
+
+## Enrichment analysis
+
+```{r}
+gpr8 <- otg[PC8==TRUE & tss_score == 1]$gene_id %>% unique() #  811 gene ids
+
+# Run gProfiler8 for PC8
+gostpc8 <- gost(query = gpr8, 
+                organism = "hsapiens", ordered_query = FALSE, 
+                multi_query = FALSE, significant = TRUE, exclude_iea = TRUE, 
+                measure_underrepresentation = FALSE, evcodes = TRUE, 
+                user_threshold = 0.01, correction_method = "fdr", 
+           #     domain_scope = "custom", custom_bg = u, 
+                numeric_ns = "", sources = "GO:BP", as_short_link = FALSE)
+resgpr8 <- as.data.table(gostpc8$result)
+resgpr8[, intersection_genes:= find.gene.names(resgpr8)]
+resgpr8
+```
+
+
+
+# PC9
+
+PC9 wasn't characterised before, but it looks like the RA component, as RA distances from the rest of IMD in the basis. Myositis, PM (Rothwell) and anti-Jo-1+ are significant for this component at FDR 1%.
+
+
+## Network
+
+
+```{r fig.height=22, fig.width=22}
+str9 <- otg[PC9==TRUE & tss_score == 1]$STRING_id %>% unique() # 242 genes
+# Plot networks
+string_db$plot_network(str9, required_score = 200)
+```
+
+
+We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below
+<details><summary>GeneID list</summary>
+<p>
+
+```{r comment=NA}
+cat(str9, sep = "\n")
+```
+
+
+</p>
+</details>
+
+
+
+## Enrichment analysis
+
+```{r}
+gpr9 <- otg[PC9==TRUE & tss_score == 1]$gene_id %>% unique() #  409 gene ids
+
+# Run gProfiler9 for PC9
+gostpc9 <- gost(query = gpr9, 
+                organism = "hsapiens", ordered_query = FALSE, 
+                multi_query = FALSE, significant = TRUE, exclude_iea = TRUE, 
+                measure_underrepresentation = FALSE, evcodes = TRUE, 
+                user_threshold = 0.01, correction_method = "fdr", 
+           #     domain_scope = "custom", custom_bg = u, 
+                numeric_ns = "", sources = "GO:BP", as_short_link = FALSE)
+resgpr9 <- as.data.table(gostpc9$result)
+resgpr9[, intersection_genes:= find.gene.names(resgpr9)]
+resgpr9
+```
+
+
+# PC12
+
+PC12 wasn't characterised before, but RA and MS seem to outstand in it. This seems to be an important component for DM/JDM, both significant at FDR 1% (Miller).
+
+
+## Network
+
+
+```{r fig.height=28, fig.width=28}
+str12 <- otg[PC12==TRUE & tss_score == 1]$STRING_id %>% unique() # 261 genes
+# Plot networks
+string_db$plot_network(str12, required_score = 200)
+```
+
+
+We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below
+<details><summary>GeneID list</summary>
+<p>
+
+```{r comment=NA}
+cat(str12, sep = "\n")
+```
+
+
+</p>
+</details>
+
+
+
+## Enrichment analysis
+
+```{r}
+gpr12 <- otg[PC12==TRUE & tss_score == 1]$gene_id %>% unique() #  434 gene ids
+
+# Run gProfiler12 for PC12
+gostpc12 <- gost(query = gpr12, 
+                organism = "hsapiens", ordered_query = FALSE, 
+                multi_query = FALSE, significant = TRUE, exclude_iea = TRUE, 
+                measure_underrepresentation = FALSE, evcodes = TRUE, 
+                user_threshold = 0.01, correction_method = "fdr", 
+           #     domain_scope = "custom", custom_bg = u, 
+                numeric_ns = "", sources = "GO:BP", as_short_link = FALSE)
+resgpr12 <- as.data.table(gostpc12$result)
+resgpr12[, intersection_genes:= find.gene.names(resgpr12)]
+resgpr12
+```
+
+
+# PC13
+
+PC13 was characterised as associated with eosinophil levels. PM (Rothwell) is significant for this component on the eosinophil side.
+
+
+## Network
+
+
+```{r fig.height=35, fig.width=35}
+str13 <- otg[PC13==TRUE & tss_score == 1]$STRING_id %>% unique() # 344 genes
+# Plot networks
+string_db$plot_network(str13, required_score = 200)
+```
+
+
+We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below
+<details><summary>GeneID list</summary>
+<p>
+
+```{r comment=NA}
+cat(str13, sep = "\n")
+```
+
+
+</p>
+</details>
+
+
+
+## Enrichment analysis
+
+```{r}
+gpr13 <- otg[PC13==TRUE & tss_score == 1]$gene_id %>% unique() #  567 gene ids
+
+# Run gProfiler13 for PC13
+gostpc13 <- gost(query = gpr13, 
+                organism = "hsapiens", ordered_query = FALSE, 
+                multi_query = FALSE, significant = TRUE, exclude_iea = TRUE, 
+                measure_underrepresentation = FALSE, evcodes = TRUE, 
+                user_threshold = 0.01, correction_method = "fdr", 
+           #     domain_scope = "custom", custom_bg = u, 
+                numeric_ns = "", sources = "GO:BP", as_short_link = FALSE)
+resgpr13 <- as.data.table(gostpc13$result)
+resgpr13[, intersection_genes:= find.gene.names(resgpr13)]
+resgpr13
+```
