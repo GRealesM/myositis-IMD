@@ -1,0 +1,1399 @@
+---
+title: "eQTL follow up for key myositis driver SNPs (IMD basis PC1, 2, 3, 8, 9, 12, and 13)"
+author: "Guillermo Reales"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+---
+  
+# Background
+
+We want to follow-up a number of driver SNPs for our Myositis-relevant components in the IMD basis (PC1-3, 8, 9, 12, and 13). To do so, we retrieved eQTL summary statistics data from eQTL catalogue for the driver SNPs for these components. We further filtered those SNPs to include only those included in credible sets performed by eQTL catalogue using SuSIE, to be more sure that the SNPs are potentially causal. See below for more details on implementation.
+
+First we load libraries and the list of SNPs
+
+```{r message=FALSE}
+library(data.table)
+library(readr)
+library(seqminer)
+library(magrittr)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(gprofiler2)
+# The following packages are Bioconductor's so they need to be installed differently
+library(GenomicRanges)
+library(biomaRt)
+library(STRINGdb)
+library(VennDiagram)
+library(RColorBrewer)
+
+```
+
+# Load basic data and tissue selection
+
+Here we'll use data from the eQTLcatalogue, which we'll additionally filter by information present in the credible sets computed by eQTL catalogue. This will help us tell which SNPs are truly causal eQTL for the genes and hence which eSNP-eGene are real (Note: Since latest update [June 2021] GTEx actually corresponds to GTEx v8, so GTEx_v8 is now redundant).
+Since I didn't have a manifest for the credible paths (only URLs) I had to make some modifications in some names for both datasets to fit nicely. This involved some manual editing from the credible sets URLs, which resulted in `credible_paths_processed.tsv`. 
+
+We performed these steps for **cell basis v3 (varimax)** before, so some of the files are available in the corresponding directory.
+
+
+```{r }
+# Let's import the relevant files, for report rendering.
+snp <- fread("../data/Myositis_IMD_driver_SNPs.tsv")
+setnames(snp, "SNPID", "SNPID.basis")
+
+ecat <- fread("../data/Combined_eQTL_credible_paths.tsv") # This dataset was copied from blood cell basis v3 repository, since the sources are the same
+
+```
+
+
+Now let's take a look at the available tissues
+
+```{r}
+table(ecat$tissue_label)
+```
+
+
+There are some interesting tissues to explore, particularly blood and immune cells, so we'll select them. We'll also select gene-expression and microarray datasets (since there are some interesting tissues, such as platelets, for which only microarray data is available), and "naive" condition.
+
+
+``` {r }
+
+tissues <- c("B cell", "CD16+ monocyte", "CD4+ T cell", "CD8+ T cell", "macrophage", "monocyte", "neutrophil", "NK cell", "platelet", "T cell", "Tfh cell", "Th1 cell", "Th1-17 cell", "Th17 cell", "Th2 cell", "Treg memory", "Treg naive")
+ecat.filt <- ecat[tissue_label %in% tissues & (quant_method == "ge" | quant_method == "microarray") & condition_label == "naive",]
+```
+
+
+At this point, we need to load the data. These files are reasonably big and their processing would take a while, so I decided to 
+
+* Download them all to the HPC (`~/rds/rds-cew54-wallace-share/Data/expr/eqtl-catalogue`), 
+* Filter them by our driver SNPs,
+* Filter SNPs by those present in credible sets only,
+* Retrieve extra information on associated genes from BiomaRt.
+
+See `eqtl_driverSNPs_processing.R` to get a taste of what I did.
+
+Let's load the full resulting dataset.
+
+```{r }
+causal <- fread("../data/Causal_eQTLs_full_20210915.tsv") # File copied from IMD basis repository, as it contains the required information
+
+# Noticed a bug in the procesing of snp_study and study_tissue. Let's briefly fix it
+causal[, snp_study:=gsub(pattern = "(_[A-Za-z0-9\\+ -]+)$", "", snp_study, perl = TRUE)][, study_tissue:=gsub(pattern = "(_[A-Za-z0-9\\+ -]+)$", "", study_tissue, perl = TRUE)][,study:=gsub(pattern = "(_[A-Za-z0-9\\+ -]+)$", "", study, perl = TRUE)][,quant_method:=gsub("([A-Za-z0-9_]+)_([a-z]+)", "\\2", study, perl = TRUE)][,study:=gsub(pattern = "(_[a-z]+)$", "", study, perl = TRUE)]
+```
+
+
+# Data vizzzzz
+
+## Some EDA -- Which genes and tissues are more popular?
+
+We have multiple genes across different tissues, let's check which tissues contain more eQTL-Gene associations.
+
+```{r}
+causal[, uniqueN(gene_name), by=tissue_label][order(-V1)]
+```
+
+Monocytes seem to have the most eQTL-gene associations. But is it also considered in more studies than other tissues?
+
+```{r}
+table(causal$study, causal$tissue_label)
+```
+
+So it seems!
+
+```{r}
+summ <- causal[,.(genes = uniqueN(gene_name), studies = uniqueN(study)), by=tissue_label][order(-genes)]
+plot(summ$studies, summ$genes, xlab = "Number of studies", ylab="Number of unique genes")
+```
+
+
+So there seems to be a relationship between how many studies the tissue was studied in and the number of eQTL-gene associations, but our sample is small and very skewed, as most tissues were studied in one study only (ie. Schmiedel et al., 2018 included several cell types, but was alone in our catalogue in doing so).
+
+### Which genes are more popular across tissues?
+
+```{r}
+summ2 <- causal[, uniqueN(tissue_label), by=gene_name][order(-V1)]
+summ2
+hist(summ2$V1, breaks = 1:17)
+```
+
+Overall most eQTL-gene associations seem to be restricted to one or few tissues.
+
+No gene seems to be represented across all tissues, but some are represented in 11/17 tissues which are  [ORMDL3](https://platform.opentargets.org/target/ENSG00000172057/associations), which has been associated with asthma, and [RAB5C](https://platform.opentargets.org/target/ENSG00000108774/associations), associated with autoimmune diseases (ie vitiligo) and monocyte counts.
+
+
+
+
+# Principal components
+
+We'll focus on the different driver SNPs component by component.
+
+
+## PC1
+
+### Driver SNPs and cell types
+
+We'll take a look at how different cell types are influenced by driver SNPs at PC1.
+
+```{r }
+snppc1 <- snp[rot1 != 0]
+pc1 <- causal[rot1 != 0]
+pc1[, SNPID.basis:=factor(SNPID.basis)][, SNPID.basis:= reorder(SNPID.basis, rot1)]
+
+snppc1[, eqtl:=ifelse(SNPID.basis %in% pc1$SNPID.basis, "yes", "no")]
+
+pc1dp <- ggplot(snppc1, aes(x = reorder(SNPID.basis, rot1), y = rot1, colour = eqtl, label=SNPID.basis))+
+          geom_point()+
+          scale_colour_manual(values = c("yes" = "red", "no" = "black"))+
+          geom_hline(yintercept = 0, col="red", lty=1)+
+          geom_label_repel(size = 3, force = 2, box.padding = .3, seed = 2, direction = "both", max.overlaps = 45, data = snppc1[eqtl == "yes"])+
+          ylab("Driver SNP Rotation")+
+          ggtitle("PC1 driver SNPs")+
+          theme_cowplot(12)+
+          theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x = element_blank(), axis.text.x.bottom = element_blank())
+pc1dp
+
+length(unique(pc1$SNPID.basis))
+length(unique(pc1$tissue_label))
+```
+
+For PC1 we have 15 driver SNPs that are identified as eQTL across 11 tissues.
+
+```{r fig.height = 10, fig.width=22}
+tcells <- c("CD4+ T cell", "CD8+ T cell", "T cell", "Tfh cell", "Th1 cell", "Th1-17 cell", "Th17 cell", "Th2 cell", "Treg memory", "Treg naive")
+otcells <- c("B cell", "CD16+ monocyte", "macrophage", "monocyte", "neutrophil", "NK cell", "platelet")
+
+plot.cells.eqtl <- function(x){
+  tcells <- c("CD4+ T cell", "CD8+ T cell", "T cell", "Tfh cell", "Th1 cell", "Th1-17 cell", "Th17 cell", "Th2 cell", "Treg memory", "Treg naive")
+  otcells <- c("B cell", "CD16+ monocyte", "macrophage", "monocyte", "neutrophil", "NK cell", "platelet")
+  
+  ptc <- x[tissue_label %in% tcells]
+  poc <- x[tissue_label %in% otcells]
+  
+  cp1 <- ggplot(ptc, aes(x = SNPID.basis, y = beta, ymin=beta-se, ymax=beta+se, colour = gene_name))+
+  geom_pointrange()+
+  geom_hline(yintercept = 0, col="red", lty=2)+
+  ylab("Beta")+
+  scale_x_discrete(drop=FALSE)+
+  ylim(c(min(x$beta), max(x$beta)))+
+ # ggtitle("PC1 driver SNPs effect on gene expression")+
+  facet_grid(tissue_label~.,  scales = "free", space = "free", switch = "y")+
+  theme_bw(base_size = 18)+
+  theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank(), axis.text.x = element_text(angle = 90))
+  
+  cp2 <- ggplot(poc, aes(x = SNPID.basis, y = beta, ymin=beta-se, ymax=beta+se, colour = gene_name))+
+  geom_pointrange()+
+  geom_hline(yintercept = 0, col="red", lty=2)+
+  ylab("Beta")+
+  scale_x_discrete(drop=FALSE)+
+  ylim(c(min(x$beta), max(x$beta)))+
+ # ggtitle("PC1 driver SNPs effect on gene expression")+
+  facet_grid(tissue_label~.,  scales = "free", space = "free", switch = "y")+
+  theme_bw(base_size = 18)+
+  theme(legend.position = "bottom", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank(), axis.text.x = element_text(angle = 90))
+ 
+  gridExtra::grid.arrange(cp1, cp2, nrow = 1) 
+  
+}
+
+pce1 <- plot.cells.eqtl(pc1)
+
+
+```
+
+
+
+
+## PC2
+
+
+### Driver SNPs and cell types
+
+
+```{r }
+snppc2 <- snp[rot2 != 0]
+pc2 <- causal[rot2 != 0]
+pc2[, SNPID.basis:=factor(SNPID.basis)][, SNPID.basis:= reorder(SNPID.basis, rot2)]
+
+snppc2[, eqtl:=ifelse(SNPID.basis %in% pc2$SNPID.basis, "yes", "no")]
+
+pc2dp <- ggplot(snppc2, aes(x = reorder(SNPID.basis, rot2), y = rot2, colour = eqtl, label=SNPID.basis))+
+          geom_point()+
+          scale_colour_manual(values = c("yes" = "red", "no" = "black"))+
+          geom_hline(yintercept = 0, col="red", lty=1)+
+          geom_label_repel(size = 3, force = 2, box.padding = .3, seed = 2, direction = "both", max.overlaps = 45, data = snppc2[eqtl == "yes"])+
+          ylab("Driver SNP Rotation")+
+          ggtitle("PC2 driver SNPs")+
+          theme_cowplot(12)+
+          theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x = element_blank(), axis.text.x.bottom = element_blank())
+pc2dp
+
+length(unique(pc2$SNPID.basis))
+length(unique(pc2$tissue_label))
+```
+
+
+```{r fig.height = 12, fig.width=22}
+plot.cells.eqtl(pc2)
+```
+
+
+
+
+## PC3
+
+
+### Driver SNPs and cell types
+
+
+```{r }
+snppc3 <- snp[rot3 != 0]
+pc3 <- causal[rot3 != 0]
+pc3[, SNPID.basis:=factor(SNPID.basis)][, SNPID.basis:= reorder(SNPID.basis, rot3)]
+
+snppc3[, eqtl:=ifelse(SNPID.basis %in% pc3$SNPID.basis, "yes", "no")]
+
+pc3dp <- ggplot(snppc3, aes(x = reorder(SNPID.basis, rot3), y = rot3, colour = eqtl, label=SNPID.basis))+
+          geom_point()+
+          scale_colour_manual(values = c("yes" = "red", "no" = "black"))+
+          geom_hline(yintercept = 0, col="red", lty=1)+
+          geom_label_repel(size = 3, force = 2, box.padding = .3, seed = 2, direction = "both", max.overlaps = 45, data = snppc3[eqtl == "yes"])+
+          ylab("Driver SNP Rotation")+
+          ggtitle("PC3 driver SNPs")+
+          theme_cowplot(12)+
+          theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x = element_blank(), axis.text.x.bottom = element_blank())
+pc3dp
+
+length(unique(pc3$SNPID.basis))
+length(unique(pc3$tissue_label))
+```
+
+
+```{r fig.height = 10, fig.width=23}
+plot.cells.eqtl(pc3)
+```
+
+
+
+
+## PC8
+
+
+### Driver SNPs and cell types
+
+
+```{r }
+snppc8 <- snp[rot8 != 0]
+pc8 <- causal[rot8 != 0]
+pc8[, SNPID.basis:=factor(SNPID.basis)][, SNPID.basis:= reorder(SNPID.basis, rot8)]
+
+snppc8[, eqtl:=ifelse(SNPID.basis %in% pc8$SNPID.basis, "yes", "no")]
+
+pc8dp <- ggplot(snppc8, aes(x = reorder(SNPID.basis, rot8), y = rot8, colour = eqtl, label=SNPID.basis))+
+          geom_point()+
+          scale_colour_manual(values = c("yes" = "red", "no" = "black"))+
+          geom_hline(yintercept = 0, col="red", lty=1)+
+          geom_label_repel(size = 3, force = 2, box.padding = .3, seed = 2, direction = "both", max.overlaps = 45, data = snppc8[eqtl == "yes"])+
+          ylab("Driver SNP Rotation")+
+          ggtitle("PC8 driver SNPs")+
+          theme_cowplot(12)+
+          theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x = element_blank(), axis.text.x.bottom = element_blank())
+pc8dp
+
+length(unique(pc8$SNPID.basis))
+length(unique(pc8$tissue_label))
+```
+
+
+```{r fig.height = 10, fig.width=25}
+plot.cells.eqtl(pc8)
+```
+
+
+## PC9
+
+
+### Driver SNPs and cell types
+
+
+```{r }
+snppc9 <- snp[rot9 != 0]
+pc9 <- causal[rot9 != 0]
+pc9[, SNPID.basis:=factor(SNPID.basis)][, SNPID.basis:= reorder(SNPID.basis, rot9)]
+
+snppc9[, eqtl:=ifelse(SNPID.basis %in% pc9$SNPID.basis, "yes", "no")]
+
+pc9dp <- ggplot(snppc9, aes(x = reorder(SNPID.basis, rot9), y = rot9, colour = eqtl, label=SNPID.basis))+
+          geom_point()+
+          scale_colour_manual(values = c("yes" = "red", "no" = "black"))+
+          geom_hline(yintercept = 0, col="red", lty=1)+
+          geom_label_repel(size = 3, force = 2, box.padding = .3, seed = 2, direction = "both", max.overlaps = 45, data = snppc9[eqtl == "yes"])+
+          ylab("Driver SNP Rotation")+
+          ggtitle("PC9 driver SNPs")+
+          theme_cowplot(12)+
+          theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x = element_blank(), axis.text.x.bottom = element_blank())
+pc9dp
+
+length(unique(pc9$SNPID.basis))
+length(unique(pc9$tissue_label))
+```
+
+
+```{r fig.height = 12, fig.width=25}
+plot.cells.eqtl(pc9)
+```
+
+
+## PC12
+
+
+### Driver SNPs and cell types
+
+
+```{r }
+snppc12 <- snp[rot12 != 0]
+pc12 <- causal[rot12 != 0]
+pc12[, SNPID.basis:=factor(SNPID.basis)][, SNPID.basis:= reorder(SNPID.basis, rot12)]
+
+snppc12[, eqtl:=ifelse(SNPID.basis %in% pc12$SNPID.basis, "yes", "no")]
+
+pc12dp <- ggplot(snppc12, aes(x = reorder(SNPID.basis, rot12), y = rot12, colour = eqtl, label=SNPID.basis))+
+          geom_point()+
+          scale_colour_manual(values = c("yes" = "red", "no" = "black"))+
+          geom_hline(yintercept = 0, col="red", lty=1)+
+          geom_label_repel(size = 3, force = 2, box.padding = .3, seed = 2, direction = "both", max.overlaps = 45, data = snppc12[eqtl == "yes"])+
+          ylab("Driver SNP Rotation")+
+          ggtitle("PC12 driver SNPs")+
+          theme_cowplot(12)+
+          theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x = element_blank(), axis.text.x.bottom = element_blank())
+pc12dp
+
+length(unique(pc12$SNPID.basis))
+length(unique(pc12$tissue_label))
+```
+
+
+```{r fig.height = 12, fig.width=25}
+plot.cells.eqtl(pc12)
+```
+
+
+
+## PC13
+
+
+### Driver SNPs and cell types
+
+
+```{r }
+snppc13 <- snp[rot12 != 0]
+pc13 <- causal[rot12 != 0]
+pc13[, SNPID.basis:=factor(SNPID.basis)][, SNPID.basis:= reorder(SNPID.basis, rot13)]
+
+snppc13[, eqtl:=ifelse(SNPID.basis %in% pc13$SNPID.basis, "yes", "no")]
+
+pc13dp <- ggplot(snppc13, aes(x = reorder(SNPID.basis, rot13), y = rot13, colour = eqtl, label=SNPID.basis))+
+          geom_point()+
+          scale_colour_manual(values = c("yes" = "red", "no" = "black"))+
+          geom_hline(yintercept = 0, col="red", lty=1)+
+          geom_label_repel(size = 3, force = 2, box.padding = .3, seed = 2, direction = "both", max.overlaps = 45, data = snppc13[eqtl == "yes"])+
+          ylab("Driver SNP Rotation")+
+          ggtitle("PC13 driver SNPs")+
+          theme_cowplot(12)+
+          theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x = element_blank(), axis.text.x.bottom = element_blank())
+pc13dp
+
+length(unique(pc13$SNPID.basis))
+length(unique(pc13$tissue_label))
+```
+
+
+```{r fig.height = 12, fig.width=25, }
+plot.cells.eqtl(pc13)
+```
+
+
+
+
+
+<!-- ## A closer look at eQTLs and genes -->
+
+<!-- In the next section, we'll take a closer look at our resulting driver SNPs for the four relevant PCs for myositis that are also eQTL within credible sets to be causal for regulating gene expression. -->
+
+<!-- Let's check first how many shared SNPs are there among components. Note that we won't include PC2, PC3 or PC8 at the moment, and will only consider them for the eQTL pathway analysis. -->
+
+<!-- ```{r eval=FALSE } -->
+<!-- snps1 <- unique(causal[rot1 !=0]$SNPID.basis) -->
+<!-- # snps2 <- unique(causal[rot2 !=0]$SNPID.basis) -->
+<!-- # snps3 <- unique(causal[rot3 !=0]$SNPID.basis) -->
+<!-- # snps8 <- unique(causal[rot8 !=0]$SNPID.basis) -->
+<!-- snps9 <- unique(causal[rot9 !=0]$SNPID.basis) -->
+<!-- snps12 <- unique(causal[rot12 !=0]$SNPID.basis) -->
+<!-- snps13 <- unique(causal[rot13 !=0]$SNPID.basis) -->
+
+<!-- myCol <- brewer.pal(4, "Pastel2") -->
+
+<!-- venn.diagram( -->
+<!--         x = list(snps1, snps9, snps12, snps13), -->
+<!--         category.names = c("PC1" , "PC9" ,"PC12", "PC13"), -->
+<!--         filename = 'myositis_figures/PCs_venn_diagram_SNPs.png', -->
+<!--         output=TRUE, -->
+
+<!--         # Output features -->
+<!--         imagetype="png" , -->
+<!--         height = 480 , -->
+<!--         width = 480 , -->
+<!--         resolution = 300, -->
+<!--         compression = "lzw", -->
+
+<!--         # Circles -->
+<!--         lwd = 2, -->
+<!--         lty = 'blank', -->
+<!--         fill = myCol, -->
+
+<!--         # Numbers -->
+<!--         cex = .6, -->
+<!--         fontface = "bold", -->
+<!--         fontfamily = "sans", -->
+
+<!--         # Set names -->
+<!--         cat.cex = 0.6, -->
+<!--         cat.fontface = "bold", -->
+<!--         cat.default.pos = "outer" -->
+<!--         #, -->
+<!--         # cat.pos = c(-27, 27, 135), -->
+<!--         # cat.dist = c(0.055, 0.055, 0.085), -->
+<!--         # cat.fontfamily = "sans", -->
+<!--         # rotation = 1 -->
+<!-- ) -->
+
+<!-- ``` -->
+<!-- ![Venn Diagram for PCs 1, 9, 12, and 13](myositis_figures/PCs_venn_diagram_SNPs.png) -->
+
+<!-- A couple of interesting things here: -->
+
+<!-- * PC1 has no exclusive SNPs, all of them are shared, mostly with all the other PCs (9 SNPs). It is possible then that the effect we observe for PC1 (autoimmunity - inflammatory axis) can be captured by other PCs. We'll explore this more later. We also see that most shared SNPs are with PC9 and PC12, but not PC13 (only 1 shared SNP). -->
+<!-- * PC13 has the most SNPs (80), and the most exclusive SNPs (26). It shares 20 with both PC9 and PC12, 12 with PC9 only, 10 with PC12 only, and 1 with PC1. -->
+
+<!-- **Note** that here we refer to all eQTL driver SNPs in credible sets, not simply driver SNPs. -->
+
+<!-- We'll now see about shared **genes**. -->
+
+<!-- ```{r eval=FALSE } -->
+<!-- g1 <- unique(causal[rot1 !=0]$molecular_trait_id) -->
+<!-- g9 <- unique(causal[rot9 !=0]$molecular_trait_id) -->
+<!-- g12 <- unique(causal[rot12 !=0]$molecular_trait_id) -->
+<!-- g13 <- unique(causal[rot13 !=0]$molecular_trait_id) -->
+
+<!-- myCol <- brewer.pal(4, "Pastel2") -->
+
+<!-- venn.diagram( -->
+<!--         x = list(g1, g9, g12, g13), -->
+<!--         category.names = c("PC1" , "PC9" ,"PC12", "PC13"), -->
+<!--         filename = 'myositis_figures/PCs_venn_diagram_genes.png', -->
+<!--         output=TRUE, -->
+
+<!--         # Output features -->
+<!--         imagetype="png" , -->
+<!--         height = 480 , -->
+<!--         width = 480 , -->
+<!--         resolution = 300, -->
+<!--         compression = "lzw", -->
+
+<!--         # Circles -->
+<!--         lwd = 2, -->
+<!--         lty = 'blank', -->
+<!--         fill = myCol, -->
+
+<!--         # Numbers -->
+<!--         cex = .6, -->
+<!--         fontface = "bold", -->
+<!--         fontfamily = "sans", -->
+
+<!--         # Set names -->
+<!--         cat.cex = 0.6, -->
+<!--         cat.fontface = "bold", -->
+<!--         cat.default.pos = "outer" -->
+<!--         #, -->
+<!--         # cat.pos = c(-27, 27, 135), -->
+<!--         # cat.dist = c(0.055, 0.055, 0.085), -->
+<!--         # cat.fontfamily = "sans", -->
+<!--         # rotation = 1 -->
+<!-- ) -->
+
+<!-- ``` -->
+
+<!-- ![Venn Diagram for PCs 1, 9, 12, and 13 Genes](myositis_figures/PCs_venn_diagram_genes.png) -->
+
+
+<!-- Similar picture as with SNPs, as expected. -->
+
+<!-- We note that most genes are shared between PC9, PC12, and PC13, but not PC1. At the same time, most PC1 genes are shared with all the other PCs. -->
+
+
+
+<!-- <!-- To do so, we'll --> -->
+
+<!-- <!-- * Split our data by tissue, with special focus on the ones most relevant for our results: pooled (all relevant cells), platelets, and T-cells. --> -->
+<!-- <!-- * For each tissue, we'll first see which genes our SNPs influence, by the component they drive. --> -->
+<!-- <!-- * We'll use STRING-db to create networks for each component and tissue and try to understand how the eQTL-affected genes are functionally connected to each other. --> -->
+<!-- <!-- * We'll relate rotation value for each driver SNP and the genes it influences in each tissue and component, to see which SNP-gene pairs are more influential, and how much gene expression effect relates to rotation. --> -->
+<!-- <!-- * We'll perform pathway analysis using the genes associated with our driver SNPs for each PC as foreground and all genes in credible sets in the pooled set as background/universe. --> -->
+
+
+<!-- ### Pooled visualisation -->
+
+<!-- Using blood as a tissue can introduce confusion to our analysis because we're not accounting for different cell proportions - and it's impossible to do it from eQTL data. -->
+
+<!-- The only way to get a fair approximation to gene expression in blood while accounting for cell numbers is to use individual/sorted cells datasets, even though we don't have data for all cell types. We selected a fair amount of them (17), see tissue selection above. -->
+
+<!-- Let's take a first look at which genes are affected by each SNP across different tissues. -->
+
+
+<!-- ```{r } -->
+<!-- exp1 <- causal[rot1 != 0] -->
+<!-- exp2 <- causal[rot2 != 0] -->
+<!-- exp3 <- causal[rot3 != 0] -->
+<!-- exp8 <- causal[rot8 != 0] -->
+<!-- exp9 <- causal[rot9 != 0] -->
+<!-- exp12 <- causal[rot12 != 0] -->
+<!-- exp13 <- causal[rot13 != 0] -->
+
+<!--   fplot1 <- ggplot(exp1, aes(x = beta, y = snp_study, xmin=beta-se, xmax=beta+se, colour = gene_name))+ -->
+<!--   geom_pointrange()+ -->
+<!--   geom_vline(xintercept = 0, col="red", lty=2)+ -->
+<!--   xlab("Beta")+ -->
+<!--   ggtitle("PC1 driver SNPs effect on gene expression")+ -->
+<!--   facet_grid(gene_name~.,  scales = "free", space = "free", switch = "y")+ -->
+<!--   theme_cowplot(16)+ -->
+<!--   theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank()) -->
+
+<!--   fplot2 <- ggplot(exp2, aes(x = beta, y = snp_study, xmin=beta-se, xmax=beta+se, colour = gene_name))+ -->
+<!--   geom_pointrange()+ -->
+<!--   geom_vline(xintercept = 0, col="red", lty=2)+ -->
+<!--   xlab("Beta")+ -->
+<!--   ggtitle("PC2 driver SNPs effect on gene expression")+ -->
+<!--   facet_grid(gene_name~.,  scales = "free", space = "free", switch = "y")+ -->
+<!--   theme_cowplot(16)+ -->
+<!--   theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank()) -->
+
+<!--   fplot3 <- ggplot(exp3, aes(x = beta, y = snp_study, xmin=beta-se, xmax=beta+se, colour = gene_name))+ -->
+<!--   geom_pointrange()+ -->
+<!--   geom_vline(xintercept = 0, col="red", lty=2)+ -->
+<!--   xlab("Beta")+ -->
+<!--   ggtitle("PC3 driver SNPs effect on gene expression")+ -->
+<!--   facet_grid(gene_name~.,  scales = "free", space = "free", switch = "y")+ -->
+<!--   theme_cowplot(16)+ -->
+<!--   theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank()) -->
+
+<!--   fplot8 <- ggplot(exp8, aes(x = beta, y = snp_study, xmin=beta-se, xmax=beta+se, colour = gene_name))+ -->
+<!--   geom_pointrange()+ -->
+<!--   geom_vline(xintercept = 0, col="red", lty=2)+ -->
+<!--   xlab("Beta")+ -->
+<!--   ggtitle("PC8 driver SNPs effect on gene expression")+ -->
+<!--   facet_grid(gene_name~.,  scales = "free", space = "free", switch = "y")+ -->
+<!--   theme_cowplot(16)+ -->
+<!--   theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank()) -->
+
+<!--   fplot9 <- ggplot(exp9, aes(x = beta, y = snp_study, xmin=beta-se, xmax=beta+se, colour = gene_name))+ -->
+<!--   geom_pointrange()+ -->
+<!--   geom_vline(xintercept = 0, col="red", lty=2)+ -->
+<!--   xlab("Beta")+ -->
+<!--   ggtitle("PC9 driver SNPs effect on gene expression")+ -->
+<!--   facet_grid(gene_name~.,  scales = "free", space = "free", switch = "y")+ -->
+<!--     theme_cowplot(16)+ -->
+<!--   theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank()) -->
+
+<!--   fplot12 <- ggplot(exp12, aes(x = beta, y = snp_study, xmin=beta-se, xmax=beta+se, colour = gene_name))+ -->
+<!--   geom_pointrange()+ -->
+<!--   geom_vline(xintercept = 0, col="red", lty=2)+ -->
+<!--   xlab("Beta")+ -->
+<!--   ggtitle("PC12 driver SNPs effect on gene expression")+ -->
+<!--   facet_grid(gene_name~.,  scales = "free", space = "free", switch = "y")+ -->
+<!--     theme_cowplot(16)+ -->
+<!--   theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank()) -->
+
+<!--     fplot13 <- ggplot(exp13, aes(x = beta, y = snp_study, xmin=beta-se, xmax=beta+se, colour = gene_name))+ -->
+<!--   geom_pointrange()+ -->
+<!--   geom_vline(xintercept = 0, col="red", lty=2)+ -->
+<!--   xlab("Beta")+ -->
+<!--   ggtitle("PC13 driver SNPs effect on gene expression")+ -->
+<!--   facet_grid(gene_name~.,  scales = "free", space = "free", switch = "y")+ -->
+<!--     theme_cowplot(16)+ -->
+<!--   theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank()) -->
+
+
+<!-- ``` -->
+
+<!-- ```{r fig.height= 13, fig.width=13} -->
+<!-- fplot1 -->
+
+<!-- ``` -->
+
+<!-- We observe a general agreement in direction of effect of eQTL SNPs on gene expression across cells. We see one divergence gene expression betas for rs3792109 on *ATG16L1*, being positive in CD4+ T cells and negative in monocytes. Risk allele A has been associated with Crohn's disease susceptibility by at least two studies: [Franke et al., 2010](https://pubmed.ncbi.nlm.nih.gov/21102463/), and [Juliá et al., 2013](https://pubmed.ncbi.nlm.nih.gov/22936669/). The effect on expression seems to be tiny, though. Obviously, the effect allele A has a negative rotation value, corresponding to the inflammatory side, toppled by CD. -->
+
+<!-- ```{r fig.height= 30, fig.width=13, warning=FALSE} -->
+<!-- fplot2 -->
+
+<!-- ``` -->
+
+<!-- ```{r fig.height= 35, fig.width=13, warning=FALSE} -->
+<!-- fplot3 -->
+
+<!-- ``` -->
+
+<!-- ```{r fig.height= 20, fig.width=13, warning=FALSE} -->
+<!-- fplot8 -->
+
+<!-- ``` -->
+
+
+<!-- ```{r fig.height= 44, fig.width=13, warning=FALSE} -->
+<!-- fplot9 -->
+
+<!-- ``` -->
+<!-- Now we have way more SNP-genes, as expected from the 54 driver SNPs in PC9.  -->
+
+<!-- Some observations/highlights: -->
+
+<!-- * Opposing effects for rs10466829 on CLEC2D between CD4+ T cells (negative) and monocytes (positive). rs10466829 risk allele A was identified as a risk allele for MS [IMSGC, 2011](https://pubmed.ncbi.nlm.nih.gov/21833088/), and has negative rotation value for PC9, same side as myositis and RA.     -->
+<!-- * Same story for rs4674257 and rs4674259 (CXCR1) for neutrophils (negative) and monocytes.  -->
+<!-- * rs3774937 (NFKB1) positive for neutrophils and negative for CD4+ T cells. -->
+<!-- * rs757411 (SMARCE1) is negative for CD16+ monocyte and positive for macrophages -->
+
+
+<!-- ```{r fig.height= 48, fig.width=13, warning=FALSE} -->
+<!-- fplot12 -->
+<!-- ``` -->
+<!-- Nothing really new here. -->
+
+
+<!-- ```{r fig.height= 65, fig.width=13, warning=FALSE} -->
+<!-- fplot13 -->
+<!-- ``` -->
+<!-- Nothing quite new here either! -->
+
+<!-- ### Gene networks -->
+
+<!-- Now for the networks! We'll extract the list of genes and generate networks with them, using `STRINGdb` package. -->
+
+<!-- ```{r eval=FALSE} -->
+<!-- string_db <- STRINGdb$new( version="11", species=9606, score_threshold=200, input_directory="") -->
+<!-- # Map genes to STRINGdb ids -->
+<!-- casual <- as.data.table(string_db$map(causal, "gene_id", takeFirst = TRUE)) -->
+<!-- fwrite(casual, "STRING_res_PC1_2_3_8_9_12_13_pooled.tsv", sep = "\t") -->
+<!-- ``` -->
+
+
+
+<!-- ```{r echo = FALSE} -->
+<!-- string_db <- STRINGdb$new( version="11", species=9606, score_threshold=200, input_directory="") -->
+<!-- causal <- fread("STRING_res_PC1_2_3_8_9_12_13_pooled.tsv") -->
+<!-- ``` -->
+
+<!-- #### PC1 -->
+
+<!-- Let's check **PC1**  -->
+
+
+<!-- ```{r fig.height=12, fig.width=12} -->
+<!-- str1 <- causal[abs(rot1) > 0]$STRING_id %>% unique() -->
+<!-- str2 <- causal[abs(rot2) > 0]$STRING_id %>% unique() -->
+<!-- str3 <- causal[abs(rot3) > 0]$STRING_id %>% unique() -->
+<!-- str8 <- causal[abs(rot8) > 0]$STRING_id %>% unique() -->
+<!-- str9 <- causal[abs(rot9) > 0]$STRING_id %>% unique() -->
+<!-- str12 <- causal[abs(rot12) > 0]$STRING_id %>% unique() -->
+<!-- str13 <- causal[abs(rot13) > 0]$STRING_id %>% unique() -->
+
+<!-- # Plot networks -->
+<!-- string_db$plot_network(str1, required_score = 200) -->
+<!-- ``` -->
+
+<!-- We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below -->
+<!-- <details><summary>GeneID list</summary> -->
+<!-- <p> -->
+
+<!-- ```{r comment=NA} -->
+<!-- cat(str1, sep = "\n") -->
+<!-- ``` -->
+
+
+<!-- </p> -->
+<!-- </details> -->
+
+<!-- <br> -->
+<!-- First, what do lines mean? -->
+
+<!-- There are three categories of evidence in STRING: -->
+
+<!-- **Known Interactions** -->
+
+<!-- * **Light blue**: Known protein interaction from curated databases -->
+<!-- * **Light purple**: Known, experimentally determined protein interaction. This includes putative homologs found to interact in other organisms. -->
+
+<!-- **Predicted interactions** -->
+
+<!-- * **Green**: Gene neighbourhood -->
+<!-- * **Red**: Gene fusion -->
+<!-- * **Navy blue**: Gene co-ocurrence -->
+
+<!-- **Others** -->
+
+<!-- * **Greenish yellow**: Textmining.Genes appear together in abstracts in the literature, the weakest evidence IMO, as unrelated genes can be mentioned in the same abstract, too. This includes potential homologs in other organisms. -->
+<!-- * **Black**: Co-expression. This includes putative homologs being coexpressed in other organisms. -->
+<!-- * **Light blue**: Protein homology -->
+
+
+
+<!-- Let's take a peek at the rotations of SNP-gene pairs, just out of curiosity. We'll focus on the largest rotation values (> |0.05|) -->
+
+<!-- ```{r fig.height=15, fig.width=15} -->
+<!-- unique(causal[abs(rot1) > 0.05, c("study_tissue","gene_name", "SNPID.basis", "ref", "alt", "beta", "rot1")]) -->
+<!-- ``` -->
+
+
+<!-- **Quick observations and comments** -->
+
+<!-- * Not many genes in the network, in line with the low number of driver eQTL credible SNPs. -->
+<!-- * As it happened with blood cell basis v3' PC5, another caspase seems to take a central place in our network. PC5 was CASP8 and we have **CASP7**. -->
+
+<!-- **ATG16L1** - Autophagy related 16 like 1. A subunit of the autophagy-related ATG12-ATG5/ATG16 complex and is essentially important for the LC3 (ATG8) lipidation and autophagosome formation. This complex localizes to the membrane and is released just before or after autophagosome completion. ATG16L1 appears to have other autophagy-independent functions, e.g., intracellular membrane trafficking regulation and inflammation.Autophagy in general plays a crucial role in pathways leading to innate and adaptive immunity activation. -->
+<!-- **ERBB3** - A member of the epidermal growth factor receptor (EGFR/ERBB) family of receptor tyrosine kinases, expressed in normal adult human gastrointestinal tract, reproductive system, skin, nervous system, urinary tract, and endocrine system. Role in cancer, but unclear connection with immunity. -->
+
+<!-- **SESN3** and **ETS2** seem to be the genes associated with the SNPs with the largest rotation value for PC1, both on the positive (autoimmune) side. The former is not connected in the network, and the second is connected to *ERBB3* only. -->
+<!-- **ATG16L1** and **USP40** are the genes with the largest rotation on the negative (autoinflammetory) side. -->
+
+<!-- By looking at the network above, we can broadly distinguish two parts: The one on the left, with genes associated with a negative rotation values (hence inflammatory side), and the one on the right, with genes associated with positive rotation values (autoimmune branch). Both sides are connected by **CASP7**, with slightly negative rotation values (-0.045). -->
+
+<!-- **On myositis**: All 4 myositis subtypes appear on the positive (autoimmune) side. -->
+
+
+
+<!-- #### PC2 -->
+
+<!-- Let's go for **PC2** now. -->
+
+
+<!-- ```{r fig.height=12, fig.width=12} -->
+<!-- # Plot networks -->
+<!-- string_db$plot_network(str2, required_score = 200) -->
+<!-- ``` -->
+
+
+<!-- We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below -->
+<!-- <details><summary>GeneID list</summary> -->
+<!-- <p> -->
+
+<!-- ```{r comment=NA} -->
+<!-- cat(str2, sep = "\n") -->
+<!-- ``` -->
+
+<!-- Let's take a peek at the rotations of SNP-gene pairs, just out of curiosity. We'll focus on the largest rotation values (> |0.1|) -->
+
+<!-- ```{r fig.height=15, fig.width=15} -->
+<!-- unique(causal[abs(rot2) > 0.1, c("study_tissue","gene_name", "SNPID.basis", "ref", "alt", "beta", "rot2")]) -->
+<!-- ``` -->
+
+<!-- **Quick observations and comments** -->
+
+
+
+<!-- #### PC3 -->
+
+<!-- Let's go for **PC3** now. -->
+
+
+<!-- ```{r fig.height=12, fig.width=14} -->
+<!-- # Plot networks -->
+<!-- string_db$plot_network(str3, required_score = 200) -->
+<!-- ``` -->
+
+
+<!-- We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below -->
+<!-- <details><summary>GeneID list</summary> -->
+<!-- <p> -->
+
+<!-- ```{r comment=NA} -->
+<!-- cat(str3, sep = "\n") -->
+<!-- ``` -->
+
+<!-- Let's take a peek at the rotations of SNP-gene pairs, just out of curiosity. We'll focus on the largest rotation values (> |0.1|) -->
+
+<!-- ```{r fig.height=15, fig.width=15} -->
+<!-- unique(causal[abs(rot3) > 0.1, c("study_tissue","gene_name", "SNPID.basis", "ref", "alt", "beta", "rot3")]) -->
+<!-- ``` -->
+
+<!-- **Quick observations and comments** -->
+
+
+
+<!-- #### PC8 -->
+
+<!-- Let's go for **PC8** now. -->
+
+
+<!-- ```{r fig.height=12, fig.width=12} -->
+<!-- # Plot networks -->
+<!-- string_db$plot_network(str8, required_score = 200) -->
+<!-- ``` -->
+
+
+<!-- We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below -->
+<!-- <details><summary>GeneID list</summary> -->
+<!-- <p> -->
+
+<!-- ```{r comment=NA} -->
+<!-- cat(str8, sep = "\n") -->
+<!-- ``` -->
+
+<!-- Let's take a peek at the rotations of SNP-gene pairs, just out of curiosity. We'll focus on the largest rotation values (> |0.1|) -->
+
+<!-- ```{r fig.height=15, fig.width=15} -->
+<!-- unique(causal[abs(rot8) > 0.1, c("study_tissue","gene_name", "SNPID.basis", "ref", "alt", "beta", "rot3")]) -->
+<!-- ``` -->
+
+<!-- **Quick observations and comments** -->
+
+
+<!-- #### PC9 -->
+
+<!-- Let's go for **PC9** now. -->
+
+<!-- ```{r  fig.height=14, fig.width=14} -->
+<!-- string_db$plot_network(str9, required_score = 200) -->
+<!-- ``` -->
+
+<!-- We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below -->
+<!-- <details><summary>GeneID list</summary> -->
+<!-- <p> -->
+
+<!-- ```{r comment=NA} -->
+<!-- cat(str9, sep = "\n") -->
+<!-- ``` -->
+
+
+<!-- </p> -->
+<!-- </details> -->
+<!-- <br> -->
+
+
+
+<!-- Let's take a peek at the rotations of SNP-gene pairs, just out of curiosity. We'll focus on the largest rotation values (> |0.1|) -->
+
+<!-- ```{r fig.height=15, fig.width=15} -->
+<!-- unique(causal[abs(rot9) > 0.1, c("study_tissue","gene_name", "SNPID.basis", "ref", "alt", "beta", "rot9")]) -->
+<!-- ``` -->
+
+<!-- **Quick observations and comments** -->
+
+<!-- * **ERBB3**, together with NFKB1 and IL18R1 seems to take a central stage in the network for PC9. -->
+<!-- * Other genes with high rotation value associated, like **SUOX**, **RPS26**, **PADI4**, and **SMARCE1**, seem to be more peripheral. -->
+<!-- * Genes associated with highly **positive** rotation values (MS, T1D, SLE, CD): **PADI4**, **TICAM1**, **SMARCE1** -->
+<!-- * Genes associated with highly **negative** rotation values (RA, PBC, UC, Asthma): **ERBB3**, **SUOX**, **RSP26**, **FKRP**, and **TNFSF14**. -->
+<!-- * **rs10876864** (negative rotation) is a TF binding site that underlies expression of multiple genes, with different effects on expression: ERBB3(+), SUOX(+), and RPS26(-). Allele G (Ref) has been associated with Vitiligo in Han Chinese ([Tang et al., 2013](https://pubmed.ncbi.nlm.nih.gov/22951725/)) (G frequency in EAS = 0.21), and allergy in Europeans (G freq = 0.41) (([Ferreira et al., 2017](https://pubmed.ncbi.nlm.nih.gov/29083406/)). This SNP is also a driver SNP for other PCs (except for PC8), but its rotation value (-0.13) is largest in PC9. -->
+<!-- * **rs1077667** (negative rotation) is an intron variant that positively influences TNFSF14 expression. Allele C (ref) is the major allele worldwide and has been associated with MS by [multiple studies](https://www.ebi.ac.uk/gwas/variants/rs1077667). This might explain the distribution of MS towards the positive side. This SNP is also a driver SNP for other PCs (except for PC1 and PC2), but its absolute rotation value (-0.15) is largest in PC9. Signal opposed to PC12 (0.09), but in agreement with PC13 (-0.06). -->
+
+<!-- **On myositis**: Only Myositis and Polymyositis appear as significant for this component, on the negative (RA, PBC, UC, Asthma) side. -->
+
+
+
+
+<!-- #### PC12 -->
+
+<!-- Let's go for **PC12** now. -->
+
+<!-- ```{r  fig.height=14, fig.width=14} -->
+<!-- string_db$plot_network(str12, required_score = 200) -->
+<!-- ``` -->
+
+<!-- We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below -->
+<!-- <details><summary>GeneID list</summary> -->
+<!-- <p> -->
+
+<!-- ```{r comment=NA} -->
+<!-- cat(str12, sep = "\n") -->
+<!-- ``` -->
+
+
+<!-- </p> -->
+<!-- </details> -->
+<!-- <br> -->
+
+
+
+<!-- Let's take a peek at the rotations of SNP-gene pairs, just out of curiosity. We'll focus on the largest rotation values (> |0.1|) -->
+
+<!-- ```{r fig.height=15, fig.width=15} -->
+<!-- unique(causal[abs(rot12) > 0.1, c("study_tissue","gene_name", "SNPID.basis", "ref", "alt", "beta", "rot12")]) -->
+<!-- ``` -->
+
+<!-- **Quick observations and comments** -->
+
+<!-- * Again **ERBB3** seem to take the central stage in the network, although it's not associated with large projection values for PC12. -->
+<!-- * PC12 comprises mainly negative rotation values, except for asthma. -->
+<!-- * Genes associated with large negative values (most basis IMDs): **ORMDL3**, **GSDMB**, **SESN3**, **ATG16L1**, **ZPBP2**, and **USP40**. -->
+<!-- * Genes associated with large positive values (Asthma): **SMARCE1**, **MMEL1**, **TTC34**, and **TNFRSF14**. -->
+
+<!-- **ORMDL3**: ORMDL sphingolipid biosynthesis regulator 3. Associated with **asthma** ([James et al., 2019](https://linkinghub.elsevier.com/retrieve/pii/S0091674919309728)), as well as inflammatory diseases like CD, T1D, and RA. ORMDL3 expression is increased in asthmatic patients, so rs2305480-A (alternative allele in the basis, and a missense variant) may influence asthma susceptibility via decreasing ORMDL3 in T cells (rs2305480-A beta: [-0.179, -0.337]). rs2305480-A has an average global freq of 0.29, with maximum frequencies in Europeans (~0.47) and minimum in Africans (~0.11) [Reference](http://www.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=17:39905443-39906443;v=rs2305480;vdb=variation;vf=104623900). Indeed, the G allele has been associated with asthma ([Reference](https://www.ebi.ac.uk/gwas/search?query=rs2305480)). -->
+
+<!-- * The same SNP **rs2305480** also influences expression of **GSDMB** (Gastrodermin B), also central in the network, and which increased expression also seems to be associated with asthma ([Das et al., 2016](https://www.pnas.org/content/113/46/13132))  This SNP is driver for most selected PCs (except for PC1), all with negative rotation value, being **PC13** the largest (-0.19). -->
+
+<!-- * **rs3748816** and **rs4648356** (in Chr1, 197kb apart) affect expression of multiple genes (MMEL1 and TNFRSF14) and have opposing rotation values to those in **PC9** (see IMD_myositis report). Both genes are relatively central in PC12 network. These SNPs are drivers for PC9, PC12, and PC13 only, but for both PC9 and PC13 the sign is negative. Maybe they capture signals specific to PC12? -->
+
+<!-- **On myositis**: Only myositis and juvenile dermatomyositis are significant for this component, on the negative side, like most basis IMDs. -->
+
+
+<!-- **Looking a bit closer at genes and SNPs** -->
+
+<!-- Let's take a look at all associated genes by driver SNPs connected to them, regardless of rotation values -->
+
+<!-- ```{r} -->
+<!-- pc12.rot.table <- unique(causal[abs(rot12) > 0, c("gene_name", "SNPID.basis", "rot12")]) -->
+<!-- pc12.rot.table -->
+<!-- table(pc12.rot.table$gene_name) -->
+
+<!-- ``` -->
+
+
+<!-- ```{r fig.width=12, fig.height=8} -->
+<!-- #pc12.rot.sum <- pc12.rot.table[ ,.(count=.N, meanrot=mean(rot12), sdrot=sd(rot12)), by= gene_name][is.na(sdrot), sdrot:=0] -->
+<!-- #[ abs(meanrot) > 0.025 | count >1] -->
+
+<!-- pc12grp <- ggplot(pc12.rot.table, aes(x = reorder(gene_name, rot12), y = rot12))+ -->
+<!--           geom_point()+ -->
+<!--           geom_hline(yintercept = 0, col="red", lty=1)+ -->
+<!--           ylab("Driver SNP Rotation")+ -->
+<!--           ggtitle("PC12 driver genes")+ -->
+<!--   theme_cowplot(12)+ -->
+<!--   theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x = element_blank()) -->
+
+<!-- pc12grp -->
+<!-- ``` -->
+
+<!-- We have mentioned the genes with the largest rotation values associated before. Plotting them this way gives us a better perspective on how different driver SNPs are related to their respective genes. We'll focus on the negative side, since that's where myositis fall. We see three genes (**GSDMB**, **ORDML3**, and **ZPBP2**) with some SNPs with opposing sign. Let's check which they are exactly and how they influence gene expression. -->
+
+<!-- ```{r} -->
+<!-- unique(causal[abs(rot12) > 0 & (gene_name == "GSDMB" | gene_name == "ORMDL3" | gene_name == "ZPBP2"), c("gene_name", "SNPID.basis", "beta","se", "rot12")]) -->
+<!-- ``` -->
+
+<!-- From these 3 SNPs associated, **rs8067378**, and **rs2305480** have both negative rotation and negative beta; **rs7216389** however has positive rotation and positive beta for *ORMDL3* and *GSDMB* (but **not** for *ZPBP2*). This represent the same effect on the gene (ie. down-regulation) but being REF (C) the actual effect allele. *ZPBP2* appears expressed on B cell only in our dataset. *GSDMB* appears in B Cell among others, with **rs7216389** having negative beta (so likely not cell-specific effect?). **ORMDL3-rs7216389** does not include B cells. -->
+
+
+
+
+
+
+<!-- ```{r} -->
+<!-- pc12srp <- ggplot(pc12.rot.table, aes(x = reorder(SNPID.basis, rot12), y = rot12, label=gene_name))+ -->
+<!--           geom_point()+ -->
+<!--           geom_hline(yintercept = 0, col="red", lty=1)+ -->
+<!--           geom_label_repel(size = 2.5, force = 8, box.padding = .3, seed = 2, direction = "both", max.overlaps = 45, data = pc12.rot.table[abs(rot12) > 0.05])+ -->
+<!--           ylab("Driver SNP Rotation")+ -->
+<!--           ggtitle("PC12 driver SNPs")+ -->
+<!--           theme_cowplot(12)+ -->
+<!--           theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x = element_blank()) -->
+
+<!-- pc12srp -->
+<!-- ``` -->
+
+<!-- **Quick observations and comments** -->
+
+
+
+
+
+<!-- #### PC13 -->
+
+<!-- Let's go for **PC13** now. -->
+
+<!-- ```{r  fig.height=14, fig.width=14} -->
+<!-- string_db$plot_network(str13, required_score = 200) -->
+<!-- ``` -->
+
+
+<!-- We can also play around in [STRING](https://string-db.org/) ourselves using the Gene ID list below -->
+<!-- <details><summary>GeneID list</summary> -->
+<!-- <p> -->
+
+<!-- ```{r comment=NA} -->
+<!-- cat(str13, sep = "\n") -->
+<!-- ``` -->
+
+
+<!-- </p> -->
+<!-- </details> -->
+<!-- <br> -->
+
+
+<!-- Let's take a peek at the rotations of SNP-gene pairs, just out of curiosity. We'll focus on the largest rotation values (> |0.05|) -->
+
+<!-- ```{r } -->
+<!-- unique(causal[abs(rot13) > 0.1, c("study_tissue","gene_name", "SNPID.basis", "ref", "alt", "beta", "rot13")]) -->
+<!-- ``` -->
+
+<!-- **Quick observations and comments** -->
+
+<!-- PC13 is thought to be associated with increased eosinophil levels (a landmark of asthma). All IMD basis traits show positive values for PC13. -->
+
+<!-- Interestingly, most gene-SNPs associations with the largest rotations show **negative**, rather than **positive** values. Only **NDFIP1-rs1062158** has a large, positive rotation value (0.21). -->
+
+<!-- Repeating what I researched for **NDFIP1** for the blood cell basis v3: -->
+
+<!-- **NDFIP1** - Nedd4 Family Interacting Protein 1. A potential target for ubiquitination by the Nedd4 family of proteins. This protein is thought to be part of a family of integral Golgi membrane proteins.  -->
+<!-- The NDFIP1 (neural precursor cell expressed, developmentally down-regulated protein 4 family-interacting protein 1) adapter for the ubiquitin ligase ITCH is genetically linked to human allergic and autoimmune disease, but the cellular mechanism by which these proteins enable foreign and self-antigens to be tolerated is unresolved.  -->
+<!-- Th2 cells, Ndfip1 is necessary for the degradation of JunB by the Nedd4 family E3 ligase Itch. Consequently, Ndfip1 limits IL-4 expression in Th2 cells.  Ndfip1 is part of a negative regulatory system in which factors that induce IL-2 expression downstream of T cell receptor engagement also induce the expression of Ndfip1 to limit the extent of IL-2 production and, thus, control T cell activation. By regulating these two processes, Ndfip1 favors peripheral T cell tolerance and prevents the development of a T cell mediated fatal inflammatory -->
+<!-- disease ([Ramos Hernández, 2013](https://repository.upenn.edu/cgi/viewcontent.cgi?article=1844&context=edissertations)). Human genetic studies have associated NDFIP1 and ITCH with allergic and autoimmune diseases. Inherited NDFIP1 polymorphisms are associated with inflammatory bowel disease, asthma, rheumatoid arthritis, and multiple sclerosis. It remains unclear which cellular mechanisms of tolerance are disrupted by these genetic variants to result in allergic and autoimmune disease ([Altin et al., 2016](https://www.pnas.org/content/111/6/2067)). -->
+
+<!-- We plotted PC12 and PC13 driver SNPs in the IMD-myositis report with the goal to investigate the differences in the signal among two PCs. Interestingly, **rs1062158** (associated with NDFIP1, and the only eQTL with large positive rotation value) is not a driver for PC12, so it might represent a relevant signal-carrying SNP for PC13. -->
+
+<!-- Another SNP with potential for characterising PC13 is **rs3761847** (-0.15). It's not a driver for PC12, and has small rotation values for PC3, PC8, and PC9. This SNP is located between two genes associated with chronic inflammation (TRAF1 and C5), is associated (G, Ref allele) with increased risk of anti CCP-positive rheumatoid arthritis. It agrees with the fact that RA shows on the positive side of the projection, but so do all other basis IMDs. -->
+
+
+
+
+<!-- **On myositis**: Only myositis and polymyositis is significant for this PC, on the positive side, like most traits. -->
+
+
+
+<!-- ## Pathway analysis -->
+
+<!-- Finally, we want to explore the pathways in which genes associated with our eQTL driver SNPs belong. For it we'll use all genes in credible sets for the same cell types as background (or universe).  -->
+<!-- For it, we first prepared the "universe" file (See `Bases/cell_basis_v3/preparing_pathway_analysis_universe.R` for details on how we did it).  -->
+
+<!-- <!-- ### STRINGdb (no universe) --> -->
+
+<!-- <!-- First, we'll use STRINGdb, which provides a tool to perform pathway analysis using multiple sources (eg. Gene Ontology (Process, Function and Component), KEGG and Reactome pathways, PubMed publications, UniProt Keywords, and PFAM/INTERPRO/SMART domains) in one simple call. The enrichment itself is computed using an hypergeometric test and the FDR is calculated using Benjamini-Hochberg procedure.  --> -->
+
+<!-- <!-- Unfortunately, we got an error when we tried to set the universe as a background via `string_db$setbackground(u)`, so we tried without pre-specified background instead, resulting in the following --> -->
+
+
+<!-- <!-- ```{r stringdb-pathway-analysis} --> -->
+<!-- <!-- string_db <- STRINGdb$new( version="11", species=9606, score_threshold=200, input_directory="") --> -->
+<!-- <!-- str5 <- res.pooled[abs(rot5) > 0]$STRING_id %>% unique() --> -->
+<!-- <!-- str8 <- res.pooled[abs(rot8) > 0]$STRING_id %>% unique() --> -->
+
+<!-- <!-- pastr5 <- as.data.table(string_db$get_enrichment(str5)) --> -->
+<!-- <!-- pastr8 <- as.data.table(string_db$get_enrichment(str8)) --> -->
+<!-- <!-- pastr5[ fdr < 0.01][order(fdr)] --> -->
+<!-- <!-- pastr8[ fdr < 0.01][order(fdr)] --> -->
+<!-- <!-- ``` --> -->
+
+<!-- <!-- At FDR 1%, we get --> -->
+
+<!-- <!-- For **PC5**: --> -->
+
+<!-- <!-- * Tumor necrosis factor binding GO, driven by TRIM37, TRAF4, CASP8, TNSF13B and TNFSF14 --> -->
+<!-- <!-- * Mostly general terms, such as "positive regulation" of: metabolic process, signal transduction, signaling... Too general to be informative. --> -->
+
+<!-- <!-- For **PC8**: --> -->
+
+<!-- <!-- * TNF signaling pathway --> -->
+<!-- <!-- * Pathways in cancer --> -->
+<!-- <!-- * Two "neighbor Network AL", including "positive regulation of neutrophil differentiation. --> -->
+
+<!-- <!-- In conclusion, this approach couldn't be applied using our universe, and using the entire gene set in the platform yields little informative pathways. --> -->
+
+<!-- <!-- It's adequate to test other methods. I took a look at the literature and found a suitable alternative: gProfiler2. --> -->
+
+<!-- ### gProfiler2 -->
+
+<!-- **gProfiler2** is a toolset to perform enrichment analysis and visualisation on list of genes. It contains Gene Ontology (GO or by branch GO:MF, GO:BP, GO:CC) -->
+<!-- KEGG (KEGG), Reactome (REAC), WikiPathways (WP), TRANSFAC (TF), miRTarBase (MIRNA), Human Protein Atlas (HPA), CORUM (CORUM), and Human phenotype ontology (HP),  as data sources, so it's quite complete. g:Profiler is originally a webtool, but it also has an R package, so we'll use that. See [here](https://cran.r-project.org/web/packages/gprofiler2/vignettes/gprofiler2.html) for vignette and use examples. -->
+
+<!-- gProfiler2 provides plenty of options, but we'll use the following for the first round: -->
+
+<!-- * Unordered query. gProfiler2 accepts ordered lists of genes, in cases where an ordering makes sense (eg. differential expression analyses). -->
+<!-- * Exclude IEA. IEA are automatic, not curated annotations, we'll exlude those. -->
+<!-- * Threshold 0.01 and correction method FDR.  -->
+<!-- * Custom domain, as we're supplying the universe. -->
+
+<!-- ```{r pathway-analysis-pc1-pooled} -->
+<!-- # Load universe -->
+<!-- u <- fread("../../cell_basis_v3_varimax/Reports/universe_gene_set.tsv") %>% .$molecular_trait_id %>% unique() -->
+
+<!-- # Grab GeneIDs -->
+<!-- genesPC1 <- causal[abs(rot1) > 0]$molecular_trait_id %>% unique() -->
+<!-- genesPC2 <- causal[abs(rot2) > 0]$molecular_trait_id %>% unique() -->
+<!-- genesPC3 <- causal[abs(rot3) > 0]$molecular_trait_id %>% unique() -->
+<!-- genesPC8 <- causal[abs(rot8) > 0]$molecular_trait_id %>% unique() -->
+<!-- genesPC9 <- causal[abs(rot9) > 0]$molecular_trait_id %>% unique() -->
+<!-- genesPC12 <- causal[abs(rot12) > 0]$molecular_trait_id %>% unique() -->
+<!-- genesPC13 <- causal[abs(rot13) > 0]$molecular_trait_id %>% unique() -->
+
+<!-- # Run gProfiler2 for PC1 -->
+<!-- gostpc1 <- gost(query = genesPC1,  -->
+<!--                 organism = "hsapiens", ordered_query = FALSE,  -->
+<!--                 multi_query = FALSE, significant = TRUE, exclude_iea = TRUE,  -->
+<!--                 measure_underrepresentation = FALSE, evcodes = TRUE,  -->
+<!--                 user_threshold = 0.01, correction_method = "fdr",  -->
+<!--                 domain_scope = "custom", custom_bg = u,  -->
+<!--                 numeric_ns = "", sources = "GO:BP", as_short_link = FALSE) -->
+<!-- gostpc1$result -->
+<!-- ``` -->
+<!-- No results to show. -->
+
+
+<!-- Now with **PC2** -->
+
+<!-- ```{r pathway-analysis-pc3-pooled} -->
+<!-- gostpc3 <- gost(query = genesPC2,  -->
+<!--                 organism = "hsapiens", ordered_query = FALSE,  -->
+<!--                 multi_query = FALSE, significant = TRUE, exclude_iea = TRUE,  -->
+<!--                 measure_underrepresentation = FALSE, evcodes = TRUE,  -->
+<!--                 user_threshold = 0.01, correction_method = "fdr",  -->
+<!--                 domain_scope = "custom", custom_bg = u,  -->
+<!--                 numeric_ns = "", sources = "GO:BP", as_short_link = FALSE) -->
+<!-- gostpc3$result -->
+<!-- ``` -->
+<!-- No results to show. -->
+<!-- <!-- More "complexes" for PC2, all with single genes involved: **DDX6** (ENSG00000110367), **ERBB3** (ENSG00000065361), **RASGRP1** (ENSG00000172575), and **NDFIP1** (ENSG00000131507). --> -->
+
+<!-- Now with **PC3** -->
+
+<!-- ```{r pathway-analysis-pc3-pooled} -->
+<!-- gostpc3 <- gost(query = genesPC3,  -->
+<!--                 organism = "hsapiens", ordered_query = FALSE,  -->
+<!--                 multi_query = FALSE, significant = TRUE, exclude_iea = TRUE,  -->
+<!--                 measure_underrepresentation = FALSE, evcodes = TRUE,  -->
+<!--                 user_threshold = 0.01, correction_method = "fdr",  -->
+<!--                 domain_scope = "custom", custom_bg = u,  -->
+<!--                 numeric_ns = "", sources ="GO:BP", as_short_link = FALSE) -->
+<!-- gostpc3$result -->
+<!-- ``` -->
+
+<!-- PC3 seems to throw primarily immune-related pathways, including general immune terms like "positive regulation of immune system process" or "regulation of immune effector process", including the following genes: -->
+
+<!-- ```{r} -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[5], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[6], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[10], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[16], split = ",")[[1]]]$gene_name) -->
+<!-- ``` -->
+<!-- Also general cytokine production, associated with the following genes -->
+
+
+<!-- ```{r} -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[4], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[8], split = ",")[[1]]]$gene_name) -->
+<!-- ``` -->
+
+<!-- Also, more specific immune-related pathways, such as "interferon-gamma production": -->
+
+<!-- ```{r} -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[1], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[2], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[3], split = ",")[[1]]]$gene_name) -->
+<!-- ``` -->
+<!-- and even some for cell production, like T-cell, lymphocytes, and mononuclear cells: -->
+
+<!-- ```{r} -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[13], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[14], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[17], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc3$result$intersection[18], split = ",")[[1]]]$gene_name) -->
+<!-- ``` -->
+<!-- The first line corresponds to "	positive regulation of T-helper 1 type immune response". -->
+
+
+<!-- Now with **PC8** -->
+
+<!-- ```{r pathway-analysis-pc8-pooled} -->
+<!-- gostpc8 <- gost(query = genesPC8,  -->
+<!--                 organism = "hsapiens", ordered_query = FALSE,  -->
+<!--                 multi_query = FALSE, significant = TRUE, exclude_iea = TRUE,  -->
+<!--                 measure_underrepresentation = FALSE, evcodes = TRUE,  -->
+<!--                 user_threshold = 0.01, correction_method = "fdr",  -->
+<!--                 domain_scope = "custom", custom_bg = u,  -->
+<!--                 numeric_ns = "", sources = "GO:BP", as_short_link = FALSE) -->
+<!-- gostpc8$result -->
+<!-- ``` -->
+
+<!-- No results to show. -->
+
+
+
+<!-- Now with **PC9** -->
+
+<!-- ```{r pathway-analysis-pc9-pooled} -->
+<!-- gostpc9 <- gost(query = genesPC9,  -->
+<!--                 organism = "hsapiens", ordered_query = FALSE,  -->
+<!--                 multi_query = FALSE, significant = TRUE, exclude_iea = TRUE,  -->
+<!--                 measure_underrepresentation = FALSE, evcodes = TRUE,  -->
+<!--                 user_threshold = 0.01, correction_method = "fdr",  -->
+<!--                 domain_scope = "custom", custom_bg = u,  -->
+<!--                 numeric_ns = "", sources = "GO:BP", as_short_link = FALSE) -->
+<!-- gostpc9$result -->
+<!-- ``` -->
+
+<!-- We got several pathways associated with cytokine production, as well as blood cell production and general immune system process regulation -->
+
+<!-- Let's check out the genes in the cytokine pathways -->
+
+<!-- ```{r} -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc9$result$intersection[1], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc9$result$intersection[2], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc9$result$intersection[4], split = ",")[[1]]]$gene_name) -->
+<!-- ``` -->
+
+<!-- It looks like all genes in the vasculitis pathway are also in the cytokine production pathway: RASGRP1, CD244, IL23R and NFKB1. These genes are all central in the network. -->
+
+
+<!-- Now with **PC12** -->
+
+<!-- ```{r pathway-analysis-pc12-pooled} -->
+<!-- gostpc12 <- gost(query = genesPC12,  -->
+<!--                 organism = "hsapiens", ordered_query = FALSE,  -->
+<!--                 multi_query = FALSE, significant = TRUE, exclude_iea = TRUE,  -->
+<!--                 measure_underrepresentation = FALSE, evcodes = TRUE,  -->
+<!--                 user_threshold = 0.01, correction_method = "fdr",  -->
+<!--                 domain_scope = "custom", custom_bg = u,  -->
+<!--                 numeric_ns = "", sources = "GO:BP", as_short_link = FALSE) -->
+<!-- gostpc12$result -->
+<!-- ``` -->
+
+<!-- Same pathway cytokine production pathways as in PC9. Presumably same genes. Logical given that so many genes are shared. -->
+
+<!-- ```{r} -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc12$result$intersection[1], split = ",")[[1]]]$gene_name) -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc12$result$intersection[2], split = ",")[[1]]]$gene_name) -->
+<!-- ``` -->
+<!-- Most genes shared in both pathways and with **PC9** pathways. Interestingly, PC12 doesn't have a driver SNP associated with NFKB1, as PC9 did. However, we have GBA (Glucosylceramidase) instead. -->
+
+<!-- What about T-cell proliferation? -->
+
+<!-- ```{r} -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc12$result$intersection[4], split = ",")[[1]]]$gene_name) -->
+<!-- ``` -->
+<!-- And what about mononuclear cell proliferation? -->
+
+<!-- ```{r} -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc12$result$intersection[8], split = ",")[[1]]]$gene_name) -->
+<!-- ``` -->
+<!-- There is a different pathway named "positive regulation of multicellular organismal process". I'm curious about the genes involved: -->
+
+<!-- ```{r} -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc12$result$intersection[10], split = ",")[[1]]]$gene_name) -->
+<!-- ``` -->
+<!-- Sort of similar! -->
+
+<!-- "unsaturated fatty acid biosynthetic process" -->
+
+<!-- ```{r} -->
+<!-- unique(causal[molecular_trait_id %in% strsplit(gostpc12$result$intersection[15], split = ",")[[1]]]$gene_name) -->
+<!-- ``` -->
+<!-- Let's simply add a column with all gene names:  -->
+
+
+<!-- ```{r} -->
+<!-- pw12 <- data.table(gostpc12$result) -->
+<!-- pw12[,gene_names:=sapply(1:length(gostpc12$result$intersection), function(x) {paste(unique(causal[molecular_trait_id %in% strsplit(gostpc12$result$intersection[x], split = ",")[[1]]]$gene_name), collapse = ",")})] -->
+<!-- ``` -->
+
+
+
+<!-- Now with **PC13** -->
+
+<!-- ```{r pathway-analysis-pc13-pooled} -->
+<!-- gostpc13 <- gost(query = genesPC13,  -->
+<!--                 organism = "hsapiens", ordered_query = FALSE,  -->
+<!--                 multi_query = FALSE, significant = TRUE, exclude_iea = TRUE,  -->
+<!--                 measure_underrepresentation = FALSE, evcodes = TRUE,  -->
+<!--                 user_threshold = 0.01, correction_method = "fdr",  -->
+<!--                 domain_scope = "custom", custom_bg = u,  -->
+<!--                 numeric_ns = "", sources = "GO:BP", as_short_link = FALSE) -->
+<!-- gostpc13$result -->
+<!-- ``` -->
+<!-- No results to show for PC13, using GO:BP as a source. -->
+
+
+
+
+<!-- ### STRINGdb -->
+
+<!-- An alternative way to do pathway analysis is to use STRINGdb, as we did for the blood cell basis v3. -->
+
+<!-- <!-- We need to map the universe set to STRINGdb identifiers first. --> -->
+
+<!-- <!-- ```{r} --> -->
+<!-- <!-- string_db <- STRINGdb$new( version="11", species=9606, input_directory="") --> -->
+<!-- <!-- ust <- string_db$map(data.table(u=u), "u") --> -->
+<!-- <!-- string_db$set_background(ust$STRING_id) --> -->
+<!-- <!-- ``` --> -->
+<!-- <!-- Once done this, we proceed, map and pathway analyse each of the PCs. --> -->
+
+<!-- <!-- Start by PC1: --> -->
+
+<!-- <!-- ```{r error=FALSE} --> -->
+<!-- <!-- st1 <- string_db$map(data.table(gn=genesPC1), "gn") --> -->
+<!-- <!-- enr1 <- as.data.table(string_db$get_enrichment(st1$STRING_id)) --> -->
+<!-- <!-- ``` --> -->
+
+<!-- <!-- Now **PC9**: --> -->
+
+<!-- <!-- ```{r error=FALSE} --> -->
+<!-- <!-- st9 <- string_db$map(data.table(gn=genesPC9), "gn") --> -->
+<!-- <!-- enr9 <- as.data.table(string_db$get_enrichment(st9$STRING_id)) --> -->
+<!-- <!-- ``` --> -->
+
+
+<!-- <!-- Now **PC12**: --> -->
+
+<!-- <!-- ```{r error=FALSE} --> -->
+<!-- <!-- st12 <- string_db$map(data.table(gn=genesPC12), "gn") --> -->
+<!-- <!-- enr12 <- as.data.table(string_db$get_enrichment(st12$STRING_id)) --> -->
+<!-- <!-- ``` --> -->
+
+<!-- <!-- Now **PC13**: --> -->
+
+<!-- <!-- ```{r error=FALSE} --> -->
+<!-- <!-- st13 <- string_db$map(data.table(gn=genesPC13), "gn") --> -->
+<!-- <!-- enr13 <- as.data.table(string_db$get_enrichment(st13$STRING_id)) --> -->
+<!-- <!-- ``` --> -->
+
+
+<!-- **A test without the universe** -->
+
+<!-- ```{r} -->
+<!-- string_db <- STRINGdb$new( version="11", species=9606, input_directory="") -->
+<!-- ``` -->
+
+<!-- Start by PC1: -->
+
+<!-- ```{r} -->
+<!-- st1 <- string_db$map(data.table(gn=genesPC1), "gn") -->
+<!-- enr1 <- as.data.table(string_db$get_enrichment(st1$STRING_id)) -->
+<!-- enr1[ fdr < 0.01][order(fdr)] -->
+<!-- ``` -->
+
+<!-- PMID only. Textmining?? -->
+
+
+<!-- Now **PC9**: -->
+
+<!-- ```{r} -->
+<!-- st9 <- string_db$map(data.table(gn=genesPC9), "gn") -->
+<!-- enr9 <- as.data.table(string_db$get_enrichment(st9$STRING_id)) -->
+<!-- enr9[category !="PMID"][ fdr < 0.01][order(fdr)] # Remove textmining -->
+<!-- ``` -->
+
+
+<!-- Now **PC12**: -->
+
+<!-- ```{r} -->
+<!-- st12 <- string_db$map(data.table(gn=genesPC12), "gn") -->
+<!-- enr12 <- as.data.table(string_db$get_enrichment(st12$STRING_id)) -->
+<!-- enr12[category !="PMID"][ fdr < 0.01][order(fdr)] # Remove textmining -->
+<!-- ``` -->
+
+<!-- Now **PC13**: -->
+
+<!-- ```{r} -->
+<!-- st13 <- string_db$map(data.table(gn=genesPC13), "gn") -->
+<!-- enr13 <- as.data.table(string_db$get_enrichment(st13$STRING_id)) -->
+<!-- enr13[category !="PMID"][ fdr < 0.01][order(fdr)] # Remove textmining -->
+<!-- ``` -->
+
