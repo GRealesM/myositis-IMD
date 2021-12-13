@@ -159,6 +159,7 @@ pc1dp
 
 length(unique(pc1$SNPID.basis))
 length(unique(pc1$tissue_label))
+length(unique(pc1$SNPID.basis))/nrow(snppc1)
 ```
 
 For PC1 we have 15 driver SNPs that are identified as eQTL across 11 tissues.
@@ -234,6 +235,7 @@ pc2dp
 
 length(unique(pc2$SNPID.basis))
 length(unique(pc2$tissue_label))
+length(unique(pc2$SNPID.basis))/nrow(snppc2)
 ```
 
 
@@ -270,6 +272,7 @@ pc3dp
 
 length(unique(pc3$SNPID.basis))
 length(unique(pc3$tissue_label))
+length(unique(pc3$SNPID.basis))/nrow(snppc3)
 ```
 
 
@@ -306,6 +309,7 @@ pc8dp
 
 length(unique(pc8$SNPID.basis))
 length(unique(pc8$tissue_label))
+length(unique(pc8$SNPID.basis))/nrow(snppc8)
 ```
 
 
@@ -340,6 +344,7 @@ pc9dp
 
 length(unique(pc9$SNPID.basis))
 length(unique(pc9$tissue_label))
+length(unique(pc9$SNPID.basis))/nrow(snppc9)
 ```
 
 
@@ -374,6 +379,7 @@ pc12dp
 
 length(unique(pc12$SNPID.basis))
 length(unique(pc12$tissue_label))
+length(unique(pc12$SNPID.basis))/nrow(snppc12)
 ```
 
 
@@ -390,8 +396,8 @@ plot.cells.eqtl(pc12)
 
 
 ```{r }
-snppc13 <- snp[rot12 != 0]
-pc13 <- causal[rot12 != 0]
+snppc13 <- snp[rot13 != 0]
+pc13 <- causal[rot13 != 0]
 pc13[, SNPID.basis:=factor(SNPID.basis)][, SNPID.basis:= reorder(SNPID.basis, rot13)]
 
 snppc13[, eqtl:=ifelse(SNPID.basis %in% pc13$SNPID.basis, "yes", "no")]
@@ -409,10 +415,11 @@ pc13dp
 
 length(unique(pc13$SNPID.basis))
 length(unique(pc13$tissue_label))
+length(unique(pc13$SNPID.basis))/nrow(snppc13)
 ```
 
 
-```{r fig.height = 12, fig.width=25, }
+```{r fig.height = 12, fig.width=32 }
 plot.cells.eqtl(pc13)
 ```
 
