@@ -96,10 +96,6 @@ Only `r (nrow(QC.table[QC.table$nSNP < nrow(SNP.manifest)*.8,])/nrow(QC.table)) 
 We'll now select the datasets that we'll include in the analysis, correct for multiple testing (FDR 1% overall + **FDR 5%** PC), and select the datasets we'll use for visualisation.
 
 ```{r}
-# Extract basis projections for later
-PT.basis <- copy(cupcake::basis.trait.proj)
-setnames(PT.basis, c("delta", "trait"), c("Delta", "Label"))
-PT.basis[,proj:=NULL][, stars:=""]
 
 # Note HBC_Chen_6  have some issues that I couldn't resolve so far, so I'll exclude them
 # We'll also exclude Lessard, since we don't have enough information about it yet -- and it's hence not in the Metadata table

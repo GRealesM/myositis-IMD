@@ -104,6 +104,7 @@ resgp <- readRDS("../data/enrichment_results_OTG_eQTL.RDS")
 
 
 ```{r eval=FALSE}
+
 gpr1 <- list(gnames =unique(c(otg[PC1==TRUE & tss_score == 1]$gene_id, eqtl[rot1 !=0]$gene_id)), PC = "PC1")
 gpr2 <- list(gnames =unique(c(otg[PC2==TRUE & tss_score == 1]$gene_id, eqtl[rot2 !=0]$gene_id)), PC = "PC2")
 gpr3 <- list(gnames =unique(c(otg[PC3==TRUE & tss_score == 1]$gene_id, eqtl[rot3 !=0]$gene_id)), PC = "PC3")
@@ -112,7 +113,8 @@ gpr9 <- list(gnames =unique(c(otg[PC9==TRUE & tss_score == 1]$gene_id, eqtl[rot9
 gpr12 <- list(gnames =unique(c(otg[PC12==TRUE & tss_score == 1]$gene_id, eqtl[rot12 !=0]$gene_id)), PC = "PC12")
 gpr13 <- list(gnames =unique(c(otg[PC13==TRUE & tss_score == 1]$gene_id, eqtl[rot13 !=0]$gene_id)), PC = "PC13")
 
-# Create a gene name registry
+# Create a gene name registry, just to extract the gene names later
+# Note here that, while eQTL annotations include only 7 component annotations, OTG annotations include data for all 13 components
 allgnames <- rbindlist(list(otg[, c("gene_id", "hgnc_symbol")], eqtl[, c("gene_id", "gene_name")]), use.names = FALSE) %>% unique() %>% .[complete.cases(.)] %>% .[hgnc_symbol == "", hgnc_symbol:=gene_id]
 
 # Ensembl IDs are not very informative. Extract gene names
