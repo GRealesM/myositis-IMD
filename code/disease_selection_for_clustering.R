@@ -101,4 +101,56 @@ PT7 <- make.labels(PT7)
 
 fwrite(QC7[, .(Trait, First_Author, Label)], "../data/raw_disease_for_clustering_list.tsv", sep = "\t")
 
+### Chris and Guillermo made a disease selection on 15-12-2021, the following are the selected diseases
+
+dtk <- c("ph702.1_PanUKBB_PanUKBBR1_1","K11_APPENDACUT_FinnGen_FinnGenR5_1",
+"J10_SINUSITIS_FinnGen_FinnGenR5_1","STILL_ADULT_FinnGen_FinnGenR5_1",
+"H7_ALLERGICCONJUNCTIVITIS_FinnGen_FinnGenR5_1","ph476_PanUKBB_PanUKBBR1_1",
+"ph960.2_PanUKBB_PanUKBBR1_1","20002_1374_PanUKBB_PanUKBBR1_1",
+"D3_ANAEMIA_FinnGen_FinnGenR5_1","EGPAANCAn_Lyons_31719529_1",
+"M13_ANKYLOSPON_FinnGen_FinnGenR5_1","APPENDICITIS_BROAD_FinnGen_FinnGenR5_1",
+"20002_1111_PanUKBB_PanUKBBR1_1","ATD_Paternoster_26482879_1",
+"AAD_Eriksson_33574239_1","ph496.3_PanUKBB_PanUKBBR1_1",
+"ph574.1_PanUKBB_PanUKBBR1_1","20002_1112_PanUKBB_PanUKBBR1_1",
+"ph475_PanUKBB_PanUKBBR1_1","ph245.2_PanUKBB_PanUKBBR1_1",
+"K11_PSC_COLITIS_FinnGen_FinnGenR5_1","20002_1462_PanUKBB_PanUKBBR1_1",
+"DMY_Miller_26291516_1","DMY_Rothwell_up_1",
+"M13_DERMATOPOLY_FinnGen_FinnGenR5_1","EOE_Chang_34506852_1",
+"ph535_PanUKBB_PanUKBBR1_1","GOUT_FinnGen_FinnGenR5_1",
+"GRAVD_Kubo_BBJ_1","20002_1065_PanUKBB_PanUKBBR1_1",
+"20002_1225_PanUKBB_PanUKBBR1_1","20002_1226_PanUKBB_PanUKBBR1_1",
+"IIM_Rothwell_up_1","IGAD_Bronson_27723758_1",
+"ILD_ENDPOINTS_FinnGen_FinnGenR5_1","ph280_PanUKBB_PanUKBBR1_1",
+"JO1M_Rothwell_up_1","JDM_Miller_26291516_1",
+"JDM_Rothwell_up_1","JIA_LopezIsac_33106285_1",
+"L12_LICHENPLANUS_FinnGen_FinnGenR5_1","L12_LICHENSCLERATROPH_FinnGen_FinnGenR5_1",
+"L12_LICHSIMPANDPRURIGO_FinnGen_FinnGenR5_1","20002_1456_PanUKBB_PanUKBBR1_1",
+"C3_SKIN_FinnGen_FinnGenR5_1","AAVMPO_Wong_up_1",
+"EGPAMPO_Lyons_31719529_1","MS_IMSGC_31604244_1",
+"MYG_Renton_25643325_1","MYO_Miller_26291516_1",
+"20002_1417_PanUKBB_PanUKBBR1_1","H7_OPTNEURITIS_FinnGen_FinnGenR5_1",
+"M13_PALINDROMIC_FinnGen_FinnGenR5_1","L12_PAPULOSQUAMOUS_FinnGen_FinnGenR5_1",
+"20002_1331_PanUKBB_PanUKBBR1_1","M13_POLYMYALGIA_FinnGen_FinnGenR5_1",
+"PM_Miller_26291516_1","PM_Rothwell_up_1",
+"M13_POLYMYO_FinnGen_FinnGenR5_1","AAVPR3_Wong_up_1",
+"ph571.6_PanUKBB_PanUKBBR1_1","L12_PSORI_PUSTUPALM_FinnGen_FinnGenR5_1",
+"20002_1561_PanUKBB_PanUKBBR1_1","RA_Okada_24390342_3",
+"20002_1371_PanUKBB_PanUKBBR1_1","ph702.2_PanUKBB_PanUKBBR1_1",
+"M13_SJOGREN_FinnGen_FinnGenR5_1","SPONDYLOARTHRITIS_FinnGen_FinnGenR5_1",
+"SLE_Julia_29848360_1","SSC_LopezIsac_31672989_1",
+"E4_DM1_FinnGen_FinnGenR5_1","20002_1463_PanUKBB_PanUKBBR1_1",
+"D3_ANAEMIA_B12_DEF_FinnGen_FinnGenR5_1","20002_1661_PanUKBB_PanUKBBR1_1",
+"DM_VITREOUS_BLEEDING_FinnGen_FinnGenR5_1")
+
+QC.clust <- QC7[Trait %in% dtk]
+PT.clust <- PT7[Trait %in% dtk]
+
+# Prepare for Kath
+PT.clust <- PT.clust[, .(Trait, PC, Delta, Var.Delta, First_Author, Trait_long, Label)]
+
+# Save for Kath
+saveRDS(PT.clust, "../data/Kath_clustering_data_v2.RDS")
+
+
+
 
