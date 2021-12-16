@@ -286,11 +286,22 @@ pal1 = rev(colorRampPalette(c("#0a1128","#001f54","#034078","#1282a2","#fefcfb")
 #pal1 <- colorRampPalette(c("red", "blue"))(100)
 #plot(rep(1,50),col=pal1,pch=15,cex=5)
 
-pheatmap(M.bwp, cluster_cols = TRUE, cluster_rows = FALSE, color = pal1)
+phwp <- pheatmap(M.bwp, cluster_cols = TRUE, cluster_rows = FALSE, color = pal1)
 #treeheight_col = 15, fontsize_row = 12, fontsize_col = 12,cellwidth = 15, cellheight = 15, fontsize_number = 14
-
+phwp
 ```
 
+
+```{r eval=FALSE}
+save_pheatmap_png <- function(x, filename, width=1200, height=1000, res = 150) {
+  png(filename, width = width, height = height, res = res)
+  grid::grid.newpage()
+  grid::grid.draw(x$gtable)
+  dev.off()
+}
+
+save_pheatmap_png(phwp, filename = "../figures/202111_Nov21/FigSx_CommonPathwayHeatmap.png", width = 2000, height = 8500)
+```
 
 
 ## Network
@@ -471,5 +482,46 @@ cat(ds[PC=="PC13"]$STRING_id, sep = "\n")
 </p>
 </details>
 <br>
+
+
+## Saving all data
+
+Let's save relevant tables as supplementary tables.
+
+```{r eval=FALSE}
+library(xlsx)
+wb <- createWorkbook(type="xlsx")
+
+#Create sheets
+st1 <- createSheet(wb, sheetName = "S1 - All pathways")
+st2 <- createSheet(wb, sheetName = "S2 - Common pathways")
+st3 <- createSheet(wb, sheetName = "S3 - PC1 exc pathways")
+st4 <- createSheet(wb, sheetName = "S4 - PC2 exc pathways")
+st5 <- createSheet(wb, sheetName = "S5 - PC3 exc pathways")
+st6 <- createSheet(wb, sheetName = "S6 - PC8 exc pathways")
+st7 <- createSheet(wb, sheetName = "S7 - PC9 exc pathways")
+st8 <- createSheet(wb, sheetName = "S8 - PC12 exc pathways")
+st9 <- createSheet(wb, sheetName = "S9 - PC13 exc pathways")
+
+# Tables
+s1 <- resgp
+s2 <- resgp[term_id %in% compaths, c("term_id", "term_name")] %>% unique() # Common pathways
+s3 <- resgp[ term_id %in% expath1, c("term_id", "term_name", "intersection_genes", "p_value") ][order(p_value)]
+s4 <- resgp[ term_id %in% expath2, c("term_id", "term_name", "intersection_genes", "p_value") ][order(p_value)]
+s5 <- resgp[ term_id %in% expath3, c("term_id", "term_name", "intersection_genes", "p_value") ][order(p_value)]
+s6 <- resgp[ term_id %in% expath8, c("term_id", "term_name", "intersection_genes", "p_value") ][order(p_value)]
+s7 <- resgp[ term_id %in% expath9, c("term_id", "term_name", "intersection_genes", "p_value") ][order(p_value)]
+s8 <- resgp[ term_id %in% expath12, c("term_id", "term_name", "intersection_genes", "p_value") ][order(p_value)]
+s9 <- resgp[ term_id %in% expath13, c("term_id", "term_name", "intersection_genes", "p_value") ][order(p_value)]
+
+# Add a table
+for (i in 1:9) addDataFrame(get(paste0("s", i)), get(paste0("st", i)))
+
+saveWorkbook(wb, "../tables/S1-S9_Tables.xlsx")
+```
+
+
+
+
 
 
