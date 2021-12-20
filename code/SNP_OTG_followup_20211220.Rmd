@@ -26,21 +26,17 @@ First we load libraries and the list of SNPs.
 ```{r message=FALSE, warning=FALSE}
 library(data.table)
 library(reshape2)
-library(readr)
-library(seqminer)
 library(magrittr)
 library(ggplot2)
 library(ggrepel)
 library(cowplot)
 library(gprofiler2)
 # The following packages are Bioconductor's so they need to be installed differently
-library(GenomicRanges)
-library(biomaRt)
 library(STRINGdb)
-library(VennDiagram)
 library(RColorBrewer)
 library(pheatmap)
-
+library(igraph)
+library(ggraph)
 ```
 
 
@@ -273,6 +269,7 @@ pc13exg <- resgp[ term_id %in% expath13 ]$intersection_genes %>% strsplit(split 
 ```
 
 
+
 ### The pathways in between (not common to all, not exclusive to one PC)
 
 ```{r fig.height=55, fig.width=16}
@@ -304,187 +301,7 @@ save_pheatmap_png(phwp, filename = "../figures/202111_Nov21/FigSx_CommonPathwayH
 ```
 
 
-## Network
-
-We will explore the genes from exclusive pathways using network analysis
-
-
-
-```{r}
-string_db <- STRINGdb$new( version="11", species=9606, score_threshold=200, input_directory="")
-# STRING requires a data.frame, let's comply
-```
-
-```{r echo=TRUE, eval=FALSE}
-pcs <- c(1:3, 8:9, 12:13)
-tt <- mget(paste0("pc",pcs, "exg"))
-dd <- data.frame()
-for(i in 1:7){
-  ss <- data.frame(genes = tt[[i]], PC=paste0("PC", pcs[i]))
-  dd <- rbind(dd, ss)
-  rm(ss)
-}
-ds <- string_db$map(dd, "genes", takeFirst = FALSE) # Note: There are 3 STRING protein IDs for CCR6.
-ds <- as.data.table(ds)
-```
-
-```{r echo=FALSE, eval=FALSE}
-saveRDS(ds, "../data/exclusive_pathways_STRINGdb.RDS")
-```
-```{r echo=FALSE, eval=TRUE}
-ds <- readRDS("../data/exclusive_pathways_STRINGdb.RDS")
-```
-
-
-
-### PC1 
-
-
-```{r fig.height=15, fig.width=15}
-string_db$plot_network(ds[PC=="PC1"]$STRING_id, required_score = 200)
-```
-
-
-<details><summary>GeneID list</summary>
-<p>
-
-```{r comment=NA}
-cat(ds[PC=="PC1"]$STRING_id, sep = "\n")
-```
-
-
-</p>
-</details>
-<br>
-
-
-### PC2 
-
-
-```{r fig.height=15, fig.width=15}
-string_db$plot_network(ds[PC=="PC2"]$STRING_id, required_score = 200)
-```
-
-
-<details><summary>GeneID list</summary>
-<p>
-
-```{r comment=NA}
-cat(ds[PC=="PC2"]$STRING_id, sep = "\n")
-```
-
-
-</p>
-</details>
-<br>
-
-
-### PC3 
-
-
-```{r fig.height=15, fig.width=15}
-string_db$plot_network(ds[PC=="PC3"]$STRING_id, required_score = 200)
-```
-
-
-<details><summary>GeneID list</summary>
-<p>
-
-```{r comment=NA}
-cat(ds[PC=="PC3"]$STRING_id, sep = "\n")
-```
-
-
-</p>
-</details>
-<br>
-
-
-### PC8 
-
-
-```{r fig.height=15, fig.width=15}
-string_db$plot_network(ds[PC=="PC8"]$STRING_id, required_score = 200)
-```
-
-
-<details><summary>GeneID list</summary>
-<p>
-
-```{r comment=NA}
-cat(ds[PC=="PC8"]$STRING_id, sep = "\n")
-```
-
-
-</p>
-</details>
-<br>
-
-
-### PC9
-
-
-```{r fig.height=15, fig.width=15}
-string_db$plot_network(ds[PC=="PC9"]$STRING_id, required_score = 200)
-```
-
-
-<details><summary>GeneID list</summary>
-<p>
-
-```{r comment=NA}
-cat(ds[PC=="PC9"]$STRING_id, sep = "\n")
-```
-
-
-</p>
-</details>
-<br>
-
-
-### PC12
-
-
-```{r fig.height=15, fig.width=15}
-string_db$plot_network(ds[PC=="PC12"]$STRING_id, required_score = 200)
-```
-
-
-<details><summary>GeneID list</summary>
-<p>
-
-```{r comment=NA}
-cat(ds[PC=="PC12"]$STRING_id, sep = "\n")
-```
-
-
-</p>
-</details>
-<br>
-
-
-### PC13
-
-
-```{r fig.height=15, fig.width=15}
-string_db$plot_network(ds[PC=="PC13"]$STRING_id, required_score = 200)
-```
-
-
-<details><summary>GeneID list</summary>
-<p>
-
-```{r comment=NA}
-cat(ds[PC=="PC13"]$STRING_id, sep = "\n")
-```
-
-
-</p>
-</details>
-<br>
-
-
-## Saving all data
+### Saving all data for network analysis
 
 Let's save relevant tables as supplementary tables.
 
@@ -522,6 +339,177 @@ saveWorkbook(wb, "../tables/S1-S9_Tables.xlsx")
 
 
 
+## Network analysis
+
+We will explore the genes from exclusive pathways using network analysis at STRING. To do so, we'll generate list of genes associated with PC-exclusive pathways to be used as an input for STRING webtool. Then we'll download the results and do some network visualisation.
 
 
+Let's prepare the datasets by extracting STRING protein ids using the STRINGdb R utility.
+
+```{r}
+string_db <- STRINGdb$new( version="11", species=9606, score_threshold=200, input_directory="")
+# STRING requires a data.frame, let's comply
+```
+
+```{r echo=TRUE, eval=FALSE}
+pcs <- c(1:3, 8:9, 12:13)
+tt <- mget(paste0("pc",pcs, "exg"))
+dd <- data.frame()
+for(i in 1:7){
+  ss <- data.frame(genes = tt[[i]], PC=paste0("PC", pcs[i]))
+  dd <- rbind(dd, ss)
+  rm(ss)
+}
+ds <- string_db$map(dd, "genes", takeFirst = FALSE) # Note: There are 3 STRING protein IDs for CCR6.
+ds <- as.data.table(ds)
+```
+
+```{r echo=FALSE, eval=FALSE}
+saveRDS(ds, "../data/exclusive_pathways_STRINGdb.RDS")
+```
+```{r echo=FALSE, eval=TRUE}
+ds <- readRDS("../data/exclusive_pathways_STRINGdb.RDS")
+```
+
+Let's also save the network ids for manual input into the STRING website.
+
+```{r eval=FALSE}
+for (i in c(1:3, 8,9,12,13)){
+  fwrite(ds[PC == paste0("PC", i), .(STRING_id)], file = paste0("../data/Networks/PC",i, "_STRINGids.tsv"), row.names = FALSE, col.names = FALSE)
+}
+```
+
+
+Now we'll create network visualisations for each PC. Import data and create networks.
+
+
+```{r}
+for (i in c(1:3, 8,9,12,13)){
+  nod <- fread(paste0("../data/Networks/PC",i,"_nodes.tsv"))
+  edg <- fread(paste0("../data/Networks/PC",i,"_edges.tsv"))
+  net <- graph_from_data_frame(d=edg, vertices = nod, directed = F)
+  assign(paste0("net",i), net)
+}
+# This will result in 7 networks, named as net + PC number
+
+# A small function to remove isolates from networks. Useful when isolates
+rm.isolates <- function(nw){
+  tre <- names(degree(nw)[degree(nw) == 0])
+  nett <- nw
+  nett <- delete_vertices(nett, tre)
+  nett
+}
+```
+
+
+### PC1 
+
+
+```{r fig.width=10, fig.height=10}
+ggraph(net1, layout="lgl") +
+  geom_edge_link(aes(alpha = combined_score), edge_colour = "black")+
+  geom_node_point(color="black", size=10) +
+  geom_node_label(aes(label = name), size=3, color="black", repel=T, force =15) +
+  scale_edge_width(range = c(0.2,3))+
+  #scale_size(range = c(1,6))+
+  theme_void()+
+  theme(legend.position = "none")
+
+```
+
+
+
+### PC2 
+
+
+```{r fig.width=10, fig.height=10}
+ggraph(net2, layout = "fr") +
+  geom_edge_link(aes(alpha = combined_score), edge_colour = "black")+
+  geom_node_point(color="black", size=7) +
+  geom_node_label(aes(label = name), size=3, color="black", repel=T) +
+  scale_edge_width(range = c(0.2,3))+
+  #scale_size(range = c(1,6))+
+  theme_void()+
+  theme(legend.position = "none")
+
+```
+
+
+### PC3 
+
+
+```{r fig.width=10, fig.height=10}
+ggraph(net3, layout = "fr") +
+  geom_edge_link(aes(alpha = combined_score), edge_colour = "black")+
+  geom_node_point(color="black", size=7) +
+  geom_node_label(aes(label = name), size=3, color="black", repel=T) +
+  scale_edge_width(range = c(0.2,3))+
+  #scale_size(range = c(1,6))+
+  theme_void()+
+  theme(legend.position = "none")
+
+```
+
+### PC8 
+
+
+```{r fig.width=8, fig.height=8}
+ggraph(net8, layout = "fr") +
+  geom_edge_link(aes(alpha = combined_score), edge_colour = "black")+
+  geom_node_point(color="black", size=7) +
+  geom_node_label(aes(label = name), size=3, color="black", repel=T) +
+  scale_edge_width(range = c(0.2,3))+
+  #scale_size(range = c(1,6))+
+  theme_void()+
+  theme(legend.position = "none")
+
+```
+
+
+### PC9 
+
+
+```{r fig.width=6, fig.height=6}
+
+ggraph(net9, layout = "fr") +
+  geom_edge_link(aes(alpha = combined_score), edge_colour = "black")+
+  geom_node_point(color="black", size=7) +
+  geom_node_label(aes(label = name), size=3, color="black", repel=T) +
+  scale_edge_width(range = c(0.2,3))+
+  #scale_size(range = c(1,6))+
+  theme_void()+
+  theme(legend.position = "none")
+
+```
+
+
+### PC12 
+
+
+```{r fig.width=20, fig.height=20}
+ggraph(net12, layout = "auto") +
+  geom_edge_link(aes(alpha = combined_score), edge_colour = "black")+
+  geom_node_point(color="black", size=7) +
+  geom_node_label(aes(label = name), size=3, color="black", repel=T) +
+  scale_edge_width(range = c(0.2,3))+
+  #scale_size(range = c(1,6))+
+  theme_void()+
+  theme(legend.position = "none")
+
+```
+
+### PC13
+
+
+```{r fig.width=20, fig.height=20}
+ggraph(net13, layout = "auto") +
+  geom_edge_link(aes(alpha = combined_score), edge_colour = "black")+
+  geom_node_point(color="black", size=7) +
+  geom_node_label(aes(label = name), size=3, color="black", repel=T) +
+  scale_edge_width(range = c(0.2,3))+
+  #scale_size(range = c(1,6))+
+  theme_void()+
+  theme(legend.position = "none")
+
+```
 
