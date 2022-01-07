@@ -108,8 +108,7 @@ resgp <- readRDS("../data/enrichment_results_OTG_eQTL.RDS")
 ```
 
 
-```{r eval=FALSE}
-
+```{r}
 gpr1 <- list(gnames =unique(c(otg[PC1==TRUE & tss_score == 1]$gene_id, eqtl[rot1 !=0]$gene_id)), PC = "PC1")
 gpr2 <- list(gnames =unique(c(otg[PC2==TRUE & tss_score == 1]$gene_id, eqtl[rot2 !=0]$gene_id)), PC = "PC2")
 gpr3 <- list(gnames =unique(c(otg[PC3==TRUE & tss_score == 1]$gene_id, eqtl[rot3 !=0]$gene_id)), PC = "PC3")
@@ -144,7 +143,9 @@ run.enrichment <- function(genes){
   resgpr[, intersection_genes:= find.gene.names(resgpr)][, PC:=pc]
   resgpr
 }
+```
 
+```{r eval=FALSE}
 resgp <- lapply(list(gpr1, gpr2, gpr3, gpr8, gpr9, gpr12, gpr13), run.enrichment)
 resgp <- rbindlist(resgp)
 ```
@@ -174,6 +175,45 @@ expath12 <- setdiff(unique(resgp[PC == "PC12"]$term_id), unique(resgp[PC != "PC1
 expath13 <- setdiff(unique(resgp[PC == "PC13"]$term_id), unique(resgp[PC != "PC13"]$term_id))  # 88
 
 ```
+
+
+Before checking each component, let's extract a small summary of the results so far:
+
+```{r}
+pcs <- c(1, 2, 3, 8, 9, 12, 13)
+
+drivannotf <- function(){
+    x <- rep(NA,7)
+    for(i in 1:length(x)){ x[i] <- length(unique(c(otg[get(paste0("PC",pcs[i]))==TRUE & tss_score == 1]$SNPID, eqtl[get(paste0("rot",pcs[i])) !=0]$SNPID.basis))) }
+    x
+}
+
+geneannotf <- function(){
+    x <- rep(NA,7)
+    for(i in 1:length(x)){ x[i] <- length(unique(c(otg[get(paste0("PC",pcs[i]))==TRUE & tss_score == 1]$gene_id, eqtl[get(paste0("rot",pcs[i])) !=0]$gene_id))) }
+    x
+}
+
+excpath <- function(){
+  x <- rep(NA,7)
+  for(i in 1:length(x)){ x[i] <- length(setdiff(unique(resgp[PC == paste0("PC", pcs[i])]$term_id), unique(resgp[PC != paste0("PC", pcs[i])]$term_id))) }
+  x
+}
+
+pc.summary <- data.table(
+                PC           = paste0("PC", pcs),
+                driver.SNPs  = colSums(rotmat[, .SD, .SDcols=paste0("rot", pcs)] !=0),
+                driver.annot = drivannotf(),
+                genes.annot  = geneannotf(),
+                exclusive.pathways = excpath()
+)
+pc.summary
+
+```
+
+
+
+
 
 Now we'll check these pathways, component by component
 
