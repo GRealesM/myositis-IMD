@@ -4,8 +4,8 @@
 
 #
 # Guillermo Reales
-# 14-12-2021
-#
+# Created: 14-12-2021
+# Last update: 12-01-2022
 
 # We want to select diseases to cluster with myositis datasets. To that end, we'll select only those that are overall significant and 
 # significant for at least one of the 7 key components for myositis.
@@ -103,6 +103,7 @@ fwrite(QC7[, .(Trait, First_Author, Label)], "../data/raw_disease_for_clustering
 
 ### Chris and Guillermo made a disease selection on 15-12-2021, the following are the selected diseases
 
+### Update: On 2022-01-12 we decided to include IBM_Rothwell and exclude pooled myositis (IIM_Rothwell and MYO_Miller). I modified the vector below to that end.
 dtk <- c("ph702.1_PanUKBB_PanUKBBR1_1","K11_APPENDACUT_FinnGen_FinnGenR5_1",
 "J10_SINUSITIS_FinnGen_FinnGenR5_1","STILL_ADULT_FinnGen_FinnGenR5_1",
 "H7_ALLERGICCONJUNCTIVITIS_FinnGen_FinnGenR5_1","ph476_PanUKBB_PanUKBBR1_1",
@@ -119,7 +120,7 @@ dtk <- c("ph702.1_PanUKBB_PanUKBBR1_1","K11_APPENDACUT_FinnGen_FinnGenR5_1",
 "ph535_PanUKBB_PanUKBBR1_1","GOUT_FinnGen_FinnGenR5_1",
 "GRAVD_Kubo_BBJ_1","20002_1065_PanUKBB_PanUKBBR1_1",
 "20002_1225_PanUKBB_PanUKBBR1_1","20002_1226_PanUKBB_PanUKBBR1_1",
-"IIM_Rothwell_up_1","IGAD_Bronson_27723758_1",
+"IGAD_Bronson_27723758_1",
 "ILD_ENDPOINTS_FinnGen_FinnGenR5_1","ph280_PanUKBB_PanUKBBR1_1",
 "JO1M_Rothwell_up_1","JDM_Miller_26291516_1",
 "JDM_Rothwell_up_1","JIA_LopezIsac_33106285_1",
@@ -127,7 +128,7 @@ dtk <- c("ph702.1_PanUKBB_PanUKBBR1_1","K11_APPENDACUT_FinnGen_FinnGenR5_1",
 "L12_LICHSIMPANDPRURIGO_FinnGen_FinnGenR5_1","20002_1456_PanUKBB_PanUKBBR1_1",
 "C3_SKIN_FinnGen_FinnGenR5_1","AAVMPO_Wong_up_1",
 "EGPAMPO_Lyons_31719529_1","MS_IMSGC_31604244_1",
-"MYG_Renton_25643325_1","MYO_Miller_26291516_1",
+"MYG_Renton_25643325_1",
 "20002_1417_PanUKBB_PanUKBBR1_1","H7_OPTNEURITIS_FinnGen_FinnGenR5_1",
 "M13_PALINDROMIC_FinnGen_FinnGenR5_1","L12_PAPULOSQUAMOUS_FinnGen_FinnGenR5_1",
 "20002_1331_PanUKBB_PanUKBBR1_1","M13_POLYMYALGIA_FinnGen_FinnGenR5_1",
@@ -140,16 +141,22 @@ dtk <- c("ph702.1_PanUKBB_PanUKBBR1_1","K11_APPENDACUT_FinnGen_FinnGenR5_1",
 "SLE_Julia_29848360_1","SSC_LopezIsac_31672989_1",
 "E4_DM1_FinnGen_FinnGenR5_1","20002_1463_PanUKBB_PanUKBBR1_1",
 "D3_ANAEMIA_B12_DEF_FinnGen_FinnGenR5_1","20002_1661_PanUKBB_PanUKBBR1_1",
-"DM_VITREOUS_BLEEDING_FinnGen_FinnGenR5_1")
+"DM_VITREOUS_BLEEDING_FinnGen_FinnGenR5_1", "IBM_Rothwell_up_1") # Note added IBM
 
-QC.clust <- QC7[Trait %in% dtk]
-PT.clust <- PT7[Trait %in% dtk]
+# Removed datasets
+# "MYO_Miller_26291516_1", "IIM_Rothwell_up_1",
+
+
+QC.clust <- QC.filt[Trait %in% dtk]
+PT.clust <- PT.filt[Trait %in% dtk]
+
+PT.clust <- make.labels(PT.clust)
 
 # Prepare for Kath
 PT.clust <- PT.clust[, .(Trait, PC, Delta, Var.Delta, First_Author, Trait_long, Label)]
 
 # Save for Kath
-saveRDS(PT.clust, "../data/Kath_clustering_data_v2.RDS")
+saveRDS(PT.clust, "../data/Kath_clustering_data_v3.RDS")
 
 
 
