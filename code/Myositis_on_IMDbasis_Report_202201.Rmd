@@ -241,7 +241,7 @@ save_pheatmap_svg(bp, filename = "../figures/202201_Jan22/Basis_heatmap_r.svg", 
 
 Now for the myositis heatmap. We can join them together using Inkscape, for example.
 
-```{r}
+```{r fig.height=5}
 PT.myo <- PT.filt[First_Author %in% c("Miller", "Rothwell")]
 
 # Adjust labels
@@ -272,9 +272,12 @@ We carefully selected a number of immune conditions for clustering together with
 
 To see our datasets in context, we'll make ladder plots for the crucial PCs (1, 2, 3, 8, 9, 12, and 13)
 
-```{r warning=FALSE fig.height = 22}
+```{r warning=FALSE}
 
-PT.sel <- readRDS("../data/Kath_clustering_data_v3.RDS")
+data.sel <- readRDS("../data/Kath_clustering_data_v3.RDS")
+
+PT.sel <- PT.filt[Trait %in% data.sel$Trait]
+PT.sel <- make.labels(PT.sel)
 
 PT.myo <- PT.sel[First_Author %in% c("Miller", "Rothwell")]  # Extract Miller and Rothwell to be added later, this is similar to the previous PT.myo, but without IBM
 PT.sel <- PT.sel[!First_Author %in% c("Miller", "Rothwell")] # Remove it to avoid repetitions
@@ -299,12 +302,33 @@ forest.plots <- lapply(setNames(PCs, PCs), function(x){
   fplot
 })
 
+```
+
+```{r fig.height=8}
 forest.plots[["PC1"]]
+```
+
+```{r fig.height=8}
 forest.plots[["PC2"]]
+```
+
+```{r fig.height=8}
 forest.plots[["PC3"]]
+```
+
+```{r fig.height=8}
 forest.plots[["PC8"]]
+```
+
+```{r fig.height=8}
 forest.plots[["PC9"]]
+```
+
+```{r fig.height=8}
 forest.plots[["PC12"]]
+```
+
+```{r fig.height=8}
 forest.plots[["PC13"]]
 ```
 
@@ -325,7 +349,7 @@ ggsave("../figures/202201_Jan22/Ladder_plot_PC13.png", forest.plots[["PC13"]], u
 
 To enhance our vision beyond the selected clustered traits, we'll take a look at all traits that were significant. We'll also remove other redundant traits.
 
-```{r fig.height=50}
+```{r fig.height=60, fig.width=10}
 unwanted <- "Chen_32888493_6|ASTHMA_CHILD_EXMORE_FinnGen_FinnGenR5_1|L12_DERM_NAS_FinnGen_FinnGenR5_1|DM_RETINOPATHY_EXMORE|H7_RETINOPATHYDIAB|GRAVD_Okada_UP_[23]|K11_UC_STRICT2|H7_RETINOPATHYDIAB_PROLIF_|H7_MACULOPATHYDIAB_|DM_NEPHROPATHY_EXMORE_|G6_DISSOTH_FinnGen_FinnGenR5_1|L12_VITILIGO_FinnGen_FinnGenR5_1|OTHER_SYSTCON_FG|KELA_DIAB_INSUL_EXMORE_FinnGen_FinnGenR5_1" # Borrowed from IMD report. Updated with OTHER_SYSTCON_FG and KELA_DIAB_INSUL_EXMORE_FinnGen_FinnGenR5_1 for being redundant
 
 PT.viz <- PT.sig[!grepl(unwanted, Trait),]
@@ -378,7 +402,7 @@ Now we can afford being a bit more stringent, so we'll plot only datasets signif
 
 ```{r warning=FALSE}
 
-PT.delta <- PT.redviz[FDR.PC < 0.01 ] # Significant projections at FDR 1% .
+PT.delta <- PT.redviz[FDR.PC < 0.01 & !First_Author %in% c("Miller", "Rothwell") ] # Significant projections at FDR 1%. We remove the significant Rothwell/Miller to avoid repetitions
 PT.delta <- rbindlist(list(PT.basis, PT.myo, PT.delta),fill = TRUE) # Merge everything, including PT.myo
 PT.delta <- unique(PT.delta)
 PT.delta[, Var.Delta:=as.numeric(Var.Delta)]

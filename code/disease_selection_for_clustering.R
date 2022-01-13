@@ -5,7 +5,7 @@
 #
 # Guillermo Reales
 # Created: 14-12-2021
-# Last update: 12-01-2022
+# Last update: 13-01-2022
 
 # We want to select diseases to cluster with myositis datasets. To that end, we'll select only those that are overall significant and 
 # significant for at least one of the 7 key components for myositis.
@@ -17,9 +17,9 @@ library(data.table)
 library(magrittr)
 library(stringr)
 
-proj.table <- fread("../data/Projection_IMD_basis_20211126-v1.tsv")
-QC.table <- fread("../data/QC_IMD_basis_20211126-v1.tsv")
-metadata <- fread("../data/Metadata_20211214-v1.tsv")
+proj.table <- fread("../data/Projection_IMD_basis_20211220-v1.tsv")
+QC.table <- fread("../data/QC_IMD_basis_20211220-v1.tsv")
+metadata <- fread("../data/Metadata_20220112-v1.tsv")
 QC.table <- merge.data.table(QC.table, metadata, all.x = TRUE)
 
 manifest.translator <- fread("../data/Manifest_build_translator.tsv")
@@ -33,8 +33,8 @@ SNP.manifest <- merge(manifest.translator, copy(cupcake::SNP.manifest), by.x = "
 ## EOSC_Chen_3 used to have some problems in the blood cell basis, but we'll keep it
 ##### & Trait!="EOSC_Chen_32888493_3"
 
-QC.table <- QC.table[!Trait %in% c("HBC_Chen_32888493_6" , "SJOS_Lessard_up_1")]
-proj.table <- proj.table[!Trait %in% c("HBC_Chen_32888493_6" , "SJOS_Lessard_up_1")]
+QC.table <- QC.table[!Trait %in% c("HBC_Chen_32888493_6")]
+proj.table <- proj.table[!Trait %in% c("HBC_Chen_32888493_6")]
 
 # Remove datasets with low (<80%) SNP coverage and Immunochip, except for Rothwell, which is myositis but is imputed.
 # Remove datasets with <80% SNP match
@@ -104,44 +104,7 @@ fwrite(QC7[, .(Trait, First_Author, Label)], "../data/raw_disease_for_clustering
 ### Chris and Guillermo made a disease selection on 15-12-2021, the following are the selected diseases
 
 ### Update: On 2022-01-12 we decided to include IBM_Rothwell and exclude pooled myositis (IIM_Rothwell and MYO_Miller). I modified the vector below to that end.
-dtk <- c("ph702.1_PanUKBB_PanUKBBR1_1","K11_APPENDACUT_FinnGen_FinnGenR5_1",
-"J10_SINUSITIS_FinnGen_FinnGenR5_1","STILL_ADULT_FinnGen_FinnGenR5_1",
-"H7_ALLERGICCONJUNCTIVITIS_FinnGen_FinnGenR5_1","ph476_PanUKBB_PanUKBBR1_1",
-"ph960.2_PanUKBB_PanUKBBR1_1","20002_1374_PanUKBB_PanUKBBR1_1",
-"D3_ANAEMIA_FinnGen_FinnGenR5_1","EGPAANCAn_Lyons_31719529_1",
-"M13_ANKYLOSPON_FinnGen_FinnGenR5_1","APPENDICITIS_BROAD_FinnGen_FinnGenR5_1",
-"20002_1111_PanUKBB_PanUKBBR1_1","ATD_Paternoster_26482879_1",
-"AAD_Eriksson_33574239_1","ph496.3_PanUKBB_PanUKBBR1_1",
-"ph574.1_PanUKBB_PanUKBBR1_1","20002_1112_PanUKBB_PanUKBBR1_1",
-"ph475_PanUKBB_PanUKBBR1_1","ph245.2_PanUKBB_PanUKBBR1_1",
-"K11_PSC_COLITIS_FinnGen_FinnGenR5_1","20002_1462_PanUKBB_PanUKBBR1_1",
-"DMY_Miller_26291516_1","DMY_Rothwell_up_1",
-"M13_DERMATOPOLY_FinnGen_FinnGenR5_1","EOE_Chang_34506852_1",
-"ph535_PanUKBB_PanUKBBR1_1","GOUT_FinnGen_FinnGenR5_1",
-"GRAVD_Kubo_BBJ_1","20002_1065_PanUKBB_PanUKBBR1_1",
-"20002_1225_PanUKBB_PanUKBBR1_1","20002_1226_PanUKBB_PanUKBBR1_1",
-"IGAD_Bronson_27723758_1",
-"ILD_ENDPOINTS_FinnGen_FinnGenR5_1","ph280_PanUKBB_PanUKBBR1_1",
-"JO1M_Rothwell_up_1","JDM_Miller_26291516_1",
-"JDM_Rothwell_up_1","JIA_LopezIsac_33106285_1",
-"L12_LICHENPLANUS_FinnGen_FinnGenR5_1","L12_LICHENSCLERATROPH_FinnGen_FinnGenR5_1",
-"L12_LICHSIMPANDPRURIGO_FinnGen_FinnGenR5_1","20002_1456_PanUKBB_PanUKBBR1_1",
-"C3_SKIN_FinnGen_FinnGenR5_1","AAVMPO_Wong_up_1",
-"EGPAMPO_Lyons_31719529_1","MS_IMSGC_31604244_1",
-"MYG_Renton_25643325_1",
-"20002_1417_PanUKBB_PanUKBBR1_1","H7_OPTNEURITIS_FinnGen_FinnGenR5_1",
-"M13_PALINDROMIC_FinnGen_FinnGenR5_1","L12_PAPULOSQUAMOUS_FinnGen_FinnGenR5_1",
-"20002_1331_PanUKBB_PanUKBBR1_1","M13_POLYMYALGIA_FinnGen_FinnGenR5_1",
-"PM_Miller_26291516_1","PM_Rothwell_up_1",
-"M13_POLYMYO_FinnGen_FinnGenR5_1","AAVPR3_Wong_up_1",
-"ph571.6_PanUKBB_PanUKBBR1_1","L12_PSORI_PUSTUPALM_FinnGen_FinnGenR5_1",
-"20002_1561_PanUKBB_PanUKBBR1_1","RA_Okada_24390342_3",
-"20002_1371_PanUKBB_PanUKBBR1_1","ph702.2_PanUKBB_PanUKBBR1_1",
-"M13_SJOGREN_FinnGen_FinnGenR5_1","SPONDYLOARTHRITIS_FinnGen_FinnGenR5_1",
-"SLE_Julia_29848360_1","SSC_LopezIsac_31672989_1",
-"E4_DM1_FinnGen_FinnGenR5_1","20002_1463_PanUKBB_PanUKBBR1_1",
-"D3_ANAEMIA_B12_DEF_FinnGen_FinnGenR5_1","20002_1661_PanUKBB_PanUKBBR1_1",
-"DM_VITREOUS_BLEEDING_FinnGen_FinnGenR5_1", "IBM_Rothwell_up_1") # Note added IBM
+dtk <- c("20002_1065_PanUKBB_PanUKBBR1_1","20002_1111_PanUKBB_PanUKBBR1_1","20002_1112_PanUKBB_PanUKBBR1_1","20002_1225_PanUKBB_PanUKBBR1_1","20002_1226_PanUKBB_PanUKBBR1_1","20002_1331_PanUKBB_PanUKBBR1_1","20002_1371_PanUKBB_PanUKBBR1_1","20002_1374_PanUKBB_PanUKBBR1_1","20002_1417_PanUKBB_PanUKBBR1_1","20002_1456_PanUKBB_PanUKBBR1_1","20002_1462_PanUKBB_PanUKBBR1_1","20002_1463_PanUKBB_PanUKBBR1_1","20002_1561_PanUKBB_PanUKBBR1_1","20002_1661_PanUKBB_PanUKBBR1_1","AAD_Eriksson_33574239_1","AAVMPO_Wong_up_1","AAVPR3_Wong_up_1","APPENDICITIS_BROAD_FinnGen_FinnGenR5_1","ATD_Paternoster_26482879_1","C3_SKIN_FinnGen_FinnGenR5_1","D3_ANAEMIA_B12_DEF_FinnGen_FinnGenR5_1","D3_ANAEMIA_FinnGen_FinnGenR5_1","DM_VITREOUS_BLEEDING_FinnGen_FinnGenR5_1","DMY_Miller_26291516_1","DMY_Rothwell_up_1","E4_DM1_FinnGen_FinnGenR5_1","EGPAANCAn_Lyons_31719529_1","EGPAMPO_Lyons_31719529_1","EOE_Chang_34506852_1","GOUT_FinnGen_FinnGenR5_1","GRAVD_Kubo_BBJ_1","H7_ALLERGICCONJUNCTIVITIS_FinnGen_FinnGenR5_1","H7_OPTNEURITIS_FinnGen_FinnGenR5_1","IGAD_Bronson_27723758_1","IIM_Rothwell_up_1","ILD_ENDPOINTS_FinnGen_FinnGenR5_1","J10_SINUSITIS_FinnGen_FinnGenR5_1","JDM_Miller_26291516_1","JDM_Rothwell_up_1","JIA_LopezIsac_33106285_1","JO1M_Rothwell_up_1","K11_APPENDACUT_FinnGen_FinnGenR5_1","K11_PSC_COLITIS_FinnGen_FinnGenR5_1","L12_LICHENPLANUS_FinnGen_FinnGenR5_1","L12_LICHENSCLERATROPH_FinnGen_FinnGenR5_1","L12_LICHSIMPANDPRURIGO_FinnGen_FinnGenR5_1","L12_PAPULOSQUAMOUS_FinnGen_FinnGenR5_1","L12_PSORI_PUSTUPALM_FinnGen_FinnGenR5_1","M13_ANKYLOSPON_FinnGen_FinnGenR5_1","M13_DERMATOPOLY_FinnGen_FinnGenR5_1","M13_PALINDROMIC_FinnGen_FinnGenR5_1","M13_POLYMYALGIA_FinnGen_FinnGenR5_1","M13_POLYMYO_FinnGen_FinnGenR5_1","M13_SJOGREN_FinnGen_FinnGenR5_1","MS_IMSGC_31604244_1","MYG_Renton_25643325_1","MYO_Miller_26291516_1","ph245.2_PanUKBB_PanUKBBR1_1","ph280_PanUKBB_PanUKBBR1_1","ph475_PanUKBB_PanUKBBR1_1","ph476_PanUKBB_PanUKBBR1_1","ph496.3_PanUKBB_PanUKBBR1_1","ph535_PanUKBB_PanUKBBR1_1","ph571.6_PanUKBB_PanUKBBR1_1","ph574.1_PanUKBB_PanUKBBR1_1","ph702.1_PanUKBB_PanUKBBR1_1","ph702.2_PanUKBB_PanUKBBR1_1","ph960.2_PanUKBB_PanUKBBR1_1","PM_Miller_26291516_1","PM_Rothwell_up_1","RA_Okada_24390342_3","SJOS_Lessard_up_1","SLE_Julia_29848360_1","SPONDYLOARTHRITIS_FinnGen_FinnGenR5_1","SSC_LopezIsac_31672989_1","STILL_ADULT_FinnGen_FinnGenR5_1", "IBM_Rothwell_up_1") # Note added IBM
 
 # Removed datasets
 # "MYO_Miller_26291516_1", "IIM_Rothwell_up_1",
