@@ -84,6 +84,21 @@ make_bold_names <- function(mat, rc_fun, rc_names) {
 }
 
 
+save_pheatmap_png <- function(x, filename, width=1200, height=1000, res = 150) {
+  png(filename, width = width, height = height, res = res)
+  grid::grid.newpage()
+  grid::grid.draw(x$gtable)
+  dev.off()
+}
+
+save_pheatmap_svg <- function(x, filename, width=16, height=16) { 
+  svg(filename, width = width, height = height, bg = "white", ) # Warning: Size in inches, can't change it to pixels
+  grid::grid.newpage()
+  grid::grid.draw(x$gtable)
+  dev.off()
+}
+
+
 # Load data
 proj.table <- fread("../data/Projection_IMD_basis_20211220-v1.tsv")
 QC.table <- fread("../data/QC_IMD_basis_20211220-v1.tsv")
@@ -220,20 +235,6 @@ Save the heatmap.
 ```{r eval=FALSE}
 # ggsave(file="../figures/202111_Nov21/Basis_heatmap_r.svg", plot=bp, width=18, height=18)   # ggsave doesn't export heatmap to svg correctly, so we need the workaround below.
 
-save_pheatmap_png <- function(x, filename, width=1200, height=1000, res = 150) {
-  png(filename, width = width, height = height, res = res)
-  grid::grid.newpage()
-  grid::grid.draw(x$gtable)
-  dev.off()
-}
-
-save_pheatmap_svg <- function(x, filename, width=16, height=16) { 
-  svg(filename, width = width, height = height, bg = "white", ) # Warning: Size in inches, can't change it to pixels
-  grid::grid.newpage()
-  grid::grid.draw(x$gtable)
-  dev.off()
-}
-
 save_pheatmap_png(bp, filename = "../figures/202201_Jan22/Basis_heatmap_r.png", width = 1500, height = 1500)
 save_pheatmap_svg(bp, filename = "../figures/202201_Jan22/Basis_heatmap_r.svg", width = 8, height = 8)
 
@@ -260,8 +261,8 @@ my
 Save the heatmap
 
 ```{r eval = FALSE}
-save_pheatmap_png(my, filename = "../figures/202111_Nov21/Myo_heatmap_r.png", width = 1500, height = 1500)
-save_pheatmap_svg(my, filename = "../figures/202111_Nov21/Myo_heatmap_r.svg", width = 8, height = 8)
+save_pheatmap_png(my, filename = "../figures/202201_Jan22/Myo_heatmap_r.png", width = 1500, height = 1500)
+save_pheatmap_svg(my, filename = "../figures/202201_Jan22/Myo_heatmap_r.svg", width = 8, height = 8)
 
 ```
 
