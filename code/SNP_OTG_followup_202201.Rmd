@@ -104,7 +104,7 @@ gProfiler2 provides plenty of options, but we'll use the following for the first
 We'll also include all genes identified as having eQTLs among our driver SNPs in selected blood cells (see `eQTL_followup_IMD_myositis.Rmd`), according to the eQTLcatalogue.
 
 ```{r echo=FALSE}
-resgp <- readRDS("../data/enrichment_results_OTG_eQTL.RDS")
+resgp <- readRDS("../data/enrichment_results_OTG_eQTL_GOBP.WP.KEGG.REAC.RDS")
 ```
 
 
@@ -213,7 +213,7 @@ Let's also take a look at those that are shared, but not common to all PCs.
 
 
 ```{r fig.height=60, fig.width=20}
-comandex <- c(compaths, unique(rexcl$termid)) # 63 exclusive or common-to-all
+comandex <- c(compaths, rexcl$term_id) # 63 exclusive or common-to-all
 
 bwp <- resgp[!term_id %in% comandex]
 bwp[, neglogp:=-log(p_value)][, pw:=paste(term_id, term_name, sep="_")]
@@ -237,7 +237,7 @@ save_pheatmap_png <- function(x, filename, width=1200, height=1000, res = 150) {
   dev.off()
 }
 
-save_pheatmap_png(phwp, filename = "../figures/202201_Jan22/Common_Pathway_Heatmap.png", width = 2000, height = 9000)
+save_pheatmap_png(phwp, filename = "../figures/202201_Jan22/Common_Pathway_Heatmap.png", width = 2000, height = 11000)
 ```
 
 It looks like most pathways are widely shared, except for PC8 and PC1, which seem to have fewer pathways. 
@@ -296,10 +296,6 @@ comhmp$sharedby5
 
 ```
 
-```{r fig.height=10, fig.width=8}
-comhmp$sharedby6
-
-```
 
 ```{r fig.height=10, fig.width=8}
 comhmp$sharedby7
