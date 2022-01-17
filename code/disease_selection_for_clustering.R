@@ -113,7 +113,12 @@ dtk <- c("20002_1065_PanUKBB_PanUKBBR1_1","20002_1111_PanUKBB_PanUKBBR1_1","2000
 QC.clust <- QC.filt[Trait %in% dtk]
 PT.clust <- PT.filt[Trait %in% dtk]
 
+
+
 PT.clust <- make.labels(PT.clust)
+
+# Save the table for it to become a supplementary table
+fwrite(PT.clust[, .SD, .SDcols = !c("Trait_ID_2.0", "Collection")], "../tables/SupplTable_Cluster_diseases.tsv", sep="\t")
 
 # Prepare for Kath
 PT.clust <- PT.clust[, .(Trait, PC, Delta, Var.Delta, First_Author, Trait_long, Label)]

@@ -9,7 +9,7 @@ f###################################
 # We want to include eQTL data in specific blood cells (see below) from eQTLcatalogue. 
 # However, downloading and extracting relevant SNPs from source has proved challenging. 
 # Thus, I downloaded the full datasets of interest to our HPC storage, and will process them and add them to our causal SNP dataset.
-
+# Note: This script is intended to be run in the HPC
 
 library(data.table)
 library(readr)
@@ -23,8 +23,8 @@ setDTthreads(10)
 
 
 # Load basic data
-ecat <- fread("../../cell_basis_v3_varimax/Reports/Combined_eQTL_credible_paths.tsv")
-snp <- fread("Myositis_IMD_driver_SNPs.tsv")
+ecat <- fread("../../../03-Bases/cell_basis_v3_varimax/Reports/Combined_eQTL_credible_paths.tsv") ## HPC path, might not work elsewhere
+snp <- fread("../data/Myositis_IMD_driver_SNPs.tsv")
 snp[, pid:=paste(CHR38,BP38, sep=":")] # Choose hg38 coordinates
 
 #snp[,region:=paste0(CHR, ":", BP,"-",BP)][,pid:=paste(CHR, BP, sep=":")]
@@ -34,6 +34,9 @@ setnames(snp, "SNPID", "SNPID.basis")
 tissues <- c("B cell","CD16+ monocyte", "CD4+ T cell", "CD8+ T cell", "macrophage", "monocyte", "neutrophil", "NK cell", "platelet", "T cell", "Tfh cell", "Th1 cell", "Th1-17 cell", "Th17 cell", "Th2 cell", "Treg memory", "Treg naive")
 ecat.filt <- ecat[tissue_label %in% tissues & (quant_method == "ge" | quant_method == "microarray") & condition_label == "naive",]
 ecat.filt[,studylabel:= paste(study, quant_method, tissue_label, sep="_")] # To identify studies later
+
+# Save the info on eQTL dataset used and their corresponding studies as a Suppl. Table
+fwrite(ecat.filt, "../tables/SuppTable_eQTL_datasets.tsv", sep ="\t")
 
 
 # Import local credible sets
