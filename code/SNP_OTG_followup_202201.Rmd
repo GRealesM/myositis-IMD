@@ -67,6 +67,7 @@ names(rotmat) <- gsub("PC", "rot", names(rotmat))
 
 otg <- merge(otg, rotmat, by="pid19")
 
+
 # Add eQTL data
 eqtl <- fread("../data/Causal_eQTLs_full_20210915.tsv") 
 # Noticed a bug in the procesing of snp_study and study_tissue. Let's briefly fix it
@@ -82,6 +83,16 @@ eqtl[, snp_study:=gsub(pattern = "(_[A-Za-z0-9\\+ -]+)$", "", snp_study, perl = 
 
 
 ```
+
+Save annotations as supplementary tables
+
+```{r eval=FALSE}
+fwrite(otg, "../tables/SupplTable_OTG_annotations.tsv", sep = "\t")
+fwrite(eqtl, "../tables/SupplTable_eqtl_annotations.tsv", sep = "\t")
+```
+
+
+
 
 We'll start by investigating the PCs using enrichment/pathway analysis (gprofiler2).
 
@@ -155,6 +166,7 @@ resgp <- rbindlist(resgp)
 
 ```{r eval=FALSE, echo=FALSE}
 saveRDS(resgp, "../data/enrichment_results_OTG_eQTL_GOBP.WP.KEGG.REAC.RDS")
+fwrite(resgp, "../tables/SupplTable_all_pathways.tsv", sep="\t")
 ```
 
 
@@ -196,13 +208,15 @@ pc.summary
 
 
 
+
 ```{r}
 rexcl <- resgp[ term_id %in% unlist(expath)]
 ```
 
 
 ```{r eval=FALSE}
-fwrite(rexcl, "../tables/Table_exclusive_pathways.tsv", sep="\t")
+fwrite(pc.summary, "../tables/SupplTable_PCsummary.tsv", sep="\t")
+fwrite(rexcl, "../tables/SupplTable_exclusive_pathways.tsv", sep="\t")
 ```
 
 
@@ -450,11 +464,11 @@ PC8 splits MS and asthma from the rest of basis IMDs. Only general myositis (Rot
 
 This PC seems to capture an IL-2 and NK cell signal, as we find two subunits of the IL-2 receptor (IL2RA and IL2RB). IL2RA on its own constitutes a low-affinity receptor, since it lacks the signalling domain but together with IL2RB  and IL2RG constitute a high-affinity receptor.
 
-**IL-2** has shared functions (and receptor) with IL-15, as mentioned for PC3. IL-2 has a role in T cell proliferation and boosts the cytolytic activity of NK cells and lymphokine-activated killer cells. IL-2 is essential for T helper 9 (TH9) cell generation and Treg cell differentiation, and it can also prime cells for TH1 cell differentiation and TH2 cell differentiation, but IL-2 conversely inhibits the differentiation of TH17 cells and T follicular helper (TFH) cells. Thus, IL-2 is a pivotal cytokine that has key roles in influencing immune cell differentiation and hence the types of cell that are dominantly present in settings of infection, autoimmune disease and cancer. Moreover, IL-2 can also have a crucial role during the process of activation-induced cell death (AICD), in which potentially deleterious autoreactive cells can be eliminated.
+**IL-2** has shared functions (and receptor) with IL-15, as mentioned for PC3. IL-2 has a role in T cell proliferation and boosts the cytolytic activity of NK cells and lymphokine-activated killer cells. IL-2 is essential for T helper 9 (TH9) cell generation and Treg cell differentiation, and it can also prime cells for TH1 cell differentiation and TH2 cell differentiation, but IL-2 conversely inhibits the differentiation of TH17 cells and T follicular helper (TFH) cells. Thus, IL-2 is a pivotal cytokine that has key roles in influencing immune cell differentiation and hence the types of cell that are dominantly present in settings of infection, autoimmune disease and cancer. Moreover, IL-2 can also have a crucial role during the process of activation-induced cell death (AICD), in which potentially deleterious autoreactive cells can be eliminated.
 
-IL-2 is produced primarily by CD4+ T cells. 
+IL-2 is produced primarily by CD4+ T cells. 
 
-By limiting the availability of IL-2, Treg cells were also shown to negatively regulate the activity of NK cells in the pancreas. Indeed, depletion of Treg cells led to increased IL-2-induced transcripts in pancreatic NK cells, and high doses of IL-2 could overcome Treg cell-mediated suppression of NK cell function, indicating a balance between NK cells and Treg cell activity ( [Spolski et al., 2018](https://www.nature.com/articles/s41577-018-0046-y)).
+By limiting the availability of IL-2, Treg cells were also shown to negatively regulate the activity of NK cells in the pancreas. Indeed, depletion of Treg cells led to increased IL-2-induced transcripts in pancreatic NK cells, and high doses of IL-2 could overcome Treg cell-mediated suppression of NK cell function, indicating a balance between NK cells and Treg cell activity ( [Spolski et al., 2018](https://www.nature.com/articles/s41577-018-0046-y)).
 
 More references on NK cells and IL-2 (and other cytokines): [Wu et al., 2017](https://www.frontiersin.org/articles/10.3389/fimmu.2017.00930/full#:~:text=Interleukin%2D2%20is%20an%20immune,vitro%20(142%2C%20147).).
 
@@ -551,6 +565,53 @@ ggraph(nwks[["PC13"]], layout = "auto") +
   theme(legend.position = "none")
 
 ```
+
+
+
+After having taken a look at the pathways, we can select some key exclusive pathways and show them with their associated genes in a table
+
+```{r eval=FALSE}
+key.pathways <- c("KEGG:04620", "GO:0002224", "WP:WP75", "WP:WP1449", "GO:0034138", "GO:0034136",     # PC2
+                  "GO:0032757", "GO:0071350", "GO:0070672", "GO:0035723", "GO:0071774", "GO:0006584", "GO:0030003", # PC3
+                  "GO:0038110", "GO:0042267", # PC8
+                  "KEGG:04210", "GO:2000108" # PC9 
+                  )
+key.resgp <- resgp[ term_id %in% key.pathways]
+key.resgp <- key.resgp[, .(term_id, term_name, intersection_genes, p_value, PC)]
+
+fwrite(key.resgp, "../tables/MainTable_key_pathways.tsv", sep="\t")
+```
+
+
+
+
+
+## Gene frequency across components
+
+```{r fig.height=8, fig.width= 12}
+genefreq <- lapply(pcnames, function(d){
+                x <- data.table( genes = rexcl[PC == d]$intersection_genes %>% strsplit(split = ", ") %>% unlist())
+                x <-  x[, .(count = .N), by = genes][, PC:=d]
+                x
+})
+genefreq <- rbindlist(genefreq)
+genefreq[, PC:=factor(PC, levels = pcnames)][, generank := rank(-count, ties.method = "min"), by=PC]
+genefreq <- genefreq[order(PC, generank)]
+
+ggplot(genefreq, aes(x = PC, y = count, label=genes))+
+  geom_point()+
+  geom_text_repel(data = genefreq[generank <= 3],
+
+                  force  = 0.5,
+                  nudge_x      = 0.15,
+                  direction    = "y",
+                  hjust        = 0,
+                  segment.size = 0.2)
+
+
+```
+
+
 
 
 
