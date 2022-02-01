@@ -54,7 +54,7 @@ table(result$ncopies)
 
 
 # Compare general pathway clustering vs our pathway clustering
-result[,.(ari=adjustedRandIndex(cl,cl_pathway)),by="PC"] # all in 0.3 -- 0.56
+result[,.(ari=adjustedRandIndex(cl,cl_pathway)),by="PC"] # all in 0.03 -- 0.08
 #      PC        ari
 # 1:  PC1 0.05755850
 # 2: PC12 0.02394257
@@ -74,17 +74,14 @@ save.image(file='../data/Pathway_data_ongoing.RData')
 load('../data/Pathway_data_ongoing.RData')
 
 
-
-result1=result[p_value < 0.01]
-result1[PC %in% c("PC2","PC3","PC8","PC9","PC12"),ncopies:=.N,by=c("source","term_name")]
-
 ## most significant exclusive pathway per cluster
-result1=result1[order(cl_pathway, ncopies, p_value)]
+result1=result[order(cl_pathway, ncopies, p_value) & term_size <1000]
 result1[ term_size>=5 & ncopies==1 & !duplicated(cl_pathway),.(cl_pathway,source,term_name,term_size,intersection_size,p_value),by="PC"][order(PC,p_value)]
 
 ## most significant pathway per cluster
 result1[,pc_cl:=paste(PC,cl_pathway,sep="_")]
 result1=result1[order(pc_cl, p_value)]
-result2=result1[!(source %in% c("HP")) & ncopies<=2 & term_size>=5 & p_value < 0.01][!duplicated(pc_cl),.(cl_pathway,source,term_name,term_size,intersection_size,p_value,ncopies),by="PC"][order(PC,cl_pathway,p_value)][PC %in% c("PC2","PC3","PC8","PC9","PC12")] %>% as.data.frame()
+result2=result1[ term_size>=5][!duplicated(pc_cl),.(cl_pathway,source,term_name,term_size,intersection_size,p_value,ncopies),by="PC"][order(PC,cl_pathway,p_value)]
+result2
 
 split(result2, result2$PC)
