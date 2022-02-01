@@ -5,6 +5,7 @@ library(pheatmap)
 library(gprofiler2)
 library(mcclust)
 library(mclust)
+setDTthreads(15)
 
 # Get data. We'll use the results from our enrichment analysis (see SNP_OTG_followup_202201.Rmd)
 resgp <- readRDS("../data/enrichment_results_OTG_eQTL_GOBP.WP.KEGG.REAC.RDS")
@@ -54,19 +55,24 @@ table(result$ncopies)
 
 # Compare general pathway clustering vs our pathway clustering
 result[,.(ari=adjustedRandIndex(cl,cl_pathway)),by="PC"] # all in 0.3 -- 0.56
-# PC        ari
-# 1:  PC1 0.03815554
-# 2: PC12 0.03004273
-# 3: PC13 0.01870101
-# 4:  PC2 0.03129530
-# 5:  PC3 0.01067189
-# 6:  PC8 0.11885560
-# 7:  PC9 0.04094321
+#      PC        ari
+# 1:  PC1 0.05755850
+# 2: PC12 0.02394257
+# 3: PC13 0.03104566
+# 4:  PC2 0.04499688
+# 5:  PC3 0.06212566
+# 6:  PC8 0.08145345
+# 7:  PC9 0.04731794
 
 # Order clusters by number of copies and associated p-values
 result=result[order(cl, ncopies, p_value)]
 options(width=200)
 result[term_size >=5 & ncopies==1 & !duplicated(cl),.(cl,source,term_name,term_size,intersection_size,p_value),by="PC"][order(PC,p_value)]
+
+##### CONTINUE LATER
+save.image(file='../data/Pathway_data_ongoing.RData')
+load('../data/Pathway_data_ongoing.RData')
+
 
 
 result1=result[p_value < 0.01]
@@ -74,7 +80,7 @@ result1[PC %in% c("PC2","PC3","PC8","PC9","PC12"),ncopies:=.N,by=c("source","ter
 
 ## most significant exclusive pathway per cluster
 result1=result1[order(cl_pathway, ncopies, p_value)]
-result1[!(source %in% c("HP")) & term_size>=5 & ncopies==1 & !duplicated(cl_pathway),.(cl_pathway,source,term_name,term_size,intersection_size,p_value),by="PC"][order(PC,p_value)]
+result1[ term_size>=5 & ncopies==1 & !duplicated(cl_pathway),.(cl_pathway,source,term_name,term_size,intersection_size,p_value),by="PC"][order(PC,p_value)]
 
 ## most significant pathway per cluster
 result1[,pc_cl:=paste(PC,cl_pathway,sep="_")]
