@@ -70,8 +70,13 @@ options(width=200)
 result[term_size >=5 & ncopies==1 & !duplicated(cl),.(cl,source,term_name,term_size,intersection_size,p_value),by="PC"][order(PC,p_value)]
 
 ##### CONTINUE LATER
-save.image(file='../data/Pathway_data_ongoing.RData')
+#save.image(file='../data/Pathway_data_ongoing.RData')
+##### CONTINUE HERE
 load('../data/Pathway_data_ongoing.RData')
+
+result=result[ !PC %in% c("PC1", "PC3", "PC13")] # remove PC1 and PC13, not a focus in this analysis
+result[,ncopies:=.N,by=c("source","term_name")]
+table(result$ncopies)
 
 
 ## most significant exclusive pathway per cluster
@@ -86,6 +91,7 @@ result2
 
 split(result2, result2$PC)
 
-result3=result1[ ncopies <= 2 &term_size>=5][!duplicated(pc_cl),.(cl_pathway,source,term_name,term_size,intersection_size, intersection_genes, p_value,ncopies),by="PC"][order(PC,p_value, cl_pathway)]
+
+result3=result1[ ncopies <= 2 &term_size>=5][!duplicated(pc_cl),.(cl_pathway,source,term_name,term_size,intersection_size, intersection_genes,  p_value,ncopies),by="PC"][order(PC,p_value, cl_pathway)]
 split(result3, result3$PC)
 fwrite(result3, "../tables/SupplTable_Pathway_clustering.tsv", sep="\t")

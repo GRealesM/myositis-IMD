@@ -1,0 +1,11 @@
+Trait	Label	Total_SNP	nSNP	N0	N1
+DMY_Miller_26291516_1	Dermatomyositis (European) / Miller	9372705	564	4724	705
+DMY_Rothwell_up_1	Dermatomyositis (European) / Rothwell	1648116	479	3268	817
+IBM_Rothwell_up_1	Inclusion Body Myositis (European) / Rothwell	1648116	479	1008	252
+IIM_Rothwell_up_1	Idiopathic Inflammatory Myopathies (IIM, Myosit... / Rothwell	1648116	479	10260	2565
+JDM_Miller_26291516_1	Juvenile Dermatomyositis (European) / Miller	9373293	564	4724	473
+JDM_Rothwell_up_1	Juvenile Dermatomyositis (European) / Rothwell	1648116	479	2032	508
+JO1M_Rothwell_up_1	Jo1+ Myositis (European) / Rothwell	1648116	479	1244	310
+MYO_Miller_26291516_1	Myositis (European) / Miller	9373243	564	4724	1711
+PM_Miller_26291516_1	Polymyositis (European) / Miller	9372754	564	4724	533
+PM_Rothwell_up_1	Polymyositis (European) / Rothwell	1648116	479	3612	903

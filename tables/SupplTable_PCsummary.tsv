@@ -1,8 +1,6 @@
-PC	driver.SNPs	driver.annot	genes.annot	excl.pathways	genes.excl
-PC1	107	87	206	16	22
-PC2	160	131	292	14	38
-PC3	160	133	326	18	48
-PC8	133	114	271	7	20
-PC9	240	192	434	3	16
-PC12	266	214	452	41	117
-PC13	373	306	592	101	315
+PC	driver.SNPs	driver.annot	genes.annot	excl.pathways	genes.excl	excl2.pathways	genes.excl2
+PC2	160	131	292	30	51	81	126
+PC3	160	133	326	44	125	129	144
+PC8	133	114	271	9	25	16	33
+PC9	240	192	434	13	128	67	195
+PC12	266	214	452	131	203	292	217
