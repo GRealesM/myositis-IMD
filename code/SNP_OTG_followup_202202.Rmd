@@ -170,7 +170,7 @@ PClite <- c(2, 8:9, 12)
 pcnames <- unique(resgp$PC)
 
 # How many pathways in total
-length(unique(resgp$term_id)) # 667
+length(unique(resgp$term_id)) # 623 
 
 # Check how many times pathways appear
 resgp[,ncopies:=.N, by="term_id"]
@@ -193,10 +193,10 @@ pc.summary <- data.table(
                 driver.SNPs  = colSums(rotmat[, .SD, .SDcols=paste0("rot", PClite)] !=0),
                 driver.annot = sapply(PClite, function(x) { length(unique(c(otg[get(paste0("PC", x))==TRUE & tss_score == 1]$SNPID,   eqtl[get(paste0("rot", x)) !=0]$SNPID.basis)))}),
                 genes.annot  = sapply(PClite, function(x) { length(unique(c(otg[get(paste0("PC", x))==TRUE & tss_score == 1]$gene_id, eqtl[get(paste0("rot", x)) !=0]$gene_id)))}),
-                excl.pathways = resgp[ ncopies == 1, .N, by=PC ]$N,
-                genes.excl   = resgp[ ncopies == 1, intersection_genes %>% strsplit(split = ", ") %>% unlist() %>% unique() %>% length(), by=PC]$V1,
-                excl2.pathways = resgp[ ncopies <= 2, .N, by=PC ]$N,
-                genes.excl2   = resgp[ ncopies <= 2, intersection_genes %>% strsplit(split = ", ") %>% unlist() %>% unique() %>% length(), by=PC]$V1
+                #excl.pathways = resgp[ ncopies == 1, .N, by=PC ]$N,
+                #genes.excl   = resgp[ ncopies == 1, intersection_genes %>% strsplit(split = ", ") %>% unlist() %>% unique() %>% length(), by=PC]$V1,
+                pathways = resgp[ ncopies <= 2, .N, by=PC ]$N,
+                genes.pathways   = resgp[ ncopies <= 2, intersection_genes %>% strsplit(split = ", ") %>% unlist() %>% unique() %>% length(), by=PC]$V1
 )
 pc.summary
 
@@ -207,7 +207,7 @@ pc.summary
 
 ```{r eval=FALSE}
 fwrite(pc.summary, "../tables/SupplTable_PCsummary.tsv", sep="\t")
-fwrite(resgp[ncopies <=2], "../tables/SupplTable_exclusive_pathways.tsv", sep="\t")
+fwrite(resgp[ncopies <=2], "../tables/SupplTable_gprofiler_pathways.tsv", sep="\t")
 ```
 
 
@@ -648,5 +648,8 @@ resgp.h2 <- resgp.h[ ncopies <= 2]
 resgp.h2[, .(PC, ncopies, term_id, p_value, intersection)][order(p_value)]
 ```
 
+```{r}
+fwrite(resgp.h[, !c("parents")], "../tables/SupplTable_Hallmark_pathways.tsv", sep="\t")
+```
 
 

@@ -92,6 +92,6 @@ result2
 split(result2, result2$PC)
 
 
-result3=result1[ ncopies <= 2 &term_size>=5][!duplicated(pc_cl),.(cl_pathway,source,term_name,term_size,intersection_size, intersection_genes,  p_value,ncopies),by="PC"][order(PC,p_value, cl_pathway)]
+result3=result1[ ncopies <= 2 &term_size>=5][!duplicated(pc_cl),.(cl_pathway,term_id,term_name,term_size,intersection_size, intersection_genes,  p_value,ncopies),by="PC"][order(PC,p_value, cl_pathway)]
 split(result3, result3$PC)
 fwrite(result3, "../tables/SupplTable_Pathway_clustering.tsv", sep="\t")
