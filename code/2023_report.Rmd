@@ -574,7 +574,7 @@ dpmunc.delta <- reshape(dpmunc.ds[, .(PC, Delta, Label)], idvar="Label", timevar
 dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
 
 fwrite(dpmunc.delta, "../data/Myo_7PC_Delta.tsv", sep = "\t")
-fwrite(dpmunc.var, "../data/PAPS_7PC_Var.tsv", sep = "\t")
+fwrite(dpmunc.var, "../data/Myo_7PC_Var.tsv", sep = "\t")
 
 ```
 
