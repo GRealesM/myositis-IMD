@@ -1,0 +1,9 @@
+# Don't track DPMUnc intermediate files
+alpha.csv
+clusterAllocations.csv
+clusterMeans.csv
+clusterVars.csv
+pLatentsGivenClusters.csv
+K.csv
+latentObservations.csv
+*.err
