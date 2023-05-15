@@ -6,4 +6,6 @@ clusterVars.csv
 pLatentsGivenClusters.csv
 K.csv
 latentObservations.csv
+# Don't track slurm logs nor html files (heavy!)
 *.err
+*.html
