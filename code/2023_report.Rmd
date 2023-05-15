@@ -479,8 +479,7 @@ Mah.myoF <- mahal.f(i=Map, var.proj = var.proj, ref="Myositis (FinnGen)")
 # JDM
 Mah.jdmR <- mahal.f(i=Map, var.proj = var.proj, ref="Juvenile Dermatomyositis (Rothwell)")
 Mah.jdmM <- mahal.f(i=Map, var.proj = var.proj, ref="Juvenile Dermatomyositis (Miller)")
-Mah.jdmD <- mahal.f(i=Map, var.proj = var.proj, ref="Juvenile Dermatomyositis (Deakin)")
-Mah.jdmF <- mahal.f(i=Map, var.proj = var.proj, ref="Juvenile Dermatomyositis (FinnGen)")
+# Mah.jdmD <- mahal.f(i=Map, var.proj = var.proj, ref="Juvenile Dermatomyositis (Deakin)")
 
 # PM  
 Mah.pmR <- mahal.f(i=Map, var.proj = var.proj, ref="Polymyositis (Rothwell)")
@@ -524,11 +523,6 @@ kable(Mah.jdmR[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
 kable(Mah.jdmM[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
 ```
 
-### Deakin
-
-```{r echo=FALSE}
-kable(Mah.jdmD[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
-```
 
 
 ## Polymyositis
@@ -562,8 +556,44 @@ kable(Mah.dmM[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
 ```
 
 
+## Looking at everything together
 
-# DPMUnc clustering
+We want a better view of these distances, so we'll put everything together. Note we'll remove Deakin for this step.
+
+```{r include=FALSE, echo=FALSE, fig.width=14, fig.height=6.5, dev.args = list(type = "cairo-png")}
+tlis <- copy(mget(ls(pattern="Mah\\.")))
+tlis <- lapply(tlis, function(x){
+          x[, Focus:=Trait[1]]
+          x[, TraitL:=stringr::str_trunc(Trait, 50, ellipsis = " [...]")]
+          x[, c("N0", "N1", "Rank"):=NULL]
+          x <- x[!grepl("Deakin", TraitL)]
+          x
+})
+tlis <- rbindlist(tlis)
+tlis.map <- acast(tlis, Focus~TraitL, value.var = "mahal")
+
+mahalcolp <- rev(colorRampPalette(RColorBrewer::brewer.pal(n = 9, name = "Spectral"))(100))
+#"#D53E4F" "#F46D43" "#FDAE61" "#FEE08B" "#FFFFBF" "#E6F598" "#ABDDA4" "#66C2A5" "#3288BD"
+
+#mahalcolp <- wesanderson::wes_palette("Zissou1", n=50, "continuous")
+
+# Create heatmap
+tlis.ph <- pheatmap(tlis.map,  breaks = seq(0, 1.8, length.out = 100), 
+                cluster_cols = T, cluster_rows = F,
+                fontsize = 9, color = mahalcolp, 
+                annotation_names_row = FALSE, annotation_legend = TRUE)
+
+tlis.ph
+#ggsave("../figures/Myositis_mahalanobis_heatmap.png", tlis.ph, width = 13, height = 6.5, bg="white")
+
+
+```
+
+![](../figures/Myositis_mahalanobis_heatmap.png){out.width="100%"}
+
+The figure looks small due to html limitations, but you can download it and see it full size.
+
+# DPMUnc clustering (separate myositis subtypes)
 
 ```{r echo=FALSE, eval=FALSE}
 # At this point, we prepare the data for DPMUnc using significant PCs for PAPS only
@@ -616,11 +646,134 @@ pcbiplot <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC2, colour = DPMUnc.cl, la
 
 ```
 
+# Myositis meta-analysis
+
+One of the challenges we face when dealing with Myositis datasets is lack of power. To try and get greater power, we'll now meta-analyse myositis projections when more than one dataset is available for the same IMD.
+
+We'll consider
+
+* Dermatomyositis (Miller + Rothwell)
+* Juvenile Dermatomyositis (Miller + Rothwell)
+* Myositis (FinnGen + Miller + Rothwell)
+* Polymyositis (FinnGen + Miller + Rothwell)
 
 
 
+```{r echo=FALSE}
+dm.sel <- ps2s[grepl("^Dermatomyositis", Label, ignore.case = TRUE ), unique(Trait)]
+jdm.sel <- ps2s[grepl("Juvenile Dermatomyositis", Label, ignore.case = TRUE ) & First_Author !="Deakin", unique(Trait)] # Ignore Deakin
+myo.sel <-  ps2s[grepl("^Myositis", Label, ignore.case = TRUE ), unique(Trait)]
+pm.sel <- ps2s[grepl("^Polymyositis", Label, ignore.case = TRUE ), unique(Trait)]
+
+p.dm <- ps2s[Trait %in% dm.sel]
+p.jdm <- ps2s[Trait %in% jdm.sel]
+p.myo <- ps2s[Trait %in% myo.sel]
+p.pm <- ps2s[Trait %in% pm.sel]
+
+meta.proj <- function(ds){
+        mincol <- c("PC","Delta","Var.Delta","P","Trait")
+        stopifnot(all(mincol %in% names(ds)))
+        res <- lapply(unique(ds$PC), function(x){
+                p1ms <- ds[PC == x]
+                p1ms.r <- meta.summaries(p1ms$Delta, sqrt(p1ms$Var.Delta), names= p1ms$Trait, method="fixed")
+                p1ms.r <- data.table(PC = x, Delta = p1ms.r$summary, Var.Delta = p1ms.r$se.summary^2, chisq_het = p1ms.r$het[1], df_het = p1ms.r$het[2],  P_het = p1ms.r$het[3]) 
+                p1ms.r[, Z:=Delta/sqrt(Var.Delta)]
+                p1ms.r <- p1ms.r[, .(PC, Delta, Var.Delta,Z, chisq_het, df_het, P_het)]
+        })
+        res <- rbindlist(res)
+}
+
+meta.dm <- meta.proj(p.dm)
+meta.dm[, c("Trait", "Label"):="Dermatomyositis_Meta"]
+meta.jdm <- meta.proj(p.jdm)
+meta.jdm[, c("Trait", "Label"):="Juvenile Dermatomyositis_Meta"]
+meta.myo <- meta.proj(p.myo)
+meta.myo[, c("Trait", "Label"):="Myositis_Meta"]
+meta.pm <- meta.proj(p.pm)
+meta.pm[, c("Trait", "Label"):="Polymyositis_Meta"]
+
+meta.all <- rbindlist(list(meta.dm, meta.jdm, meta.myo, meta.pm))
+meta.all[, P:=stats::pnorm(abs(Z), lower.tail = FALSE) * 2] 
+meta.all[, c("chisq_het", "df_het", "P_het", "Z"):=NULL]
+
+pfm <- copy(pf)
+pfm <- ps2s[!Trait %in% c(dm.sel, jdm.sel, myo.sel, pm.sel) & First_Author != "Deakin"]
+pfm <- rbindlist(list(pfm, meta.all), fill = TRUE)
+pfm[, FDR.PC:=p.adjust(P, method = "BH"), by = c("PC", "Trait_class")][, stars:=ifelse(!is.na(FDR.PC) & FDR.PC<0.05,"○","")][ FDR.PC < 0.01 , stars:="●"]
+psm <- pfm[Trait %in% c(ttk2, unique(meta.all$Trait))] # keep non-redundant traits and meta-analyses
 
 
+
+```
+
+
+```{r message=FALSE, echo=FALSE, fig.width = 5, fig.height = 2, dpi=200, dev.args = list(png = list(type = "cairo"))}
+
+psmap <- psm[grepl("Meta", Label, ignore.case = TRUE)]
+Mmp.meta <- acast(psmap[,c("PC", "Label", "Delta")], Label ~ PC) # PC, Trait, and Delta columns only
+Mmp.meta.stars <- acast(psmap[,c("PC","Label","stars")], Label ~ PC)
+Mmp.meta <- Mmp.meta[,PCorder]
+Mmp.meta.stars <- Mmp.meta.stars[,PCorder]
+range <- max(abs(Mmp.meta))
+# Create heatmap
+Mphm.meta <- pheatmap(Mmp.meta,  breaks = seq(-range, range, length.out = 100), 
+                cluster_cols = FALSE, display_numbers = Mmp.meta.stars,
+                fontsize_row = 8.4, fontsize_number = 11, color = hmcol, 
+                annotation_names_row = FALSE, annotation_legend = TRUE)
+Mphm.meta
+
+```
+
+Let's take a look at the Mahalanobis distances
+
+```{r include=FALSE, echo=FALSE, fig.width=14, fig.height=6.5, dev.args = list(type = "cairo-png")}
+# General myositis
+Map.meta <- acast(psm[,c("PC", "Label", "Delta")], Label ~ PC) # PC, Trait, and Delta columns only
+Mah.meta.myo <- mahal.f(i=Map.meta, var.proj = var.proj, ref="Myositis_Meta")
+Mah.meta.jdm <- mahal.f(i=Map.meta, var.proj = var.proj, ref="Juvenile Dermatomyositis_Meta")
+Mah.meta.dm <- mahal.f(i=Map.meta, var.proj = var.proj, ref="Dermatomyositis_Meta")
+Mah.meta.pm <- mahal.f(i=Map.meta, var.proj = var.proj, ref="Polymyositis_Meta")
+
+tlis.m <- copy(mget(ls(pattern="Mah\\.meta")))
+tlis.m <- lapply(tlis.m, function(x){
+          x[, Focus:=Trait[1]]
+          x[, TraitL:=stringr::str_trunc(Trait, 50, ellipsis = " [...]")]
+          x[, c("N0", "N1", "Rank"):=NULL]
+          x <- x[!grepl("Deakin", TraitL)]
+          x
+})
+tlis.m <- rbindlist(tlis.m)
+tlis.m.map <- acast(tlis.m, Focus~TraitL, value.var = "mahal")
+
+
+# Create heatmap
+tlis.m.ph <- pheatmap(tlis.m.map,  breaks = seq(0, 1.6, length.out = 100), 
+                cluster_cols = T, cluster_rows = F,
+                fontsize = 9, color = mahalcolp, 
+                annotation_names_row = FALSE, annotation_legend = TRUE)
+
+tlis.m.ph
+#ggsave("../figures/Meta_Myositis_mahalanobis_heatmap.png", tlis.m.ph, width = 13, height = 5, bg="white")
+
+```
+
+![](../figures/Meta_Myositis_mahalanobis_heatmap.png){out.width="100%"}
+
+# DPMUnc (meta)
+
+
+```{r echo=FALSE, eval=FALSE}
+# At this point, we prepare the data for DPMUnc using significant PCs for PAPS only
+psm[grepl("myositis", Label, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, Label, stars)][, .N, by = PC] # This time we need to use PC7 as well
+
+dpmunc.meta.ds <- psm[PC %in% paste0("PC", c(1,2,3,7,8,9,12,13)), .(PC, Delta, Var.Delta, Label)]
+dpmunc.meta.delta <- reshape(dpmunc.meta.ds[, .(PC, Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
+dpmunc.meta.var   <- reshape(dpmunc.meta.ds[, .(PC, Var.Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
+
+fwrite(dpmunc.meta.delta, "../data/Meta_Myo_8PC_Delta.tsv", sep = "\t")
+fwrite(dpmunc.meta.var, "../data/Meta_Myo_8PC_Var.tsv", sep = "\t")
+
+```
 
 
 
