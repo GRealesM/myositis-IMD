@@ -18,7 +18,8 @@ JOBID=$SLURM_JOB_ID
 echo -e "JobID: $JOBID"
 G=$SLURM_ARRAY_TASK_ID ### this is the array variable, you can use it the way you want. In this example I use it to select the gene based on the line number in a file
 
-Rscript --vanilla 02-Running_DPMUnc.R Myo_7PC $G
+#Rscript --vanilla 02-Running_DPMUnc.R Myo_7PC $G
+Rscript --vanilla 02-Running_DPMUnc.R Meta_Myo_8PC $G
 
 ## Run using sbatch --array 1-5 slurm_02_RunDPMUnc_myo
 
