@@ -14,7 +14,7 @@ output:
 
 # Background
 
-We want to learn more about myositis and its subtypes in the light of IMD. For that we'll take a look at myositis projections from two studies (Miller et al., 2015 and Rothwell et al. 2022) together with our other 
+We want to learn more about myositis and its subtypes in the light of other IMD. For that we'll take a closer look at myositis projections from two studies (Miller et al., 2015 and Rothwell et al. 2022) together with our other 
 
 
 
@@ -54,8 +54,6 @@ p[, z:=NULL]
 # 1. Exploratory data analysis
 
 Next we analysed our myositis datasets in the context of meta-analyses and the rest of projections, with a focus on IMD. We applied our routine quality control to our collection of projections, applied an FDR procedure to keep datasets that are (1) significantly different from zero overall (FDR < 1%) and (2) by PC (FDR < 1% [●] or FDR < 5% [○]). 
-
-
 
 
 ```{r include=FALSE}
@@ -123,7 +121,7 @@ tsig <- copy(qf)
 tsig[, sig.overall:=ifelse(FDR.overall < 0.01, "Y", "N")]
 table(tsig$sig.overall)
 #    N     Y 
-#  4800  859
+#  4800  858
 
 qs <- qf[FDR.overall < 0.01]
 nrow(qs) / nrow(qf)
@@ -134,7 +132,7 @@ table(qs$Trait_class) / nrow(qs)
 
 table(qs$Trait_class)
 #  BC BMK CAN IMD INF OTH PSD 
-# 142  72  17 309  35 282   2 
+# 142  72  17 308  35 282   2 
 
 # Which myositis datasets didn't make the cut?
 qf[grepl("myositis", Trait_long, ignore.case = TRUE) & !Trait %in% qs$Trait]
@@ -329,6 +327,7 @@ tr <- c(tr, "DERMATOPOLY_FG_FinnGen_FinnGenR7_1")
 
 qs2 <- qs2[!Trait %in% tr] # First pass
 length(unique(qs2$Label))
+# 82
 
 # Check for duplicates, if there are still
 dp <- qs2[duplicated(Label), unique(Label)]
@@ -338,7 +337,7 @@ qsdup <- qs2[Label %in% dp]
 qs2[ First_Author == "Rothwell", Label:=gsub("Idiopathic Inflammatory Myopathies \\(IIM, Myositis\\)", "Myositis", Label)]
 
 # Show authors for myositis
-qs2[First_Author %in% c("Rothwell", "Miller", "Deakin"), Label:=paste0(Label, " (", First_Author, ")")] # Now there shouldn't be any duplicates
+qs2[First_Author %in% c("Rothwell", "Miller"), Label:=paste0(Label, " (", First_Author, ")")] # Now there shouldn't be any duplicates
 qs2[Label == "MS-disease \\/ Multiple Sclerosis \\(FinnGen\\)"] # 
 qs2[grepl("MS", Label), Label:="Multiple Sclerosis"] # Fix weird FinnGen MS label
 
@@ -360,7 +359,7 @@ ps2[, PC:=factor(PC, levels = paste0("PC", 1:13))]
 ## Clustering Myositis
 
 
-First, we clustered myositis and its subtypes, to update the data we already had. We'll do this using a complete linkage hierarchical clustering method. Myositis and its subtypes tend to cluster by source, rather than by subtypes. This might be due to the nature of the clustering method combined with very low power.
+First, we clustered myositis and its subtypes, to update the data we already had. We'll do this using a complete linkage hierarchical clustering method. Myositis and its subtypes tend to cluster by source, rather than by subtypes. This might be due to the nature of the clustering method, which only takes into account the estimates, but not the uncertainty around them, combined with very low power.
 
 
 ```{r message=FALSE, echo=FALSE, fig.width = 5, fig.height = 2, dpi=200, dev.args = list(png = list(type = "cairo"))}
@@ -390,10 +389,9 @@ Mphm
 
 ## Clustering with the rest of IMD
 
-We'll now take a look at myositis in a broader context of IMD, using a complete linkage hierarchical clustering method. Note that we included IMD only, but we also have other trait classes, like cytokines, blood cell counts, etc. that we could use for further exploration. To improve visualisation, we removed all redundant datasets, while keeping enough to cover a broad array of IMD.
+We'll now take a look at myositis in a broader context of IMD, again using complete linkage hierarchical clustering method. Note that we included IMD only in this visualisation, but we also have other trait classes, like cytokines, blood cell counts, etc. that we could use for further exploration. To improve visualisation, we removed all redundant datasets, while keeping enough to cover a broad array of IMD.
 
-PAPS clusters with several diseases, including IgG+ NMO, Felty syndrome, Primary biliary cirrhosis (PBC), Myastenia gravis, Juvenile idiopathic arthritis (JIA), some thyroid diseases, rheumatoid arthritis (RA), dermatomyositis and dermatopolymyositis, and the SLE meta-analysis. 
-Again, PAPS seems to be further away from MS and vasculitis meta-analyses.
+
 
 
 ```{r echo=FALSE, message=FALSE, fig.width = 9, fig.height = 14, dpi=300, dev.args = list(png = list(type = "cairo"))}
@@ -445,15 +443,20 @@ Mahm
 
 ```
 
+We don't observe a clear clustering of myositis datasets, with the exception of Miller's and Rothwell's Juvenile dermatomyositis and dermatomyositis. Polymyositis from each source appear far away from each other and from other myositis subtypes. Anti-Jo1+ myositis appears on its own as well.
+
+These results can be explained in two ways: (1) as before, the signal from most datasets is not too strong, so it can be lost when considering all other IMD at the same time; and (2) the hierarchical clustering method only considers the projections, without considering the uncertainty around the estimates, which is relevant, especially for smaller datasets. In addition, hierarchical clustering can become very unstable (ie. heavily dependent on the input data), especially when considering many dimensions.
+
 
 
 ## Compute Mahalanobis distance for Myositis subtypes
 
-However, this clustering method does not take into account uncertainty around the estimates (especially important when dealing with small sample sizes). Also, and especially when considering many dimensions at the same time, the algorithm can be unstable, meaning that small changes in the input traits may produce a substantial reorganisation of the clustering. Therefore, we took a different approach and looked at distances between PAPS and each of the other traits specifically, using the Mahalanobis distance.
+Considering the reasons above, we decided to apply a different approach and looked at distances between myositis subtypes and each of the other IMD specifically, using the Mahalanobis distance.
 
-The Mahalanobis distance measures the distance between a point (the IMDs), and the mean or center of a distribution, while taking into account the correlations of the dataset (derived from the LD among the SNPs in the features). We'll put differnet myositis subtypes at the center of the distribution and computed the Mahalanobis distance to every other IMD.
+The Mahalanobis distance measures the distance between a point (the IMDs), and the mean or center of a distribution, while taking into account the correlations of the dataset (derived from the LD among the SNPs in the features). We put every myositis projection at the center of the distribution and computed the Mahalanobis distance to every other IMD.
 
-Below we show the top 20 closest IMD by Mahalanobis distance, as well as the meta-analyses and the bottom 3 IMD.
+Below we show the top 20 closest IMD by Mahalanobis distance, together with their respective sample (cases) size. **Please see below for a heatmap showing all distances together, including FinnGen myositis datasets.** 
+
 
 ```{r echo=FALSE}
 v <- cupcake::shrinkage * cupcake::rot.pca
@@ -564,9 +567,12 @@ kable(Mah.dmM[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
 
 ## Looking at everything together
 
-We want a better view of these distances, so we'll put everything together. Note we'll remove Deakin for this step.
+We want a better view of these distances, so we'll put everything together. 
 
-The Mahalanobis distance is heavily right-skewed, so we'll show log(1 + mahalanobis) instead, which will help us distinguish colours: 
+The heatmap below shows the distance between the myositis projections (rows) and the rest of IMD (columns). The Mahalanobis distance is heavily right-skewed, so we'll show log(1 + mahalanobis) instead, which will help us distinguish colours. Hence, here blue means close, and red means far. We have removed the distances among the myositis projections for clarity.
+
+
+
 
 ```{r include=FALSE, echo=FALSE, fig.width=14, fig.height=6.5, dev.args = list(type = "cairo-png")}
 tlis <- copy(mget(ls(pattern="Mah\\.")))
@@ -595,16 +601,28 @@ tlis.ph <- pheatmap(tlis.map,  breaks = seq(0, 1, length.out = 100),
                 annotation_names_row = FALSE, annotation_legend = TRUE)
 
 tlis.ph
-ggsave("../figures/Myositis_mahalanobis_heatmap.png", tlis.ph, width = 14, height = 6.5, bg="white")
+ggsave("../figures/Myositis_mahalanobis_heatmap.svg", tlis.ph, width = 14, height = 6.5, bg="white")
 
 
 ```
 
-![](../figures/Myositis_mahalanobis_heatmap.png){out.width="100%"}
+![](../figures/Myositis_mahalanobis_heatmap_mod.png){out.width="100%"}
+
+We observe a block of IMD (highlighted within the red square) that closer to most myositis subtypes with two exceptions: Polymyositis (FinnGen), and anti-Jo1+. 
+Among the closest IMD across most myositis we find several forms of vasculitis (eg. MPO+ AAV, PR3+AAV, Wegener granulomatosis), some arthritis-related IMD (Juvenile idiopathic arthritis, juvenile rheuma), and both hyper- (Graves' disease) and hypothyroidism. We also find other IMD affecting muscles, like myastenia gravis and polymyalgya rheumatica. 
+
+We find some IMD that seem to be closer to particular myositis subtypes. For example, MPO+ AAV, Sjögren's syndrome, Systemic sclerosis, Graves' disease/autoimmune hyperthyroidism are closer to Dermatomyositis than to other subtypes. Juvenile dermatomyositis (Miller) projection highlights arthropatic psoriasis as a close IMD.
+Noteworthy, dermatomyositis and juvenile dermatomyositis appear to be further away than other subtypes from IMD with eosinophil involvement, like Eosinophilic granulomatosis with polyangiitis (EGPA and its subtypes MPO+ EGPA and ANCA-negative EGPA), and type 1 diabetes. This is reflected by particularly weak signals these subtypes on PC13, characterised by eosinphil levels (see myositis-only heatmap above).
+
+Regarding Polymyositis, the closest IMD seem to be JIA, Systemic sclerosis, and Wegener granulomatosis.
+
+Primary antiphospholipid syndrome (or PAPS) seems to be closer to polymyositis and dermatomyositis, but further from the juvenile form.
+
+
 
 The figure looks small due to html limitations, but you can download it and see it full size.
 
-# DPMUnc clustering (separate myositis subtypes)
+# DPMUnc clustering
 
 ```{r echo=FALSE, eval=FALSE}
 # At this point, we prepare the data for DPMUnc using significant PCs for PAPS only
@@ -621,18 +639,47 @@ dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", tim
 
 We decided to apply a novel method developed by our group, DPMUnc (Dirichlet Process Mixtures with uncertainty, [Nicholls et al., 2022](https://www.biorxiv.org/content/10.1101/2022.12.07.519476v1)), which can cluster the projections while taking uncertainty into account. Since our focus is Myositis and its subtypes, we clustered using the features any Myositis dataset was significant at 1%: PC1, PC2, PC3, PC8, PC9, PC12, and PC13. We considered all IMD showed above, regardless of significance for any of the 7 PCs.
 
-Below we show the clustering results in the two first PCs. Note that the clustering was made using 5 more PCs, so some clusters overlap upon 2D visualisation. 
+DPMUnc finds 10 clusters across 7 features. All myositis datasets fall on the same cluster (1) except for FinnGen's general myositis (cluster 3). This is likely due to the different composition of the FinnGen myositis set, comprising a majority of unclassified myositis cases, while Miller and Rothwell general myositis feature meta-analyses of classified myositis subtypes.
+
+Other IMD group with myositis, namely
+
+* Arthritis and arthritis-related phenotypes
+    - Biological medication for rheuma
+    - Juvenile Idiopathic Arthritis
+    - Juvenile rheuma
+    - Palindromic rheumatism
+    - Felty syndrome
+
+* Thyroid-related conditions
+    - Autoimmune Thyroid disease
+    - Autoimmune hyperthyroidism
+    - Autoimmune thyroiditis
+    - Hyperthyroidism/Thyrotoxicosis
+    - Hypothyroidism (congenital or acquired)
+
+* Sclerosis
+    - CR(E)ST syndrome
+    - Systemic Sclerosis
+
+* Vasculitis
+    - MPO+ AAV
+    - PR3+ AAV
+    - Wegener granulomatosis
+
+* Muscle-affecting conditions
+    - Early-onset Myastenia Gravis
+    - Late-onset Myastenia Gravis
+    - Myastenia Gravis
+
+- Biliary chirrosis, primary
+- IgG+ Neuromyelitis Optica
+- Idiopathic thrombocytopenic purpura
+- Sjögren's syndrome
+- Primary antiphospholipid syndrome
+                                    
+
 
 ```{r echo=FALSE}
-resdpmunc <- readRDS("../data/Myo_7PC_psm_data.rds")
-resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc.cl = resdpmunc$calls$cl)
-resdpmunc[grepl("Myositis", Label, ignore.case = TRUE)]
-resdpmunc[DPMUnc.cl == 6]
-```
-
-
-
-```{r echo=FALSE, fig.height= 8, fig.width=8}
 
 resdpmunc <- readRDS("../data/Myo_7PC_psm_data.rds")
 resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc.cl = resdpmunc$calls$cl)
@@ -640,11 +687,18 @@ resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc.cl = resdpmunc
 p7 <- ps2s[ PC %in% paste0("PC", c(1,2,3,8,9,12,13)), .(Trait, Label, PC, Delta, Trait_long, Trait_class, stars)]
 p7 <- data.table::dcast(p7, Label + Trait + Trait_class  + Trait_long ~ PC, value.var = c("Delta", "stars"))
 p7 <- merge(p7, resdpmunc, by=c("Label"), all.x = TRUE)
+p7[, DPMUnc.cl:=factor(DPMUnc.cl, levels = 1:10)]
+#kable(p7[DPMUnc.cl == 1 & !grepl("myositis", Label, ignore.case = T), .(Label)]) %>% kable_styling()
+
+```
+
+
+Below we show the clustering results in the two first PCs. Note that the clustering was made using 5 more PCs, so some clusters overlap upon 2D visualisation. 
+
+```{r echo=FALSE, fig.height= 8, fig.width=8}
 
 palette <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#FDAE61",  "#66C2A5", "#ABDDA4", "#F46D43",  "#3288BD", "#5E4FA2",  "#FEE08B", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788") # Colours for clusters  
-colp <- palette[1:max(p7$DPMUnc.cl)]
-
-p7[, DPMUnc.cl:=factor(DPMUnc.cl, levels = 1:10)]
+colp <- palette[as.numeric(levels(p7$DPMUnc.cl))]
 
 
 pcbiplot <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC2, colour = DPMUnc.cl, label=Label))+
@@ -664,7 +718,27 @@ pcbiplot <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC2, colour = DPMUnc.cl, la
 
 ```
 
-Let's look at PC13 as well.
+Let's look at PC12 and 13 as well.
+
+
+```{r echo=FALSE, fig.height= 8, fig.width=8}
+pcbiplot_112 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC12, colour = DPMUnc.cl, label=Label))+
+    geom_hline(yintercept = 0)+
+    geom_vline(xintercept = 0)+
+    ggforce::geom_mark_ellipse(aes(fill=DPMUnc.cl , label=NULL), alpha=0.2 , show.legend = FALSE )+
+    geom_point(size=3)+
+    scale_colour_manual(values = colp)+
+    scale_fill_manual(values = colp)+
+    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis", Label, ignore.case = TRUE)], show.legend = FALSE) +
+  #| grepl("myastenia", Label, ignore.case = T)
+    xlab("Delta PC1")+
+    ylab("Delta PC12")+
+    theme_minimal()+
+    theme(legend.title = element_blank(), legend.position = "none", axis.title = element_text(size =15))
+  pcbiplot_112
+
+```
+
 
 
 ```{r echo=FALSE, fig.height= 8, fig.width=8}
@@ -686,21 +760,8 @@ pcbiplot_113 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC13, colour = DPMUnc.c
 ```
 
 
-```{r echo=FALSE, fig.height= 8, fig.width=8}
-pcbiplot_112 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC12, colour = DPMUnc.cl, label=Label))+
-    geom_hline(yintercept = 0)+
-    geom_vline(xintercept = 0)+
-    ggforce::geom_mark_ellipse(aes(fill=DPMUnc.cl , label=NULL), alpha=0.2 , show.legend = FALSE )+
-    geom_point(size=3)+
-    scale_colour_manual(values = colp)+
-    scale_fill_manual(values = colp)+
-    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis", Label, ignore.case = TRUE)], show.legend = FALSE) +
-  #| grepl("myastenia", Label, ignore.case = T)
-    xlab("Delta PC1")+
-    ylab("Delta PC12")+
-    theme_minimal()+
-    theme(legend.title = element_blank(), legend.position = "none", axis.title = element_text(size =15))
-  pcbiplot_112
+# Discussion
 
-```
+TO DO.
+
 
