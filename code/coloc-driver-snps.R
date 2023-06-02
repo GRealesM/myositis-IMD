@@ -472,13 +472,11 @@ p11.1  <- plots$`11:64329761`
 p11.2 <- plots$`11:64362250`
 p11 <- plot_grid(p11.1,p11.2, ncol =1, labels = NULL)
 ggsave("../figures/coloc_chr11.png", p11, height = 8, width = 8, bg="white")
-
-ggsave("../figures/coloc_chr12.png", plots$`12:112468611`, height = 8, width = 8, bg="white")
-ggsave("../figures/coloc_chr17_1.png", plots$`17:39913696`, height = 8, width = 8, bg="white")
-ggsave("../figures/coloc_chr17_2.png", plots$`17:75373341`, height = 8, width = 8, bg="white")
-ggsave("../figures/coloc_chr2_1.png", plots$`2:100215693`, height = 8, width = 8, bg="white")
-ggsave("../figures/coloc_chr2_2.p7:128954129
-7:128977412ng", plots$`2:191071078`, height = 8, width = 8, bg="white")
+ggsave("../figures/coloc_chr12.png", plots$`12:112468611`, height = 6, width = 8, bg="white")
+ggsave("../figures/coloc_chr17_1.png", plots$`17:39913696`, height = 5, width = 8, bg="white")
+ggsave("../figures/coloc_chr17_2.png", plots$`17:75373341`, height = 5, width = 8, bg="white")
+ggsave("../figures/coloc_chr2_1.png", plots$`2:100215693`, height = 5, width = 8, bg="white")
+ggsave("../figures/coloc_chr2_2.png", plots$`2:191071078`, height = 11, width = 8, bg="white")
 ggsave("../figures/coloc_chr3.png", plots$`3:28029953`, height = 8, width = 8, bg="white")
 ggsave("../figures/coloc_chr4.png", plots$`4:122194347`, height = 8, width = 8, bg="white")
 
@@ -488,7 +486,7 @@ p7.3  <- plots$`7:128977412`
 p7 <- plot_grid(p7.1,p7.2,p7.3, ncol =1, labels = NULL)
 ggsave("../figures/coloc_chr7_1.png", p7, height = 16, width = 8, bg="white")
 
-ggsave("../figures/coloc_chr7_2.png", plots$`7:37397251`, height = 8, width = 8, bg="white")
+ggsave("../figures/coloc_chr7_2.png", plots$`7:37397251`, height = 5, width = 8, bg="white")
 ggsave("../figures/coloc_chr8.png", plots$`8:11491677`, height = 8, width = 8, bg="white")
 
 
