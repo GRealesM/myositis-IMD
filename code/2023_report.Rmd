@@ -619,8 +619,7 @@ Regarding Polymyositis, the closest IMD seem to be JIA, Systemic sclerosis, and 
 Primary antiphospholipid syndrome (or PAPS) seems to be closer to polymyositis and dermatomyositis, but further from the juvenile form.
 
 
-
-The figure looks small due to html limitations, but you can download it and see it full size.
+The figure looks a bit small due to html limitations, but you can download it and see it full size.
 
 # DPMUnc clustering
 
@@ -637,9 +636,26 @@ dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", tim
 
 ```
 
+
+```{r include=FALSE, echo=FALSE}
+
+resdpmunc <- readRDS("../data/Myo_7PC_psm_data.rds")
+resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc.cl = resdpmunc$calls$cl)
+
+p7 <- ps2s[ PC %in% paste0("PC", c(1,2,3,8,9,12,13)), .(Trait, Label, PC, Delta, Trait_long, Trait_class, stars)]
+p7 <- data.table::dcast(p7, Label + Trait + Trait_class  + Trait_long ~ PC, value.var = c("Delta", "stars"))
+p7 <- merge(p7, resdpmunc, by=c("Label"), all.x = TRUE)
+p7[, DPMUnc.cl:=factor(DPMUnc.cl, levels = 1:10)]
+#kable(p7[DPMUnc.cl == 1 & !grepl("myositis", Label, ignore.case = T), .(Label)]) %>% kable_styling()
+
+p7[grepl("myositis", Label, ignore.case = TRUE), .(Label, DPMUnc.cl)] # All but Finngen's Myositis in cluster 1
+p7[DPMUnc.cl == 1, .(Label)] # Other IMD in the same cluster as myositis
+fwrite(p7, "../data/DPMUnc_res_v1.tsv", sep = "\t")
+```
+
 We decided to apply a novel method developed by our group, DPMUnc (Dirichlet Process Mixtures with uncertainty, [Nicholls et al., 2022](https://www.biorxiv.org/content/10.1101/2022.12.07.519476v1)), which can cluster the projections while taking uncertainty into account. Since our focus is Myositis and its subtypes, we clustered using the features any Myositis dataset was significant at 1%: PC1, PC2, PC3, PC8, PC9, PC12, and PC13. We considered all IMD showed above, regardless of significance for any of the 7 PCs.
 
-DPMUnc finds 10 clusters across 7 features. All myositis datasets fall on the same cluster (1) except for FinnGen's general myositis (cluster 3). This is likely due to the different composition of the FinnGen myositis set, comprising a majority of unclassified myositis cases, while Miller and Rothwell general myositis feature meta-analyses of classified myositis subtypes.
+DPMUnc finds 10 clusters across 7 features. All myositis datasets fall on the same cluster (1) except for FinnGen's myositis (cluster 3). This is likely due to the different composition of the FinnGen myositis set, comprising a majority of unclassified myositis cases, while Miller and Rothwell general myositis feature meta-analyses of classified myositis subtypes.
 
 Other IMD group with myositis, namely
 
@@ -670,27 +686,14 @@ Other IMD group with myositis, namely
     - Early-onset Myastenia Gravis
     - Late-onset Myastenia Gravis
     - Myastenia Gravis
-
-- Biliary chirrosis, primary
-- IgG+ Neuromyelitis Optica
-- Idiopathic thrombocytopenic purpura
-- Sjögren's syndrome
-- Primary antiphospholipid syndrome
-                                    
-
-
-```{r echo=FALSE}
-
-resdpmunc <- readRDS("../data/Myo_7PC_psm_data.rds")
-resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc.cl = resdpmunc$calls$cl)
-
-p7 <- ps2s[ PC %in% paste0("PC", c(1,2,3,8,9,12,13)), .(Trait, Label, PC, Delta, Trait_long, Trait_class, stars)]
-p7 <- data.table::dcast(p7, Label + Trait + Trait_class  + Trait_long ~ PC, value.var = c("Delta", "stars"))
-p7 <- merge(p7, resdpmunc, by=c("Label"), all.x = TRUE)
-p7[, DPMUnc.cl:=factor(DPMUnc.cl, levels = 1:10)]
-#kable(p7[DPMUnc.cl == 1 & !grepl("myositis", Label, ignore.case = T), .(Label)]) %>% kable_styling()
-
-```
+    
+* Blood-affecting conditions
+    - Idiopathic thrombocytopenic purpura
+    - Primary antiphospholipid syndrome
+* Other conditions
+    - Primary Biliary Cirrhosis/Cholangitis
+    - IgG+ Neuromyelitis Optica
+    - Sjögren's syndrome
 
 
 Below we show the clustering results in the two first PCs. Note that the clustering was made using 5 more PCs, so some clusters overlap upon 2D visualisation. 
@@ -758,6 +761,46 @@ pcbiplot_113 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC13, colour = DPMUnc.c
   pcbiplot_113
 
 ```
+
+Test plot: an attempt to "desconstruct" the biplots
+
+```{r echo=FALSE, fig.height= 8, fig.width=8}
+p7.1 <- p7[DPMUnc.cl ==1]
+p7.1[grepl("myositis", Label, ignore.case = TRUE), group:="myositis"][is.na(group), group:="other_IMD"][, group:=as.factor(group)]
+p7.1 <- p7.1[, .(Label, Delta_PC1,Delta_PC2, Delta_PC3, Delta_PC8, Delta_PC9, Delta_PC12, Delta_PC13, group)]
+
+# tpt <- ggparcoord(p7.1, columns = c(2:8), groupColumn = "Label",
+#          showPoints = TRUE,
+#          title = "Parallel Coordinate Plot for Cluster 1",
+#          alphaLines = 0.3
+#     ) +
+#   geom_text_repel(data = . %>% filter(variable == "Delta_PC1"),
+#                   aes(x = variable, y = value, label = Label),
+#                   xlim = c(NA, 1), hjust=1) + # limit repel region to the left of the 1st column
+#   theme_minimal()+
+#   theme(legend.position = "none")
+
+
+tpt <- ggparcoord(p7.1, columns = c(2:8), groupColumn = "group",
+         showPoints = TRUE,
+         title = "Parallel Coordinate Plot for Cluster 1",
+         alphaLines = 0.3
+    ) +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+
+```
+
+
+# Investigating driver SNPs underlying myositis signals
+
+## Computing the joint probability of SNPs to be significant
+
+Next, we wanted to investigate the SNPs that underlie the shared signal between PAPS and other IMD. When training the features, many of the entries in the rotation matrix (which provides the weights assigned to each SNP for each feature) were very close to zero. To be more computationally efficient and to identify which SNPs are relevant for each feature, we searched for a minimal set of SNPs that could replicate the signals observed with dense-SNP data with high correlation (0.999) for each feature, obtaining a sparse rotation matrix containing non-zero entries for those SNPs that provide support for each feature. We refer to this set of variants as **driver SNPs**, as they directly influence the projections on each feature. Note that driver SNPs may be limited to a single feature, or be drivers for more than one feature.
+
+
+
 
 
 # Discussion
