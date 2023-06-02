@@ -642,7 +642,7 @@ dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", tim
 resdpmunc <- readRDS("../data/Myo_7PC_psm_data.rds")
 resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc.cl = resdpmunc$calls$cl)
 
-p7 <- ps2s[ PC %in% paste0("PC", c(1,2,3,8,9,12,13)), .(Trait, Label, PC, Delta, Trait_long, Trait_class, stars)]
+    p7 <- ps2s[ PC %in% paste0("PC", c(1,2,3,8,9,12,13)), .(Trait, Label, PC, Delta, Trait_long, Trait_class, stars)]
 p7 <- data.table::dcast(p7, Label + Trait + Trait_class  + Trait_long ~ PC, value.var = c("Delta", "stars"))
 p7 <- merge(p7, resdpmunc, by=c("Label"), all.x = TRUE)
 p7[, DPMUnc.cl:=factor(DPMUnc.cl, levels = 1:10)]
@@ -650,7 +650,7 @@ p7[, DPMUnc.cl:=factor(DPMUnc.cl, levels = 1:10)]
 
 p7[grepl("myositis", Label, ignore.case = TRUE), .(Label, DPMUnc.cl)] # All but Finngen's Myositis in cluster 1
 p7[DPMUnc.cl == 1, .(Label)] # Other IMD in the same cluster as myositis
-fwrite(p7, "../data/DPMUnc_res_v1.tsv", sep = "\t")
+  fwrite(p7, "../data/DPMUnc_res_v1.tsv", sep = "\t")
 ```
 
 We decided to apply a novel method developed by our group, DPMUnc (Dirichlet Process Mixtures with uncertainty, [Nicholls et al., 2022](https://www.biorxiv.org/content/10.1101/2022.12.07.519476v1)), which can cluster the projections while taking uncertainty into account. Since our focus is Myositis and its subtypes, we clustered using the features any Myositis dataset was significant at 1%: PC1, PC2, PC3, PC8, PC9, PC12, and PC13. We considered all IMD showed above, regardless of significance for any of the 7 PCs.
