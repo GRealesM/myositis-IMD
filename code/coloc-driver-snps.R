@@ -402,10 +402,12 @@ for(i in which(index$H4>.5)) {
     best=result$results$snp[ which.max(result$results$SNP.PP.H4) ]
     w1=which(d1$snp==best)
     w2=which(d2$snp==best)
-    index[i ,c("bestsnp","bestsnp.pp","pbest.myos","pbest.other"):=
+    index[i ,c("bestsnp","bestsnp.pp","pbest.myos","pbest.other", "pbest.myos.region", "pbest.other.region"):=
                  list(best, max(result$results$SNP.PP.H4),
                       2*pnorm( -abs(d1$beta)/sqrt(d1$varbeta))[w1],
-                      2*pnorm( -abs(d2$beta)/sqrt(d2$varbeta))[w2])]
+                      2*pnorm( -abs(d2$beta)/sqrt(d2$varbeta))[w2],
+                      min(2*pnorm( -abs(d1$beta)/sqrt(d1$varbeta))),
+                      min(2*pnorm( -abs(d2$beta)/sqrt(d2$varbeta))))]
 }
 
 # Add info on which PCs the SNPs are driver for
@@ -416,9 +418,7 @@ p.myos <- unique(index[ , .(pid, trait.myos)])
 pex <- data2[trait %in% unique(p.myos$trait.myos) & pid %in% unique(p.myos$pid), .(pid, trait, P)]
 p.myos <- merge(p.myos, pex, by.x=c("pid", "trait.myos"), by.y=c("pid", "trait"))
 names(p.myos)[3]  <- "pdriver.myos"
-index <- 
-
-merge(index, p.myos, by=c("pid", "trait.myos"))
+index <- merge(index, p.myos, by=c("pid", "trait.myos"))
 
 
 index[ H4>.5 , .(trait.myos, trait.other,  fdr.myos, fdr.other, pairwise_fdr, H4, pid, bestsnp, bestsnp.pp, pdriver.myos)]
