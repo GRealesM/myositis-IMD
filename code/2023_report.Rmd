@@ -250,6 +250,14 @@ tr <- c(tr, setdiff(qs2[grepl("Arthritis", Label, ignore.case = TRUE), Trait], c
 qs2[grepl("Hypothyroidism", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("Hypothyroidism", Label, ignore.case = TRUE), Trait], c("HYPOTHYROIDISM_FinnGen_FinnGenR7_1")))
 
+# Hyperthyroidism
+qs2[grepl("hyperthyroidism|graves", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("hyperthyroidism|graves", Label, ignore.case = TRUE), Trait], c("20002_1225_PanUKBB_PanUKBBR2_1")))
+
+# Thyroiditis
+qs2[grepl("thyroiditis", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("thyroiditis", Label, ignore.case = TRUE) , Trait], c("E4_THYROIDITAUTOIM_FinnGen_FinnGenR7_1")))
+
 # Psoriasis
 qs2[grepl("Psoria", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("Psoria", Label, ignore.case = TRUE), Trait], c("L12_PSORIASIS_FinnGen_FinnGenR7_1", "L12_PSORI_ARTHRO_FinnGen_FinnGenR7_1")))
@@ -257,6 +265,10 @@ tr <- c(tr, setdiff(qs2[grepl("Psoria", Label, ignore.case = TRUE), Trait], c("L
 # Graves' disease
 qs2[grepl("Graves", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("Graves", Label, ignore.case = TRUE), Trait], c("E4_GRAVES_STRICT_FinnGen_FinnGenR7_1")))
+
+# Rhinitis
+qs2[grepl("rhinitis", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("rhinitis", Label, ignore.case = TRUE), Trait], c("20002_1387_PanUKBB_PanUKBBR2_1")))
 
 # Diabetic related stuff
 qs2[grepl("Diabetic|Diabetes[, ]", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
@@ -318,16 +330,20 @@ tr <- c(tr, setdiff(qs2[grepl("vitiligo", Label, ignore.case = TRUE), Trait], c(
 qs2[Label == "Myastenia Gravis"][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[Label == "Myastenia Gravis" , Trait], c("MYG_Chia_35074870_1")))
 
-# Thyroiditis
-qs2[Label == "Thyroiditis"][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[Label == "Thyroiditis" , Trait], c("THYROIDITIS_FinnGen_FinnGenR7_1")))
+# Rosacea
+qs2[grepl("rosacea", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("rosacea", Label, ignore.case = TRUE) , Trait], c("L12_ROSACEA_FinnGen_FinnGenR7_1")))
+
+# Addison's disease
+qs2[grepl("addison", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("addison", Label, ignore.case = TRUE) , Trait], c("AAD_Eriksson_33574239_1")))
 
 # There was an extra DMPMYO by FinnGen, we'll remove it
 tr <- c(tr, "DERMATOPOLY_FG_FinnGen_FinnGenR7_1")
 
 qs2 <- qs2[!Trait %in% tr] # First pass
 length(unique(qs2$Label))
-# 82
+# 75
 
 # Check for duplicates, if there are still
 dp <- qs2[duplicated(Label), unique(Label)]
@@ -335,6 +351,10 @@ qsdup <- qs2[Label %in% dp]
 
 # Rename Rothwell myositis to fit the rest
 qs2[ First_Author == "Rothwell", Label:=gsub("Idiopathic Inflammatory Myopathies \\(IIM, Myositis\\)", "Myositis", Label)]
+
+# Rename PBC and PSC
+qs2[grepl("sclerosing", Label), Label:= "Primary sclerosing cholangitis"]
+qs2[grepl("chirrosis", Label), Label:= "Primary biliary cholangitis"]
 
 # Show authors for myositis
 qs2[First_Author %in% c("Rothwell", "Miller"), Label:=paste0(Label, " (", First_Author, ")")] # Now there shouldn't be any duplicates
@@ -441,7 +461,7 @@ Mahm <- pheatmap(Map,  breaks = seq(-range, range, length.out = 100),
                 labels_row = make_bold_names(Map, rownames, papsb))
 
 Mahm
-#ggsave("../figures/Myositis_IMD_heatmap.png", Mahm, width = 10, height = 14, bg="white")
+ggsave("../figures/Myositis_IMD_heatmap.png", Mahm, width = 10, height = 14, bg="white")
 
 ```
 
@@ -609,7 +629,7 @@ tlis.ph
 
 ![](../figures/Myositis_mahalanobis_heatmap_mod_v2.png){out.height="100%"}
 
-We observe a block of IMD (highlighted within the red square) that closer to most myositis subtypes with two exceptions: Polymyositis (FinnGen), and anti-Jo1+. 
+We observe a block of IMD (highlighted within the red square) that are closer to most myositis subtypes with two exceptions: Polymyositis (FinnGen), and anti-Jo1+. 
 Among the closest IMD across most myositis we find several forms of vasculitis (eg. MPO+ AAV, PR3+AAV, Wegener granulomatosis), some arthritis-related IMD (Juvenile idiopathic arthritis, juvenile rheuma), and both hyper- (Graves' disease) and hypothyroidism. We also find other IMD affecting muscles, like myastenia gravis and polymyalgya rheumatica. 
 
 We find some IMD that seem to be closer to particular myositis subtypes. For example, MPO+ AAV, Sjögren's syndrome, Systemic sclerosis, Graves' disease/autoimmune hyperthyroidism are closer to Dermatomyositis than to other subtypes. Juvenile dermatomyositis (Miller) projection highlights arthropatic psoriasis as a close IMD.
