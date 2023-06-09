@@ -673,7 +673,7 @@ p7[DPMUnc.cl == 1, .(Label)] # Other IMD in the same cluster as myositis
 
 We decided to apply a novel method developed by our group, DPMUnc (Dirichlet Process Mixtures with uncertainty, [Nicholls et al., 2022](https://www.biorxiv.org/content/10.1101/2022.12.07.519476v1)), which can cluster the projections while taking uncertainty into account. Since our focus is Myositis and its subtypes, we clustered using the features any Myositis dataset was significant at 1%: PC1, PC2, PC3, PC8, PC9, PC12, and PC13. We considered all IMD showed above, regardless of significance for any of the 7 PCs.
 
-DPMUnc finds 10 clusters across 7 features. All myositis datasets fall on the same cluster (1) except for FinnGen's myositis (cluster 3). This is likely due to the different composition of the FinnGen myositis set, comprising a majority of unclassified myositis cases, while Miller and Rothwell general myositis feature meta-analyses of classified myositis subtypes.
+DPMUnc finds 11 clusters across 7 features. All myositis datasets fall on the same cluster (1) except for FinnGen's myositis (cluster 2). This is likely due to the different composition of the FinnGen myositis set, comprising a majority of unclassified myositis cases, while Miller and Rothwell general myositis feature meta-analyses of classified myositis subtypes.
 
 Other IMD group with myositis, namely
 
@@ -686,7 +686,6 @@ Other IMD group with myositis, namely
 
 * Thyroid-related conditions
     - Autoimmune Thyroid disease
-    - Autoimmune hyperthyroidism
     - Autoimmune thyroiditis
     - Hyperthyroidism/Thyrotoxicosis
     - Hypothyroidism (congenital or acquired)
@@ -729,7 +728,7 @@ pcbiplot <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC2, colour = DPMUnc.cl, la
     geom_point(size=3)+
     scale_colour_manual(values = colp)+
     scale_fill_manual(values = colp)+
-    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis", Label, ignore.case = TRUE)], show.legend = FALSE) +
+    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis", Label, ignore.case = TRUE) | Delta_PC2 > 0.075], show.legend = FALSE) +
   #| grepl("myastenia", Label, ignore.case = T)
     xlab("Delta PC1")+
     ylab("Delta PC2")+
@@ -780,36 +779,6 @@ pcbiplot_113 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC13, colour = DPMUnc.c
 
 ```
 
-Test plot: an attempt to "desconstruct" the biplots
-
-```{r echo=FALSE, fig.height= 8, fig.width=8}
-p7.1 <- p7[DPMUnc.cl ==1]
-p7.1[grepl("myositis", Label, ignore.case = TRUE), group:="myositis"][is.na(group), group:="other_IMD"][, group:=as.factor(group)]
-p7.1 <- p7.1[, .(Label, Delta_PC1,Delta_PC2, Delta_PC3, Delta_PC8, Delta_PC9, Delta_PC12, Delta_PC13, group)]
-
-# tpt <- ggparcoord(p7.1, columns = c(2:8), groupColumn = "Label",
-#          showPoints = TRUE,
-#          title = "Parallel Coordinate Plot for Cluster 1",
-#          alphaLines = 0.3
-#     ) +
-#   geom_text_repel(data = . %>% filter(variable == "Delta_PC1"),
-#                   aes(x = variable, y = value, label = Label),
-#                   xlim = c(NA, 1), hjust=1) + # limit repel region to the left of the 1st column
-#   theme_minimal()+
-#   theme(legend.position = "none")
-
-
-tpt <- ggparcoord(p7.1, columns = c(2:8), groupColumn = "group",
-         showPoints = TRUE,
-         title = "Parallel Coordinate Plot for Cluster 1",
-         alphaLines = 0.3
-    ) +
-  theme_minimal()+
-  theme(legend.position = "none")
-
-
-```
-
 
 # Investigating driver SNPs underlying myositis signals
 
@@ -827,7 +796,7 @@ For this step, we selected nine myositis datasets, including all significant ove
 * Myositis - Miller (myo.m)
 * Myositis - Rothwell (myo.r)
 * Polymyositis - Miller (pm.m)
-* Polyyositis - Rothwell (pm.r)
+* Polymyositis - Rothwell (pm.r)
 
 And 15 other IMD that were shown to be close to myositis by the methods above or are of special interest:
 
@@ -838,7 +807,6 @@ And 15 other IMD that were shown to be close to myositis by the methods above or
 * CR(E)ST syndrome (crest)
 * Myastenia gravis (myag)
 * Felty syndrome (felty)
-* Primary antiphospholipid syndrome (paps)
 * Sjögren's syndrome (sjos)
 * Systemic sclerosis (ssc)
 * Wegener granulomatosis (wegen)
