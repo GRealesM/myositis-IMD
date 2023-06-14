@@ -366,6 +366,7 @@ d2l=function(d, trait) {
          s=n1[trait]/(n1[trait]+n0[trait]))
     }
 w=1e+6 # large window choice
+# This code will call the best SNP and find their P-values in both the myositis and the IMD dataset, so we don't need to run coloc twice.
 for(i in 1:nrow(index)) {
     st=index$bp[i]-w
     en=index$bp[i]+w
@@ -374,23 +375,8 @@ for(i in 1:nrow(index)) {
            trait=index$trait.myos[[i]])
     d2=d2l( data[[ index$trait.other[i] ]][CHR38==chr & BP38>st & BP38<en & !is.na(SE) & !is.na(BETA) & !duplicated(pid)],
            trait=index$trait.other[[i]])
-    index[i ,c("nsnps","H0","H1","H2","H3","H4"):=as.list(coloc.abf(d1,d2)$summary)]
-}
-
-index[pairwise_fdr < 0.05 | H4>.5]
-
-
-
-# We're we interested on the best SNP for H4 >.5 
-for(i in which(index$H4>.5)) {
-    st=index$bp[i]-w
-    en=index$bp[i]+w
-    chr=index$chr[i]
-    d1=d2l( data[[ index$trait.myos[i]]][CHR38==chr & BP38>st & BP38<en & !is.na(SE) & !is.na(BETA) & !duplicated(pid)],
-           trait= index$trait.myos[i])
-    d2=d2l( data[[ index$trait.other[i] ]][CHR38==chr & BP38>st & BP38<en & !is.na(SE) & !is.na(BETA) & !duplicated(pid)],
-           trait=index$trait.other[i])
     result=coloc.abf(d1,d2)
+    index[i ,c("nsnps","H0","H1","H2","H3","H4"):=as.list(result$summary)]
     best=result$results$snp[ which.max(result$results$SNP.PP.H4) ]
     w1=which(d1$snp==best)
     w2=which(d2$snp==best)
@@ -401,6 +387,9 @@ for(i in which(index$H4>.5)) {
                       min(2*pnorm( -abs(d1$beta)/sqrt(d1$varbeta))),
                       min(2*pnorm( -abs(d2$beta)/sqrt(d2$varbeta))))]
 }
+
+index[H4>.5]
+
 
 # Add info on which PCs the SNPs are driver for
 index <- merge(index, dv, by="pid")
@@ -433,7 +422,7 @@ plotter=function(pid,w=1e+6) {
     bp=sub(".*:","",pid)  %>% as.numeric()
     st=bp-w
     en=bp+w
-    wh=which(index$pid==pid & (index$H4>.5|index$pairwise_fdr<.05))
+    wh=which(index$pid==pid & (index$H4>.5))
     print(index[wh])
     traits=unique(c(index$trait.myos[wh],index$trait.other[wh]))
     dp=lapply(data[traits], function(d)
@@ -460,6 +449,9 @@ names(plots) <- index[ H4>.5, unique(pid)]
 
 index[ H4>.5, unique(pid)]
 
+index[ pid %in% c("7:128933913", "7:128954129") & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, pbest.myos)]
+
+
 p11.1  <- plots$`11:64329761`
 p11.2 <- plots$`11:64362250`
 p11 <- plot_grid(p11.1,p11.2, ncol =1, labels = NULL)
@@ -469,9 +461,9 @@ ggsave("../figures/coloc_chr17_1.png", plots$`17:39913696`, height = 5, width = 
 ggsave("../figures/coloc_chr17_2.png", plots$`17:75373341`, height = 5, width = 8, bg="white")
 ggsave("../figures/coloc_chr1.png", plots$`1:113834946`, height = 11, width = 8, bg="white")
 ggsave("../figures/coloc_chr2_1.png", plots$`2:100215693`, height = 5, width = 8, bg="white")
-ggsave("../figures/coloc_chr2_2.png", plots$`2:191071078`, height = 11, width = 8, bg="white")
-ggsave("../figures/coloc_chr3.png", plots$`3:28029953`, height = 8, width = 8, bg="white")
-ggsave("../figures/coloc_chr4.png", plots$`4:122194347`, height = 8, width = 8, bg="white")
+ggsave("../figures/coloc_chr2_2.png", plots$`2:191071078`, height = 7, width = 8, bg="white")
+ggsave("../figures/coloc_chr3.png", plots$`3:28029953`, height = 7, width = 8, bg="white")
+ggsave("../figures/coloc_chr4.png", plots$`4:122194347`, height = 6, width = 8, bg="white")
 
 p7.1  <- plots$`7:128933913`
 p7.2  <- plots$`7:128954129`
