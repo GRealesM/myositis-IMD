@@ -1,7 +1,3 @@
-## I wonder if there is way to identify the specific loci that led to finding
-# 1) similarity to NMO and Sjogren's and 
-# 2) Similarity to Scleroderma/CREST and dermatomyositis? 
-# These group of loci might give us a clue to the neurological and vascular components of PAPS, respectively.
 
 ## Load packages and required
 library(data.table)
@@ -10,7 +6,7 @@ library(coloc)
 library(annotSnpStats)
 library(ggplot2)
 library(cowplot)
-setDTthreads(14)
+setDTthreads(15)
 setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
 
 
@@ -130,7 +126,7 @@ data2=data2[ order(as.numeric(CHR38),BP38)]
 data2[,x:=cumsum(c(0, pmax(diff(BP38), 0))),by="trait"]
 axisdf <- data2[, .(center=(max(x) + min(x))/2), by = CHR38]
 
-# There are 24 datasets, so instead of plotting everything in the same plot, we'll split it into two
+# There are 23 datasets, so instead of plotting everything in the same plot, we'll split it into two
 traits  <- unique(data2$trait)
 
 mhp1 <- ggplot(data2[ trait %in% traits[1:8]], aes(x=x, y=-log10(fdr), col=factor(as.numeric(CHR38) %% 2))) + 
@@ -177,7 +173,7 @@ mhp3 <- ggplot(data2[ trait %in% traits[17:23]], aes(x=x, y=-log10(fdr), col=fac
 
 mhp <- plot_grid(mhp1, mhp2, mhp3, ncol = 3) # This can be improved, some chromosomes don't seem to align properly with their data points.
 
-ggsave("../figures/manhattan_24IMD.png", mhp, height = 8, width = 17, bg = "white")
+ggsave("../figures/manhattan_23IMD.png", mhp, height = 8, width = 17, bg = "white")
 
 
 myos=data2[trait %in% traits[1:9], .(trait, pid, fdr)] # I put myositis datasets at the beginning, so these should be the ones.
@@ -265,10 +261,10 @@ myos[ pairwise_fdr < 0.05 ]
 # so we'll select those SNPs with at pairwise_fdr < 0.5 and then coloc those for all combinations.
 myos[, trait_snp:=paste0(trait.other, "_", pid)] # auxiliary variable for trait.other and index_snp pairs
 
-index_tspairs <- myos[ pairwise_fdr < 0.05 , unique(trait_snp) ]
+index_tspairs <- myos[ pairwise_fdr < 0.5 , unique(trait_snp) ]
 # 250 unique IMD-indexSNPs with pairwise_fdr < 0.5 pairs
 
-index=myos[ pairwise_fdr < 0.05 | trait_snp %in% index_tspairs ][order(pairwise_fdr)]
+index=myos[ pairwise_fdr < 0.5 | trait_snp %in% index_tspairs ][order(pairwise_fdr)]
 
 index[ , c("chr","bp"):=tstrsplit(pid,":")  %>% lapply(., as.numeric) ]
 
@@ -363,7 +359,7 @@ n0=fd$N0
 names(n0) <- fd$name
 
 
-## run 306 colocs
+## run coloc
 
 d2l=function(d, trait) {
     list(snp=d$pid,
@@ -416,75 +412,3 @@ fwrite(index, "../tables/coloc_results.tsv", sep="\t")
 
 
 ###########
-
-
-# Now explore the SNPs in more detail
-index[ H4>.5, unique(pid)]
-# 9 SNPs, comprising 7 regions
-index[ H4>.5, unique(trait.other)]
-# We have coloc associations with 9 (out of 14) IMDs
-# These are
-# [1] "hypothy"  "sjos"     "hyperthy" "jia"      "myag"     "mpoaav"   "pbc"     
-# [8] "ssc"      "pr3aav"    
-
-## plot these signals
-plotter=function(pid,w=1e+6) {
-    chr=sub(":.*","",pid)  %>% as.numeric()
-    bp=sub(".*:","",pid)  %>% as.numeric()
-    st=bp-w
-    en=bp+w
-    wh=which(index$pid==pid & (index$H4>.5))
-    print(index[wh])
-    traits=unique(c(index$trait.myos[wh],index$trait.other[wh]))
-    dp=lapply(data[traits], function(d)
-        d[CHR38==chr & BP38>st & BP38<en & !is.na(SE) & !is.na(BETA) & !duplicated(pid),
-          .(pid,CHR38,BP38,BETA,SE,P=2*pnorm(-abs(BETA)/SE))])
-    for(i in seq_along(traits))
-        dp[[i]]$trait=traits[i]
-    dp %<>% rbindlist()
-    ggplot(dp, aes(x=BP38, y=-log10(P))) + 
-            geom_point() + 
-            facet_grid(trait~.,scales="free_y") + 
-            geom_vline(xintercept=bp,col="red")+
-            ggtitle(pid)+
-            theme_cowplot() + 
-            theme(axis.title.x = element_blank(),
-                  strip.background = element_rect(colour="black", fill = "white"),
-                  )
-}
-
-
-
-plots <- lapply(index[ H4>.5, unique(pid)], plotter)
-names(plots) <- index[ H4>.5, unique(pid)]
-
-index[ H4>.5, unique(pid)]
-
-index[ pid %in% c("7:128933913", "7:128954129") & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, pbest.myos)]
-
-
-p11.1  <- plots$`11:64329761`
-p11.2 <- plots$`11:64362250`
-p11 <- plot_grid(p11.1,p11.2, ncol =1, labels = NULL)
-ggsave("../figures/coloc_chr11.png", p11, height = 8, width = 8, bg="white")
-ggsave("../figures/coloc_chr12.png", plots$`12:112468611`, height = 6, width = 8, bg="white")
-ggsave("../figures/coloc_chr17_1.png", plots$`17:39913696`, height = 5, width = 8, bg="white")
-ggsave("../figures/coloc_chr17_2.png", plots$`17:75373341`, height = 5, width = 8, bg="white")
-ggsave("../figures/coloc_chr1.png", plots$`1:113834946`, height = 11, width = 8, bg="white")
-ggsave("../figures/coloc_chr2_1.png", plots$`2:100215693`, height = 5, width = 8, bg="white")
-ggsave("../figures/coloc_chr2_2.png", plots$`2:191071078`, height = 7, width = 8, bg="white")
-ggsave("../figures/coloc_chr3.png", plots$`3:28029953`, height = 7, width = 8, bg="white")
-ggsave("../figures/coloc_chr4.png", plots$`4:122194347`, height = 6, width = 8, bg="white")
-
-p7.1  <- plots$`7:128933913`
-p7.2  <- plots$`7:128954129`
-p7 <- plot_grid(p7.1,p7.2, ncol =1, labels = NULL)
-ggsave("../figures/coloc_chr7_1.png", p7, height = 14, width = 8, bg="white")
-
-ggsave("../figures/coloc_chr7_2.png", plots$`7:37397251`, height = 5, width = 8, bg="white")
-ggsave("../figures/coloc_chr8.png", plots$`8:11491677`, height = 8, width = 8, bg="white")
-
-
-
-
-
