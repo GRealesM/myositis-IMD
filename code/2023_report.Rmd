@@ -843,12 +843,67 @@ which means that, if datasets were positively dependent, the resulting probabili
 
 We computed the pairwise FDR for all myositis-IMD pairs and filtered out SNPs in close proximity (< 1Mb apart), resulting in 58 myositis-IMD significant pairs comprising 14 driver SNPs and 11 clusters or independent, non-overlapping regions. None of the 14 SNPs with shared associations are genomewide significant (P < 5e-8) in their individual GWAS (see pdriver.myos in the table below).
 
+```{r echo=FALSE}
+# Add some extra information to the coloc table
+library(biomaRt)
+coloc <- fread("../tables/coloc_results.tsv", na.strings = "")
+
+man <- fread("../data/Manifest_build_translator.tsv")
+man[,pid38:=paste(CHR38,BP38, sep=":")][,pid19:=paste(CHR19,BP19, sep=":")]
+man <- merge(man, cupcake::SNP.manifest[,.(pid, ref_a1, ref_a2)], by.x = "pid19", by.y="pid")
+
+
+
+man <- man[,.(SNPID, pid)]
+names(man)[1] <- "driver.rsid"
+coloc <- merge(coloc, man)
+coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos > pbest.myos.region, bestsnp.novel:="Yes"] # Add novelty
+# 
+# rsids.dr <- coloc[, .(unique(driver.rsid))]
+# fwrite(rsids.dr, "../data/rsids.dr.tsv", col.names = F)
+# 
+# ## Now we'll retrieve the mapped genes for the driver and candidate SNPs
+
+# library(GenomicRanges)
+# library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+
+drs <- unique(coloc[, .(pid, driver.rsid)])
+drs[, c("chr", "bp"):=tstrsplit(pid, ":")][, c("chr", "bp"):=lapply(list(chr,bp), as.numeric)][, chr:=paste0("chr",chr)]
+
+
+snp_ranges <- GRanges(seqnames = drs$chr,
+                      ranges = IRanges(start = drs$bp,
+                                       end = drs$bp),
+                      names = drs$driver.rsid)
+txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+txdb <- genes(txdb)
+nearest_genes <- GenomicRanges::nearest( snp_ranges, txdb,select="all")
+annres <- data.table(rsid = snp_ranges[nearest_genes@from]$names, gene_id = txdb[nearest_genes@to]$gene_id)
+
+
+mart <- useMart("ENSEMBL_MART_ENSEMBL")
+mart <- useDataset("hsapiens_gene_ensembl", mart)
+tt <- getBM(attributes = c("entrezgene_id", "external_gene_name", "hgnc_symbol"), filters = c("entrezgene_id"), values = annres$gene_id, mart = mart)
+tt %<>% as.data.table
+tt[, entrezgene_id:=as.character(entrezgene_id)]
+annres <- merge(annres, tt, by.x = "gene_id", by.y = "entrezgene_id", all.x=TRUE)
+annres[external_gene_name == "", external_gene_name:=NA]
+
+
+```
+
 
 ```{r echo=FALSE}
-options(knitr.kable.NA = '')
+
 coloc <- fread("../tables/coloc_results.tsv", na.strings = "")
+coloc <- merge(coloc, man)
 coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos > pbest.myos.region, bestsnp.novel:="Yes"] # Add novelty
-coloc[ pairwise_fdr < 0.05, .(pid, trait.myos, trait.other, pairwise_fdr, pdriver.myos)][order(pid)] %>% kable %>% kable_styling(full_width = FALSE)
+coloc[ H4 > 0.5, .(pid, driver.rsid, trait.myos, trait.other, H4)][order(pid)] %>% kable %>% kable_styling(full_width = FALSE)
+
+options(knitr.kable.NA = '')
+
+
+
 ```
 
 In this table we show the myositis-IMD pairs in more details. The `pid` column denote the driver SNP genomic position, in hg38. `trait.myos` denote the myositis dataset, `trait.other` denote the IMD with shared association with the myositis trait at the SNP. `pairwise_fdr` denote the FDR for the SNP to be associated with both traits (the lower, the better). Finally, `pdriver.myos` is the P-value for the driver SNP in the myositis (`trait.myos`) individual GWAS.
@@ -889,6 +944,7 @@ mapped.genes <- "1:113834946, PTPN22, rs2476601,
 3:28033394, EOMES and CMC1, rs451375,
 3:28033679, EOMES and CMC1, rs819991,
 4:122629959, IL21, rs13132308,
+6:166993145, CEP43, rs415890,
 7:128936032, IRF5, rs3757387,
 7:129044262, TNPO3, rs62478615,
 7:129011468, TNPO3, rs36073657,
@@ -907,11 +963,16 @@ mapped.genes <- "1:113834946, PTPN22, rs2476601,
 split_text <- unlist(strsplit(mapped.genes, ", |,\n"))  # Split text based on comma and space
 column1 <- split_text[c(TRUE, FALSE, FALSE)]  # Select the odd-indexed elements for column 1
 column2 <- split_text[c(FALSE, TRUE, FALSE)] # Select the even-indexed elements for column 2
-column3 <- split_text[c(FALSE, FALSE, TRUE)] # Select the even-indexed elements for column 2
+column3 <- split_text[c(FALSE, FALSE, TRUE)] # Select the even-indexed elements for column 3
 mapped.genes <- data.table(bestsnp = column1, mapped.genes = column2, bestsnp.rsid = column3)
 
-sumcoloc <- merge(coloc[!is.na(bestsnp)], mapped.genes, by="bestsnp", all.x = TRUE)
-sumcoloc[, clabel:=paste(bestsnp.rsid, mapped.genes, sep=" / ")][ ]
+# We need to ensure that we assign the genes to the pids as well
+mg <- merge(coloc[, .(pid, bestsnp)], mapped.genes, by="bestsnp")
+mg <- unique(mg[, .(pid, mapped.genes)])
+
+sumcoloc <- merge(coloc, mg, by="pid", all.x = TRUE, allow.cartesian = TRUE)
+sumcoloc <- merge(sumcoloc, mapped.genes[, .(bestsnp, bestsnp.rsid)], by="bestsnp", all.x = TRUE, allow.cartesian = TRUE) # Add bestsnp.rsids
+sumcoloc[, clabel:=paste( mapped.genes, driver.rsid, sep=" / ")]
 
 
 sumcoloc[ H4 > 0.8, .(trait.myos, trait.other, pid, H4, bestsnp, bestsnp.pp, mapped.genes, bestsnp.novel)][order(trait.myos, trait.other, bestsnp)] %>% kable(digits = 32) %>% kable_styling
@@ -921,9 +982,6 @@ sumcoloc[ H4 > 0.8, .(trait.myos, trait.other, pid, H4, bestsnp, bestsnp.pp, map
 
 Most of these high-confidence candidate SNPs come from pooled myositis, which are meta-analyses combining all the myositis other subtypes combined. Two candidate SNPs (1:113834946, and 1:113761186) appear in polymyositis and myositis for the same associations (hypo/hyperthyroidism and myastenia gravis, and jia, respectively). It might be the case that some of these associations observed in pooled myositis come from other subtypes with smaller H4 on their own. Let's check if that's the case.
 
-
-**PLOT IDEA** A myositis vs candidate SNP heatmap or grid, with squares representing H4, and scaled by colour. That would be an easy way to see the relationships between candidate SNPs.
-Another idea could involve myositis-IMD-disease. Maybe improve the table above to identify pooled and subtypes associations and cluster them by disease?
 
 
 ```{r echo=FALSE}
@@ -939,7 +997,7 @@ sumcoloc[bestsnp %in% snps.myo & (trait.myos %in% c("myo.r", "myo.m") | H4 < 0.8
 
 PLOT TRIAL
 
-```{r echo=FALSE,dpi=200, dev.args = list(png = list(type = "cairo"))}
+```{r echo=FALSE, dpi=200, dev.args = list(png = list(type = "cairo"))}
 
 # 
 # panel.grid.major = element_blank(),
@@ -964,21 +1022,50 @@ PLOT TRIAL
 # +
 #   scale_fill_manual(values = map_chr(palettes, 5))
 
-sumc2 <- sumcoloc[H4 > 0.5, .(clabel, trait.myos, trait.other, H4)]
+keypids <- sumcoloc[ H4 > 0.5, unique(pid)]
+
+sumc2 <- sumcoloc[pid %in% keypids, .(clabel, trait.myos, trait.other, H4)]
 sumc2 <- sumc2 %>% tidyr::complete(clabel, trait.myos, trait.other ) %>% as.data.table()
 sumc2[, clabel:=factor(clabel, levels = rev(unique(clabel)))]
 sumc2[, trait.other:=factor(trait.other, levels = rev(unique(trait.other)))]
+sumc2[,flag:=ifelse(H4>.8, "high", ifelse(H4>.5, "med", "low"))]
 
-ggplot(sumc2, aes(x =  trait.other, y = clabel, fill = H4)) +
-  geom_tile( color = "black",
-            lwd = 0.2,
-            linetype = 1) +
-  scale_fill_gradient(na.value = "white")+
-  scale_x_discrete(position = "top")+
+# 
+# c2[, clabel:=factor(clabel, levels=snps$pid)]
+# 
+# ## flag > .8, > .5
+# sumc2[,flag:=ifelse(H4>.8, "high", ifelse(H4>.5, "med", "low"))]
+# sumc2=sumc2[order(H4)]
+# 
+# ggplot() +
+#     geom_tile(aes(x =  trait.other, y = clabel),
+#               lwd=.5, linetype = 1, data=sumc2[], fill="white", colour="black") +
+#     geom_tile(aes(x =  trait.other, y = clabel, colour = flag, fill = H4),
+#               lwd=1, linetype = 1, data=sumc2[H4>.5]) +
+#     scale_colour_manual(values=c(high="yellow",med="green",low="grey"), guide=guide_none()) +
+#     scale_fill_gradient(na.value = "white") + #, low="grey90", high="#56B1F7")+
+#     scale_x_discrete(position = "bottom")+
+#     theme_minimal(base_size=16) +
+#     theme(panel.grid.major = element_blank(),
+#           axis.title = element_blank(),
+#           axis.text.x = element_text(angle = 45,hjust=1,vjust=1))+
+#     facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")
+
+#palette <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#FDAE61",  "#66C2A5", "#ABDDA4", "#F46D43",  "#3288BD", "#5E4FA2",  "#FEE08B", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788") # Colours for clusters 
+
+ggplot() +
+  geom_tile(aes(x =  trait.other, y = clabel),
+               lwd=.5, linetype = 1, data=sumc2[], fill="white", colour="black") +
+  geom_tile(aes(x =  trait.other, y = clabel, colour = flag, fill = H4),
+              lwd=1, linetype = 1, data=sumc2[H4>.5]) +
+  scale_colour_manual(values=c(high="yellow",med="green",low="grey"), guide=guide_none()) +
+ scale_fill_gradient(na.value = "white") + #, low="grey90", high="#56B1F7")+
+  #scale_x_discrete(position = "top")+
   theme_minimal() +
   theme(panel.grid.major = element_blank(),
         axis.title = element_blank(),
-        axis.text.x = element_text(angle = 270))+
+        axis.text.x = element_text(angle = 270, hjust=0),
+        legend.title = element_blank())+
   facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")
 
 
@@ -1092,11 +1179,11 @@ We find one (weak, H4 ~ 0.52) association between myositis (Rothwell) and PR3+ A
 ![4:122194347 region region Manhattan plot. The driver SNP is signalled by a red line.](../figures/coloc_chr4.png)
 
 
-### Chromosome 7.1 region (7:128933913, 7:128954129, 7:128977412)
+### Chromosome 7.1 region (7:128933913, 7:128954129)
 
 
 ```{r echo=FALSE}
-coloc[ pid %in% c("7:128933913", "7:128954129", "7:128977412") & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, pbest.myos, bestsnp.novel)][order(trait.myos)] %>% kable(digits = 32) %>% kable_styling
+coloc[ pid %in% c("7:128933913", "7:128954129") & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, pbest.myos, bestsnp.novel)][order(trait.myos)] %>% kable(digits = 32) %>% kable_styling
 ```
 
 
@@ -1116,7 +1203,7 @@ Among these candidate SNPs, we found novel associations for myositis (7:12893603
 
 
 
-![7.1 (7:128933913, 7:128954129, 7:128977412) region Manhattan plot. The driver SNP is signalled by a red line.](../figures/coloc_chr7_1.png)
+![7.1 (7:128933913, 7:128954129) region Manhattan plot. The driver SNP is signalled by a red line.](../figures/coloc_chr7_1.png)
 
 **Internal note:** I think these plots can still be improved.
 
