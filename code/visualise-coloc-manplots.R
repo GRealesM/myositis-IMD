@@ -171,6 +171,7 @@ ggsave("../figures/coloc_chr2_1.png", plots$`2:100215693`, height = 5, width = 8
 ggsave("../figures/coloc_chr2_2.png", plots$`2:191071078`, height = 7, width = 8, bg="white")
 ggsave("../figures/coloc_chr3.png", plots$`3:28029953`, height = 7, width = 8, bg="white")
 ggsave("../figures/coloc_chr4.png", plots$`4:122194347`, height = 6, width = 8, bg="white")
+ggsave("../figures/coloc_chr6.png", plots$`6:167124106`, height = 6, width = 8, bg="white")
 
 p7.1  <- plots$`7:128933913`
 p7.2  <- plots$`7:128954129`
