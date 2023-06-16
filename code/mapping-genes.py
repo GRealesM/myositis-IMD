@@ -113,7 +113,7 @@ query annotateLeadSnp($inputVariantId: String!){
 
 base_url = "https://api.genetics.opentargets.org/graphql"
 
-daf = pd.read_csv('../data/rsids.dr.tsv', delimiter = '\t')
+daf = pd.read_csv('../data/snp.to.map.tsv', delimiter = '\t')
 
 daf.rename(columns = {'SNPID': 'SNP'}, inplace = True)
 
@@ -121,9 +121,9 @@ result_dict = {}
 
 for index, row in daf.iterrows():
 
-    if re.match('^rs', row.SNP):
-        variables = {'inputVariantId': row.SNP}
-    elif re.match('\d+:\d+:\w+:\w+', row.SNP):
+    # if re.match('^rs', row.SNP):
+    #     variables = {'inputVariantId': row.SNP} # This script now takes rsids
+    if re.match('\d+:\d+:\w+:\w+', row.SNP):
         variables = {"inputVariantId": row.SNP.replace(':', '_')}
     else:
         variables = {"inputVariantId": '_'.join([str(x) for x in [row.CHR, row.BP, row.REF, row.ALT]])}
@@ -142,7 +142,7 @@ for index, row in daf.iterrows():
 
     result_dict[row.SNP] = {'variantInfo' : variant_response_data, 'indexVariantsAndStudiesForTagVariant': index_variants_and_studies_response_data, 'genesForVariant': genes_for_variant_response_data}
 
-with open('../data/dr.genes.tsv', 'w') as f:
+with open('../data/mapped.genes.tsv', 'w') as f:
     json.dump(result_dict, f)
 
 d = []
@@ -161,4 +161,4 @@ meta_daf = pd.DataFrame(d)
 
 meta_daf = meta_daf.merge(right = daf, how = 'right', left_on = 'SNPID', right_on = 'SNP')
 
-meta_daf.to_csv('../data/dr.genes.tsv', sep = '\t', index = False)
+meta_daf.to_csv('../data/mapped.genes.tsv', sep = '\t', index = False)
