@@ -121,7 +121,9 @@ result_dict = {}
 
 for index, row in daf.iterrows():
 
-    if re.match('\d+:\d+:\w+:\w+', row.SNP):
+    if re.match('^rs', row.SNP):
+        variables = {'inputVariantId': row.SNP}
+    elif re.match('\d+:\d+:\w+:\w+', row.SNP):
         variables = {"inputVariantId": row.SNP.replace(':', '_')}
     else:
         variables = {"inputVariantId": '_'.join([str(x) for x in [row.CHR, row.BP, row.REF, row.ALT]])}
