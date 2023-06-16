@@ -844,20 +844,33 @@ which means that, if datasets were positively dependent, the resulting probabili
 We computed the pairwise FDR for all myositis-IMD pairs and filtered out SNPs in close proximity (< 1Mb apart), resulting in 58 myositis-IMD significant pairs comprising 14 driver SNPs and 11 clusters or independent, non-overlapping regions. None of the 14 SNPs with shared associations are genomewide significant (P < 5e-8) in their individual GWAS (see pdriver.myos in the table below).
 
 ```{r echo=FALSE}
-# Add some extra information to the coloc table
-library(biomaRt)
+
 coloc <- fread("../tables/coloc_results.tsv", na.strings = "")
+
+# Add some info to the coloc table, and extract rsids to map
+best.rsids <- fread("../data/bestsnp.rsids.tsv")
+names(best.rsids) <- c("bestsnp", "best.rsid")
 
 man <- fread("../data/Manifest_build_translator.tsv")
 man[,pid38:=paste(CHR38,BP38, sep=":")][,pid19:=paste(CHR19,BP19, sep=":")]
 man <- merge(man, cupcake::SNP.manifest[,.(pid, ref_a1, ref_a2)], by.x = "pid19", by.y="pid")
-
-
+man <- man[, .(pid38, SNPID, ref_a1, ref_a2)]
+man[, c("CHR", "BP"):=tstrsplit(pid38, split=":")]
+names(man)[c(1, 3:4)] <- c("pid", "REF", "ALT")
 
 man <- man[,.(SNPID, pid)]
 names(man)[1] <- "driver.rsid"
+
 coloc <- merge(coloc, man)
+coloc <- merge(coloc, best.rsids, by="bestsnp")
+
 coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos > pbest.myos.region, bestsnp.novel:="Yes"] # Add novelty
+
+# # Get rsids to map them to genes
+# snp.to.map <- data.table(SNP = unique(c(coloc[H4 > 0.5, unique(driver.rsid)], coloc[H4 > 0.5, unique(best.rsid)])))
+# fwrite(snp.to.map, "../data/snp.to.map.tsv", sep="\t")
+
+
 # 
 # rsids.dr <- coloc[, .(unique(driver.rsid))]
 # fwrite(rsids.dr, "../data/rsids.dr.tsv", col.names = F)
