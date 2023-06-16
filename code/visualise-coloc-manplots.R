@@ -182,6 +182,12 @@ ggsave("../figures/coloc_chr7_2.png", plots$`7:37397251`, height = 5, width = 8,
 ggsave("../figures/coloc_chr8.png", plots$`8:11491677`, height = 8, width = 8, bg="white")
 
 
+## Extract rsids for bestsnps as well, for later
 
+csnp <- index[ H4>.5, unique(bestsnp)]
 
+exd <- data$dmy.m # this file has rsids, so we'll use it
+exd[, pid:=paste(CHR38, BP38, sep=":")]
+exd <- exd[pid %in% csnp, .(pid, SNPID)]
 
+fwrite(exd, "../data/bestsnp.rsids.tsv", sep="\t")
