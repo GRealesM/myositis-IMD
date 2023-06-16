@@ -188,6 +188,6 @@ csnp <- index[ H4>.5, unique(bestsnp)]
 
 exd <- data$dmy.m # this file has rsids, so we'll use it
 exd[, pid:=paste(CHR38, BP38, sep=":")]
-exd <- exd[pid %in% csnp, .(pid, SNPID)]
+exd <- exd[pid %in% csnp, .(pid, CHR38, BP38, SNPID, REF, ALT)]
 
 fwrite(exd, "../data/bestsnp.rsids.tsv", sep="\t")
