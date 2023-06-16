@@ -869,6 +869,10 @@ coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos > pbest.myos.region, bestsnp.nov
 # # Get rsids to map them to genes
 # snp.to.map <- data.table(SNP = unique(c(coloc[H4 > 0.5, unique(driver.rsid)], coloc[H4 > 0.5, unique(best.rsid)])))
 # fwrite(snp.to.map, "../data/snp.to.map.tsv", sep="\t")
+# After this, we run the mapping-genes.py routine in the HPC to get the associated genes from opentargets
+
+
+
 
 
 # 
