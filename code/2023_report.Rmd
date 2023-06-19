@@ -525,7 +525,7 @@ Mah.dmpmF <- mahal.f(i=Map, var.proj = var.proj, ref="Dermatopolymyositis (FinnG
 ```
 
 
-## General Myositis
+## Myositis (pooled)
 
 ### Rothwell
 
@@ -632,12 +632,12 @@ tlis.ph
 We observe a block of IMD (highlighted within the red square) that are closer to most myositis subtypes with two exceptions: Polymyositis (FinnGen), and anti-Jo1+. 
 Among the closest IMD across most myositis we find several forms of vasculitis (eg. MPO+ AAV, PR3+AAV, Wegener granulomatosis), some arthritis-related IMD (Juvenile idiopathic arthritis, juvenile rheuma), and both hyper- (Graves' disease) and hypothyroidism. We also find other IMD affecting muscles, like myastenia gravis and polymyalgya rheumatica. 
 
-We find some IMD that seem to be closer to particular myositis subtypes. For example, MPO+ AAV, Sjögren's syndrome, Systemic sclerosis, Graves' disease/autoimmune hyperthyroidism are closer to Dermatomyositis than to other subtypes. Juvenile dermatomyositis (Miller) projection highlights arthropatic psoriasis as a close IMD.
+We find some IMD that seem to be closer to particular myositis subtypes. For example, MPO+ AAV, Sjögren's syndrome, Systemic sclerosis, Graves' disease/autoimmune hyperthyroidism are closer to Dermatomyositis than to other subtypes. Juvenile dermatomyositis (Miller) projection highlights arthropathic psoriasis as a close IMD.
+
 Noteworthy, dermatomyositis and juvenile dermatomyositis appear to be further away than other subtypes from IMD with eosinophil involvement, like Eosinophilic granulomatosis with polyangiitis (EGPA and its subtypes MPO+ EGPA and ANCA-negative EGPA), and type 1 diabetes. This is reflected by particularly weak signals these subtypes on PC13, characterised by eosinphil levels (see myositis-only heatmap above).
 
-Regarding Polymyositis, the closest IMD seem to be JIA, Systemic sclerosis, and Wegener granulomatosis.
+Regarding Polymyositis, the closest IMD are JIA, Systemic sclerosis, and Wegener granulomatosis.
 
-The figure looks a bit small due to html limitations, but you can download it and see it full size.
 
 # DPMUnc clustering
 
@@ -738,6 +738,9 @@ pcbiplot <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC2, colour = DPMUnc.cl, la
 
 ```
 
+**EXPLAIN**
+
+
 Let's look at PC12 and 13 as well.
 
 
@@ -759,6 +762,7 @@ pcbiplot_112 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC12, colour = DPMUnc.c
 
 ```
 
+**EXPLAIN**
 
 
 ```{r echo=FALSE, fig.height= 8, fig.width=8}
@@ -779,12 +783,14 @@ pcbiplot_113 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC13, colour = DPMUnc.c
 
 ```
 
+**EXPLAIN**
+
 
 # Investigating driver SNPs underlying myositis signals
 
 ## Computing the joint probability of SNPs to be significant
 
-Next, we wanted to investigate the SNPs that underlie the shared signal between PAPS and other IMD. When training the features, many of the entries in the rotation matrix (which provides the weights assigned to each SNP for each feature) were very close to zero. To be more computationally efficient and to identify which SNPs are relevant for each feature, we searched for a minimal set of SNPs that could replicate the signals observed with dense-SNP data with high correlation (0.999) for each feature, obtaining a sparse rotation matrix containing non-zero entries for those SNPs that provide support for each feature. We refer to this set of variants as **driver SNPs**, as they directly influence the projections on each feature. Note that driver SNPs may be limited to a single feature, or be drivers for more than one feature.
+Next, we wanted to investigate the SNPs that underlie the shared signal between myositis subtypes and other IMD. When training the features, many of the entries in the rotation matrix (which provides the weights assigned to each SNP for each feature) were very close to zero. To be more computationally efficient and to identify which SNPs are relevant for each feature, we searched for a minimal set of SNPs that could replicate the signals observed with dense-SNP data with high correlation (0.999) for each feature, obtaining a sparse rotation matrix containing non-zero entries for those SNPs that provide support for each feature. We refer to this set of variants as **driver SNPs**, as they directly influence the projections on each feature. Note that driver SNPs may be limited to a single feature, or be drivers for more than one feature.
 
 For this step, we selected nine myositis datasets, including all significant overall datasets for both Miller and Rothwell:
 
@@ -820,6 +826,7 @@ And 15 other IMD that were shown to be close to myositis by the methods above or
 
 ![Manhattan plot of driver SNPs FDR across IMDs](../figures/manhattan_23IMD.png){out.width="100%"}
 
+
 **Internal note:** In this figure some of the datasets have gaps, which causes chromosomes mismatch. Need to find a way to fix this before sending around.
 
 
@@ -841,89 +848,62 @@ $$P(H_1\ true\ for\ myositis\ \&\ IMD\ |\ p_{myositis}<\alpha,\ p_{IMD}<\alpha) 
 
 which means that, if datasets were positively dependent, the resulting probability for association with both traits would be higher, so assuming independence make our estimates are more conservative. The rationale is that, if we know the probability of association of a variant for one dataset, the probability of the variant to be significant for a dependent dataset either increases or remains the same compared to both datasets being independent. 
 
-We computed the pairwise FDR for all myositis-IMD pairs and filtered out SNPs in close proximity (< 1Mb apart), resulting in 58 myositis-IMD significant pairs comprising 14 driver SNPs and 11 clusters or independent, non-overlapping regions. None of the 14 SNPs with shared associations are genomewide significant (P < 5e-8) in their individual GWAS (see pdriver.myos in the table below).
+We computed the pairwise FDR for all myositis-IMD pairs resulting in 58 myositis-IMD significant pairs comprising 14 driver SNPs and 11 clusters or independent, non-overlapping regions. None of the 14 SNPs with shared associations are genomewide significant ($P < 5 \times 10^{-8}$) in their individual GWAS (see `pdriver.myos` in the table below).
+
 
 ```{r echo=FALSE}
 
 coloc <- fread("../tables/coloc_results.tsv", na.strings = "")
+
+# # Get alleles and positions to map SNPs to  genes
+# best.rsids <- fread("../data/bestsnp.rsids.tsv")
+# names(best.rsids)[2:3] <- c("CHR", "BP")
+
+# man <- fread("../data/Manifest_build_translator.tsv")
+# man[,pid38:=paste(CHR38,BP38, sep=":")][,pid19:=paste(CHR19,BP19, sep=":")]
+# man <- merge(man, cupcake::SNP.manifest[,.(pid, ref_a1, ref_a2)], by.x = "pid19", by.y="pid")
+# man <- man[, .(pid38, SNPID, ref_a1, ref_a2)]
+# man[, c("CHR", "BP"):=tstrsplit(pid38, split=":")]
+# names(man)[c(1, 3:4)] <- c("pid", "REF", "ALT")
+
+# snp.to.map <- rbindlist(list(best.rsids,man), use.names = TRUE)
+# fwrite(snp.to.map, "../data/snp.to.map.tsv", sep="\t")
+# # After this, we run the mapping-genes.py routine in the HPC to get the associated genes from opentargets
+
+# Import mapped genes 
+mg <- fread("../data/mapped.genes.tsv") %>% unique
+mg <- mg[,.(SNPID, pid, nearestGene)]
 
 # Add some info to the coloc table, and extract rsids to map
-best.rsids <- fread("../data/bestsnp.rsids.tsv")
-names(best.rsids) <- c("bestsnp", "best.rsid")
 
-man <- fread("../data/Manifest_build_translator.tsv")
-man[,pid38:=paste(CHR38,BP38, sep=":")][,pid19:=paste(CHR19,BP19, sep=":")]
-man <- merge(man, cupcake::SNP.manifest[,.(pid, ref_a1, ref_a2)], by.x = "pid19", by.y="pid")
-man <- man[, .(pid38, SNPID, ref_a1, ref_a2)]
-man[, c("CHR", "BP"):=tstrsplit(pid38, split=":")]
-names(man)[c(1, 3:4)] <- c("pid", "REF", "ALT")
+coloc <- merge(coloc, mg, by="pid") # First on driver SNPs
+setnames(coloc, c("SNPID", "nearestGene"), c("driver.rsid", "driver.nearestgene"))
+coloc <- merge(coloc, mg, by.x="bestsnp", by.y = "pid", all.x = TRUE) # Then on candidate snps. Bear in mind that we only mapped candidate SNPs with H4 > 0.5
+setnames(coloc, c("SNPID", "nearestGene"), c("bestsnp.rsid", "bestsnp.nearestgene"))
 
-man <- man[,.(SNPID, pid)]
-names(man)[1] <- "driver.rsid"
-
-coloc <- merge(coloc, man)
-coloc <- merge(coloc, best.rsids, by="bestsnp")
-
+# Add novelty on bestsnps
 coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos > pbest.myos.region, bestsnp.novel:="Yes"] # Add novelty
+# Add gene/ driver SNP label
+coloc[, dlabel:=paste( driver.nearestgene, driver.rsid, sep=" / ")]
 
-# # Get rsids to map them to genes
-# snp.to.map <- data.table(SNP = unique(c(coloc[H4 > 0.5, unique(driver.rsid)], coloc[H4 > 0.5, unique(best.rsid)])))
-# fwrite(snp.to.map, "../data/snp.to.map.tsv", sep="\t")
-# After this, we run the mapping-genes.py routine in the HPC to get the associated genes from opentargets
-
-
-
-
-
-# 
-# rsids.dr <- coloc[, .(unique(driver.rsid))]
-# fwrite(rsids.dr, "../data/rsids.dr.tsv", col.names = F)
-# 
-# ## Now we'll retrieve the mapped genes for the driver and candidate SNPs
-
-# library(GenomicRanges)
-# library(TxDb.Hsapiens.UCSC.hg38.knownGene)
-
-drs <- unique(coloc[, .(pid, driver.rsid)])
-drs[, c("chr", "bp"):=tstrsplit(pid, ":")][, c("chr", "bp"):=lapply(list(chr,bp), as.numeric)][, chr:=paste0("chr",chr)]
-
-
-snp_ranges <- GRanges(seqnames = drs$chr,
-                      ranges = IRanges(start = drs$bp,
-                                       end = drs$bp),
-                      names = drs$driver.rsid)
-txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
-txdb <- genes(txdb)
-nearest_genes <- GenomicRanges::nearest( snp_ranges, txdb,select="all")
-annres <- data.table(rsid = snp_ranges[nearest_genes@from]$names, gene_id = txdb[nearest_genes@to]$gene_id)
-
-
-mart <- useMart("ENSEMBL_MART_ENSEMBL")
-mart <- useDataset("hsapiens_gene_ensembl", mart)
-tt <- getBM(attributes = c("entrezgene_id", "external_gene_name", "hgnc_symbol"), filters = c("entrezgene_id"), values = annres$gene_id, mart = mart)
-tt %<>% as.data.table
-tt[, entrezgene_id:=as.character(entrezgene_id)]
-annres <- merge(annres, tt, by.x = "gene_id", by.y = "entrezgene_id", all.x=TRUE)
-annres[external_gene_name == "", external_gene_name:=NA]
-
+# Add proper labels
+ml <- data.table(mlabel = c("DM (Miller)", "DM (Rothwell)", "JDM (Miller)","JDM (Rothwell)", "Jo1+ (Rothwell)", "Myositis (Miller)", "Myositis (Rothwell)", "PM (Miller)", "PM (Rothwell)"),
+                 trait.myos = c("dmy.m", "dmy.r", "jdm.m", "jdm.r", "jo1m.r", "myo.m", "myo.r", "pm.m", "pm.r"))
+coloc <- merge(coloc, ml, by="trait.myos")
 
 ```
 
 
 ```{r echo=FALSE}
-
-coloc <- fread("../tables/coloc_results.tsv", na.strings = "")
-coloc <- merge(coloc, man)
-coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos > pbest.myos.region, bestsnp.novel:="Yes"] # Add novelty
-coloc[ H4 > 0.5, .(pid, driver.rsid, trait.myos, trait.other, H4)][order(pid)] %>% kable %>% kable_styling(full_width = FALSE)
-
 options(knitr.kable.NA = '')
 
-
+coloc[ pairwise_fdr < 0.05, .(pid, driver.rsid, trait.myos, trait.other, pairwise_fdr, pdriver.myos)][order(pid)] %>% kable %>% kable_styling(full_width = FALSE)
 
 ```
 
-In this table we show the myositis-IMD pairs in more details. The `pid` column denote the driver SNP genomic position, in hg38. `trait.myos` denote the myositis dataset, `trait.other` denote the IMD with shared association with the myositis trait at the SNP. `pairwise_fdr` denote the FDR for the SNP to be associated with both traits (the lower, the better). Finally, `pdriver.myos` is the P-value for the driver SNP in the myositis (`trait.myos`) individual GWAS.
+
+In this table we show the myositis-IMD pairs in more details. The `pid` column denote the driver SNP genomic position, in hg38. `trait.myos` denote the myositis dataset, `trait.other` denote the IMD with shared association with the myositis trait at the SNP. `pairwise_fdr` denote the FDR for the driver SNP to be associated with both traits (the lower, the better). Finally, `pdriver.myos` is the P-value for the driver SNP in the myositis (`trait.myos`) individual GWAS.
+
 
 
 ## Colocalising key driver SNPs
@@ -939,184 +919,74 @@ While the previous approach is useful to identify which driver SNPs are relevant
 
 These hypotheses are assigned posterior probabilities by coloc that sum one.
 
-To explore a wider range of driver SNPs across myositis-IMD pairs, we relaxed the FDR threshold to 0.5 (ie. more likely to be significant for both diseases than not), and we obtained 80 driver SNPs and 482 myositis-IMD pairs. We applied coloc to each myositis-IMD pair regions surrounding each driver SNP associated to the pair, using a 1Mb window around and assuming a single causal variant. 
 
-This resulted in 51 myositis-IMD pairs and 14 driver SNPs in 12 independent regions with $P(H4) >0.5$ (ie. highest probability for a shared variant for both IMD in the region). 
+To increase our discovery possibilities in the next step, we relaxed the `pairwise_fdr` threshold to < 0.5 (meaning that a variant is more likely to be associated with both diseases than not). This resulted in 614 myositis-IMD pairs and 84 unique driver SNPs. To get a fuller picture, when a driver SNP was significant for a myositis-IMD pair (ie. pairwise FDR < 0.5 for a given SNP and IMD), we also considered every IMD-myositis pair for that given SNP and IMD, regardless of significant. For example, JIA-Myositis (Rothwell) had rs2476601 (1:113834946) associated with both; then we considered every JIA-myositis pair (ie. including every myositis dataset) at rs2476601 for the next step.
+We found 250 driver SNP-IMD combinations. We next removed SNPs in close proximity (< 1Mb), resulting in 1692 myositis-IMD pairs to colocalise.
 
-As mentioned earlier, the driver SNP might not be the causal one, but be in LD with the causal variant instead. Thus, we also report SNP with the highest posterior probability of being the shared causal variant in each region. We'll call **novel associations** those SNPs that (1) have high posterior to be shared (H4 > 0.5) between a given myositis and an IMD, (2) are not genome-wide significant (ie. P > 5e-8) in the myositis GWAS, and (3) are not the top hit (ie. the one with the lowest P-value) in the 1Mb region defined for coloc.
+We applied coloc to each myositis-IMD pair regions surrounding each driver SNP associated to the pair, using a 1Mb window around and assuming a single causal variant. 
 
-Below we show a summary table containing the key findings. Here `pid` correspond to the genomic position of the driver SNP, `bestsnp` is the SNP with the highest posterior probability to be shared in the region (which may not match the driver SNP), `bestsnp.pp` is the posterior probability of the best candidate SNP. We also report the genes the candidate SNP has been mapped, and whether the association is novel, according to the criteria above.
+This resulted in 54 myositis-IMD pairs and 16 driver SNPs in 14 independent regions with $P(H4) >0.5$ (ie. highest probability for a shared variant for both IMD in the region). 
 
-Note that we here we show associations with strong association probability (H4 > 0.8), but below we look at each region in more detail.
+Below we show a summary figure of the results, where driver SNPs and their nearest genes are presented in rows, myositis-IMD pairs are presented in panels, with IMD labels at the bottom. Tested associations are coloured by their H4 value (the lighter, the higher). High confidence associations (ie H4 > 0.8) are highlighted in green, and medium-confidence (ie. H4 > 0.5) in yellow.
 
-We found 24 high confidence associations and 9 associated candidate SNPs (8 of them novel for myositis and its subtypes) across 5 independent genomic regions. These associations included polymyositis with hyperthyroidism, JIA, MPO+AAV, and myastenia gravis, and pooled myositis with hypo- and hyperthyroidism, JIA, MPO+AAV, myastenia gravis, PBC, Sjögren's syndrome and systemic sclerosis. 
-
-```{r echo=FALSE}
-
-mapped.genes <- "1:113834946, PTPN22, rs2476601,
-1:113761186, PHTF1, rs6679677,
-2:100143015, AFF3, rs11692867,
-2:191038032, STAT1, rs3821236,
-2:191071078, STAT1, rs10168266,
-3:28033394, EOMES and CMC1, rs451375,
-3:28033679, EOMES and CMC1, rs819991,
-4:122629959, IL21, rs13132308,
-6:166993145, CEP43, rs415890,
-7:128936032, IRF5, rs3757387,
-7:129044262, TNPO3, rs62478615,
-7:129011468, TNPO3, rs36073657,
-7:129061277, TNPO3, rs13246321,
-7:129023119, TNPO3, rs13236009,
-7:37352216, ELMO1, rs2700984,
-8:11480078, BLK, rs2618476,
-8:11486464, BLK, rs2736340,
-11:64340263, CCDC88B, rs663743,
-11:64369120, RPS6KA4, rs1662188,
-12:111535554, ATXN2, rs597808,
-12:111472415, ATXN2, rs10774625,
-17:39907128, GSDMB, rs883770,
-17:75215547, NUP85, rs9909306"
-
-split_text <- unlist(strsplit(mapped.genes, ", |,\n"))  # Split text based on comma and space
-column1 <- split_text[c(TRUE, FALSE, FALSE)]  # Select the odd-indexed elements for column 1
-column2 <- split_text[c(FALSE, TRUE, FALSE)] # Select the even-indexed elements for column 2
-column3 <- split_text[c(FALSE, FALSE, TRUE)] # Select the even-indexed elements for column 3
-mapped.genes <- data.table(bestsnp = column1, mapped.genes = column2, bestsnp.rsid = column3)
-
-# We need to ensure that we assign the genes to the pids as well
-mg <- merge(coloc[, .(pid, bestsnp)], mapped.genes, by="bestsnp")
-mg <- unique(mg[, .(pid, mapped.genes)])
-
-sumcoloc <- merge(coloc, mg, by="pid", all.x = TRUE, allow.cartesian = TRUE)
-sumcoloc <- merge(sumcoloc, mapped.genes[, .(bestsnp, bestsnp.rsid)], by="bestsnp", all.x = TRUE, allow.cartesian = TRUE) # Add bestsnp.rsids
-sumcoloc[, clabel:=paste( mapped.genes, driver.rsid, sep=" / ")]
-
-
-sumcoloc[ H4 > 0.8, .(trait.myos, trait.other, pid, H4, bestsnp, bestsnp.pp, mapped.genes, bestsnp.novel)][order(trait.myos, trait.other, bestsnp)] %>% kable(digits = 32) %>% kable_styling
-
-```
-
-
-Most of these high-confidence candidate SNPs come from pooled myositis, which are meta-analyses combining all the myositis other subtypes combined. Two candidate SNPs (1:113834946, and 1:113761186) appear in polymyositis and myositis for the same associations (hypo/hyperthyroidism and myastenia gravis, and jia, respectively). It might be the case that some of these associations observed in pooled myositis come from other subtypes with smaller H4 on their own. Let's check if that's the case.
-
-
-
-```{r echo=FALSE}
-# which myositis SNPs are explained by other subtypes?
-snps.myo <- sumcoloc[ H4 > 0.8 & trait.myos %in% c("myo.r", "myo.m"), unique(bestsnp)]
-snps.pm <- sumcoloc[ H4 > 0.8 & trait.myos %in% c("pm.r", "pm.m"), unique(bestsnp)]
-snps.myo.and.pm <- intersect(snps.myo, snps.pm)
-#snps.myo.no.pm <- setdiff(snps.myo, snps.pm)
-   
-sumcoloc[bestsnp %in% snps.myo & (trait.myos %in% c("myo.r", "myo.m") | H4 < 0.8) & H4 > 0.5, .(trait.myos, trait.other, pid, H4, bestsnp, bestsnp.pp, mapped.genes, bestsnp.novel) ][order(bestsnp)]
-
-```
-
-PLOT TRIAL
 
 ```{r echo=FALSE, dpi=200, dev.args = list(png = list(type = "cairo"))}
 
-# 
-# panel.grid.major = element_blank(),
-#         panel.background = element_rect(fill = "transparent"),
+keypids <- coloc[ H4 > 0.5, unique(pid)]
 
-# panel.grid.major.x = element_blank(),
-#         panel.grid.major.y = element_blank(),
-#         panel.ontop = TRUE,
-#         panel.background = element_rect(fill = "transparent")
-# 
-# fplot <- ggplot(rs24total, aes(y = study, x = BETA, xmin=BETA-SE, xmax=BETA+SE, colour = Trait))+
-#   geom_pointrange()+
-#   geom_vline(xintercept = 0, col="red", lty=2)+
-# #  coord_flip()+
-#   xlab("log(OR)")+
-#   ggtitle("Effect sizes for rs2476601 in Myositis and subtypes")+
-#   facet_grid(Trait~., scales = "free", space = "free", switch = "y")+
-#   theme_cowplot(8)+
-#  theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank(), plot.title = element_text(size = 8))
-# #  fplot
-# 
-# +
-#   scale_fill_manual(values = map_chr(palettes, 5))
-
-keypids <- sumcoloc[ H4 > 0.5, unique(pid)]
-
-sumc2 <- sumcoloc[pid %in% keypids, .(clabel, trait.myos, trait.other, H4)]
-sumc2 <- sumc2 %>% tidyr::complete(clabel, trait.myos, trait.other ) %>% as.data.table()
-sumc2[, clabel:=factor(clabel, levels = rev(unique(clabel)))]
-sumc2[, trait.other:=factor(trait.other, levels = rev(unique(trait.other)))]
-sumc2[,flag:=ifelse(H4>.8, "high", ifelse(H4>.5, "med", "low"))]
-
-# 
-# c2[, clabel:=factor(clabel, levels=snps$pid)]
-# 
-# ## flag > .8, > .5
-# sumc2[,flag:=ifelse(H4>.8, "high", ifelse(H4>.5, "med", "low"))]
-# sumc2=sumc2[order(H4)]
-# 
-# ggplot() +
-#     geom_tile(aes(x =  trait.other, y = clabel),
-#               lwd=.5, linetype = 1, data=sumc2[], fill="white", colour="black") +
-#     geom_tile(aes(x =  trait.other, y = clabel, colour = flag, fill = H4),
-#               lwd=1, linetype = 1, data=sumc2[H4>.5]) +
-#     scale_colour_manual(values=c(high="yellow",med="green",low="grey"), guide=guide_none()) +
-#     scale_fill_gradient(na.value = "white") + #, low="grey90", high="#56B1F7")+
-#     scale_x_discrete(position = "bottom")+
-#     theme_minimal(base_size=16) +
-#     theme(panel.grid.major = element_blank(),
-#           axis.title = element_blank(),
-#           axis.text.x = element_text(angle = 45,hjust=1,vjust=1))+
-#     facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")
-
-#palette <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#FDAE61",  "#66C2A5", "#ABDDA4", "#F46D43",  "#3288BD", "#5E4FA2",  "#FEE08B", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788") # Colours for clusters 
-
-ggplot() +
-  geom_tile(aes(x =  trait.other, y = clabel),
-               lwd=.5, linetype = 1, data=sumc2[], fill="white", colour="black") +
-  geom_tile(aes(x =  trait.other, y = clabel, colour = flag, fill = H4),
-              lwd=1, linetype = 1, data=sumc2[H4>.5]) +
-  scale_colour_manual(values=c(high="yellow",med="green",low="grey"), guide=guide_none()) +
- scale_fill_gradient(na.value = "white") + #, low="grey90", high="#56B1F7")+
-  #scale_x_discrete(position = "top")+
-  theme_minimal() +
-  theme(panel.grid.major = element_blank(),
-        axis.title = element_blank(),
-        axis.text.x = element_text(angle = 270, hjust=0),
-        legend.title = element_blank())+
-  facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")
+sumc <- coloc[pid %in% keypids, .(dlabel, mlabel,  trait.other, H4)]
+sumc <- sumc %>% tidyr::complete(dlabel, mlabel, trait.other ) %>% as.data.table()
+sumc[, dlabel:=factor(dlabel, levels = rev(unique(dlabel)))]
+sumc[, trait.other:=factor(trait.other, levels = rev(unique(trait.other)))]
+sumc[,flag:=ifelse(H4>.8, "High", ifelse(H4>.5, "Med", "Low"))]
 
 
-# 
-# sumc3 <- sumcoloc[H4 > 0.5, .(clabel, trait.myos, trait.other, H3,H4)]
-# sumc3 <- sumc3 %>% tidyr::complete(clabel, trait.myos, trait.other ) %>% as.data.table()
-# sumc3[, clabel:=factor(clabel, levels = rev(unique(clabel)))]
-# sumc3[, trait.other:=factor(trait.other, levels = rev(unique(trait.other)))]
-# 
-# ggplot(sumc3, aes(x =  trait.other, y = clabel, fill = H3)) +
-#   geom_tile( color = "black",
-#             lwd = 0.2,
-#             linetype = 1) +
-#   scale_fill_gradient(na.value = "white")+
-#   scale_x_discrete(position = "top")+
-#   theme_minimal() +
-#   theme(panel.grid.major = element_blank(),
-#         axis.title = element_blank(),
-#         axis.text.x = element_text(angle = 270))+
-#   facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")
+grplot <-  ggplot(sumc, aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
+              geom_tile( color = "black",
+                        lwd = 0.2,
+                        linetype = 1) +
+              scale_fill_gradient(na.value = "white")+
+              geom_tile(aes( colour = flag),
+                          lwd=1, linetype = 1, data = sumc[H4 > .5]) +
+              scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
+              #scale_x_discrete(position = "top")+
+              theme_minimal() +
+               theme(panel.grid.major = element_blank(),
+                    axis.title = element_blank(),
+                    axis.text.x = element_text(angle = 270, hjust=0)
+                    )+
+              facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")
+grplot
+#ggsave("../figures/driverSNP_H4.png", grplot, height = 5, width = 15, bg="white")
 
 
 ```
 
 
 
+Most high-confidence hits are found at rs2476601 (1:113834946), a missense variant of *PTPN22* with a well known involvement in IMD. Pooled myositis (Rothwell) and Polymyositis accumulate most high confidence hits, although for Polymyositis all hits are associated to rs2476601.
+
+As mentioned earlier, the driver SNP might not be the causal one, but be in LD with the causal variant instead. Thus, we also report SNP with the highest posterior probability of being the shared causal variant in each region. We'll call **novel associations** those SNPs that (1) have high posterior to be shared (H4 > 0.5) between a given myositis and an IMD, (2) are not genome-wide significant (ie. $P > 5 \times 10^{-8}$) in the myositis GWAS, and (3) are not the top hit (ie. the one with the lowest P-value) in the 1Mb region defined for coloc.
+
+Below we show a summary table containing the key findings. Here `pid` correspond to the genomic position of the driver SNP, `bestsnp` is the SNP with the highest posterior probability to be shared in the region (which may not match the driver SNP), `bestsnp.pp` is the posterior probability of the best candidate SNP. We also report the genes the candidate SNP has been mapped, and whether the association is novel, according to the criteria above.
+
+We found 25 associations and 11 associated candidate SNPs (8 of them novel for myositis and its subtypes) across 5 independent genomic regions. These associations included polymyositis with hyperthyroidism, JIA, MPO+AAV, and myastenia gravis, and pooled myositis with hypo- and hyperthyroidism, JIA, MPO+AAV, myastenia gravis, PBC, Sjögren's syndrome and systemic sclerosis. 
 
 
+```{r include=FALSE}
 
-### 1:113834946 region
+coloc[ H4 > 0.8, .(trait.myos, trait.other, pid, H4, bestsnp, bestsnp.pp, bestsnp.nearestgene, bestsnp.novel)][order(trait.myos, trait.other, bestsnp)] %>% kable(digits = 32) %>% kable_styling
+
+```
+
+Now, we'll look at each driver SNP region in turn, and provide more details about the candidate SNPs for each region.
+
+
+### 1:113834946 region (rs2476601)
 
 
 ```{r echo=FALSE}
-coloc[ pid == "1:113834946" & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, pbest.myos, bestsnp.novel)] %>% kable(digits = 32) %>% kable_styling
+coloc[ pid == "1:113834946" & (H4 > 0.8), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, bestsnp.rsid, pbest.myos, bestsnp.novel)] %>% kable(digits = 32) %>% kable_styling
 ```
 
 
@@ -1125,49 +995,48 @@ For the six myositis (Rothwell)-IMD pairs, coloc identifies two best SNPs: 1:113
 
 For polymyositis, coloc find the same associations for both Miller and Rothwell: hyperthyroidism, hypothyroidism, JIA, MPO+AAV, and myastenia gravis. In this case, coloc gives 1:113834946 the highest posterior probability to be the shared SNP except for PM (Rothwell) and JIA.
 
-[1:113834946](https://genetics.opentargets.org/variant/1_113834946_A_G) corresponds to rs2476601 an important missense variant located in the **PTPN22** gene, associated with numerous IMD, such as RA, type 1 diabetes, SLE, and others.
+[1:113834946](https://genetics.opentargets.org/variant/1_113834946_A_G) corresponds to rs2476601 missense variant located in the **PTPN22** gene, associated with numerous IMD, such as RA, type 1 diabetes, SLE, and others.
 [1:113761186](https://genetics.opentargets.org/variant/1_113761186_C_A) corresponds to rs6679677,an upstream gene variant mapped to gene **PHTF1**, and previously associated with other IMD like RA and type 1 diabetes. 
 
-None of these SNPs are genomewide significant for either Myositis (Rothwell) or Polymyositis (Rothwell or Miller). 1:113834946 is a novel association for pooled myositis, and 1:113761186 is a novel association for polymyositis.
+None of these SNPs are genomewide significant for either Myositis (Rothwell) or Polymyositis (Rothwell or Miller). 1:113834946 (rs2476601) is a novel association for pooled myositis, and 1:113761186 (rs6679677) is a novel association for polymyositis.
 
 
-In the plot below, we show the region for all IMD involved. Note that some of them did have pairwise_fdr < 0.5 but not H4 > 0.5, so we won't discuss them.
 
 ![1:113834946 region Manhattan plot. The driver SNP is signalled by a red line.](../figures/coloc_chr1.png)
 
 
-### 2:100215693 region
+### 2:100215693 region (rs11692867)
 
 
 ```{r echo=FALSE}
-coloc[ pid == "2:100215693" & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, pbest.myos, bestsnp.novel)] %>% kable(digits = 32) %>% kable_styling
+coloc[ pid == "2:100215693" & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, bestsnp.rsid, pbest.myos, bestsnp.novel)] %>% kable(digits = 32) %>% kable_styling
 ```
 
 
 ![2:100215693 region Manhattan plot. The driver SNP is signalled by a red line.](../figures/coloc_chr2_1.png)
 
-Coloc finds a shared association in this 2:100215693 region for Myositis (IIM, Rothwell) and JIA, which 2:100143015 as the SNP with the highest posterior probability to be the shared SNP (albeit slightly below the conventional H4 > 0.8 threshold for high-confidence association). [2:100143015](https://genetics.opentargets.org/Variant/2_100143015_G_A/associations),  rs11692867, is an usptream variant mapped to **AFF3**, a tissue-restricted nuclear transcriptional activator preferentially expressed in lymphoid tissue. This variant has been associated with multiple blood measurements, such as mean platelet volume and blood cell count. This is a novel association for myositis.
+Coloc finds a shared association in this 2:100215693 (rs11692867) region for Myositis (IIM, Rothwell) and JIA, which 2:100143015 as the SNP with the highest posterior probability to be the shared SNP (albeit slightly below the conventional H4 > 0.8 threshold for high-confidence association). [2:100143015](https://genetics.opentargets.org/Variant/2_100143015_G_A/associations),  rs11692867, is an usptream variant mapped to **AFF3**, a tissue-restricted nuclear transcriptional activator preferentially expressed in lymphoid tissue. This variant has been associated with multiple blood measurements, such as mean platelet volume and blood cell count. This is a novel association for myositis.
 
 
-### 2:191071078 region
+### 2:191071078 region (rs10168266)
 
 
 ```{r echo=FALSE}
-coloc[ pid == "2:191071078" & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, pbest.myos, bestsnp.novel)] %>% kable(digits = 32) %>% kable_styling
+coloc[ pid == "2:191071078" & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, bestsnp.rsid, pbest.myos, bestsnp.novel)] %>% kable(digits = 32) %>% kable_styling
 ```
 
 
 ![2:191071078 region Manhattan plot. The driver SNP is signalled by a red line.](../figures/coloc_chr2_2.png)
 
-We find two H4 > 0.5 associations in this region between Myositis (Rothwell), hyperthyroidism and systemic sclerosis. While H4 is borderline (H4 = 0.505) for hyperthyroidism, it is very high (H4 > 0.99) for systemic sclerosis. In the latter case, the SNP with the highest posterior probability to be the shared SNP is [2:191038032](https://genetics.opentargets.org/variant/2_191038032_G_A), rs3821236, an intron variant of **STAT1** not genomewide significant for myositis (Rothwell) but associated with other IMD, such as SLE and RA. This is also a novel association.
+We find two H4 > 0.5 associations in this region between Myositis (Rothwell), hyperthyroidism and systemic sclerosis. While H4 is borderline (H4 = 0.505) for hyperthyroidism, it is very high (H4 > 0.99) for systemic sclerosis. In the latter case, the SNP with the highest posterior probability to be the shared SNP is [2:191071078](https://genetics.opentargets.org/Variant/2_191071078_C_T/associations), rs10168266, an intron variant of **STAT1** not genomewide significant for myositis (Rothwell) but associated with other IMD, such as SLE and Sjögren's syndrome. This is also a novel association for myositis.
 
 
 
-### 3:28029953 region
+### 3:28029953 region (rs669607)
 
 
 ```{r echo=FALSE}
-coloc[ pid == "3:28029953" & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, pbest.myos, bestsnp.novel)] %>% kable(digits = 32) %>% kable_styling
+coloc[ pid == "3:28029953" & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, bestsnp.rsid, pbest.myos, bestsnp.novel)] %>% kable(digits = 32) %>% kable_styling
 ```
 
 
@@ -1183,17 +1052,29 @@ Both these candidate SNPs represent novel associations for myositis.
 
 
 
-### 4:122194347 region 
+### 4:122194347 region (rs13151961)
 
 
 ```{r echo=FALSE}
-coloc[ pid =="4:122194347" & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, pbest.myos, bestsnp.novel)] %>% kable(digits = 32) %>% kable_styling
+coloc[ pid =="4:122194347" & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, bestsnp.rsid, pbest.myos, bestsnp.novel)] %>% kable(digits = 32) %>% kable_styling
 ```
 
 
 We find one (weak, H4 ~ 0.52) association between myositis (Rothwell) and PR3+ AAV, where the best candidate SNP is [4:122629959](https://genetics.opentargets.org/Variant/4_122629959_A_G/associations), rs13132308, an intron variang of **IL21** gene. This variant has been previously associated with IBD and its subtypes, and it's a novel association for Myositis.
 
 ![4:122194347 region region Manhattan plot. The driver SNP is signalled by a red line.](../figures/coloc_chr4.png)
+
+
+### 6:167124106 region (rs1855025)
+
+```{r echo=FALSE}
+coloc[ pid == "6:167124106" & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, bestsnp.rsid, pbest.myos, bestsnp.novel)][order(trait.myos)] %>% kable(digits = 32) %>% kable_styling
+```
+
+
+We find one (H4 ~ 0.57) association in this region, connecting JDM (Rothwell) with hypothyroidism. The best candidate SNP is 
+
+![6:167124106 region Manhattan plot. The driver SNP is signalled by a red line.](../figures/coloc_chr6.png)
 
 
 ### Chromosome 7.1 region (7:128933913, 7:128954129)
@@ -1278,7 +1159,7 @@ In chromosome 12, we find two strong (H4 > 0.8) associations of myositis (Rothwe
 
 Both candidate SNPs are also novel associations for myositis.
 
-![12:112468611 region Manhattan plot. The driver SNP is signalled by a red line.](../figures/coloc_chr12.png)
+![12:112468611 region Manhattan plot. The driver SNP is signalled by a red line.](../figures/coloc_chr12_2.png)
 
 
 
