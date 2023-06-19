@@ -256,6 +256,10 @@ myos[ pairwise_fdr < 0.05 ]
 
 ################################################################################
 
+myos[ pairwise_fdr < 0.05 , unique(pid)]
+# 15 SNPs, 11 independent genomic region
+
+fwrite(myos, "../data/raw_fdr_results.tsv", sep="\t")
 
 # We want to ensure that we can compare index SNPs and trait.other, even if they're not pairwise_fdr < 0.5 for all myositis,
 # so we'll select those SNPs with at pairwise_fdr < 0.5 and then coloc those for all combinations.
