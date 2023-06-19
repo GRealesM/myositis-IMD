@@ -110,12 +110,12 @@ data$hypothy=hypothy[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta
 
 # Load index (aka coloc results)
 
-index <- fread("../tables/coloc_results.tsv")
+index <- fread("../tables/coloc_results_dfilt.tsv")
 
 
 # Now explore the SNPs in more detail
 index[ H4>.5, unique(pid)]
-# 16 SNPs, comprising 13 regions
+# 13 SNPs, comprising 13 regions
 index[ H4>.5, unique(trait.other)]
 # We have coloc associations with 10 (out of 14) IMDs
 # These are
@@ -155,29 +155,18 @@ names(plots) <- index[ H4>.5, unique(pid)]
 
 index[ H4>.5, unique(pid)]
 
-index[ pid %in% c("7:128933913", "7:128954129") & (H4 > 0.5), .(pid, trait.myos, trait.other, pairwise_fdr, H3, H4, bestsnp, bestsnp.pp, pbest.myos)]
 
-
-p11.1  <- plots$`11:64329761`
-p11.2 <- plots$`11:64362250`
-p11 <- plot_grid(p11.1,p11.2, ncol =1, labels = NULL)
-ggsave("../figures/coloc_chr11.png", p11, height = 8, width = 8, bg="white")
+ggsave("../figures/coloc_chr11.png", plots$`11:64329761`, height = 8, width = 8, bg="white")
 ggsave("../figures/coloc_chr12_1.png", plots$`12:110972733`, height = 6, width = 8, bg="white")
 ggsave("../figures/coloc_chr12_2.png", plots$`12:112468611`, height = 6, width = 8, bg="white")
-ggsave("../figures/coloc_chr17_1.png", plots$`17:39913696`, height = 5, width = 8, bg="white")
-ggsave("../figures/coloc_chr17_2.png", plots$`17:75373341`, height = 5, width = 8, bg="white")
+ggsave("../figures/coloc_chr17.png", plots$`17:75373341`, height = 5, width = 8, bg="white")
 ggsave("../figures/coloc_chr1.png", plots$`1:113834946`, height = 11, width = 8, bg="white")
 ggsave("../figures/coloc_chr2_1.png", plots$`2:100215693`, height = 5, width = 8, bg="white")
-ggsave("../figures/coloc_chr2_2.png", plots$`2:191071078`, height = 7, width = 8, bg="white")
+ggsave("../figures/coloc_chr2_2.png", plots$`2:190670850`, height = 5, width = 8, bg="white")
 ggsave("../figures/coloc_chr3.png", plots$`3:28029953`, height = 7, width = 8, bg="white")
 ggsave("../figures/coloc_chr4.png", plots$`4:122194347`, height = 6, width = 8, bg="white")
 ggsave("../figures/coloc_chr6.png", plots$`6:167124106`, height = 6, width = 8, bg="white")
-
-p7.1  <- plots$`7:128933913`
-p7.2  <- plots$`7:128954129`
-p7 <- plot_grid(p7.1,p7.2, ncol =1, labels = NULL)
-ggsave("../figures/coloc_chr7_1.png", p7, height = 14, width = 8, bg="white")
-
+ggsave("../figures/coloc_chr7_1.png", plots$`7:128954129`, height = 14, width = 8, bg="white")
 ggsave("../figures/coloc_chr7_2.png", plots$`7:37397251`, height = 5, width = 8, bg="white")
 ggsave("../figures/coloc_chr8.png", plots$`8:11491677`, height = 8, width = 8, bg="white")
 
