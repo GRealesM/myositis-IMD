@@ -261,29 +261,62 @@ myos[ pairwise_fdr < 0.05 ]
 # so we'll select those SNPs with at pairwise_fdr < 0.5 and then coloc those for all combinations.
 myos[, trait_snp:=paste0(trait.other, "_", pid)] # auxiliary variable for trait.other and index_snp pairs
 
+
 index_tspairs <- myos[ pairwise_fdr < 0.5 , unique(trait_snp) ]
+length(index_tspairs)
 # 250 unique IMD-indexSNPs with pairwise_fdr < 0.5 pairs
 
-index=myos[ pairwise_fdr < 0.5 | trait_snp %in% index_tspairs ][order(pairwise_fdr)]
+# We'll now select those pids that are fdr < 0.5 themselves or have at least one myositis-IMD with fdr > 0.5
+# The goal here is that, if a SNP has fdr < 0.5 for any myositis-IMD pair, we'll coloc and show all pairs containing 
+# myositis subtypes and that given IMD at that SNP
+index=myos[ pairwise_fdr < 0.5 | trait_snp %in% index_tspairs ][order(pairwise_fdr)] 
 
 index[ , c("chr","bp"):=tstrsplit(pid,":")  %>% lapply(., as.numeric) ]
 
-# Remove SNPs in proximity (less than 1Mb apart)
+# However, some of these fdr-significant driver SNPs are located in the same genomic region, 
+# possibly capturing the same signals.
+# To avoid having multiple SNPs in the same region, we'll cluster SNPs using a distance approach,
+# and select one SNP per cluster, such that we have only one significant driver SNP per region
+ss <- split(index[, .(pid, chr, bp)], index[,.(chr)]) # split by chr
+ss  <- lapply(ss, unique) 
+
+# This function will compute the distances, call clusters and select clusters with more than one SNP
 f=function(d) {
     if(nrow(d)==1)
-        return(d)
-    dist=abs(outer(d$bp, d$bp, "-"))
-    dist[ upper.tri(dist) ] = Inf
-    diag(dist)=Inf
-    drop=apply(dist, 1, min) < 1e+6
-    return(d[ !drop ])
+        return(NULL)
+    dist <- as.dist(abs(outer(d$bp, d$bp, "-")))
+    dc <- hclust(dist)
+    calls <- cutree(dc, h = 1e+6)
+    d[, cl:=calls]
+    d <- d[, if(.N > 1) .SD, by = cl]
+    if(nrow(d) == 0)
+        return(NULL)
+    d[, cl:=paste0("chr", unique(chr), ".", cl)]
+    return(d)
+    
+
 }
+cl.snps  <- ss %>% lapply(., f)  %>% rbindlist()
 
-## Now apply this to dense SNP data
-## can safely ignore warnings about no non-missing arguments to min
-index=split(index, index[,.(trait.myos, trait.other ,chr)])  %>% lapply(., f)  %>% rbindlist()
-nrow(index) ## 1692
+# To select which SNPs to keep, we'll look at pairwise fdr
+withfdr <- merge(cl.snps, index[, .(pid, pairwise_fdr)])
+tokeep <- withfdr[  , .SD[which.min(pairwise_fdr)] , by=cl][, pid] # For each cluster, keep the one with lowest pairwise_fdr
+drop <- withfdr[!pid %in% tokeep, unique(pid)]
 
+nrow(index)
+# 2169
+length(unique(index$pid))
+# 84 SNPs
+
+# Remove SNPs to drop
+index <- index[!pid %in% drop]
+
+nrow(index)
+# 1548
+length(unique(index$pid))
+# 64
+
+## Next step, bring dense SNP datasets to run coloc
 
 ## itp, pbc, crest, felty, wegen, hyperthy, and hypoty are not dense datasets. 
 names(data)[c(10,12,14,16,19,22:23)]= c("itp.local", "pbc.local", "crest.local",   "felty.local", "wegen.local", "hyperthy.local",  "hypothy.local")
@@ -408,7 +441,7 @@ index <- merge(index, p.myos, by=c("pid", "trait.myos"))
 index[ H4>.5 , .(trait.myos, trait.other,  fdr.myos, fdr.other, pairwise_fdr, H4, pid, bestsnp, bestsnp.pp, pdriver.myos)]
 
 # Save results
-fwrite(index, "../tables/coloc_results.tsv", sep="\t")
+fwrite(index, "../tables/coloc_results_dfilt.tsv", sep="\t")
 
 
 ###########
