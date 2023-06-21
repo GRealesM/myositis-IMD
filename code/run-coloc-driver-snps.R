@@ -415,7 +415,7 @@ for(i in 1:nrow(index)) {
            trait=index$trait.myos[[i]])
     d2=d2l( data[[ index$trait.other[i] ]][CHR38==chr & BP38>st & BP38<en & !is.na(SE) & !is.na(BETA) & !duplicated(pid)],
            trait=index$trait.other[[i]])
-    result=coloc.abf(d1,d2)
+    result=coloc.abf(d1,d2, p12 = 5e-6) # Note: we modified the prior to be more conservative
     index[i ,c("nsnps","H0","H1","H2","H3","H4"):=as.list(result$summary)]
     best=result$results$snp[ which.max(result$results$SNP.PP.H4) ]
     w1=which(d1$snp==best)
