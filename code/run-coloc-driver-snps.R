@@ -306,6 +306,7 @@ cl.snps  <- ss %>% lapply(., f)  %>% rbindlist()
 withfdr <- merge(cl.snps, index[, .(pid, pairwise_fdr)])
 tokeep <- withfdr[  , .SD[which.min(pairwise_fdr)] , by=cl][, pid] # For each cluster, keep the one with lowest pairwise_fdr
 drop <- withfdr[!pid %in% tokeep, unique(pid)]
+message("The following SNPs were dropped:", paste0(drop, collapse = ", "))
 
 nrow(index)
 # 2169
@@ -432,14 +433,14 @@ index[H4>.5]
 
 
 # Add info on which PCs the SNPs are driver for
-index <- merge(index, dv, by="pid")
+index <- merge(index, dv, by="pid", all.x=TRUE)
 
 # Add P-value for the driver SNPs
-p.myos <- unique(index[ , .(pid, trait.myos)])
+p.myos <- unique(index[ , .(pid, trait.myos)], all.x=TRUE)
 pex <- data2[trait %in% unique(p.myos$trait.myos) & pid %in% unique(p.myos$pid), .(pid, trait, P)]
 p.myos <- merge(p.myos, pex, by.x=c("pid", "trait.myos"), by.y=c("pid", "trait"))
 names(p.myos)[3]  <- "pdriver.myos"
-index <- merge(index, p.myos, by=c("pid", "trait.myos"))
+index <- merge(index, p.myos, by=c("pid", "trait.myos"), all.x=TRUE)
 
 
 index[ H4>.5 , .(trait.myos, trait.other,  fdr.myos, fdr.other, pairwise_fdr, H4, pid, bestsnp, bestsnp.pp, pdriver.myos)]
