@@ -4,9 +4,9 @@ import pandas as pd
 import re
 import os
 
-os.chdir('rds/rds-cew54-basis/Projects/myositis-IMD/code')
+#os.chdir('rds/rds-cew54-basis/Projects/myositis-IMD/code')
 
-# NB: Based on the sample script provided by Open Targets Genetics here: https://genetics-docs.opentargets.org/data-access/graphql-api#available-endpoints
+# NB: Based on the sample script provided by Open Targets Genetics here: https://genyetics-docs.opentargets.org/data-access/graphql-api#available-endpoints
 
 index_variants_and_studies_query = """
     query annotateLeadSnp($inputVariantId: String!) {

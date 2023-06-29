@@ -848,24 +848,24 @@ $$P(H_1\ true\ for\ myositis\ \&\ IMD\ |\ p_{myositis}<\alpha,\ p_{IMD}<\alpha) 
 
 which means that, if datasets were positively dependent, the resulting probability for association with both traits would be higher, so assuming independence make our estimates are more conservative. The rationale is that, if we know the probability of association of a variant for one dataset, the probability of the variant to be significant for a dependent dataset either increases or remains the same compared to both datasets being independent. 
 
-We computed the pairwise FDR for all myositis-IMD pairs resulting in 58 myositis-IMD significant pairs comprising 14 driver SNPs and 11 clusters or independent, non-overlapping regions. None of the 14 SNPs with shared associations are genomewide significant ($P < 5 \times 10^{-8}$) in their individual GWAS (see `pdriver.myos` in the table below).
+We computed the pairwise FDR for all myositis-IMD pairs resulting in 58 myositis-IMD significant pairs comprising 15 driver SNPs and 11 clusters or independent, non-overlapping regions. None of the 14 SNPs with shared associations are genomewide significant ($P < 5 \times 10^{-8}$) in their individual GWAS (see `pdriver.myos` in the table below).
 
 
 ```{r echo=FALSE}
 
-coloc <- fread("../tables/coloc_results.tsv", na.strings = "")
-
-# # Get alleles and positions to map SNPs to  genes
+coloc <- fread("../tables/coloc_results_dfilt.tsv", na.strings = "")
+# 
+# #Get alleles and positions to map SNPs to  genes
 # best.rsids <- fread("../data/bestsnp.rsids.tsv")
 # names(best.rsids)[2:3] <- c("CHR", "BP")
-
+# 
 # man <- fread("../data/Manifest_build_translator.tsv")
 # man[,pid38:=paste(CHR38,BP38, sep=":")][,pid19:=paste(CHR19,BP19, sep=":")]
 # man <- merge(man, cupcake::SNP.manifest[,.(pid, ref_a1, ref_a2)], by.x = "pid19", by.y="pid")
 # man <- man[, .(pid38, SNPID, ref_a1, ref_a2)]
 # man[, c("CHR", "BP"):=tstrsplit(pid38, split=":")]
 # names(man)[c(1, 3:4)] <- c("pid", "REF", "ALT")
-
+# 
 # snp.to.map <- rbindlist(list(best.rsids,man), use.names = TRUE)
 # fwrite(snp.to.map, "../data/snp.to.map.tsv", sep="\t")
 # # After this, we run the mapping-genes.py routine in the HPC to get the associated genes from opentargets
@@ -881,8 +881,13 @@ setnames(coloc, c("SNPID", "nearestGene"), c("driver.rsid", "driver.nearestgene"
 coloc <- merge(coloc, mg, by.x="bestsnp", by.y = "pid", all.x = TRUE) # Then on candidate snps. Bear in mind that we only mapped candidate SNPs with H4 > 0.5
 setnames(coloc, c("SNPID", "nearestGene"), c("bestsnp.rsid", "bestsnp.nearestgene"))
 
+# Fix inappropriate mappings
+coloc[ driver.rsid == "rs2476601", driver.nearestgene:="PTPN22"]
+coloc[ bestsnp.rsid == "rs597808", bestsnp.nearestgene:="SH2B3"]
+
+
 # Add novelty on bestsnps
-coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos > pbest.myos.region, bestsnp.novel:="Yes"] # Add novelty
+coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos.region > 5e-8, bestsnp.novel:="Yes"] # Add novelty
 # Add gene/ driver SNP label
 coloc[, dlabel:=paste( driver.nearestgene, driver.rsid, sep=" / ")]
 
@@ -919,9 +924,10 @@ While the previous approach is useful to identify which driver SNPs are relevant
 
 These hypotheses are assigned posterior probabilities by coloc that sum one.
 
-
 To increase our discovery possibilities in the next step, we relaxed the `pairwise_fdr` threshold to < 0.5 (meaning that a variant is more likely to be associated with both diseases than not). This resulted in 614 myositis-IMD pairs and 84 unique driver SNPs. To get a fuller picture, when a driver SNP was significant for a myositis-IMD pair (ie. pairwise FDR < 0.5 for a given SNP and IMD), we also considered every IMD-myositis pair for that given SNP and IMD, regardless of significant. For example, JIA-Myositis (Rothwell) had rs2476601 (1:113834946) associated with both; then we considered every JIA-myositis pair (ie. including every myositis dataset) at rs2476601 for the next step.
 We found 250 driver SNP-IMD combinations. We next removed SNPs in close proximity (< 1Mb), resulting in 1692 myositis-IMD pairs to colocalise.
+
+**EXPLAIN SNP FILTERING PROCEDURE**
 
 We applied coloc to each myositis-IMD pair regions surrounding each driver SNP associated to the pair, using a 1Mb window around and assuming a single causal variant. 
 
@@ -931,7 +937,7 @@ Below we show a summary figure of the results, where driver SNPs and their neare
 
 
 ```{r echo=FALSE, dpi=200, dev.args = list(png = list(type = "cairo"))}
-
+# 
 keypids <- coloc[ H4 > 0.5, unique(pid)]
 
 sumc <- coloc[pid %in% keypids, .(dlabel, mlabel,  trait.other, H4)]
