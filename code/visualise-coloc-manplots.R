@@ -110,17 +110,48 @@ data$hypothy=hypothy[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta
 
 # Load index (aka coloc results)
 
-index <- fread("../tables/coloc_results_dfilt.tsv")
+coloc <- fread("../tables/coloc_results_dfilt.tsv")
 
+# Import mapped genes 
+mg <- fread("../data/mapped.genes.tsv") %>% unique
+mg <- mg[,.(SNPID, pid, nearestGene)]
+
+# Add some info to the coloc table, and extract rsids to map
+
+coloc <- merge(coloc, mg, by="pid") # First on driver SNPs
+setnames(coloc, c("SNPID", "nearestGene"), c("driver.rsid", "driver.nearestgene"))
+coloc <- merge(coloc, mg, by.x="bestsnp", by.y = "pid", all.x = TRUE) # Then on candidate snps. Bear in mind that we only mapped candidate SNPs with H4 > 0.5
+setnames(coloc, c("SNPID", "nearestGene"), c("bestsnp.rsid", "bestsnp.nearestgene"))
+
+# Fix inappropriate mappings
+coloc[ driver.rsid == "rs2476601", driver.nearestgene:="PTPN22"]
+coloc[ bestsnp.rsid == "rs2476601", bestsnp.nearestgene:="PTPN22"]
+coloc[ driver.rsid == "rs991817", driver.nearestgene:="SH2B3"]
+coloc[ bestsnp.rsid == "rs991817", bestsnp.nearestgene:="SH2B3"]
+
+# Add novelty on bestsnps
+coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos.region > 5e-8, bestsnp.novel:="Yes"] # Add novelty
+# Add gene/ driver SNP label
+coloc[, dlabel:=paste( driver.nearestgene, driver.rsid, sep=" / ")]
+
+# Add proper labels
+ml <- data.table(mlabel = c("DM (Miller)", "DM (Rothwell)", "JDM (Miller)","JDM (Rothwell)", "Jo1+ (Rothwell)", "Myositis (Miller)", "Myositis (Rothwell)", "PM (Miller)", "PM (Rothwell)"),
+                 trait.myos = c("dmy.m", "dmy.r", "jdm.m", "jdm.r", "jo1m.r", "myo.m", "myo.r", "pm.m", "pm.r"))
+coloc <- merge(coloc, ml, by="trait.myos")
+
+index <- coloc # we were using index instead of coloc. so let's simply use this other name
+
+
+#############
 
 # Now explore the SNPs in more detail
 index[ H4>.5, unique(pid)]
-# 13 SNPs, comprising 13 regions
+# 8 SNPs
 index[ H4>.5, unique(trait.other)]
-# We have coloc associations with 10 (out of 14) IMDs
+# We have coloc associations with 8 (out of 14) IMDs
 # These are
-# [1] "hypothy"  "sjos"     "jia"      "ssc"      "hyperthy" "myag"    
-# [7] "felty"    "mpoaav"   "pbc"      "pr3aav"
+# [1] "ssc"      "sjos"     "jia"      "hypothy"  "mpoaav"   "pbc"      "hyperthy"
+# [8] "myag"
 
 ## plot these signals
 plotter=function(pid,w=1e+6) {
@@ -130,6 +161,7 @@ plotter=function(pid,w=1e+6) {
     en=bp+w
     wh=which(index$pid==pid & (index$H4>.5))
     print(index[wh])
+    rsid = index[wh , unique(driver.rsid)]
     traits=unique(c(index$trait.myos[wh],index$trait.other[wh]))
     dp=lapply(data[traits], function(d)
         d[CHR38==chr & BP38>st & BP38<en & !is.na(SE) & !is.na(BETA) & !duplicated(pid),
@@ -141,7 +173,7 @@ plotter=function(pid,w=1e+6) {
             geom_point() + 
             facet_grid(trait~.,scales="free_y") + 
             geom_vline(xintercept=bp,col="red")+
-            ggtitle(pid)+
+            ggtitle(paste0(pid, " / ", rsid))+
             theme_cowplot() + 
             theme(axis.title.x = element_blank(),
                   strip.background = element_rect(colour="black", fill = "white"),
@@ -156,27 +188,22 @@ names(plots) <- index[ H4>.5, unique(pid)]
 index[ H4>.5, unique(pid)]
 
 
-ggsave("../figures/coloc_chr11.png", plots$`11:64329761`, height = 8, width = 8, bg="white")
-ggsave("../figures/coloc_chr12_1.png", plots$`12:110972733`, height = 6, width = 8, bg="white")
-ggsave("../figures/coloc_chr12_2.png", plots$`12:112468611`, height = 6, width = 8, bg="white")
-ggsave("../figures/coloc_chr17.png", plots$`17:75373341`, height = 5, width = 8, bg="white")
+
 ggsave("../figures/coloc_chr1.png", plots$`1:113834946`, height = 11, width = 8, bg="white")
 ggsave("../figures/coloc_chr2_1.png", plots$`2:100215693`, height = 5, width = 8, bg="white")
 ggsave("../figures/coloc_chr2_2.png", plots$`2:190670850`, height = 5, width = 8, bg="white")
-ggsave("../figures/coloc_chr3.png", plots$`3:28029953`, height = 7, width = 8, bg="white")
-ggsave("../figures/coloc_chr4.png", plots$`4:122194347`, height = 6, width = 8, bg="white")
-ggsave("../figures/coloc_chr6.png", plots$`6:167124106`, height = 6, width = 8, bg="white")
-ggsave("../figures/coloc_chr7_1.png", plots$`7:128954129`, height = 14, width = 8, bg="white")
-ggsave("../figures/coloc_chr7_2.png", plots$`7:37397251`, height = 5, width = 8, bg="white")
+ggsave("../figures/coloc_chr3.png", plots$`3:28029953`, height = 5, width = 8, bg="white")
+ggsave("../figures/coloc_chr7.png", plots$`7:128954129`, height = 14, width = 8, bg="white")
 ggsave("../figures/coloc_chr8.png", plots$`8:11491677`, height = 8, width = 8, bg="white")
+ggsave("../figures/coloc_chr12_1.png", plots$`12:110972733`, height = 5, width = 8, bg="white")
+ggsave("../figures/coloc_chr12_2.png", plots$`12:112468611`, height = 6, width = 8, bg="white")
+
+# ggsave("../figures/coloc_chr11.png", plots$`11:64329761`, height = 8, width = 8, bg="white")
+# ggsave("../figures/coloc_chr17.png", plots$`17:75373341`, height = 5, width = 8, bg="white")
+# ggsave("../figures/coloc_chr1.png", plots$`1:113834946`, height = 11, width = 8, bg="white")
+# ggsave("../figures/coloc_chr4.png", plots$`4:122194347`, height = 6, width = 8, bg="white")
+# ggsave("../figures/coloc_chr6.png", plots$`6:167124106`, height = 6, width = 8, bg="white")
+# ggsave("../figures/coloc_chr7_2.png", plots$`7:37397251`, height = 5, width = 8, bg="white")
 
 
-## Extract rsids for bestsnps as well, for later
 
-csnp <- index[ H4>.5, unique(bestsnp)]
-
-exd <- data$dmy.m # this file has rsids, so we'll use it
-exd[, pid:=paste(CHR38, BP38, sep=":")]
-exd <- exd[pid %in% csnp, .(pid, CHR38, BP38, SNPID, REF, ALT)]
-
-fwrite(exd, "../data/bestsnp.rsids.tsv", sep="\t")
