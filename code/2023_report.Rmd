@@ -371,17 +371,17 @@ tr <- c(tr, setdiff(qs2[grepl("rosacea", Label, ignore.case = TRUE) , Trait], c(
 qs2[grepl("addison", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("addison", Label, ignore.case = TRUE) , Trait], c("AAD_Eriksson_33574239_1")))
 
-# There was an extra DMPMYO by FinnGen, we'll remove it. We'll also remove myositis from FinnGen, as it contains unclassified myositis and it showed to be very different from the other myositis datasets
-# Remove PAPS as well
-tr <- c(tr, "DERMATOPOLY_FG_FinnGen_FinnGenR7_1", "M13_MYOSITIS_FinnGen_FinnGenR7_1")
+# We'll also remove all myositis from FinnGen, as they're not informative
+tr <- c(tr, "DERMATOPOLY_FG_FinnGen_FinnGenR7_1", "M13_MYOSITIS_FinnGen_FinnGenR7_1", "M13_POLYMYO_FinnGen_FinnGenR7_1", "M13_DERMATOPOLY_FinnGen_FinnGenR7_1")
 
 qs2 <- qs2[!Trait %in% tr] # First pass
 length(unique(qs2$Label))
-# 76
+# 74
 
 # Check for duplicates, if there are still
 dp <- qs2[duplicated(Label), unique(Label)]
 qsdup <- qs2[Label %in% dp]
+qsdup
 
 # Apply this to projections as well
 ttk2 <- qs2$Trait # Traits to keep
@@ -702,21 +702,12 @@ bhd[, T1:=stringr::str_trunc(T1, 50, ellipsis = " [...]")][, T2:=stringr::str_tr
 
 
 # We keep the initial matrices for make_bold_names(), since I don't have the time to adapt it now
-bhatta.d1 <-  acast(bhd, T1~T2, value.var = "bhat.dist")
-bh1 <- bhatta.d1 %>% as.dist %>% hclust
-bhatta.d2 <-  acast(bhd, T1~T2, value.var = "logbhat") 
-bh2 <- bhatta.d2 %>% as.dist %>% hclust
+bh.cl <- acast(bhd, T1~T2, value.var = "bhat.dist") %>% as.dist %>% hclust # Cluster by raw
+bhatta.d <-  acast(bhd, T1~T2, value.var = "logbhat") # Show log
 
-bh1.ph <- pheatmap(bhatta.d1,
-                cluster_cols = bh1, cluster_rows = bh1,
-                fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(bhatta.d1, rownames, papsb))
-bh2.ph <- pheatmap(bhatta.d2, 
-                cluster_cols = bh2, cluster_rows = bh2,
-                fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(bhatta.d2, rownames, papsb))
-
-bh3.ph <- pheatmap(bhatta.d2, 
-                cluster_cols = bh1, cluster_rows = bh1,
-                fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(bhatta.d2, rownames, papsb))
+bh.ph <- pheatmap(bhatta.d,
+                cluster_cols = bh.cl, cluster_rows = bh.cl,
+                fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(bhatta.d, rownames, papsb))
 
 
 
