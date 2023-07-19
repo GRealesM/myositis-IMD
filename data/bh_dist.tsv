@@ -30,7 +30,7 @@ Hyperthyroidism/Thyrotoxicosis	Eosinophilic Granulomatosis with Polyangiitis	27.
 Hyperthyroidism/Thyrotoxicosis	Eosinophilic Esophagitis	46.0765578417206
 Hyperthyroidism/Thyrotoxicosis	Felty syndrome	11.9331215895518
 Hyperthyroidism/Thyrotoxicosis	Diabethic neuropathy	9.34502161432682
-Hyperthyroidism/Thyrotoxicosis	MS-disease / Multiple Sclerosis	45.7378690981282
+Hyperthyroidism/Thyrotoxicosis	Multiple Sclerosis	45.7378690981282
 Hyperthyroidism/Thyrotoxicosis	Gout	41.3102438636663
 Hyperthyroidism/Thyrotoxicosis	Hypothyroidism (congenital or acquired)	14.45659707789
 Hyperthyroidism/Thyrotoxicosis	Inflammatory Bowel Disease	213.532809304507
@@ -106,7 +106,7 @@ Hayfever/Allergic Rhinitis	Eosinophilic Granulomatosis with Polyangiitis	32.2733
 Hayfever/Allergic Rhinitis	Eosinophilic Esophagitis	12.8450405777451
 Hayfever/Allergic Rhinitis	Felty syndrome	22.5489734037232
 Hayfever/Allergic Rhinitis	Diabethic neuropathy	36.2256442365742
-Hayfever/Allergic Rhinitis	MS-disease / Multiple Sclerosis	55.4638607511842
+Hayfever/Allergic Rhinitis	Multiple Sclerosis	55.4638607511842
 Hayfever/Allergic Rhinitis	Gout	35.2778622664397
 Hayfever/Allergic Rhinitis	Hypothyroidism (congenital or acquired)	192.640414212198
 Hayfever/Allergic Rhinitis	Inflammatory Bowel Disease	466.823225004563
@@ -182,7 +182,7 @@ Autoimmune Addison's disease	Eosinophilic Granulomatosis with Polyangiitis	29.42
 Autoimmune Addison's disease	Eosinophilic Esophagitis	50.0054703047705
 Autoimmune Addison's disease	Felty syndrome	8.31692678032263
 Autoimmune Addison's disease	Diabethic neuropathy	17.639630060151
-Autoimmune Addison's disease	MS-disease / Multiple Sclerosis	39.9318479678353
+Autoimmune Addison's disease	Multiple Sclerosis	39.9318479678353
 Autoimmune Addison's disease	Gout	38.6848947694764
 Autoimmune Addison's disease	Hypothyroidism (congenital or acquired)	20.8116246624553
 Autoimmune Addison's disease	Inflammatory Bowel Disease	115.276835060365
@@ -258,7 +258,7 @@ MPO+ AAV	Eosinophilic Granulomatosis with Polyangiitis	21.6801370715722
 MPO+ AAV	Eosinophilic Esophagitis	30.6700379147333
 MPO+ AAV	Felty syndrome	5.40703429995371
 MPO+ AAV	Diabethic neuropathy	13.9969253300621
-MPO+ AAV	MS-disease / Multiple Sclerosis	19.5991448355126
+MPO+ AAV	Multiple Sclerosis	19.5991448355126
 MPO+ AAV	Gout	21.984894043271
 MPO+ AAV	Hypothyroidism (congenital or acquired)	16.2181637750035
 MPO+ AAV	Inflammatory Bowel Disease	79.7058261231642
@@ -334,7 +334,7 @@ PR3+ AAV	Eosinophilic Granulomatosis with Polyangiitis	20.6604750482138
 PR3+ AAV	Eosinophilic Esophagitis	13.7602504124398
 PR3+ AAV	Felty syndrome	10.8840855846303
 PR3+ AAV	Diabethic neuropathy	11.4111781353088
-PR3+ AAV	MS-disease / Multiple Sclerosis	31.2005911294253
+PR3+ AAV	Multiple Sclerosis	31.2005911294253
 PR3+ AAV	Gout	12.6814552457589
 PR3+ AAV	Hypothyroidism (congenital or acquired)	20.7620965853317
 PR3+ AAV	Inflammatory Bowel Disease	83.7722751648081
@@ -410,7 +410,7 @@ Autoimmune Thyroid disease	Eosinophilic Granulomatosis with Polyangiitis	41.7044
 Autoimmune Thyroid disease	Eosinophilic Esophagitis	70.896220671055
 Autoimmune Thyroid disease	Felty syndrome	18.6700374997749
 Autoimmune Thyroid disease	Diabethic neuropathy	17.6163829728548
-Autoimmune Thyroid disease	MS-disease / Multiple Sclerosis	70.3378096281651
+Autoimmune Thyroid disease	Multiple Sclerosis	70.3378096281651
 Autoimmune Thyroid disease	Gout	76.844200532544
 Autoimmune Thyroid disease	Hypothyroidism (congenital or acquired)	15.9547306356041
 Autoimmune Thyroid disease	Inflammatory Bowel Disease	535.873729330535
@@ -486,7 +486,7 @@ Anaphylactic shock due to adverse effect of correct drug or medicament properly 
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Eosinophilic Esophagitis	10.9096825349624
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Felty syndrome	9.8319143973919
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Diabethic neuropathy	12.6972246413193
-Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	MS-disease / Multiple Sclerosis	17.8609558631283
+Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Multiple Sclerosis	17.8609558631283
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Gout	13.2914528957235
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Hypothyroidism (congenital or acquired)	18.8160835799367
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Inflammatory Bowel Disease	19.9686163374605
@@ -562,7 +562,7 @@ Adult-onset Asthma	Eosinophilic Granulomatosis with Polyangiitis	28.407893483908
 Adult-onset Asthma	Eosinophilic Esophagitis	14.3358426663199
 Adult-onset Asthma	Felty syndrome	22.0548586310352
 Adult-onset Asthma	Diabethic neuropathy	32.8183413520025
-Adult-onset Asthma	MS-disease / Multiple Sclerosis	58.4222032994767
+Adult-onset Asthma	Multiple Sclerosis	58.4222032994767
 Adult-onset Asthma	Gout	43.0782948071958
 Adult-onset Asthma	Hypothyroidism (congenital or acquired)	193.62133337804
 Adult-onset Asthma	Inflammatory Bowel Disease	506.659672612685
@@ -638,7 +638,7 @@ Childhood-onset Asthma	Eosinophilic Granulomatosis with Polyangiitis	22.70984963
 Childhood-onset Asthma	Eosinophilic Esophagitis	14.9407771437348
 Childhood-onset Asthma	Felty syndrome	22.1766676703224
 Childhood-onset Asthma	Diabethic neuropathy	68.9452500603444
-Childhood-onset Asthma	MS-disease / Multiple Sclerosis	88.5351318464534
+Childhood-onset Asthma	Multiple Sclerosis	88.5351318464534
 Childhood-onset Asthma	Gout	123.259414466474
 Childhood-onset Asthma	Hypothyroidism (congenital or acquired)	346.851243776018
 Childhood-onset Asthma	Inflammatory Bowel Disease	507.155893210667
@@ -714,7 +714,7 @@ Atopic Dermatitis	Eosinophilic Granulomatosis with Polyangiitis	33.7074388048186
 Atopic Dermatitis	Eosinophilic Esophagitis	13.2914844043527
 Atopic Dermatitis	Felty syndrome	18.8820312447138
 Atopic Dermatitis	Diabethic neuropathy	29.5361757526219
-Atopic Dermatitis	MS-disease / Multiple Sclerosis	42.5699056621494
+Atopic Dermatitis	Multiple Sclerosis	42.5699056621494
 Atopic Dermatitis	Gout	19.5252768337564
 Atopic Dermatitis	Hypothyroidism (congenital or acquired)	85.6276183585963
 Atopic Dermatitis	Inflammatory Bowel Disease	308.940569235426
@@ -790,7 +790,7 @@ Crohn's Disease	Eosinophilic Granulomatosis with Polyangiitis	113.068865257704
 Crohn's Disease	Eosinophilic Esophagitis	148.787604859319
 Crohn's Disease	Felty syndrome	42.2087314772273
 Crohn's Disease	Diabethic neuropathy	210.35210647195
-Crohn's Disease	MS-disease / Multiple Sclerosis	184.123407050299
+Crohn's Disease	Multiple Sclerosis	184.123407050299
 Crohn's Disease	Gout	281.667084778458
 Crohn's Disease	Hypothyroidism (congenital or acquired)	420.066325377482
 Crohn's Disease	Inflammatory Bowel Disease	73.4253219416518
@@ -866,7 +866,7 @@ Primary biliary cholangitis	Eosinophilic Granulomatosis with Polyangiitis	27.751
 Primary biliary cholangitis	Eosinophilic Esophagitis	32.3432608633885
 Primary biliary cholangitis	Felty syndrome	7.73452395183163
 Primary biliary cholangitis	Diabethic neuropathy	22.392538542812
-Primary biliary cholangitis	MS-disease / Multiple Sclerosis	24.8619592072675
+Primary biliary cholangitis	Multiple Sclerosis	24.8619592072675
 Primary biliary cholangitis	Gout	25.4316239109179
 Primary biliary cholangitis	Hypothyroidism (congenital or acquired)	24.0814937795127
 Primary biliary cholangitis	Inflammatory Bowel Disease	50.1851960048412
@@ -942,7 +942,7 @@ CR(E)ST syndrome	Eosinophilic Granulomatosis with Polyangiitis	16.1855508011999
 CR(E)ST syndrome	Eosinophilic Esophagitis	13.0243233494417
 CR(E)ST syndrome	Felty syndrome	6.29080483520127
 CR(E)ST syndrome	Diabethic neuropathy	13.2942527182261
-CR(E)ST syndrome	MS-disease / Multiple Sclerosis	12.4074874326372
+CR(E)ST syndrome	Multiple Sclerosis	12.4074874326372
 CR(E)ST syndrome	Gout	12.8959399860536
 CR(E)ST syndrome	Hypothyroidism (congenital or acquired)	16.8328227845474
 CR(E)ST syndrome	Inflammatory Bowel Disease	29.3609250935092
@@ -1018,7 +1018,7 @@ Diseases of the blood and blood-forming organs and certain disorders involving t
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Eosinophilic Esophagitis	30.9100122253998
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Felty syndrome	21.5376325517856
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Diabethic neuropathy	18.9572474710845
-Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	MS-disease / Multiple Sclerosis	44.0263861239587
+Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Multiple Sclerosis	44.0263861239587
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Gout	7.68666504828009
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Hypothyroidism (congenital or acquired)	67.4683856167283
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Inflammatory Bowel Disease	452.834311501958
@@ -1094,7 +1094,7 @@ Other and unspecified disorders involving the immune mechanism, not elsewhere cl
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Eosinophilic Esophagitis	9.06632455550271
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Felty syndrome	9.49483983301136
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Diabethic neuropathy	10.6935841903042
-Other and unspecified disorders involving the immune mechanism, not elsewhere classified	MS-disease / Multiple Sclerosis	18.8792604168019
+Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Multiple Sclerosis	18.8792604168019
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Gout	9.19234411672263
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Hypothyroidism (congenital or acquired)	17.0178907581835
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Inflammatory Bowel Disease	43.1235636354967
@@ -1170,7 +1170,7 @@ Certain disorders involving the immune mechanism	Eosinophilic Granulomatosis wit
 Certain disorders involving the immune mechanism	Eosinophilic Esophagitis	24.7345897798389
 Certain disorders involving the immune mechanism	Felty syndrome	15.7065625244198
 Certain disorders involving the immune mechanism	Diabethic neuropathy	10.2326148301144
-Certain disorders involving the immune mechanism	MS-disease / Multiple Sclerosis	33.3181018359125
+Certain disorders involving the immune mechanism	Multiple Sclerosis	33.3181018359125
 Certain disorders involving the immune mechanism	Gout	8.76680130159642
 Certain disorders involving the immune mechanism	Hypothyroidism (congenital or acquired)	18.8894988157564
 Certain disorders involving the immune mechanism	Inflammatory Bowel Disease	195.147139801212
@@ -1246,7 +1246,7 @@ Idiopathic thrombocytopenic purpura	Eosinophilic Granulomatosis with Polyangiiti
 Idiopathic thrombocytopenic purpura	Eosinophilic Esophagitis	12.7842194978937
 Idiopathic thrombocytopenic purpura	Felty syndrome	9.0619564833411
 Idiopathic thrombocytopenic purpura	Diabethic neuropathy	10.3798976121681
-Idiopathic thrombocytopenic purpura	MS-disease / Multiple Sclerosis	16.9305038282376
+Idiopathic thrombocytopenic purpura	Multiple Sclerosis	16.9305038282376
 Idiopathic thrombocytopenic purpura	Gout	9.05000769277081
 Idiopathic thrombocytopenic purpura	Hypothyroidism (congenital or acquired)	13.7520278869257
 Idiopathic thrombocytopenic purpura	Inflammatory Bowel Disease	31.7285792534212
@@ -1322,7 +1322,7 @@ Sarcoidosis	Eosinophilic Granulomatosis with Polyangiitis	31.2043969428273
 Sarcoidosis	Eosinophilic Esophagitis	25.7118898573284
 Sarcoidosis	Felty syndrome	14.5047403812788
 Sarcoidosis	Diabethic neuropathy	8.3800707826701
-Sarcoidosis	MS-disease / Multiple Sclerosis	30.1431027075877
+Sarcoidosis	Multiple Sclerosis	30.1431027075877
 Sarcoidosis	Gout	9.02877148966477
 Sarcoidosis	Hypothyroidism (congenital or acquired)	12.6668062336595
 Sarcoidosis	Inflammatory Bowel Disease	152.882304511115
@@ -1398,7 +1398,7 @@ Dermatomyositis (Miller)	Eosinophilic Granulomatosis with Polyangiitis	16.657485
 Dermatomyositis (Miller)	Eosinophilic Esophagitis	15.9118469853048
 Dermatomyositis (Miller)	Felty syndrome	5.94328965016275
 Dermatomyositis (Miller)	Diabethic neuropathy	8.10069703665474
-Dermatomyositis (Miller)	MS-disease / Multiple Sclerosis	15.968055159407
+Dermatomyositis (Miller)	Multiple Sclerosis	15.968055159407
 Dermatomyositis (Miller)	Gout	12.5567917577976
 Dermatomyositis (Miller)	Hypothyroidism (congenital or acquired)	13.1837164580223
 Dermatomyositis (Miller)	Inflammatory Bowel Disease	58.7382247736514
@@ -1474,7 +1474,7 @@ Dermatomyositis (Rothwell)	Eosinophilic Granulomatosis with Polyangiitis	24.6542
 Dermatomyositis (Rothwell)	Eosinophilic Esophagitis	23.238858187716
 Dermatomyositis (Rothwell)	Felty syndrome	7.16589514529954
 Dermatomyositis (Rothwell)	Diabethic neuropathy	9.14176650582698
-Dermatomyositis (Rothwell)	MS-disease / Multiple Sclerosis	15.9379129932866
+Dermatomyositis (Rothwell)	Multiple Sclerosis	15.9379129932866
 Dermatomyositis (Rothwell)	Gout	12.8809532249836
 Dermatomyositis (Rothwell)	Hypothyroidism (congenital or acquired)	13.3281371755716
 Dermatomyositis (Rothwell)	Inflammatory Bowel Disease	71.4345456459909
@@ -1550,7 +1550,7 @@ Diabetic nephropathy	Eosinophilic Granulomatosis with Polyangiitis	30.5591195280
 Diabetic nephropathy	Eosinophilic Esophagitis	30.6797693112034
 Diabetic nephropathy	Felty syndrome	13.4223477194325
 Diabetic nephropathy	Diabethic neuropathy	1.99588552090737
-Diabetic nephropathy	MS-disease / Multiple Sclerosis	41.3864088676837
+Diabetic nephropathy	Multiple Sclerosis	41.3864088676837
 Diabetic nephropathy	Gout	19.9014837000647
 Diabetic nephropathy	Hypothyroidism (congenital or acquired)	9.98044601620293
 Diabetic nephropathy	Inflammatory Bowel Disease	205.014867690472
@@ -1626,7 +1626,7 @@ Peripheral atherosclerosis	Eosinophilic Granulomatosis with Polyangiitis	36.8292
 Peripheral atherosclerosis	Eosinophilic Esophagitis	24.7972465860907
 Peripheral atherosclerosis	Felty syndrome	17.9831346144202
 Peripheral atherosclerosis	Diabethic neuropathy	16.0766951379943
-Peripheral atherosclerosis	MS-disease / Multiple Sclerosis	39.8459707550268
+Peripheral atherosclerosis	Multiple Sclerosis	39.8459707550268
 Peripheral atherosclerosis	Gout	8.16578665665244
 Peripheral atherosclerosis	Hypothyroidism (congenital or acquired)	53.8204589066381
 Peripheral atherosclerosis	Inflammatory Bowel Disease	383.685508046103
@@ -1702,7 +1702,7 @@ Diabetic retinopathy	Eosinophilic Granulomatosis with Polyangiitis	35.4961117843
 Diabetic retinopathy	Eosinophilic Esophagitis	30.5252283083814
 Diabetic retinopathy	Felty syndrome	17.9372638119683
 Diabetic retinopathy	Diabethic neuropathy	6.80886002357804
-Diabetic retinopathy	MS-disease / Multiple Sclerosis	49.964771827525
+Diabetic retinopathy	Multiple Sclerosis	49.964771827525
 Diabetic retinopathy	Gout	15.9397113349358
 Diabetic retinopathy	Hypothyroidism (congenital or acquired)	34.3749082611186
 Diabetic retinopathy	Inflammatory Bowel Disease	404.565656224279
@@ -1778,7 +1778,7 @@ Type 2 diabetes	Eosinophilic Granulomatosis with Polyangiitis	41.9129572910229
 Type 2 diabetes	Eosinophilic Esophagitis	33.1889563946138
 Type 2 diabetes	Felty syndrome	22.7163400907014
 Type 2 diabetes	Diabethic neuropathy	19.3898873130002
-Type 2 diabetes	MS-disease / Multiple Sclerosis	47.8912896801677
+Type 2 diabetes	Multiple Sclerosis	47.8912896801677
 Type 2 diabetes	Gout	14.9265545176633
 Type 2 diabetes	Hypothyroidism (congenital or acquired)	107.417212815541
 Type 2 diabetes	Inflammatory Bowel Disease	570.096455587109
@@ -1854,7 +1854,7 @@ Autoimmune thyroiditis	Eosinophilic Granulomatosis with Polyangiitis	24.65652198
 Autoimmune thyroiditis	Eosinophilic Esophagitis	34.7019000845667
 Autoimmune thyroiditis	Felty syndrome	6.78755788870374
 Autoimmune thyroiditis	Diabethic neuropathy	13.9730975302219
-Autoimmune thyroiditis	MS-disease / Multiple Sclerosis	26.2186761063986
+Autoimmune thyroiditis	Multiple Sclerosis	26.2186761063986
 Autoimmune thyroiditis	Gout	26.9822280475017
 Autoimmune thyroiditis	Hypothyroidism (congenital or acquired)	18.5377643292565
 Autoimmune thyroiditis	Inflammatory Bowel Disease	58.4794492860351
@@ -1930,7 +1930,7 @@ ANCA negative EGPA	Eosinophilic Granulomatosis with Polyangiitis	0.6819719306233
 ANCA negative EGPA	Eosinophilic Esophagitis	15.698874046623
 ANCA negative EGPA	Felty syndrome	6.65501207378846
 ANCA negative EGPA	Diabethic neuropathy	25.836522377388
-ANCA negative EGPA	MS-disease / Multiple Sclerosis	31.1778886505846
+ANCA negative EGPA	Multiple Sclerosis	31.1778886505846
 ANCA negative EGPA	Gout	32.9207033344607
 ANCA negative EGPA	Hypothyroidism (congenital or acquired)	36.4243022407961
 ANCA negative EGPA	Inflammatory Bowel Disease	65.6332145356692
@@ -2006,7 +2006,7 @@ MPO+ EGPA	Eosinophilic Granulomatosis with Polyangiitis	2.20606849659935
 MPO+ EGPA	Eosinophilic Esophagitis	11.5259884109274
 MPO+ EGPA	Felty syndrome	3.67912695331608
 MPO+ EGPA	Diabethic neuropathy	13.4592360259884
-MPO+ EGPA	MS-disease / Multiple Sclerosis	16.3839403470324
+MPO+ EGPA	Multiple Sclerosis	16.3839403470324
 MPO+ EGPA	Gout	17.6303419984256
 MPO+ EGPA	Hypothyroidism (congenital or acquired)	19.5555851724624
 MPO+ EGPA	Inflammatory Bowel Disease	30.4410039628711
@@ -2082,7 +2082,7 @@ Eosinophilic Granulomatosis with Polyangiitis	Eosinophilic Granulomatosis with P
 Eosinophilic Granulomatosis with Polyangiitis	Eosinophilic Esophagitis	16.7117409091077
 Eosinophilic Granulomatosis with Polyangiitis	Felty syndrome	6.84958098046032
 Eosinophilic Granulomatosis with Polyangiitis	Diabethic neuropathy	26.8267111382652
-Eosinophilic Granulomatosis with Polyangiitis	MS-disease / Multiple Sclerosis	36.0272556635445
+Eosinophilic Granulomatosis with Polyangiitis	Multiple Sclerosis	36.0272556635445
 Eosinophilic Granulomatosis with Polyangiitis	Gout	36.2344556845829
 Eosinophilic Granulomatosis with Polyangiitis	Hypothyroidism (congenital or acquired)	38.9131000907499
 Eosinophilic Granulomatosis with Polyangiitis	Inflammatory Bowel Disease	83.8861135487551
@@ -2158,7 +2158,7 @@ Eosinophilic Esophagitis	Eosinophilic Granulomatosis with Polyangiitis	16.711740
 Eosinophilic Esophagitis	Eosinophilic Esophagitis	0
 Eosinophilic Esophagitis	Felty syndrome	14.5351095043217
 Eosinophilic Esophagitis	Diabethic neuropathy	26.4198426464578
-Eosinophilic Esophagitis	MS-disease / Multiple Sclerosis	42.014333442784
+Eosinophilic Esophagitis	Multiple Sclerosis	42.014333442784
 Eosinophilic Esophagitis	Gout	22.1070279551319
 Eosinophilic Esophagitis	Hypothyroidism (congenital or acquired)	52.4279648796212
 Eosinophilic Esophagitis	Inflammatory Bowel Disease	118.698753069164
@@ -2234,7 +2234,7 @@ Felty syndrome	Eosinophilic Granulomatosis with Polyangiitis	6.84958098046032
 Felty syndrome	Eosinophilic Esophagitis	14.5351095043217
 Felty syndrome	Felty syndrome	0
 Felty syndrome	Diabethic neuropathy	12.1160595061498
-Felty syndrome	MS-disease / Multiple Sclerosis	13.8330204520803
+Felty syndrome	Multiple Sclerosis	13.8330204520803
 Felty syndrome	Gout	17.2403276573875
 Felty syndrome	Hypothyroidism (congenital or acquired)	18.0996599488363
 Felty syndrome	Inflammatory Bowel Disease	35.3708296009966
@@ -2310,7 +2310,7 @@ Diabethic neuropathy	Eosinophilic Granulomatosis with Polyangiitis	26.8267111382
 Diabethic neuropathy	Eosinophilic Esophagitis	26.4198426464578
 Diabethic neuropathy	Felty syndrome	12.1160595061498
 Diabethic neuropathy	Diabethic neuropathy	0
-Diabethic neuropathy	MS-disease / Multiple Sclerosis	40.6248991698894
+Diabethic neuropathy	Multiple Sclerosis	40.6248991698894
 Diabethic neuropathy	Gout	18.5654980964627
 Diabethic neuropathy	Hypothyroidism (congenital or acquired)	11.3650176150303
 Diabethic neuropathy	Inflammatory Bowel Disease	169.624432193273
@@ -2355,82 +2355,82 @@ Diabethic neuropathy	Type 1 Diabetes	64.0058976431743
 Diabethic neuropathy	Ulcerative Colitis	148.408584956206
 Diabethic neuropathy	Inflammation of eyelids	12.7874861626905
 Diabethic neuropathy	Asthma	33.3596591636153
-MS-disease / Multiple Sclerosis	Hyperthyroidism/Thyrotoxicosis	45.7378690981282
-MS-disease / Multiple Sclerosis	Hayfever/Allergic Rhinitis	55.4638607511842
-MS-disease / Multiple Sclerosis	Autoimmune Addison's disease	39.9318479678353
-MS-disease / Multiple Sclerosis	MPO+ AAV	19.5991448355126
-MS-disease / Multiple Sclerosis	PR3+ AAV	31.2005911294253
-MS-disease / Multiple Sclerosis	Autoimmune Thyroid disease	70.3378096281651
-MS-disease / Multiple Sclerosis	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	17.8609558631283
-MS-disease / Multiple Sclerosis	Adult-onset Asthma	58.4222032994767
-MS-disease / Multiple Sclerosis	Childhood-onset Asthma	88.5351318464534
-MS-disease / Multiple Sclerosis	Atopic Dermatitis	42.5699056621494
-MS-disease / Multiple Sclerosis	Crohn's Disease	184.123407050299
-MS-disease / Multiple Sclerosis	Primary biliary cholangitis	24.8619592072675
-MS-disease / Multiple Sclerosis	CR(E)ST syndrome	12.4074874326372
-MS-disease / Multiple Sclerosis	Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	44.0263861239587
-MS-disease / Multiple Sclerosis	Other and unspecified disorders involving the immune mechanism, not elsewhere classified	18.8792604168019
-MS-disease / Multiple Sclerosis	Certain disorders involving the immune mechanism	33.3181018359125
-MS-disease / Multiple Sclerosis	Idiopathic thrombocytopenic purpura	16.9305038282376
-MS-disease / Multiple Sclerosis	Sarcoidosis	30.1431027075877
-MS-disease / Multiple Sclerosis	Dermatomyositis (Miller)	15.968055159407
-MS-disease / Multiple Sclerosis	Dermatomyositis (Rothwell)	15.9379129932866
-MS-disease / Multiple Sclerosis	Diabetic nephropathy	41.3864088676837
-MS-disease / Multiple Sclerosis	Peripheral atherosclerosis	39.8459707550268
-MS-disease / Multiple Sclerosis	Diabetic retinopathy	49.964771827525
-MS-disease / Multiple Sclerosis	Type 2 diabetes	47.8912896801677
-MS-disease / Multiple Sclerosis	Autoimmune thyroiditis	26.2186761063986
-MS-disease / Multiple Sclerosis	ANCA negative EGPA	31.1778886505846
-MS-disease / Multiple Sclerosis	MPO+ EGPA	16.3839403470324
-MS-disease / Multiple Sclerosis	Eosinophilic Granulomatosis with Polyangiitis	36.0272556635445
-MS-disease / Multiple Sclerosis	Eosinophilic Esophagitis	42.014333442784
-MS-disease / Multiple Sclerosis	Felty syndrome	13.8330204520803
-MS-disease / Multiple Sclerosis	Diabethic neuropathy	40.6248991698894
-MS-disease / Multiple Sclerosis	MS-disease / Multiple Sclerosis	0
-MS-disease / Multiple Sclerosis	Gout	38.2866260074068
-MS-disease / Multiple Sclerosis	Hypothyroidism (congenital or acquired)	55.2348313811836
-MS-disease / Multiple Sclerosis	Inflammatory Bowel Disease	150.468720621135
-MS-disease / Multiple Sclerosis	IgA deficiency	36.9165044351866
-MS-disease / Multiple Sclerosis	IIM (Rothwell)	32.3270660451441
-MS-disease / Multiple Sclerosis	Nasal polyp	63.0676430042055
-MS-disease / Multiple Sclerosis	Juvenile Dermatomyositis (Miller)	15.8163077195576
-MS-disease / Multiple Sclerosis	Juvenile Dermatomyositis (Rothwell)	10.3312033982701
-MS-disease / Multiple Sclerosis	Juvenile Idiopathic Arthritis	39.5034914502253
-MS-disease / Multiple Sclerosis	Jo1+ Myositis (Rothwell)	22.1636657235759
-MS-disease / Multiple Sclerosis	Primary sclerosing cholangitis	20.6533711222821
-MS-disease / Multiple Sclerosis	Coeliac disease	49.5899414570975
-MS-disease / Multiple Sclerosis	Erythema nodosum	16.9927401246151
-MS-disease / Multiple Sclerosis	Lichen planus	37.3902611087914
-MS-disease / Multiple Sclerosis	Lichen sclerosus et atrophicus	32.1209883717226
-MS-disease / Multiple Sclerosis	Localized scleroderma [morphea]	15.7524780340632
-MS-disease / Multiple Sclerosis	Psoriasis	35.43544493271
-MS-disease / Multiple Sclerosis	Arthropathic psoriasis	28.3347818581405
-MS-disease / Multiple Sclerosis	Rosacea	23.5636274386631
-MS-disease / Multiple Sclerosis	Vitiligo	18.9025335337771
-MS-disease / Multiple Sclerosis	Ankylosing spondylitis	25.1716764449929
-MS-disease / Multiple Sclerosis	Dermatopolymyositis (FinnGen)	16.2912196008412
-MS-disease / Multiple Sclerosis	Juvenile rheuma	19.8796147345912
-MS-disease / Multiple Sclerosis	Palindromic rheumatism	17.285627912556
-MS-disease / Multiple Sclerosis	Polymyalgia rheumatica	21.3079458749233
-MS-disease / Multiple Sclerosis	Polymyositis (FinnGen)	15.2294505295406
-MS-disease / Multiple Sclerosis	Wegener granulomatosis	16.513025099614
-MS-disease / Multiple Sclerosis	Early-onset Myastenia Gravis	18.6965378094149
-MS-disease / Multiple Sclerosis	Late-onset Myastenia Gravis	25.5577177994864
-MS-disease / Multiple Sclerosis	Myastenia Gravis	35.6536264886368
-MS-disease / Multiple Sclerosis	IIM (Miller)	26.9807036630648
-MS-disease / Multiple Sclerosis	Glomerulonephritis	25.4899816002368
-MS-disease / Multiple Sclerosis	IgG+ Neuromyelitis Optica	12.543879867724
-MS-disease / Multiple Sclerosis	Polymyositis (Miller)	20.4988198972584
-MS-disease / Multiple Sclerosis	Polymyositis (Rothwell)	24.254866791182
-MS-disease / Multiple Sclerosis	Rheumatoid Arthritis	107.385451896164
-MS-disease / Multiple Sclerosis	Biological medication for rheuma	42.2719862567232
-MS-disease / Multiple Sclerosis	Sjögren's syndrome	39.9228811383407
-MS-disease / Multiple Sclerosis	Systemic Lupus Erythematosus	148.637243614283
-MS-disease / Multiple Sclerosis	Systemic Sclerosis	36.4133063934943
-MS-disease / Multiple Sclerosis	Type 1 Diabetes	136.324825696799
-MS-disease / Multiple Sclerosis	Ulcerative Colitis	137.478684944736
-MS-disease / Multiple Sclerosis	Inflammation of eyelids	32.7206025471546
-MS-disease / Multiple Sclerosis	Asthma	61.5200531182547
+Multiple Sclerosis	Hyperthyroidism/Thyrotoxicosis	45.7378690981282
+Multiple Sclerosis	Hayfever/Allergic Rhinitis	55.4638607511842
+Multiple Sclerosis	Autoimmune Addison's disease	39.9318479678353
+Multiple Sclerosis	MPO+ AAV	19.5991448355126
+Multiple Sclerosis	PR3+ AAV	31.2005911294253
+Multiple Sclerosis	Autoimmune Thyroid disease	70.3378096281651
+Multiple Sclerosis	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	17.8609558631283
+Multiple Sclerosis	Adult-onset Asthma	58.4222032994767
+Multiple Sclerosis	Childhood-onset Asthma	88.5351318464534
+Multiple Sclerosis	Atopic Dermatitis	42.5699056621494
+Multiple Sclerosis	Crohn's Disease	184.123407050299
+Multiple Sclerosis	Primary biliary cholangitis	24.8619592072675
+Multiple Sclerosis	CR(E)ST syndrome	12.4074874326372
+Multiple Sclerosis	Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	44.0263861239587
+Multiple Sclerosis	Other and unspecified disorders involving the immune mechanism, not elsewhere classified	18.8792604168019
+Multiple Sclerosis	Certain disorders involving the immune mechanism	33.3181018359125
+Multiple Sclerosis	Idiopathic thrombocytopenic purpura	16.9305038282376
+Multiple Sclerosis	Sarcoidosis	30.1431027075877
+Multiple Sclerosis	Dermatomyositis (Miller)	15.968055159407
+Multiple Sclerosis	Dermatomyositis (Rothwell)	15.9379129932866
+Multiple Sclerosis	Diabetic nephropathy	41.3864088676837
+Multiple Sclerosis	Peripheral atherosclerosis	39.8459707550268
+Multiple Sclerosis	Diabetic retinopathy	49.964771827525
+Multiple Sclerosis	Type 2 diabetes	47.8912896801677
+Multiple Sclerosis	Autoimmune thyroiditis	26.2186761063986
+Multiple Sclerosis	ANCA negative EGPA	31.1778886505846
+Multiple Sclerosis	MPO+ EGPA	16.3839403470324
+Multiple Sclerosis	Eosinophilic Granulomatosis with Polyangiitis	36.0272556635445
+Multiple Sclerosis	Eosinophilic Esophagitis	42.014333442784
+Multiple Sclerosis	Felty syndrome	13.8330204520803
+Multiple Sclerosis	Diabethic neuropathy	40.6248991698894
+Multiple Sclerosis	Multiple Sclerosis	0
+Multiple Sclerosis	Gout	38.2866260074068
+Multiple Sclerosis	Hypothyroidism (congenital or acquired)	55.2348313811836
+Multiple Sclerosis	Inflammatory Bowel Disease	150.468720621135
+Multiple Sclerosis	IgA deficiency	36.9165044351866
+Multiple Sclerosis	IIM (Rothwell)	32.3270660451441
+Multiple Sclerosis	Nasal polyp	63.0676430042055
+Multiple Sclerosis	Juvenile Dermatomyositis (Miller)	15.8163077195576
+Multiple Sclerosis	Juvenile Dermatomyositis (Rothwell)	10.3312033982701
+Multiple Sclerosis	Juvenile Idiopathic Arthritis	39.5034914502253
+Multiple Sclerosis	Jo1+ Myositis (Rothwell)	22.1636657235759
+Multiple Sclerosis	Primary sclerosing cholangitis	20.6533711222821
+Multiple Sclerosis	Coeliac disease	49.5899414570975
+Multiple Sclerosis	Erythema nodosum	16.9927401246151
+Multiple Sclerosis	Lichen planus	37.3902611087914
+Multiple Sclerosis	Lichen sclerosus et atrophicus	32.1209883717226
+Multiple Sclerosis	Localized scleroderma [morphea]	15.7524780340632
+Multiple Sclerosis	Psoriasis	35.43544493271
+Multiple Sclerosis	Arthropathic psoriasis	28.3347818581405
+Multiple Sclerosis	Rosacea	23.5636274386631
+Multiple Sclerosis	Vitiligo	18.9025335337771
+Multiple Sclerosis	Ankylosing spondylitis	25.1716764449929
+Multiple Sclerosis	Dermatopolymyositis (FinnGen)	16.2912196008412
+Multiple Sclerosis	Juvenile rheuma	19.8796147345912
+Multiple Sclerosis	Palindromic rheumatism	17.285627912556
+Multiple Sclerosis	Polymyalgia rheumatica	21.3079458749233
+Multiple Sclerosis	Polymyositis (FinnGen)	15.2294505295406
+Multiple Sclerosis	Wegener granulomatosis	16.513025099614
+Multiple Sclerosis	Early-onset Myastenia Gravis	18.6965378094149
+Multiple Sclerosis	Late-onset Myastenia Gravis	25.5577177994864
+Multiple Sclerosis	Myastenia Gravis	35.6536264886368
+Multiple Sclerosis	IIM (Miller)	26.9807036630648
+Multiple Sclerosis	Glomerulonephritis	25.4899816002368
+Multiple Sclerosis	IgG+ Neuromyelitis Optica	12.543879867724
+Multiple Sclerosis	Polymyositis (Miller)	20.4988198972584
+Multiple Sclerosis	Polymyositis (Rothwell)	24.254866791182
+Multiple Sclerosis	Rheumatoid Arthritis	107.385451896164
+Multiple Sclerosis	Biological medication for rheuma	42.2719862567232
+Multiple Sclerosis	Sjögren's syndrome	39.9228811383407
+Multiple Sclerosis	Systemic Lupus Erythematosus	148.637243614283
+Multiple Sclerosis	Systemic Sclerosis	36.4133063934943
+Multiple Sclerosis	Type 1 Diabetes	136.324825696799
+Multiple Sclerosis	Ulcerative Colitis	137.478684944736
+Multiple Sclerosis	Inflammation of eyelids	32.7206025471546
+Multiple Sclerosis	Asthma	61.5200531182547
 Gout	Hyperthyroidism/Thyrotoxicosis	41.3102438636663
 Gout	Hayfever/Allergic Rhinitis	35.2778622664397
 Gout	Autoimmune Addison's disease	38.6848947694764
@@ -2462,7 +2462,7 @@ Gout	Eosinophilic Granulomatosis with Polyangiitis	36.2344556845829
 Gout	Eosinophilic Esophagitis	22.1070279551319
 Gout	Felty syndrome	17.2403276573875
 Gout	Diabethic neuropathy	18.5654980964627
-Gout	MS-disease / Multiple Sclerosis	38.2866260074068
+Gout	Multiple Sclerosis	38.2866260074068
 Gout	Gout	0
 Gout	Hypothyroidism (congenital or acquired)	37.5118812286454
 Gout	Inflammatory Bowel Disease	249.334199810162
@@ -2538,7 +2538,7 @@ Hypothyroidism (congenital or acquired)	Eosinophilic Granulomatosis with Polyang
 Hypothyroidism (congenital or acquired)	Eosinophilic Esophagitis	52.4279648796212
 Hypothyroidism (congenital or acquired)	Felty syndrome	18.0996599488363
 Hypothyroidism (congenital or acquired)	Diabethic neuropathy	11.3650176150303
-Hypothyroidism (congenital or acquired)	MS-disease / Multiple Sclerosis	55.2348313811836
+Hypothyroidism (congenital or acquired)	Multiple Sclerosis	55.2348313811836
 Hypothyroidism (congenital or acquired)	Gout	37.5118812286454
 Hypothyroidism (congenital or acquired)	Hypothyroidism (congenital or acquired)	0
 Hypothyroidism (congenital or acquired)	Inflammatory Bowel Disease	447.776337832558
@@ -2614,7 +2614,7 @@ Inflammatory Bowel Disease	Eosinophilic Granulomatosis with Polyangiitis	83.8861
 Inflammatory Bowel Disease	Eosinophilic Esophagitis	118.698753069164
 Inflammatory Bowel Disease	Felty syndrome	35.3708296009966
 Inflammatory Bowel Disease	Diabethic neuropathy	169.624432193273
-Inflammatory Bowel Disease	MS-disease / Multiple Sclerosis	150.468720621135
+Inflammatory Bowel Disease	Multiple Sclerosis	150.468720621135
 Inflammatory Bowel Disease	Gout	249.334199810162
 Inflammatory Bowel Disease	Hypothyroidism (congenital or acquired)	447.776337832558
 Inflammatory Bowel Disease	Inflammatory Bowel Disease	0
@@ -2690,7 +2690,7 @@ IgA deficiency	Eosinophilic Granulomatosis with Polyangiitis	25.3938798234321
 IgA deficiency	Eosinophilic Esophagitis	27.5322775426362
 IgA deficiency	Felty syndrome	13.9571234601677
 IgA deficiency	Diabethic neuropathy	11.7415971011691
-IgA deficiency	MS-disease / Multiple Sclerosis	36.9165044351866
+IgA deficiency	Multiple Sclerosis	36.9165044351866
 IgA deficiency	Gout	21.4693965944461
 IgA deficiency	Hypothyroidism (congenital or acquired)	19.352935079287
 IgA deficiency	Inflammatory Bowel Disease	96.8052545324971
@@ -2766,7 +2766,7 @@ IIM (Rothwell)	Eosinophilic Granulomatosis with Polyangiitis	36.1447090566923
 IIM (Rothwell)	Eosinophilic Esophagitis	41.7555142650365
 IIM (Rothwell)	Felty syndrome	10.6201387169744
 IIM (Rothwell)	Diabethic neuropathy	18.5327370534784
-IIM (Rothwell)	MS-disease / Multiple Sclerosis	32.3270660451441
+IIM (Rothwell)	Multiple Sclerosis	32.3270660451441
 IIM (Rothwell)	Gout	27.834866549052
 IIM (Rothwell)	Hypothyroidism (congenital or acquired)	25.4409913405584
 IIM (Rothwell)	Inflammatory Bowel Disease	158.448565972007
@@ -2842,7 +2842,7 @@ Nasal polyp	Eosinophilic Granulomatosis with Polyangiitis	16.0990341090947
 Nasal polyp	Eosinophilic Esophagitis	18.0404794737862
 Nasal polyp	Felty syndrome	16.4518313964503
 Nasal polyp	Diabethic neuropathy	30.4259820443003
-Nasal polyp	MS-disease / Multiple Sclerosis	63.0676430042055
+Nasal polyp	Multiple Sclerosis	63.0676430042055
 Nasal polyp	Gout	58.2319579032182
 Nasal polyp	Hypothyroidism (congenital or acquired)	103.50660955613
 Nasal polyp	Inflammatory Bowel Disease	279.818387147028
@@ -2918,7 +2918,7 @@ Juvenile Dermatomyositis (Miller)	Eosinophilic Granulomatosis with Polyangiitis	
 Juvenile Dermatomyositis (Miller)	Eosinophilic Esophagitis	15.747868199467
 Juvenile Dermatomyositis (Miller)	Felty syndrome	6.54891602861353
 Juvenile Dermatomyositis (Miller)	Diabethic neuropathy	6.75096669880158
-Juvenile Dermatomyositis (Miller)	MS-disease / Multiple Sclerosis	15.8163077195576
+Juvenile Dermatomyositis (Miller)	Multiple Sclerosis	15.8163077195576
 Juvenile Dermatomyositis (Miller)	Gout	11.3912597465865
 Juvenile Dermatomyositis (Miller)	Hypothyroidism (congenital or acquired)	12.5439565414877
 Juvenile Dermatomyositis (Miller)	Inflammatory Bowel Disease	45.048521761842
@@ -2994,7 +2994,7 @@ Juvenile Dermatomyositis (Rothwell)	Eosinophilic Granulomatosis with Polyangiiti
 Juvenile Dermatomyositis (Rothwell)	Eosinophilic Esophagitis	19.6904701203538
 Juvenile Dermatomyositis (Rothwell)	Felty syndrome	8.8159134747232
 Juvenile Dermatomyositis (Rothwell)	Diabethic neuropathy	10.2570590991092
-Juvenile Dermatomyositis (Rothwell)	MS-disease / Multiple Sclerosis	10.3312033982701
+Juvenile Dermatomyositis (Rothwell)	Multiple Sclerosis	10.3312033982701
 Juvenile Dermatomyositis (Rothwell)	Gout	11.4579790911529
 Juvenile Dermatomyositis (Rothwell)	Hypothyroidism (congenital or acquired)	15.8543317345854
 Juvenile Dermatomyositis (Rothwell)	Inflammatory Bowel Disease	49.1514589363226
@@ -3070,7 +3070,7 @@ Juvenile Idiopathic Arthritis	Eosinophilic Granulomatosis with Polyangiitis	37.1
 Juvenile Idiopathic Arthritis	Eosinophilic Esophagitis	50.3900479385996
 Juvenile Idiopathic Arthritis	Felty syndrome	11.344031245554
 Juvenile Idiopathic Arthritis	Diabethic neuropathy	23.2702135057748
-Juvenile Idiopathic Arthritis	MS-disease / Multiple Sclerosis	39.5034914502253
+Juvenile Idiopathic Arthritis	Multiple Sclerosis	39.5034914502253
 Juvenile Idiopathic Arthritis	Gout	39.6622862375929
 Juvenile Idiopathic Arthritis	Hypothyroidism (congenital or acquired)	23.2853747242939
 Juvenile Idiopathic Arthritis	Inflammatory Bowel Disease	155.96161153056
@@ -3146,7 +3146,7 @@ Jo1+ Myositis (Rothwell)	Eosinophilic Granulomatosis with Polyangiitis	15.397597
 Jo1+ Myositis (Rothwell)	Eosinophilic Esophagitis	18.7990235328279
 Jo1+ Myositis (Rothwell)	Felty syndrome	5.13064825252137
 Jo1+ Myositis (Rothwell)	Diabethic neuropathy	13.19429318699
-Jo1+ Myositis (Rothwell)	MS-disease / Multiple Sclerosis	22.1636657235758
+Jo1+ Myositis (Rothwell)	Multiple Sclerosis	22.1636657235758
 Jo1+ Myositis (Rothwell)	Gout	18.2418011154464
 Jo1+ Myositis (Rothwell)	Hypothyroidism (congenital or acquired)	19.1160305510491
 Jo1+ Myositis (Rothwell)	Inflammatory Bowel Disease	37.1674409998221
@@ -3222,7 +3222,7 @@ Primary sclerosing cholangitis	Eosinophilic Granulomatosis with Polyangiitis	19.
 Primary sclerosing cholangitis	Eosinophilic Esophagitis	12.2967183264959
 Primary sclerosing cholangitis	Felty syndrome	11.234161873191
 Primary sclerosing cholangitis	Diabethic neuropathy	13.4191722608752
-Primary sclerosing cholangitis	MS-disease / Multiple Sclerosis	20.6533711222821
+Primary sclerosing cholangitis	Multiple Sclerosis	20.6533711222821
 Primary sclerosing cholangitis	Gout	7.15850027179042
 Primary sclerosing cholangitis	Hypothyroidism (congenital or acquired)	17.9035889144294
 Primary sclerosing cholangitis	Inflammatory Bowel Disease	68.5809171974907
@@ -3298,7 +3298,7 @@ Coeliac disease	Eosinophilic Granulomatosis with Polyangiitis	49.7483197103098
 Coeliac disease	Eosinophilic Esophagitis	50.6969568107185
 Coeliac disease	Felty syndrome	19.3273436578943
 Coeliac disease	Diabethic neuropathy	26.0305547526097
-Coeliac disease	MS-disease / Multiple Sclerosis	49.5899414570975
+Coeliac disease	Multiple Sclerosis	49.5899414570975
 Coeliac disease	Gout	40.8091623013727
 Coeliac disease	Hypothyroidism (congenital or acquired)	53.5765450674369
 Coeliac disease	Inflammatory Bowel Disease	178.140860848805
@@ -3374,7 +3374,7 @@ Erythema nodosum	Eosinophilic Granulomatosis with Polyangiitis	23.2971408009052
 Erythema nodosum	Eosinophilic Esophagitis	12.6331692457042
 Erythema nodosum	Felty syndrome	10.8716586841097
 Erythema nodosum	Diabethic neuropathy	8.81823900450172
-Erythema nodosum	MS-disease / Multiple Sclerosis	16.9927401246151
+Erythema nodosum	Multiple Sclerosis	16.9927401246151
 Erythema nodosum	Gout	8.72647357277972
 Erythema nodosum	Hypothyroidism (congenital or acquired)	13.3812617474652
 Erythema nodosum	Inflammatory Bowel Disease	34.9318255480559
@@ -3450,7 +3450,7 @@ Lichen planus	Eosinophilic Granulomatosis with Polyangiitis	31.0920756770903
 Lichen planus	Eosinophilic Esophagitis	27.9724568527999
 Lichen planus	Felty syndrome	15.4438927898392
 Lichen planus	Diabethic neuropathy	10.3185483621097
-Lichen planus	MS-disease / Multiple Sclerosis	37.3902611087914
+Lichen planus	Multiple Sclerosis	37.3902611087914
 Lichen planus	Gout	12.7381319582623
 Lichen planus	Hypothyroidism (congenital or acquired)	17.0746154162429
 Lichen planus	Inflammatory Bowel Disease	169.632847743711
@@ -3526,7 +3526,7 @@ Lichen sclerosus et atrophicus	Eosinophilic Granulomatosis with Polyangiitis	24.
 Lichen sclerosus et atrophicus	Eosinophilic Esophagitis	16.5871867143794
 Lichen sclerosus et atrophicus	Felty syndrome	13.1661873291143
 Lichen sclerosus et atrophicus	Diabethic neuropathy	8.64377024784607
-Lichen sclerosus et atrophicus	MS-disease / Multiple Sclerosis	32.1209883717226
+Lichen sclerosus et atrophicus	Multiple Sclerosis	32.1209883717226
 Lichen sclerosus et atrophicus	Gout	10.4957385916398
 Lichen sclerosus et atrophicus	Hypothyroidism (congenital or acquired)	19.3447488672095
 Lichen sclerosus et atrophicus	Inflammatory Bowel Disease	111.667357922728
@@ -3602,7 +3602,7 @@ Localized scleroderma [morphea]	Eosinophilic Granulomatosis with Polyangiitis	11
 Localized scleroderma [morphea]	Eosinophilic Esophagitis	10.4949956312658
 Localized scleroderma [morphea]	Felty syndrome	6.55296646586248
 Localized scleroderma [morphea]	Diabethic neuropathy	8.94705185955514
-Localized scleroderma [morphea]	MS-disease / Multiple Sclerosis	15.7524780340632
+Localized scleroderma [morphea]	Multiple Sclerosis	15.7524780340632
 Localized scleroderma [morphea]	Gout	11.4508675067484
 Localized scleroderma [morphea]	Hypothyroidism (congenital or acquired)	14.1968407175861
 Localized scleroderma [morphea]	Inflammatory Bowel Disease	24.6863295968296
@@ -3678,7 +3678,7 @@ Psoriasis	Eosinophilic Granulomatosis with Polyangiitis	40.5330388113828
 Psoriasis	Eosinophilic Esophagitis	30.5215293039064
 Psoriasis	Felty syndrome	18.2765789096683
 Psoriasis	Diabethic neuropathy	19.265568926746
-Psoriasis	MS-disease / Multiple Sclerosis	35.43544493271
+Psoriasis	Multiple Sclerosis	35.43544493271
 Psoriasis	Gout	5.73871248159921
 Psoriasis	Hypothyroidism (congenital or acquired)	35.8925677552104
 Psoriasis	Inflammatory Bowel Disease	264.849276638213
@@ -3754,7 +3754,7 @@ Arthropathic psoriasis	Eosinophilic Granulomatosis with Polyangiitis	31.70627174
 Arthropathic psoriasis	Eosinophilic Esophagitis	23.5254553138623
 Arthropathic psoriasis	Felty syndrome	13.4114174021117
 Arthropathic psoriasis	Diabethic neuropathy	11.1945062082097
-Arthropathic psoriasis	MS-disease / Multiple Sclerosis	28.3347818581405
+Arthropathic psoriasis	Multiple Sclerosis	28.3347818581405
 Arthropathic psoriasis	Gout	7.26941636354065
 Arthropathic psoriasis	Hypothyroidism (congenital or acquired)	13.555762070767
 Arthropathic psoriasis	Inflammatory Bowel Disease	157.425205142518
@@ -3830,7 +3830,7 @@ Rosacea	Eosinophilic Granulomatosis with Polyangiitis	31.9321415009026
 Rosacea	Eosinophilic Esophagitis	16.8905795439039
 Rosacea	Felty syndrome	14.6730101849811
 Rosacea	Diabethic neuropathy	14.7669702206415
-Rosacea	MS-disease / Multiple Sclerosis	23.5636274386631
+Rosacea	Multiple Sclerosis	23.5636274386631
 Rosacea	Gout	7.14184674628401
 Rosacea	Hypothyroidism (congenital or acquired)	23.8809753063382
 Rosacea	Inflammatory Bowel Disease	87.4662732346037
@@ -3906,7 +3906,7 @@ Vitiligo	Eosinophilic Granulomatosis with Polyangiitis	11.8120634974384
 Vitiligo	Eosinophilic Esophagitis	18.9014442674339
 Vitiligo	Felty syndrome	4.97917141197045
 Vitiligo	Diabethic neuropathy	10.9594173208413
-Vitiligo	MS-disease / Multiple Sclerosis	18.9025335337771
+Vitiligo	Multiple Sclerosis	18.9025335337771
 Vitiligo	Gout	17.8193047263721
 Vitiligo	Hypothyroidism (congenital or acquired)	16.0959171538903
 Vitiligo	Inflammatory Bowel Disease	34.5682955611832
@@ -3982,7 +3982,7 @@ Ankylosing spondylitis	Eosinophilic Granulomatosis with Polyangiitis	32.73198301
 Ankylosing spondylitis	Eosinophilic Esophagitis	16.8159051511383
 Ankylosing spondylitis	Felty syndrome	17.2763605030755
 Ankylosing spondylitis	Diabethic neuropathy	26.1678284291572
-Ankylosing spondylitis	MS-disease / Multiple Sclerosis	25.1716764449929
+Ankylosing spondylitis	Multiple Sclerosis	25.1716764449929
 Ankylosing spondylitis	Gout	12.8060927134678
 Ankylosing spondylitis	Hypothyroidism (congenital or acquired)	40.3077159140982
 Ankylosing spondylitis	Inflammatory Bowel Disease	91.5819977639891
@@ -4058,7 +4058,7 @@ Dermatopolymyositis (FinnGen)	Eosinophilic Granulomatosis with Polyangiitis	9.37
 Dermatopolymyositis (FinnGen)	Eosinophilic Esophagitis	13.8498236417203
 Dermatopolymyositis (FinnGen)	Felty syndrome	4.24725080959574
 Dermatopolymyositis (FinnGen)	Diabethic neuropathy	8.45689636676146
-Dermatopolymyositis (FinnGen)	MS-disease / Multiple Sclerosis	16.2912196008412
+Dermatopolymyositis (FinnGen)	Multiple Sclerosis	16.2912196008412
 Dermatopolymyositis (FinnGen)	Gout	14.5023381779759
 Dermatopolymyositis (FinnGen)	Hypothyroidism (congenital or acquired)	12.5156631774538
 Dermatopolymyositis (FinnGen)	Inflammatory Bowel Disease	34.8213119495852
@@ -4134,7 +4134,7 @@ Juvenile rheuma	Eosinophilic Granulomatosis with Polyangiitis	24.359254067157
 Juvenile rheuma	Eosinophilic Esophagitis	24.2665842470457
 Juvenile rheuma	Felty syndrome	9.62438310640815
 Juvenile rheuma	Diabethic neuropathy	13.4039584595836
-Juvenile rheuma	MS-disease / Multiple Sclerosis	19.8796147345912
+Juvenile rheuma	Multiple Sclerosis	19.8796147345912
 Juvenile rheuma	Gout	16.8937304110391
 Juvenile rheuma	Hypothyroidism (congenital or acquired)	14.6384701937726
 Juvenile rheuma	Inflammatory Bowel Disease	39.236504893251
@@ -4210,7 +4210,7 @@ Palindromic rheumatism	Eosinophilic Granulomatosis with Polyangiitis	10.39752372
 Palindromic rheumatism	Eosinophilic Esophagitis	14.5366412123928
 Palindromic rheumatism	Felty syndrome	6.60268860394706
 Palindromic rheumatism	Diabethic neuropathy	8.17104585375897
-Palindromic rheumatism	MS-disease / Multiple Sclerosis	17.285627912556
+Palindromic rheumatism	Multiple Sclerosis	17.285627912556
 Palindromic rheumatism	Gout	16.6139681521764
 Palindromic rheumatism	Hypothyroidism (congenital or acquired)	16.9973223397403
 Palindromic rheumatism	Inflammatory Bowel Disease	32.1169059555604
@@ -4286,7 +4286,7 @@ Polymyalgia rheumatica	Eosinophilic Granulomatosis with Polyangiitis	24.64130817
 Polymyalgia rheumatica	Eosinophilic Esophagitis	19.596706067023
 Polymyalgia rheumatica	Felty syndrome	12.517645265866
 Polymyalgia rheumatica	Diabethic neuropathy	8.39367716235665
-Polymyalgia rheumatica	MS-disease / Multiple Sclerosis	21.3079458749233
+Polymyalgia rheumatica	Multiple Sclerosis	21.3079458749233
 Polymyalgia rheumatica	Gout	8.06243573501083
 Polymyalgia rheumatica	Hypothyroidism (congenital or acquired)	15.3609515604169
 Polymyalgia rheumatica	Inflammatory Bowel Disease	160.342518457758
@@ -4362,7 +4362,7 @@ Polymyositis (FinnGen)	Eosinophilic Granulomatosis with Polyangiitis	7.602725753
 Polymyositis (FinnGen)	Eosinophilic Esophagitis	13.4384914611035
 Polymyositis (FinnGen)	Felty syndrome	3.91897854275066
 Polymyositis (FinnGen)	Diabethic neuropathy	9.49043831874719
-Polymyositis (FinnGen)	MS-disease / Multiple Sclerosis	15.2294505295406
+Polymyositis (FinnGen)	Multiple Sclerosis	15.2294505295406
 Polymyositis (FinnGen)	Gout	16.4531817383535
 Polymyositis (FinnGen)	Hypothyroidism (congenital or acquired)	15.2359143652079
 Polymyositis (FinnGen)	Inflammatory Bowel Disease	29.0614826271687
@@ -4438,7 +4438,7 @@ Wegener granulomatosis	Eosinophilic Granulomatosis with Polyangiitis	14.65468478
 Wegener granulomatosis	Eosinophilic Esophagitis	13.5186912316218
 Wegener granulomatosis	Felty syndrome	5.74254190305632
 Wegener granulomatosis	Diabethic neuropathy	7.59644627323372
-Wegener granulomatosis	MS-disease / Multiple Sclerosis	16.513025099614
+Wegener granulomatosis	Multiple Sclerosis	16.513025099614
 Wegener granulomatosis	Gout	12.454933150556
 Wegener granulomatosis	Hypothyroidism (congenital or acquired)	14.0776076626747
 Wegener granulomatosis	Inflammatory Bowel Disease	34.4550341371355
@@ -4514,7 +4514,7 @@ Early-onset Myastenia Gravis	Eosinophilic Granulomatosis with Polyangiitis	17.80
 Early-onset Myastenia Gravis	Eosinophilic Esophagitis	20.7983362499811
 Early-onset Myastenia Gravis	Felty syndrome	4.55029375407906
 Early-onset Myastenia Gravis	Diabethic neuropathy	14.4542405523348
-Early-onset Myastenia Gravis	MS-disease / Multiple Sclerosis	18.6965378094149
+Early-onset Myastenia Gravis	Multiple Sclerosis	18.6965378094149
 Early-onset Myastenia Gravis	Gout	18.2366882019084
 Early-onset Myastenia Gravis	Hypothyroidism (congenital or acquired)	17.4253893972771
 Early-onset Myastenia Gravis	Inflammatory Bowel Disease	32.2124599341407
@@ -4590,7 +4590,7 @@ Late-onset Myastenia Gravis	Eosinophilic Granulomatosis with Polyangiitis	24.287
 Late-onset Myastenia Gravis	Eosinophilic Esophagitis	27.0300258144831
 Late-onset Myastenia Gravis	Felty syndrome	7.41625171526875
 Late-onset Myastenia Gravis	Diabethic neuropathy	11.6546086899997
-Late-onset Myastenia Gravis	MS-disease / Multiple Sclerosis	25.5577177994864
+Late-onset Myastenia Gravis	Multiple Sclerosis	25.5577177994864
 Late-onset Myastenia Gravis	Gout	17.4143117639569
 Late-onset Myastenia Gravis	Hypothyroidism (congenital or acquired)	14.3992450980897
 Late-onset Myastenia Gravis	Inflammatory Bowel Disease	55.0553921575823
@@ -4666,7 +4666,7 @@ Myastenia Gravis	Eosinophilic Granulomatosis with Polyangiitis	27.8264678038278
 Myastenia Gravis	Eosinophilic Esophagitis	37.0230565445635
 Myastenia Gravis	Felty syndrome	9.02678582196502
 Myastenia Gravis	Diabethic neuropathy	9.26227795606229
-Myastenia Gravis	MS-disease / Multiple Sclerosis	35.6536264886368
+Myastenia Gravis	Multiple Sclerosis	35.6536264886368
 Myastenia Gravis	Gout	21.4386361797778
 Myastenia Gravis	Hypothyroidism (congenital or acquired)	9.97429217819914
 Myastenia Gravis	Inflammatory Bowel Disease	138.661963698781
@@ -4742,7 +4742,7 @@ IIM (Miller)	Eosinophilic Granulomatosis with Polyangiitis	23.4138125253118
 IIM (Miller)	Eosinophilic Esophagitis	24.922745601548
 IIM (Miller)	Felty syndrome	8.26868805874903
 IIM (Miller)	Diabethic neuropathy	10.5807381742465
-IIM (Miller)	MS-disease / Multiple Sclerosis	26.9807036630648
+IIM (Miller)	Multiple Sclerosis	26.9807036630648
 IIM (Miller)	Gout	18.0676098732375
 IIM (Miller)	Hypothyroidism (congenital or acquired)	14.6988192200821
 IIM (Miller)	Inflammatory Bowel Disease	97.854418464279
@@ -4818,7 +4818,7 @@ Glomerulonephritis	Eosinophilic Granulomatosis with Polyangiitis	22.713366651269
 Glomerulonephritis	Eosinophilic Esophagitis	15.1315258799953
 Glomerulonephritis	Felty syndrome	11.9083723005514
 Glomerulonephritis	Diabethic neuropathy	9.66233104039029
-Glomerulonephritis	MS-disease / Multiple Sclerosis	25.4899816002368
+Glomerulonephritis	Multiple Sclerosis	25.4899816002368
 Glomerulonephritis	Gout	6.82831512469967
 Glomerulonephritis	Hypothyroidism (congenital or acquired)	15.5139750762388
 Glomerulonephritis	Inflammatory Bowel Disease	77.3367079822222
@@ -4894,7 +4894,7 @@ IgG+ Neuromyelitis Optica	Eosinophilic Granulomatosis with Polyangiitis	11.87826
 IgG+ Neuromyelitis Optica	Eosinophilic Esophagitis	14.8731445390255
 IgG+ Neuromyelitis Optica	Felty syndrome	2.13918524568747
 IgG+ Neuromyelitis Optica	Diabethic neuropathy	12.816330442635
-IgG+ Neuromyelitis Optica	MS-disease / Multiple Sclerosis	12.543879867724
+IgG+ Neuromyelitis Optica	Multiple Sclerosis	12.543879867724
 IgG+ Neuromyelitis Optica	Gout	15.7645237157564
 IgG+ Neuromyelitis Optica	Hypothyroidism (congenital or acquired)	17.8743099768969
 IgG+ Neuromyelitis Optica	Inflammatory Bowel Disease	29.2790608093765
@@ -4970,7 +4970,7 @@ Polymyositis (Miller)	Eosinophilic Granulomatosis with Polyangiitis	12.863610657
 Polymyositis (Miller)	Eosinophilic Esophagitis	15.6379985317756
 Polymyositis (Miller)	Felty syndrome	4.6866545005426
 Polymyositis (Miller)	Diabethic neuropathy	9.99305893301138
-Polymyositis (Miller)	MS-disease / Multiple Sclerosis	20.4988198972584
+Polymyositis (Miller)	Multiple Sclerosis	20.4988198972584
 Polymyositis (Miller)	Gout	16.2950828876885
 Polymyositis (Miller)	Hypothyroidism (congenital or acquired)	15.2720359398468
 Polymyositis (Miller)	Inflammatory Bowel Disease	41.9697665330932
@@ -5046,7 +5046,7 @@ Polymyositis (Rothwell)	Eosinophilic Granulomatosis with Polyangiitis	23.8107361
 Polymyositis (Rothwell)	Eosinophilic Esophagitis	23.4113933679773
 Polymyositis (Rothwell)	Felty syndrome	7.4840197164185
 Polymyositis (Rothwell)	Diabethic neuropathy	12.8008285596829
-Polymyositis (Rothwell)	MS-disease / Multiple Sclerosis	24.254866791182
+Polymyositis (Rothwell)	Multiple Sclerosis	24.254866791182
 Polymyositis (Rothwell)	Gout	18.1678674536096
 Polymyositis (Rothwell)	Hypothyroidism (congenital or acquired)	18.3572168157127
 Polymyositis (Rothwell)	Inflammatory Bowel Disease	64.1692882051859
@@ -5122,7 +5122,7 @@ Rheumatoid Arthritis	Eosinophilic Granulomatosis with Polyangiitis	42.8791906215
 Rheumatoid Arthritis	Eosinophilic Esophagitis	97.164880808719
 Rheumatoid Arthritis	Felty syndrome	16.1334381068068
 Rheumatoid Arthritis	Diabethic neuropathy	60.6749105261263
-Rheumatoid Arthritis	MS-disease / Multiple Sclerosis	107.385451896164
+Rheumatoid Arthritis	Multiple Sclerosis	107.385451896164
 Rheumatoid Arthritis	Gout	182.072351621436
 Rheumatoid Arthritis	Hypothyroidism (congenital or acquired)	209.507119671849
 Rheumatoid Arthritis	Inflammatory Bowel Disease	584.908835283781
@@ -5198,7 +5198,7 @@ Biological medication for rheuma	Eosinophilic Granulomatosis with Polyangiitis	3
 Biological medication for rheuma	Eosinophilic Esophagitis	30.9807777339446
 Biological medication for rheuma	Felty syndrome	13.828798171516
 Biological medication for rheuma	Diabethic neuropathy	17.5724966924006
-Biological medication for rheuma	MS-disease / Multiple Sclerosis	42.2719862567232
+Biological medication for rheuma	Multiple Sclerosis	42.2719862567232
 Biological medication for rheuma	Gout	22.6688859985156
 Biological medication for rheuma	Hypothyroidism (congenital or acquired)	19.4262951289441
 Biological medication for rheuma	Inflammatory Bowel Disease	139.174476806564
@@ -5274,7 +5274,7 @@ Sjögren's syndrome	Eosinophilic Granulomatosis with Polyangiitis	39.21195694979
 Sjögren's syndrome	Eosinophilic Esophagitis	48.6423824874079
 Sjögren's syndrome	Felty syndrome	11.4708858379485
 Sjögren's syndrome	Diabethic neuropathy	36.4258353945174
-Sjögren's syndrome	MS-disease / Multiple Sclerosis	39.9228811383407
+Sjögren's syndrome	Multiple Sclerosis	39.9228811383407
 Sjögren's syndrome	Gout	42.4640514063997
 Sjögren's syndrome	Hypothyroidism (congenital or acquired)	47.4617738476044
 Sjögren's syndrome	Inflammatory Bowel Disease	213.083847077564
@@ -5350,7 +5350,7 @@ Systemic Lupus Erythematosus	Eosinophilic Granulomatosis with Polyangiitis	86.18
 Systemic Lupus Erythematosus	Eosinophilic Esophagitis	172.261218336848
 Systemic Lupus Erythematosus	Felty syndrome	19.5495163249963
 Systemic Lupus Erythematosus	Diabethic neuropathy	171.98130798248
-Systemic Lupus Erythematosus	MS-disease / Multiple Sclerosis	148.637243614283
+Systemic Lupus Erythematosus	Multiple Sclerosis	148.637243614283
 Systemic Lupus Erythematosus	Gout	274.884333701968
 Systemic Lupus Erythematosus	Hypothyroidism (congenital or acquired)	314.754941272433
 Systemic Lupus Erythematosus	Inflammatory Bowel Disease	512.073854223272
@@ -5426,7 +5426,7 @@ Systemic Sclerosis	Eosinophilic Granulomatosis with Polyangiitis	42.223059910904
 Systemic Sclerosis	Eosinophilic Esophagitis	55.5299018978489
 Systemic Sclerosis	Felty syndrome	11.1965426701776
 Systemic Sclerosis	Diabethic neuropathy	39.8265896690054
-Systemic Sclerosis	MS-disease / Multiple Sclerosis	36.4133063934943
+Systemic Sclerosis	Multiple Sclerosis	36.4133063934943
 Systemic Sclerosis	Gout	50.5232180317829
 Systemic Sclerosis	Hypothyroidism (congenital or acquired)	53.8963192205468
 Systemic Sclerosis	Inflammatory Bowel Disease	213.637975241179
@@ -5502,7 +5502,7 @@ Type 1 Diabetes	Eosinophilic Granulomatosis with Polyangiitis	53.4632197416842
 Type 1 Diabetes	Eosinophilic Esophagitis	126.426953685538
 Type 1 Diabetes	Felty syndrome	18.7904261137657
 Type 1 Diabetes	Diabethic neuropathy	64.0058976431743
-Type 1 Diabetes	MS-disease / Multiple Sclerosis	136.324825696799
+Type 1 Diabetes	Multiple Sclerosis	136.324825696799
 Type 1 Diabetes	Gout	244.021315090091
 Type 1 Diabetes	Hypothyroidism (congenital or acquired)	219.190441644312
 Type 1 Diabetes	Inflammatory Bowel Disease	529.675459860154
@@ -5578,7 +5578,7 @@ Ulcerative Colitis	Eosinophilic Granulomatosis with Polyangiitis	72.660396480426
 Ulcerative Colitis	Eosinophilic Esophagitis	116.675142603005
 Ulcerative Colitis	Felty syndrome	31.6209010312477
 Ulcerative Colitis	Diabethic neuropathy	148.408584956206
-Ulcerative Colitis	MS-disease / Multiple Sclerosis	137.478684944736
+Ulcerative Colitis	Multiple Sclerosis	137.478684944736
 Ulcerative Colitis	Gout	209.809525871874
 Ulcerative Colitis	Hypothyroidism (congenital or acquired)	326.21328084071
 Ulcerative Colitis	Inflammatory Bowel Disease	44.8741715987534
@@ -5654,7 +5654,7 @@ Inflammation of eyelids	Eosinophilic Granulomatosis with Polyangiitis	36.5915267
 Inflammation of eyelids	Eosinophilic Esophagitis	20.3471151283163
 Inflammation of eyelids	Felty syndrome	16.1898485690575
 Inflammation of eyelids	Diabethic neuropathy	12.7874861626905
-Inflammation of eyelids	MS-disease / Multiple Sclerosis	32.7206025471546
+Inflammation of eyelids	Multiple Sclerosis	32.7206025471546
 Inflammation of eyelids	Gout	8.86253632455108
 Inflammation of eyelids	Hypothyroidism (congenital or acquired)	33.4212780533096
 Inflammation of eyelids	Inflammatory Bowel Disease	149.032243457104
@@ -5730,7 +5730,7 @@ Asthma	Eosinophilic Granulomatosis with Polyangiitis	26.5868909306137
 Asthma	Eosinophilic Esophagitis	13.3364230382847
 Asthma	Felty syndrome	21.4981603710632
 Asthma	Diabethic neuropathy	33.3596591636153
-Asthma	MS-disease / Multiple Sclerosis	61.5200531182547
+Asthma	Multiple Sclerosis	61.5200531182547
 Asthma	Gout	50.1341335209976
 Asthma	Hypothyroidism (congenital or acquired)	197.914113499897
 Asthma	Inflammatory Bowel Disease	492.23677477926
