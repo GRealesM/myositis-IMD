@@ -41,13 +41,14 @@ m <- m[, .(Trait, First_Author, Reference, Trait_ID_2.0, Trait_long, Trait_class
 q <- fread("../data/QC_IMD_basis_20230503-v1.tsv")
 q <- merge(q, m, by="Trait")
 q[ First_Author == "Rothwell", Reference:="36580032"]
+q <- q[Trait != "PAPS_Casares_up_1"] # Remove PAPS
 
 p <- fread("../data/Projection_IMD_basis_20230503-v1.tsv")
 p[, Var.Delta:=as.numeric(Var.Delta)]
 b <- p[1:169] # Basis traits
 p <- p[179:nrow(p)] # projection table without basis traits
 p[, z:=NULL]
-
+p <- p[Trait != "PAPS_Casares_up_1"]
 
 ```
 
@@ -110,9 +111,6 @@ qf <- qf[First_Author != "Neale"]
 
 # Check traits by class
 table(qf$Trait_class)
-# Create filtered projection table too
-pf <- merge(p, qf[,c("First_Author","Trait", "Trait_ID_2.0", "Trait_long","Trait_class", "Population")], by = "Trait")
-
 
 # 4. Apply FDR procedure
 
@@ -125,13 +123,29 @@ table(tsig$sig.overall)
 #     N    Y 
 #  4800  858
 
+########################################
+# Prepare Labels
+qf[,Label:=Trait_long] %>% .[!grepl("myositis", Trait_long, ignore.case = TRUE), Label:=gsub(" \\(UKBB\\)", "", Label)] %>% .[!grepl("myositis", Trait_long, ignore.case = TRUE) , Label:=gsub(" \\(FinnGen\\)", "", Label)] %>% .[, Label:=gsub(" \\(FG\\)", "", Label)] # Remove UKBB/FinnGen stuff save for myositis datasets
+# Relabel some Myositis datasets -- this is the place to modify the labels
+qf[ First_Author == "Rothwell", Label:=gsub("Idiopathic Inflammatory Myopathies \\(IIM, Myositis\\)", "IIM", Label)]
+qf[ First_Author == "Miller", Label:=gsub("Myositis", "IIM", Label, fixed = TRUE)]
+qf[First_Author %in% c("Rothwell", "Miller"), Label:=paste0(Label, " (", First_Author, ")")]
+# Rename PBC and PSC
+qf[grepl("sclerosing", Label), Label:= "Primary sclerosing cholangitis"]
+qf[grepl("chirrosis", Label), Label:= "Primary biliary cholangitis"]
+qf[Label == "MS-disease \\/ Multiple Sclerosis \\(FinnGen\\)"][grepl("MS", Label), Label:="Multiple Sclerosis"] # Fix weird FinnGen MS label
+
+###########################################
+# Create a filtered projection table with new labels too
+
+pf <- merge(p, qf[,c("First_Author","Trait", "Trait_ID_2.0", "Trait_long","Trait_class", "Population", "Label")], by = "Trait")
+
 ###########################################
 # Prepare Supplementary Table with coloc info
 qmyo <- qf[ First_Author %in% c("Miller", "Rothwell")]
-qmyo[, Label:=Trait_long][ First_Author == "Rothwell", Label:=gsub("Idiopathic Inflammatory Myopathies \\(IIM, Myositis\\)", "Myositis", Label)]
-qmyo[First_Author %in% c("Rothwell", "Miller"), Label:=paste0(Label, " (", First_Author, ")")]
 qmyo <- qmyo[, .(Label, First_Author, Reference, N0, N1, N, FDR.overall )][order(First_Author, Label)]
-#fwrite(qmyo, "../tables/ST_Myo_info.tsv", sep="\t")
+qmyo
+# fwrite(qmyo, "../tables/ST_Myo_info.tsv", sep="\t")
 
 ###########################################
 
@@ -141,16 +155,17 @@ qmyo <- qmyo[, .(Label, First_Author, Reference, N0, N1, N, FDR.overall )][order
 
 ###########################################
 
+
 qs <- qf[FDR.overall < 0.01]
 nrow(qs) / nrow(qf)
 # 15% significant
 table(qs$Trait_class) / nrow(qs)
 # 16.5% Blood cells
-# 35.9% IMD
+# 35.8% IMD
 
 table(qs$Trait_class)
 #  BC BMK CAN IMD INF OTH PSD 
-# 142  72  17 308  35 282   2 
+# 142  72  17 307  35 282   2 
 
 # Which myositis datasets didn't make the cut?
 qf[grepl("myositis", Trait_long, ignore.case = TRUE) & !Trait %in% qs$Trait]
@@ -227,12 +242,12 @@ plot_grid(top, bottom, nrow = 2)
 # (3) Learn about myositis position onto the basis
 
 ps[grepl("myositis", Trait_long, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, First_Author, Trait_long, FDR.PC, stars)][order(PC)]
-# We have some significant Myositis for PC1, 2, 3, 9, 12, and 13
+# We have some significant Myositis for PC1, 2, 3, 8, 9, 12, and 13
 
 # Let's try to remove redundant datasets in a less manual way
 qs2 <- copy(qs)
 qs2 <- qs2[Trait_class == "IMD"] # Interested in IMDs for now
-qs2[,Label:=Trait_long] %>% .[!grepl("myositis", Trait_long, ignore.case = TRUE), Label:=gsub(" \\(UKBB\\)", "", Label)] %>% .[!grepl("myositis", Trait_long, ignore.case = TRUE) , Label:=gsub(" \\(FinnGen\\)", "", Label)] %>% .[, Label:=gsub(" \\(FG\\)", "", Label)] # Remove UKBB/FinnGen stuff save for myositis datasets
+
 
 
 # There are a number of duplicated diseases that we can revisit
@@ -356,28 +371,13 @@ tr <- c(tr, setdiff(qs2[grepl("rosacea", Label, ignore.case = TRUE) , Trait], c(
 qs2[grepl("addison", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("addison", Label, ignore.case = TRUE) , Trait], c("AAD_Eriksson_33574239_1")))
 
-# There was an extra DMPMYO by FinnGen, we'll remove it
-tr <- c(tr, "DERMATOPOLY_FG_FinnGen_FinnGenR7_1")
+# There was an extra DMPMYO by FinnGen, we'll remove it. We'll also remove myositis from FinnGen, as it contains unclassified myositis and it showed to be very different from the other myositis datasets
+# Remove PAPS as well
+tr <- c(tr, "DERMATOPOLY_FG_FinnGen_FinnGenR7_1", "M13_MYOSITIS_FinnGen_FinnGenR7_1")
 
 qs2 <- qs2[!Trait %in% tr] # First pass
 length(unique(qs2$Label))
-# 75
-
-# Check for duplicates, if there are still
-dp <- qs2[duplicated(Label), unique(Label)]
-qsdup <- qs2[Label %in% dp]
-
-# Rename Rothwell myositis to fit the rest
-qs2[ First_Author == "Rothwell", Label:=gsub("Idiopathic Inflammatory Myopathies \\(IIM, Myositis\\)", "Myositis", Label)]
-
-# Rename PBC and PSC
-qs2[grepl("sclerosing", Label), Label:= "Primary sclerosing cholangitis"]
-qs2[grepl("chirrosis", Label), Label:= "Primary biliary cholangitis"]
-
-# Show authors for myositis
-qs2[First_Author %in% c("Rothwell", "Miller"), Label:=paste0(Label, " (", First_Author, ")")] # Now there shouldn't be any duplicates
-qs2[Label == "MS-disease \\/ Multiple Sclerosis \\(FinnGen\\)"] # 
-qs2[grepl("MS", Label), Label:="Multiple Sclerosis"] # Fix weird FinnGen MS label
+# 76
 
 # Check for duplicates, if there are still
 dp <- qs2[duplicated(Label), unique(Label)]
@@ -386,13 +386,9 @@ qsdup <- qs2[Label %in% dp]
 # Apply this to projections as well
 ttk2 <- qs2$Trait # Traits to keep
 ps2 <- ps[Trait %in% ttk2]
-# Incorporate labels
-ps2 <- merge(ps2, qs2[, .(Trait, Label)], by="Trait")
+
 ps2[, PC:=factor(PC, levels = paste0("PC", 1:13))]
 
-# Remove PAPS, which we're not authorised to share -- yet
-ps2 <- ps2[First_Author != "Casares"]
-qs2 <- qs2[First_Author != "Casares"]
 
 # fwrite(ps2, "../data/ps2.tsv", sep="\t")
 # fwrite(qs2, "../data/qs2.tsv", sep="\t")
@@ -440,7 +436,7 @@ We'll now take a look at myositis in a broader context of IMD, again using compl
 
 # Let's look at it in more context
 # Remove all  datasets without at least one FDR 1% significant PC
-a1s <- ps2[FDR.PC < 0.05 | grepl("myositis", Label, ignore.case = TRUE), Trait] %>% unique 
+a1s <- ps2[FDR.PC < 0.05 | grepl("myositis|IIM", Label, ignore.case = TRUE), Trait] %>% unique 
 # "HYPERTHY_Sakaue_doi1011012020102320213652_1" to be removed for this reason
 
 ps2s <- ps2[Trait %in% a1s]
@@ -471,7 +467,7 @@ make_bold_names <- function(mat, rc_fun, rc_names) {
   bold_names
 }
 
-papsb <- grep("myositis", rownames(Map), value = TRUE, ignore.case = TRUE)
+papsb <- grep("myositis|IIM", rownames(Map), value = TRUE, ignore.case = TRUE)
 
 # Create heatmap
 Mahm <- pheatmap(Map,  breaks = seq(-range, range, length.out = 100), 
@@ -481,7 +477,7 @@ Mahm <- pheatmap(Map,  breaks = seq(-range, range, length.out = 100),
                 labels_row = make_bold_names(Map, rownames, papsb))
 
 Mahm
-ggsave("../figures/Myositis_IMD_heatmap.png", Mahm, width = 10, height = 14, bg="white")
+# ggsave("../figures/Myositis_IMD_heatmap.png", Mahm, width = 10, height = 14, bg="white")
 
 ```
 
