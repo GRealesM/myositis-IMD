@@ -1,4 +1,4 @@
-# Compute Bhattacharyyan distance in 77 selected IMD
+# Compute Bhattacharyyan distance in 76 selected IMD
 
 # This script is meant to be run at the HPC
 setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
