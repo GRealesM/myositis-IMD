@@ -1,0 +1,44 @@
+Label	First_Author	Reference	Mahalanobis	DPMUnc	coloc	coloc.label
+Arthropathic psoriasis	FinnGen	FinnGenR7	Yes			
+Autoimmune Thyroid disease	Saevarsdottir	32581359	Yes	Yes		
+Autoimmune thyroiditis	FinnGen	FinnGenR7		Yes		
+Biological medication for rheuma	FinnGen	FinnGenR7	Yes	Yes		
+CR(E)ST syndrome	FinnGen	FinnGenR7	Yes	Yes	Yes	crest
+Certain disorders involving the immune mechanism	FinnGen	FinnGenR7	Yes			
+Dermatomyositis (Miller)	Miller	26291516	Yes	Yes	Yes	
+Dermatomyositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
+Diabethic neuropathy	FinnGen	FinnGenR7	Yes			
+Diabetic nephropathy	FinnGen	FinnGenR7	Yes			
+Diabetic retinopathy	FinnGen	FinnGenR7	Yes			
+Early-onset Myastenia Gravis	Renton	25643325		Yes		
+Erythema nodosum	FinnGen	FinnGenR7	Yes			
+Felty syndrome	FinnGen	FinnGenR7		Yes	Yes	felty
+Glomerulonephritis	FinnGen	FinnGenR7	Yes			
+Gout	FinnGen	FinnGenR7	Yes			
+Hyperthyroidism/Thyrotoxicosis	PanUKBB	PanUKBBR2	Yes	Yes	Yes	hyperthy
+Hypothyroidism (congenital or acquired)	FinnGen	FinnGenR7	Yes	Yes	Yes	hypothy
+Idiopathic thrombocytopenic purpura	FinnGen	FinnGenR7	Yes	Yes	Yes	itp
+IgG+ Neuromyelitis Optica	Estrada	29769526		Yes		
+Jo1+ Myositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
+Juvenile Dermatomyositis (Miller)	Miller	26291516	Yes	Yes	Yes	
+Juvenile Dermatomyositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
+Juvenile Idiopathic Arthritis	LopezIsac	33106285	Yes	Yes	Yes	jia
+Juvenile rheuma	FinnGen	FinnGenR7	Yes	Yes		
+Late-onset Myastenia Gravis	Renton	25643325		Yes		
+MPO+ AAV	Wong	doi:10.17863/CAM.51022	Yes	Yes	Yes	mpoaav
+Myastenia Gravis	Chia	35074870	Yes	Yes		
+Myositis (Miller)	Miller	26291516	Yes	Yes	Yes	
+Myositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
+PR3+ AAV	Wong	doi:10.17863/CAM.51022	Yes	Yes	Yes	pr3aav
+Palindromic rheumatism	FinnGen	FinnGenR7		Yes		
+Peripheral atherosclerosis	FinnGen	FinnGenR7	Yes			
+Polymyalgia rheumatica	FinnGen	FinnGenR7	Yes			
+Polymyositis (Miller)	Miller	26291516	Yes	Yes	Yes	
+Polymyositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
+Primary biliary cholangitis	FinnGen	FinnGenR7		Yes	Yes	pbc
+Psoriasis	FinnGen	FinnGenR7	Yes			
+Sarcoidosis	FinnGen	FinnGenR7	Yes			
+Sjögren's syndrome	Khatri	35896530	Yes	Yes	Yes	sjos
+Systemic Sclerosis	LopezIsac	31672989	Yes	Yes	Yes	ssc
+Type 2 diabetes	FinnGen	FinnGenR7	Yes			
+Wegener granulomatosis	FinnGen	FinnGenR7	Yes	Yes	Yes	wegen
