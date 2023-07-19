@@ -30,7 +30,7 @@ EGPA_Lyons_31719529_1	566	8.67660267572517e-24	PC13 (3e-20)	Lyons	31719529	EGPA	
 EOE_Chang_34506852_1	566	9.31063780695452e-16	PC13 (3e-11)	Chang	34506852	EOE	Eosinophilic Esophagitis	IMD	13634	1930	15564	European	Y	2.71043011713565e-15	Eosinophilic Esophagitis
 FELTY_FinnGen_FinnGenR7_1	562	0.000191005607879172	PC1 (2e-04)	FinnGen	FinnGenR7	FELTY	Felty syndrome (FinnGen)	IMD	301860	123	301983	European (Finnish)	Y	0.000361324687829192	Felty syndrome
 G6_DIABETNEUR_FinnGen_FinnGenR7_1	562	2.66737369633199e-14	PC1 (2e-08)	FinnGen	FinnGenR7	G6_DIABETNEUR	Diabethic neuropathy (FinnGen)	IMD	273097	2213	275310	European (Finnish)	Y	7.55515576690791e-14	Diabethic neuropathy
-G6_MS_FinnGen_FinnGenR7_1	562	9.3530381873924e-32	PC12 (1e-11)	FinnGen	FinnGenR7	G6_MS	MS-disease / Multiple Sclerosis (FinnGen)	IMD	306615	1676	308291	European (Finnish)	Y	3.74121527495696e-31	MS-disease / Multiple Sclerosis
+G6_MS_FinnGen_FinnGenR7_1	562	9.3530381873924e-32	PC12 (1e-11)	FinnGen	FinnGenR7	G6_MS	MS-disease / Multiple Sclerosis (FinnGen)	IMD	306615	1676	308291	European (Finnish)	Y	3.74121527495696e-31	Multiple Sclerosis
 GOUT_FinnGen_FinnGenR7_1	562	0.000158636363297588	PC8 (3e-04)	FinnGen	FinnGenR7	GOUT	Gout	IMD	284844	6031	290875	European (Finnish)	Y	0.000302274379519768	Gout
 HYPOTHYROIDISM_FinnGen_FinnGenR7_1	562	5.47853946819047e-180	PC1 (3e-54)	FinnGen	FinnGenR7	HYPOTHYROIDISM	Hypothyroidism (congenital or acquired) (FinnGen)	IMD	76464	38624	115088	European (Finnish)	Y	8.97110837916189e-179	Hypothyroidism (congenital or acquired)
 IBD_Liu_26192919_1	565	0	PC1 (1e-221)	Liu	26192919	IBD	Inflammatory Bowel Disease	IMD	21770	12882	34652	European	Y	0	Inflammatory Bowel Disease

@@ -121,7 +121,7 @@ tsig <- copy(qf)
 tsig[, sig.overall:=ifelse(FDR.overall < 0.01, "Y", "N")]
 table(tsig$sig.overall)
 #     N    Y 
-#  4800  858
+#  4800  857
 
 ########################################
 # Prepare Labels
@@ -133,7 +133,7 @@ qf[First_Author %in% c("Rothwell", "Miller"), Label:=paste0(Label, " (", First_A
 # Rename PBC and PSC
 qf[grepl("sclerosing", Label), Label:= "Primary sclerosing cholangitis"]
 qf[grepl("chirrosis", Label), Label:= "Primary biliary cholangitis"]
-qf[Label == "MS-disease \\/ Multiple Sclerosis \\(FinnGen\\)"][grepl("MS", Label), Label:="Multiple Sclerosis"] # Fix weird FinnGen MS label
+qf[grepl("MS-disease", Label), Label:="Multiple Sclerosis"] # Fix weird FinnGen MS label
 
 ###########################################
 # Create a filtered projection table with new labels too
@@ -497,7 +497,8 @@ Below we show the top 20 closest IMD by Mahalanobis distance, together with thei
 
 
 ```{r echo=FALSE}
-
+ v <- shrinkage[pids] * rot.pca[pids, ]
+    var.proj <- t(v) %*% LD[pids, pids] %*% v
 ```
 
 
@@ -678,10 +679,10 @@ mahal.d2 <-  acast(mahal.dist, Trait1~Trait2, value.var = "logmahal")
 md2 <- mahal.d2 %>% as.dist %>% hclust
 
 md1.ph <- pheatmap(mahal.d1,
-                cluster_cols = T, cluster_rows = T,
+                cluster_cols = md1, cluster_rows = md1,
                 fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(mahal.d1, rownames, papsb))
 md2.ph <- pheatmap(mahal.d2, 
-                cluster_cols = T, cluster_rows = T,
+                cluster_cols = md2, cluster_rows = md2,
                 fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(mahal.d2, rownames, papsb))
 
 
@@ -694,6 +695,28 @@ md2.ph <- pheatmap(mahal.d2,
 As an alternative, we'll use the Bhattacharyyan distance to do the same as we tried with Mahalanobis. Bhattacharyyan distance takes uncertainty around the estimates into account.
 
 ```{r}
+
+bhd <- fread("../data/bh_dist.tsv")
+bhd[, logbhat:=log(1 + bhat.dist)]
+bhd[, T1:=stringr::str_trunc(T1, 50, ellipsis = " [...]")][, T2:=stringr::str_trunc(T2, 50, ellipsis = " [...]")]
+
+
+# We keep the initial matrices for make_bold_names(), since I don't have the time to adapt it now
+bhatta.d1 <-  acast(bhd, T1~T2, value.var = "bhat.dist")
+bh1 <- bhatta.d1 %>% as.dist %>% hclust
+bhatta.d2 <-  acast(bhd, T1~T2, value.var = "logbhat") 
+bh2 <- bhatta.d2 %>% as.dist %>% hclust
+
+bh1.ph <- pheatmap(bhatta.d1,
+                cluster_cols = bh1, cluster_rows = bh1,
+                fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(bhatta.d1, rownames, papsb))
+bh2.ph <- pheatmap(bhatta.d2, 
+                cluster_cols = bh2, cluster_rows = bh2,
+                fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(bhatta.d2, rownames, papsb))
+
+bh3.ph <- pheatmap(bhatta.d2, 
+                cluster_cols = bh1, cluster_rows = bh1,
+                fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(bhatta.d2, rownames, papsb))
 
 
 
