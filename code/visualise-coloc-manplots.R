@@ -187,7 +187,7 @@ names(plots) <- index[ H4>.5, unique(pid)]
 
 index[ H4>.5, unique(pid)]
 
-
+index[ H4 > 0.5, .(bestsnp, bestsnp.novel)] %>% unique
 
 ggsave("../figures/coloc_chr1.png", plots$`1:113834946`, height = 11, width = 8, bg="white")
 ggsave("../figures/coloc_chr2_1.png", plots$`2:100215693`, height = 5, width = 8, bg="white")
