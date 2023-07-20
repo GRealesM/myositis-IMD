@@ -32,6 +32,7 @@ library(kableExtra)
 library(ggrepel)
 library(GGally)
 library(fpc)
+library(cupcake)
 
 # Load files
 
