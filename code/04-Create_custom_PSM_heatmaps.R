@@ -193,7 +193,7 @@ psm_plots <- function(exp, burnin, focus_dataset=NULL, update_label=NULL) {
     annotations = list(ann = annotations$ann[1], colors = list(cluster = annotations$colors$cluster))
 
     # Make some names bold
-    myobold <- grep("myositis", rownames(bigpsm), ignore.case = TRUE, value = TRUE)
+    myobold <- grep("myositis|IIM", rownames(bigpsm), ignore.case = TRUE, value = TRUE)
 
     # Same hclust calculation that minbinder does prior to choosing optimal cut point
     hclust.comp <- hclust(as.dist(1 - bigpsm), method = "complete")
