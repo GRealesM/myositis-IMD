@@ -43,6 +43,8 @@ q <- fread("../data/QC_IMD_basis_20230503-v1.tsv")
 q <- merge(q, m, by="Trait")
 q[ First_Author == "Rothwell", Reference:="36580032"]
 q <- q[Trait != "PAPS_Casares_up_1"] # Remove PAPS
+q[ First_Author == "Lessard", c("First_Author", "Reference"):=list("Khatri", "35896530")][ First_Author == "Wong", Reference:="doi:10.17863/CAM.51022"]
+
 
 p <- fread("../data/Projection_IMD_basis_20230503-v1.tsv")
 p[, Var.Delta:=as.numeric(Var.Delta)]
@@ -487,6 +489,74 @@ We don't observe a clear clustering of myositis datasets, with the exception of 
 These results can be explained in two ways: (1) as before, the signal from most datasets is not too strong, so it can be lost when considering all other IMD at the same time; and (2) the hierarchical clustering method only considers the projections, without considering the uncertainty around the estimates, which is relevant, especially for smaller datasets. In addition, hierarchical clustering can become very unstable (ie. heavily dependent on the input data), especially when considering many dimensions.
 
 
+## Delta plot of myositis datasets
+
+Let's create a delta plot to see the myositis datasets (significant or not) across the 7 PCs
+
+```{r echo = FALSE}
+
+
+myoc <- c(`PM (R)` = "#CF000F", `PM (M)` = "#CF000F", `PM (FG)` = "#CF000F", `DM (R)` = "#2E8856", `DM (M)` = "#2E8856", `IIM (R)` = "#1460AA", `IIM (M)` = "#1460AA", `JDM (M)` = "#B8860B", `JDM (R)` = "#B8860B", `IBM (R)` = "#E65722", `Anti-Jo1+ (R)` ="#1C2833", `DPM (FG)` = "#053061")
+
+pmyo <- pf[(First_Author %in% c("Miller", "Rothwell") | Trait_ID_2.0 %in% c("M13_DERMATOPOLY", "M13_POLYMYO")) & PC %in% paste0("PC", c(1:3, 8:9, 12:13))][, PC:=factor(PC, levels = paste0("PC", c(1:3, 8:9, 12:13)))]
+pmyo[, Label:=gsub("Inclusion Body Myositis", "IBM", Label)][, Label:=gsub("Juvenile Dermatomyositis", "JDM", Label)][, Label:=gsub("Dermatomyositis", "DM", Label)][, Label:=gsub("Polymyositis", "PM", Label)][, Label:=gsub("Jo1\\+ Myositis", "Anti-Jo1+", Label)][, Label:=gsub("Miller", "M", Label)][, Label:=gsub("Rothwell", "R", Label)][, Label:=gsub("FinnGen", "FG", Label)][, Label:=gsub("Dermatopolymyositis", "DPM", Label)]
+pmyo[, ci:=sqrt(Var.Delta) * 1.96]
+
+dpm <- ggplot(pmyo, aes(x = Delta, y = Label, xmin=Delta-ci, xmax=Delta+ci, colour = Label))+
+  geom_pointrange()+
+  geom_vline(xintercept = 0, col="red", lty=2)+
+  scale_colour_manual(values = myoc)+
+  xlab("Delta")+
+  facet_grid(PC~.,  scales = "free", space = "free", switch = "y")+
+  theme_cowplot(11)+
+  theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank())
+
+ggsave("../figures/deltaplot_myo.png", dpm, height = 10, width = 6, bg = "white")
+
+
+
+# Define a more customisable function for individual plotting
+make.custom.forest.plots <- function(ps, bs, feature, palette = tfp, fsize = NULL, threshold_basis=0, threshold_gen = 0, remove_sum = FALSE, remove_perc = FALSE, remove_side = "none"){
+      pdelta <- ps[stars == "●"][Trait_class == "IMD"] # Remove all blood cells save for key ones
+      pdelta <- rbind(pdelta, bs, fill = TRUE)
+      pdelta[Var.Delta != 0, ci:=sqrt(Var.Delta) * 1.96][is.na(ci),ci:=0][is.na(Label), Label:=Trait]
+      pdelta[ ci == 0, Trait_class:= "Basis"]
+      pdelta[ Trait_class == "Basis" & Label == "Asthma", Label:="AST"] # Rename basis Asthma to avoid confusion with external asthma
+      pdelta[ First_Author %in% c("Miller", "Rothwell"), Trait_class:="Myo"] # Make myositis a different colour
+      pdelta[, Label:=stringr::str_trunc(Label, 50, ellipsis = " [...]")]
+      ds.col <- data.table(Trait_class = names(tfp), colours=tfp)
+      # Need to update names in tfp for scale_colour_manual
+      tfp.manual <- tfp
+      names(tfp.manual) <- tfp.manual
+      
+      pdelta <- merge(pdelta, ds.col, by = "Trait_class", all.x=TRUE)
+      
+      ft <- paste0("PC", feature)
+      dt <- pdelta[PC == ft][order(Delta, decreasing = TRUE)][!(Trait_class == "BC" & abs(Delta) < threshold_basis)][ abs(Delta) > threshold_gen]
+      
+      if(remove_sum) dt <- dt[!grepl("Sum ", Label, ignore.case = TRUE)]
+      if(remove_perc) dt <- dt[!grepl("percentage of", Label, ignore.case = TRUE)]
+      if(remove_side == "positive") dt <- dt[Delta <= 0]
+      if(remove_side == "negative") dt <- dt[Delta >= 0]
+      
+      fplot <- ggplot(dt, aes(x = reorder(Label, -Delta), y = Delta, ymin=Delta-ci, ymax=Delta+ci, colour = colours))+
+      geom_pointrange()+
+      #scale_colour_manual(values = c("red" = "red", "#26547c" = "#26547c", "#049F76" = "#049F76", "#E09D00" = "#E09D00", "#F3B8A5" = "#F3B8A5", "black" = "black"))+
+      scale_colour_manual(values = tfp.manual)+
+      geom_hline(yintercept = 0, col="red", lty=2)+
+      coord_flip()+
+      #xlab("Traits")+
+      ylab("Delta")+
+      ggtitle(ft)+
+      theme_minimal()+
+      theme(axis.text.y = element_text(colour = dt$colours, size = fsize), legend.position = "none", axis.title.y = element_blank())
+      fplot
+}
+
+
+```
+
+
 
 ## Compute Mahalanobis distance for Myositis subtypes
 
@@ -498,8 +568,8 @@ Below we show the top 20 closest IMD by Mahalanobis distance, together with thei
 
 
 ```{r echo=FALSE}
- v <- shrinkage[pids] * rot.pca[pids, ]
-    var.proj <- t(v) %*% LD[pids, pids] %*% v
+v <- cupcake::shrinkage * cupcake::rot.pca
+var.proj  <- t(v) %*% cupcake::LD %*% v
 ```
 
 
@@ -710,7 +780,13 @@ bh.ph <- pheatmap(bhatta.d,
                 cluster_cols = bh.cl, cluster_rows = bh.cl,
                 fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(bhatta.d, rownames, papsb))
 
+# ggsave("../figures/Myositis_bhattacharyya_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
 
+
+tbh <- bh.ph$tree_row
+tbhc <- cutree(tbh, k=15) # manually adjusted to capture visually-selected IMD
+bhatta.sel <- names(tbhc[tbhc ==9])
+bhatta.sel
 
 ```
 
@@ -746,7 +822,7 @@ p7[, DPMUnc.cl:=factor(DPMUnc.cl, levels = 1:10)]
 p7[grepl("myositis", Label, ignore.case = TRUE), .(Label, DPMUnc.cl)] # All but Finngen's Myositis in cluster 1
 p7[DPMUnc.cl == 1, .(Label)] # Other IMD in the same cluster as myositis
 dpimd <- p7[DPMUnc.cl == 1 & !grepl("myositis", Label, ignore.case = T), Label] # List non-myositis IMD in the same cluster
-#fwrite(p7, "../data/DPMUnc_res_v1.tsv", sep = "\t")
+# fwrite(p7, "../data/DPMUnc_res_v1.tsv", sep = "\t")
 
 ```
 
@@ -785,9 +861,9 @@ Other IMD group with myositis, namely
     
 * Blood-affecting conditions
     - Idiopathic thrombocytopenic purpura
-    - Primary antiphospholipid syndrome
+    
 * Other conditions
-    - Primary Biliary Cirrhosis/Cholangitis
+    - Primary Biliary Cholangitis
     - IgG+ Neuromyelitis Optica
     - Sjögren's syndrome
 
@@ -796,7 +872,9 @@ Below we show the clustering results in the two first PCs. Note that the cluster
 
 ```{r echo=FALSE, fig.height= 8, fig.width=8}
 
-palette <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#FDAE61",  "#66C2A5", "#ABDDA4", "#F46D43",  "#3288BD", "#5E4FA2",  "#FEE08B", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788") # Colours for clusters  
+palette <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#FDAE61", "#66C2A5", "#ABDDA4", "#F46D43", "#3288BD", "#5E4FA2",
+             "#FEE08B", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", 
+             "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788") # Colours for clusters  
 colp <- palette[as.numeric(levels(p7$DPMUnc.cl))]
 
 
@@ -807,7 +885,7 @@ pcbiplot <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC2, colour = DPMUnc.cl, la
     geom_point(size=3)+
     scale_colour_manual(values = colp)+
     scale_fill_manual(values = colp)+
-    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis", Label, ignore.case = TRUE) | Delta_PC2 > 0.075], show.legend = FALSE) +
+    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis|IIM", Label, ignore.case = TRUE) | Delta_PC2 > 0.075], show.legend = FALSE) +
   #| grepl("myastenia", Label, ignore.case = T)
     xlab("Delta PC1")+
     ylab("Delta PC2")+
@@ -831,7 +909,7 @@ pcbiplot_112 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC12, colour = DPMUnc.c
     geom_point(size=3)+
     scale_colour_manual(values = colp)+
     scale_fill_manual(values = colp)+
-    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis", Label, ignore.case = TRUE)], show.legend = FALSE) +
+    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis|IIM", Label, ignore.case = TRUE)], show.legend = FALSE) +
   #| grepl("myastenia", Label, ignore.case = T)
     xlab("Delta PC1")+
     ylab("Delta PC12")+
@@ -852,7 +930,7 @@ pcbiplot_113 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC13, colour = DPMUnc.c
     geom_point(size=3)+
     scale_colour_manual(values = colp)+
     scale_fill_manual(values = colp)+
-    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis", Label, ignore.case = TRUE) | Delta_PC13 > 0.07], show.legend = FALSE) +
+    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis|IIM", Label, ignore.case = TRUE) | Delta_PC13 > 0.07], show.legend = FALSE) +
   #| grepl("myastenia", Label, ignore.case = T)
     xlab("Delta PC1")+
     ylab("Delta PC13")+
@@ -863,6 +941,39 @@ pcbiplot_113 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC13, colour = DPMUnc.c
 ```
 
 **EXPLAIN**
+
+
+# Comparing both clusterings
+
+Let's take a look at how Bhattacharyya distance and DPMUnc differ in their clustering
+
+```{r echo = FALSE}
+library(ggalluvial)
+
+resdpmunc
+resbhat <- data.table(Label = names(tbhc), Bhatta.cl = tbhc)
+rescl <- merge(resdpmunc, resbhat, by ="Label")
+
+clsum=rescl[,.(y=.N),by=c("DPMUnc.cl","Bhatta.cl")]
+
+# Plot Relationship between disease clusterings
+sdiag <- ggplot(clsum, aes(y=y, axis1=Bhatta.cl,axis2=DPMUnc.cl)) + geom_alluvium(aes(fill=factor(DPMUnc.cl))) +
+            geom_stratum(width = 1/5,  fill="white", color = "black") +
+            #geom_label(stat = "stratum", aes(label = after_stat(stratum))) +
+            geom_text(stat = "stratum", aes(label = after_stat(stratum)))+
+            scale_x_discrete(limits = c("Bhattacharyya", "DPMUnc"), expand = c(.05, .05)) +
+            scale_fill_manual(values = palette[c(3,5,11,10,6, 14,16,17,20,30)])+
+            scale_y_continuous("Count") +
+            ggtitle("Relationship between disease clusterings")+
+            theme_minimal()+
+            theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
+                  axis.title.y = element_blank(), panel.grid = element_blank(), 
+                 legend.position = "none", axis.text.x = element_text(size = 13))
+sdiag
+#ggsave("../figures/sdiag_Bh_DP.png", sdiag, height = 9, width = 7, bg = "white")
+
+```
+
 
 
 # Investigating driver SNPs underlying myositis signals
@@ -971,7 +1082,7 @@ coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos.region > 5e-8, bestsnp.novel:="Y
 coloc[, dlabel:=paste( driver.nearestgene, driver.rsid, sep=" / ")]
 
 # Add proper labels
-ml <- data.table(mlabel = c("DM (Miller)", "DM (Rothwell)", "JDM (Miller)","JDM (Rothwell)", "Jo1+ (Rothwell)", "Myositis (Miller)", "Myositis (Rothwell)", "PM (Miller)", "PM (Rothwell)"),
+ml <- data.table(mlabel = c("DM (M)", "DM (R)", "JDM (M)","JDM (R)", "Jo1+ (R)", "IIM (M)", "IIM (R)", "PM (M)", "PM (R)"),
                  trait.myos = c("dmy.m", "dmy.r", "jdm.m", "jdm.r", "jo1m.r", "myo.m", "myo.r", "pm.m", "pm.r"))
 coloc <- merge(coloc, ml, by="trait.myos")
 
@@ -979,17 +1090,31 @@ coloc <- merge(coloc, ml, by="trait.myos")
 
 
 ```{r}
-ddm <- unique(c(mahal.d, dpimd))
-fc <- data.table(Label =   c("Idiopathic thrombocytopenic purpura","IgG+ Neuromyelitis optica","Primary biliary cholangitis","Juvenile Idiopathic Arthritis","CR(E)ST syndrome","Myastenia gravis","Felty syndrome","Sjögren's syndrome","Systemic Sclerosis","Wegener granulomatosis","MPO+ AAV","PR3+ AAV","Hyperthyroidism/Thyrotoxicosis","Hypothyroidism (congenital or acquired)"),
-coloc.label = c("itp","nmo","pbc","jia","crest","myag","felty","sjos","ssc","wegen","mpoaav","pr3aav","hyperthy","hypothy"))
+ddm <- unique(c(bhatta.sel, dpimd))
+fc <- data.table(Label =   c("Idiopathic thrombocytopenic purpura","IgG+ Neuromyelitis Optica","Primary biliary cholangitis","Juvenile Idiopathic Arthritis","CR(E)ST syndrome","Myastenia Gravis","Felty syndrome","Sjögren's syndrome","Systemic Sclerosis","Wegener granulomatosis","MPO+ AAV","PR3+ AAV","Hyperthyroidism/Thyrotoxicosis","Hypothyroidism (congenital or acquired)"),
+coloc.label = c("itp","nmo","pbc","jia","crest","myag","felty","sjos","ssc","wegen","mpoaav","pr3aav","hyperthy","hypothy"),
+fig.label = c("ITP", "IgG+ NMO", "PBC", "JIA", "CR(E)ST", "MG", "Felty", "SjS", "SSc", "GPA", "MPO+ AAV", "PR3+ AAV", "HyperThy", "HypoThy"))
 ddmt <- p7[ Label %in% ddm, Trait]
 cdis <- qs2[ First_Author %in% c("Miller", "Rothwell") | Trait %in% ddmt, .(Label, First_Author, Reference)]
 cdis <- merge(cdis, fc, by="Label", all.x=TRUE)
-cdis[ First_Author == "Lessard", c("First_Author", "Reference"):=list("Khatri", "35896530")][ First_Author == "Wong", Reference:="doi:10.17863/CAM.51022"][First_Author %in% c("Miller", "Rothwell") | Label %in% mahal.d, Mahalanobis:="Yes"][First_Author %in% c("Miller", "Rothwell") | Label %in% dpimd, DPMUnc:="Yes"][First_Author %in% c("Miller", "Rothwell") | !is.na(coloc.label), coloc:="Yes"]
-cdis <- cdis[, .(Label, First_Author, Reference, Mahalanobis, DPMUnc, coloc, coloc.label)]
-#fwrite(cdis, "../tables/ST_coloc_diseases.tsv", sep = "\t")
+cdis[First_Author %in% c("Miller", "Rothwell") | Label %in% bhatta.sel, Bhattacharyya:="Yes"][First_Author %in% c("Miller", "Rothwell") | Label %in% dpimd, DPMUnc:="Yes"][First_Author %in% c("Miller", "Rothwell") | !is.na(coloc.label), coloc:="Yes"][is.na(Bhattacharyya), Bhattacharyya:="No"][is.na(Bhattacharyya), Bhattacharyya:="No"][is.na(coloc), coloc:="No"]
+cdis <- cdis[, .(Label, First_Author, Reference, Bhattacharyya, DPMUnc, coloc, fig.label)]
+# fwrite(cdis, "../tables/ST_coloc_diseases.tsv", sep = "\t")
 
 ```
+
+
+```{r echo = FALSE}
+# Create a main summary table for coloc results
+cts <- coloc[H4 > 0.5, .(driver.rsid, driver.nearestgene, bestsnp.rsid, mlabel, trait.other, pairwise_fdr, H4, pbest.myos, pbest.myos.region, bestsnp.novel )][order(driver.nearestgene, bestsnp.rsid)]
+cts <- merge(cts, fc[, .(coloc.label, fig.label)], by.x = "trait.other", by.y = "coloc.label")
+cts[, .(H4 = max(H4), bestsnp.rsid), by=driver.rsid]
+
+
+#fwrite(cts, "../tables/MT_coloc_results.tsv", sep = "\t")
+
+```
+
 
 
 
@@ -1040,25 +1165,134 @@ sumc <- sumc %>% tidyr::complete(dlabel, mlabel, trait.other ) %>% as.data.table
 sumc[, dlabel:=factor(dlabel, levels = rev(unique(dlabel)))]
 sumc[, trait.other:=factor(trait.other, levels = rev(unique(trait.other)))]
 sumc[,flag:=ifelse(H4>.8, "High", ifelse(H4>.5, "Med", "Low"))]
+sumc <- merge(sumc, fc[, .(coloc.label, fig.label)], by.x = "trait.other", by.y = "coloc.label")
+sumc <- sumc[, .(dlabel, mlabel, fig.label, H4, flag)]
 
 
-grplot <-  ggplot(sumc, aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
+gp1 <-  ggplot(sumc[ grepl(pattern = "^DM|JDM \\(M\\)", mlabel) ], aes(x =  fig.label, y = dlabel, colour=flag, fill = H4)) +
               geom_tile( color = "black",
                         lwd = 0.2,
                         linetype = 1) +
-              scale_fill_gradient(na.value = "white")+
+              scale_fill_gradient(limits = c(0,1), na.value = "white")+
               geom_tile(aes( colour = flag),
-                          lwd=1, linetype = 1, data = sumc[H4 > .5]) +
+                          lwd=1, linetype = 1, data = sumc[grepl(pattern = "^DM|JDM \\(M\\)", mlabel) & H4 > 0.25]) + # Little trick to keep tiles in place
+              scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
+              
+              #scale_x_discrete(position = "top")+
+              theme_minimal() +
+              theme(panel.grid.major = element_blank(),
+                    axis.title = element_blank(),
+                    axis.text.x = element_blank(),
+                    legend.position = "none",
+                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+                    )+
+              facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")+
+              labs(fill = "PP")
+
+gp2 <-  ggplot(sumc[ grepl(pattern = "PM|JDM \\(R\\)", mlabel) ], aes(x =  fig.label, y = dlabel, colour=flag, fill = H4)) +
+              geom_tile( color = "black",
+                        lwd = 0.2,
+                        linetype = 1) +
+              scale_fill_gradient(limits = c(0,1), na.value = "white")+
+              geom_tile(aes( colour = flag),
+                          lwd=1, linetype = 1, data = sumc[grepl(pattern = "PM|JDM \\(R\\)", mlabel) & H4 > 0.25]) + # Little trick to keep tiles in place
+              scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
+              
+              #scale_x_discrete(position = "top")+
+              theme_minimal() +
+              theme(panel.grid.major = element_blank(),
+                    axis.title = element_blank(),
+                    axis.text.x = element_blank(),
+                    legend.position = "none",
+                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+                    )+
+              facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")+
+              labs(fill = "PP")
+
+gp3 <-  ggplot(sumc[ grepl(pattern = "IIM|Jo1", mlabel) ], aes(x =  fig.label, y = dlabel, colour=flag, fill = H4)) +
+              geom_tile( color = "black",
+                        lwd = 0.2,
+                        linetype = 1) +
+              scale_fill_gradient(limits = c(0,1), na.value = "white")+
+              geom_tile(aes( colour = flag),
+                          lwd=1, linetype = 1, data = sumc[grepl(pattern = "IIM|Jo1", mlabel) & H4 > .5]) +
               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
               #scale_x_discrete(position = "top")+
               theme_minimal() +
-               theme(panel.grid.major = element_blank(),
+              theme(panel.grid.major = element_blank(),
                     axis.title = element_blank(),
-                    axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5)
+                    axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5, size = 11),
+                    legend.position = "bottom",
+                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
                     )+
-              facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")
-grplot
-#ggsave("../figures/driverSNP_H4.png", grplot, height = 5, width = 15, bg="white")
+              guides(fill = guide_colorbar(title.vjust = 0.8))+
+              facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")+
+              labs(fill = "PP")
+
+gp <- plot_grid(gp1, gp2, gp3, nrow = 3, rel_heights = c(0.8,0.8,1.3))
+ ggsave("../figures/driverSNP_H4.png", gp, height =7 , width = 7.5, bg="white")
+
+# 
+# grplot <-  ggplot(sumc, aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
+#               geom_tile( color = "black",
+#                         lwd = 0.2,
+#                         linetype = 1) +
+#               scale_fill_gradient(na.value = "white")+
+#               geom_tile(aes( colour = flag),
+#                           lwd=1, linetype = 1, data = sumc[H4 > .5]) +
+#               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
+#               #scale_x_discrete(position = "top")+
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5)
+#                     )+
+#               facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")+
+#               labs(fill = "PP")
+# grplot
+# #ggsave("../figures/driverSNP_H4.png", grplot, height = 3.5, width = 15, bg="white")
+# 
+# 
+# grplot <-  ggplot(sumc, aes(x =  dlabel, y = trait.other, colour=flag, fill = H4)) +
+#               geom_tile( color = "black",
+#                         lwd = 0.2,
+#                         linetype = 1) +
+#               scale_fill_gradient(na.value = "white")+
+#               geom_tile(aes( colour = flag),
+#                           lwd=1, linetype = 1, data = sumc[H4 > .5]) +
+#               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
+#               #scale_x_discrete(position = "top")+
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5),
+#                     strip.text.y = element_text(angle = 0),
+#                     axis.text.y = element_text(size = 10)
+#                     )+
+#               facet_grid(rows = vars(mlabel), scales = "free", space = "free",switch = "x")+
+#               labs(fill = "PP")
+# grplot
+# ggsave("../figures/driverSNP_H4.png", grplot, height =13 , width = 5, bg="white")
+
+
+# grplot <-  ggplot(sumc, aes(x =  trait.other, y = mlabel, colour=flag, fill = H4)) +
+#               geom_tile( color = "black",
+#                         lwd = 0.2,
+#                         linetype = 1) +
+#               scale_fill_gradient(na.value = "white")+
+#               geom_tile(aes( colour = flag),
+#                           lwd=1, linetype = 1, data = sumc[H4 > .5]) +
+#               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
+#               #scale_x_discrete(position = "top")+
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5),
+#                     strip.text.y = element_text(angle = 0)
+#                     )+
+#               facet_grid(rows = vars(dlabel), scales = "free", space = "free",switch = "x")+
+#               labs(fill = "PP")
+# grplot
 
 
 ```
@@ -1102,9 +1336,9 @@ As mentioned earlier, the driver SNP might not be the causal one, but be in LD w
 
 
 ```{r include=FALSE}
-coloc[H4 > 0.5] # 33
+coloc[H4 > 0.5] # 34
 length(coloc[H4 > 0.5, unique(pid)]) # 8 
-coloc[H4 > 0.5, .(bestsnp.rsid, bestsnp.novel)] %>% unique # 12
+coloc[H4 > 0.5, .(bestsnp.rsid, bestsnp.novel)] %>% unique # 13
 
 ```
 

@@ -2,8 +2,8 @@ Trait	nSNP	overall_p	mscomp	First_Author	Reference	Trait_ID_2.0	Trait_long	Trait
 20002_1225_PanUKBB_PanUKBBR2_1	566	1.22304131991929e-50	PC1 (3e-21)	PanUKBB	PanUKBBR2	20002_1225	Hyperthyroidism/Thyrotoxicosis (UKBB)	IMD	432615	3331	435946	Trans-ethnic (AFR,CSA,EUR)	Y	6.8911145337388e-50	Hyperthyroidism/Thyrotoxicosis
 20002_1387_PanUKBB_PanUKBBR2_1	566	1.10242451339839e-91	PC13 (2e-67)	PanUKBB	PanUKBBR2	20002_1387	Hayfever/Allergic Rhinitis (UKBB)	IMD	416137	25091	441228	Trans-ethnic (AFR,AMR,CSA,EAS,EUR,MID)	Y	8.49515360324642e-91	Hayfever/Allergic Rhinitis
 AAD_Eriksson_33574239_1	541	2.3127387823675e-35	PC1 (1e-15)	Eriksson	33574239	AAD	Autoimmune Addison's disease	IMD	4097	1223	5320	European (Finnish + Norwegian)	Y	1.0357907025304e-34	Autoimmune Addison's disease
-AAVMPO_Wong_up_1	566	4.10274938841573e-14	PC1 (6e-09)	Wong	up	AAVMPO	MPO+ AAV	IMD	6717	609	7326	?	N	1.15582832232787e-13	MPO+ AAV
-AAVPR3_Wong_up_1	566	2.23512834041992e-07	PC9 (3e-05)	Wong	up	AAVPR3	PR3+ AAV	IMD	6717	1142	7859	?	N	5.09220543643495e-07	PR3+ AAV
+AAVMPO_Wong_up_1	566	4.10274938841573e-14	PC1 (6e-09)	Wong	doi:10.17863/CAM.51022	AAVMPO	MPO+ AAV	IMD	6717	609	7326	?	N	1.15582832232787e-13	MPO+ AAV
+AAVPR3_Wong_up_1	566	2.23512834041992e-07	PC9 (3e-05)	Wong	doi:10.17863/CAM.51022	AAVPR3	PR3+ AAV	IMD	6717	1142	7859	?	N	5.09220543643495e-07	PR3+ AAV
 AITD_Saevarsdottir_32581359_1	552	0	PC1 (6e-156)	Saevarsdottir	32581359	AITD	Autoimmune Thyroid disease	IMD	725172	30234	755406	European (Iceland + UK)	Y	0	Autoimmune Thyroid disease
 ANAPH_SHOCK_ADVER_EFFECT_CORRE_DRUG_MEDICAM_PROPE_ADMINISTE_FinnGen_FinnGenR7_1	562	0.000878802525235105	PC3 (6e-03)	FinnGen	FinnGenR7	ANAPH_SHOCK_ADVER_EFFECT_CORRE_DRUG_MEDICAM_PROPE_ADMINISTE	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered (FinnGen)	IMD	308928	226	309154	European (Finnish)	Y	0.00159893237230276	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered
 ASTAO_Ferreira_30929738_1	565	5.79817431066696e-155	PC13 (4e-131)	Ferreira	30929738	ASTAO	Adult-onset Asthma	IMD	300671	26582	327253	European	Y	7.99537720734076e-154	Adult-onset Asthma
@@ -66,7 +66,7 @@ PM_Miller_26291516_1	564	2.96797551351487e-07	PC13 (6e-05)	Miller	26291516	PM	Po
 PM_Rothwell_up_1	479	2.04578078462164e-11	PC3 (9e-06)	Rothwell	36580032	PM	Polymyositis	IMD	3612	903	4515	European	N	5.33327925941164e-11	Polymyositis (Rothwell)
 RA_Ishigaki_36333501_3	566	0	PC9 (4e-233)	Ishigaki	36333501	RA	Rheumatoid Arthritis	IMD	240149	35871	276020	Trans-ethnic (EUR, EAS, AFR, SAS, ARB)	Y	0	Rheumatoid Arthritis
 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1	562	2.43933419693529e-37	PC3 (2e-17)	FinnGen	FinnGenR7	RX_RHEUMA_BIOLOGICAL	Biological medication for rheuma (FinnGen)	IMD	306015	3139	309154	European (Finnish)	Y	1.10190613723629e-36	Biological medication for rheuma
-SJOS_Lessard_up_1	553	2.06060915126866e-53	PC2 (5e-29)	Lessard	up	SJOS	Sjögren's syndrome	IMD	17481	3232	20713	European	Y	1.22699908552816e-52	Sjögren's syndrome
+SJOS_Lessard_up_1	553	2.06060915126866e-53	PC2 (5e-29)	Khatri	35896530	SJOS	Sjögren's syndrome	IMD	17481	3232	20713	European	Y	1.22699908552816e-52	Sjögren's syndrome
 SLE_Julia_29848360_1	566	0	PC2 (1e-213)	Julia	29848360	SLE	Systemic Lupus Erythematosus	IMD	8483	4943	13426	European (North + Spain)	Y	0	Systemic Lupus Erythematosus
 SSC_LopezIsac_31672989_1	561	7.49308177776997e-61	PC2 (2e-30)	LopezIsac	31672989	SSC	Systemic Sclerosis	IMD	18333	9846	28179	European	Y	4.84737635994008e-60	Systemic Sclerosis
 T1D_Chiou_34012112_1	566	0	PC3 (8e-150)	Chiou	34012112	T1D	Type 1 Diabetes	IMD	501368	18942	520310	European	Y	0	Type 1 Diabetes
