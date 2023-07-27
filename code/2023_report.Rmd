@@ -952,9 +952,11 @@ library(ggalluvial)
 
 resdpmunc
 resbhat <- data.table(Label = names(tbhc), Bhatta.cl = tbhc)
+#fwrite(resbhat, "../data/bhattacharyya_clustering.tsv", sep = "\t")
 rescl <- merge(resdpmunc, resbhat, by ="Label")
 
 clsum=rescl[,.(y=.N),by=c("DPMUnc.cl","Bhatta.cl")]
+
 
 # Plot Relationship between disease clusterings
 sdiag <- ggplot(clsum, aes(y=y, axis1=Bhatta.cl,axis2=DPMUnc.cl)) + geom_alluvium(aes(fill=factor(DPMUnc.cl))) +
