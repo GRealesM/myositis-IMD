@@ -170,12 +170,12 @@ make_bold_names <- function(mat, rc_fun, rc_names) {
                            color=colorRampPalette((RColorBrewer::brewer.pal(n = 7,
                                                     name = "Blues")))(100),
                            annotation_colors = annotations$colors,
-                           width=12,
-                           height=8,
+                           width=9,
+                           height=9.5,
                            labels_row = make_bold_names(bigpsm, rownames, myobold),
                            filename=paste0(outdir, exp, "_DPMUnc_Bh_psm_heatmap.png"))
 
-svg(paste0(outdir, exp, "_DPMUnc_Bh_psm_heatmap.svg"), width = 12, height = 8)
+svg(paste0(outdir, exp, "_DPMUnc_Bh_psm_heatmap.svg"), width = 9, height = 9.5)
   psm_heatmap
 dev.off()
 
