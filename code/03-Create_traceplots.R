@@ -136,7 +136,8 @@ quantile_traceplots_dataset <- function(exp, block_size=100) {
 
 # Define experiments and generate traceplots
 
-exp="Myo_7PC"
+exp="Myo_13PC"
+#exp="Myo_7PC"
 # exp="Meta_Myo_8PC"
 input_dir= "../data/DPMUnc_results/"
 lapply(exp, quantile_traceplots_dataset)
