@@ -560,15 +560,23 @@ bhatta.sel <- names(tbhc[tbhc ==9]) # Myositis cluster is 9
 bhatta.sel
 bht <- data.table(Label = names(tbhc), Bhattacharyya = tbhc)
 
-# We'll show DPMUnc annotations as well
+# We'll show DPMUnc annotations as well. Note, this file is generated later, but we recover it now
 resdpmunc <- readRDS("../data/Myo_7PC_psm_data.rds")
 resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc = resdpmunc$calls$cl)
 resdpmunc[, Label:=stringr::str_trunc(Label, 50, ellipsis = " [...]")]
 
-# Set colours, this palette is adapted from the DPMUnc code
-palette1 <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#F46D43", "#FEE08B", "#ABDDA4", "#66C2A5",             "#5E4FA2", 
+
+### Full palette from DPMUnc code. We'll use an adapted one (below)
+palette <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#FDAE61", "#66C2A5", "#ABDDA4", "#F46D43", "#3288BD", "#5E4FA2",
+             "#FEE08B", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", 
+             "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788") # Colours for clusters  
+
+# Set colours, this palette is adapted from the DPMUnc code, but removing one colour
+palette1 <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#F46D43", "#FEE08B", "#ABDDA4", "#66C2A5",           "#5E4FA2", 
              "#FDAE61", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", 
              "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788")
+
+
 
 bhattacolp <- rev(colorRampPalette(RColorBrewer::brewer.pal(n = 9, name = "Spectral"))(100))
 
@@ -625,7 +633,13 @@ dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", tim
 
 
 ```{r echo=FALSE, eval=FALSE}
+
+#######################
+### TEST WITH 13PCs ###
+#######################
+
 # This chunk is intended to generate DPMUnc files using all 13 PCs instead of the key 7 ones
+
 ps2s[grepl("myositis|IIM", Label, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, Label, stars)][, .N, by = PC]
 
 dpmunc.ds <- ps2s[, .(PC, Delta, Var.Delta, Label)]
@@ -645,15 +659,16 @@ dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", tim
 # resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc.cl = resdpmunc$calls$cl)
 
 p7 <- ps2s[ PC %in% paste0("PC", c(1,2,3,8,9,12,13)), .(Trait, Label, PC, Delta, Trait_long, Trait_class, stars)]
+p7[, Label:=stringr::str_trunc(Label, 50, ellipsis = " [...]")] # Update labels to match those of resdpmunc that we modified above
 p7 <- data.table::dcast(p7, Label + Trait + Trait_class  + Trait_long ~ PC, value.var = c("Delta", "stars"))
 p7 <- merge(p7, resdpmunc, by=c("Label"), all.x = TRUE)
-p7[, DPMUnc.cl:=factor(DPMUnc.cl, levels = 1:10)]
+p7[, DPMUnc:=factor(DPMUnc, levels = 1:10)]
 #kable(p7[DPMUnc.cl == 1 & !grepl("myositis", Label, ignore.case = T), .(Label)]) %>% kable_styling()
 
-p7[grepl("myositis", Label, ignore.case = TRUE), .(Label, DPMUnc.cl)] # All but Finngen's Myositis in cluster 1
-p7[DPMUnc.cl == 1, .(Label)] # Other IMD in the same cluster as myositis
-dpimd <- p7[DPMUnc.cl == 1 & !grepl("myositis", Label, ignore.case = T), Label] # List non-myositis IMD in the same cluster
-# fwrite(p7, "../data/DPMUnc_res_v1.tsv", sep = "\t")
+p7[grepl("myositis", Label, ignore.case = TRUE), .(Label, DPMUnc)]
+p7[DPMUnc == 1, .(Label)] # Other IMD in the same cluster as myositis
+dpimd <- p7[DPMUnc == 1 & !grepl("myositis|IIM", Label, ignore.case = T), Label] # List non-myositis IMD in the same cluster
+#fwrite(p7, "../data/DPMUnc_res_v1.tsv", sep = "\t")
 
 ```
 
@@ -699,80 +714,6 @@ Other IMD group with myositis, namely
     - Sjögren's syndrome
 
 
-Below we show the clustering results in the two first PCs. Note that the clustering was made using 5 more PCs, so some clusters overlap upon 2D visualisation. 
-
-```{r echo=FALSE, fig.height= 8, fig.width=8}
-
-palette <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#FDAE61", "#66C2A5", "#ABDDA4", "#F46D43", "#3288BD", "#5E4FA2",
-             "#FEE08B", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", 
-             "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788") # Colours for clusters  
-colp <- palette[as.numeric(levels(p7$DPMUnc.cl))]
-
-
-pcbiplot <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC2, colour = DPMUnc.cl, label=Label))+
-    geom_hline(yintercept = 0)+
-    geom_vline(xintercept = 0)+
-    ggforce::geom_mark_ellipse(aes(fill=DPMUnc.cl , label=NULL), alpha=0.2 , show.legend = FALSE )+
-    geom_point(size=3)+
-    scale_colour_manual(values = colp)+
-    scale_fill_manual(values = colp)+
-    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis|IIM", Label, ignore.case = TRUE) | Delta_PC2 > 0.075], show.legend = FALSE) +
-  #| grepl("myastenia", Label, ignore.case = T)
-    xlab("Delta PC1")+
-    ylab("Delta PC2")+
-    theme_minimal()+
-    theme(legend.title = element_blank(), legend.position = "none", axis.title = element_text(size =15))
-  pcbiplot
-
-```
-
-**EXPLAIN**
-
-
-Let's look at PC12 and 13 as well.
-
-
-```{r echo=FALSE, fig.height= 8, fig.width=8}
-pcbiplot_112 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC12, colour = DPMUnc.cl, label=Label))+
-    geom_hline(yintercept = 0)+
-    geom_vline(xintercept = 0)+
-    ggforce::geom_mark_ellipse(aes(fill=DPMUnc.cl , label=NULL), alpha=0.2 , show.legend = FALSE )+
-    geom_point(size=3)+
-    scale_colour_manual(values = colp)+
-    scale_fill_manual(values = colp)+
-    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis|IIM", Label, ignore.case = TRUE)], show.legend = FALSE) +
-  #| grepl("myastenia", Label, ignore.case = T)
-    xlab("Delta PC1")+
-    ylab("Delta PC12")+
-    theme_minimal()+
-    theme(legend.title = element_blank(), legend.position = "none", axis.title = element_text(size =15))
-  pcbiplot_112
-
-```
-
-**EXPLAIN**
-
-
-```{r echo=FALSE, fig.height= 8, fig.width=8}
-pcbiplot_113 <-  ggplot(p7, aes(x = Delta_PC1, y = Delta_PC13, colour = DPMUnc.cl, label=Label))+
-    geom_hline(yintercept = 0)+
-    geom_vline(xintercept = 0)+
-    ggforce::geom_mark_ellipse(aes(fill=DPMUnc.cl , label=NULL), alpha=0.2 , show.legend = FALSE )+
-    geom_point(size=3)+
-    scale_colour_manual(values = colp)+
-    scale_fill_manual(values = colp)+
-    geom_label_repel(size = 4, seed = 15, force = 20, max.overlaps = 20, data = p7[grepl("myositis|IIM", Label, ignore.case = TRUE) | Delta_PC13 > 0.07], show.legend = FALSE) +
-  #| grepl("myastenia", Label, ignore.case = T)
-    xlab("Delta PC1")+
-    ylab("Delta PC13")+
-    theme_minimal()+
-    theme(legend.title = element_blank(), legend.position = "none", axis.title = element_text(size =15))
-  pcbiplot_113
-
-```
-
-**EXPLAIN**
-
 
 # Comparing both clusterings
 
@@ -801,7 +742,8 @@ sdiag <- ggplot(clsum, aes(y=y, axis1=DPMUnc,axis2=Bhattacharyya)) + geom_alluvi
                   axis.title.y = element_blank(), panel.grid = element_blank(), 
                  legend.position = "none", axis.text.x = element_text(size = 13))
 sdiag
-#ggsave("../figures/sdiag_Bh_DP.png", sdiag, height = 9, width = 8, bg = "white")
+# ggsave("../figures/sdiag_Bh_DP.png", sdiag, height = 9, width = 8, bg = "white")
+# ggsave("../figures/sdiag_Bh_DP.svg", sdiag, height = 9, width = 8, bg = "white")
 
 ```
 
@@ -873,7 +815,15 @@ We computed the pairwise FDR for all myositis-IMD pairs resulting in 58 myositis
 
 ```{r echo=FALSE}
 
-coloc <- fread("../tables/coloc_results_dfilt.tsv", na.strings = "")
+## CONTINUE HERE
+# Check that coloc results haven't changed
+
+coloc <- fread("../tables/coloc_results_dfilt-v2.tsv", na.strings = "")
+
+## The commented step below extracts the list of candidate SNPs and driver SNPs in coloc to map to genes using mapping-genes.py,
+## which will create the mapped.genes.tsv
+## This bit is not reproducible because I couldn't find the code for bestsnp.rsids.tsv (likely extracted from some summary stats).
+## I need to update the code to reflect the proper extraction.
 # 
 # #Get alleles and positions to map SNPs to  genes
 # best.rsids <- fread("../data/bestsnp.rsids.tsv")
@@ -889,6 +839,7 @@ coloc <- fread("../tables/coloc_results_dfilt.tsv", na.strings = "")
 # snp.to.map <- rbindlist(list(best.rsids,man), use.names = TRUE)
 # fwrite(snp.to.map, "../data/snp.to.map.tsv", sep="\t")
 # # After this, we run the mapping-genes.py routine in the HPC to get the associated genes from opentargets
+
 
 # Import mapped genes 
 mg <- fread("../data/mapped.genes.tsv") %>% unique
