@@ -767,26 +767,72 @@ As an alternative, we'll use the Bhattacharyyan distance to do the same as we tr
 
 ```{r}
 
+
 bhd <- fread("../data/bh_dist.tsv")
 bhd[, logbhat:=log(1 + bhat.dist)]
 bhd[, T1:=stringr::str_trunc(T1, 50, ellipsis = " [...]")][, T2:=stringr::str_trunc(T2, 50, ellipsis = " [...]")]
-
 
 # We keep the initial matrices for make_bold_names(), since I don't have the time to adapt it now
 bh.cl <- acast(bhd, T1~T2, value.var = "bhat.dist") %>% as.dist %>% hclust # Cluster by raw
 bhatta.d <-  acast(bhd, T1~T2, value.var = "logbhat") # Show log
 
 bh.ph <- pheatmap(bhatta.d,
-                cluster_cols = bh.cl, cluster_rows = bh.cl,
-                fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(bhatta.d, rownames, papsb))
+                cluster_cols = bh.cl, 
+                cluster_rows = bh.cl,
+                annotation_names_row = FALSE,
+                annotation_legend = FALSE,
+                treeheight_col=0,
+                fontsize_row=8)
 
-# ggsave("../figures/Myositis_bhattacharyya_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
-
-
+# Call clusters for Bhattacharyya
 tbh <- bh.ph$tree_row
 tbhc <- cutree(tbh, k=15) # manually adjusted to capture visually-selected IMD
-bhatta.sel <- names(tbhc[tbhc ==9])
+bhatta.sel <- names(tbhc[tbhc ==9]) # Myositis cluster is 9
 bhatta.sel
+bht <- data.table(Label = names(tbhc), Bhattacharyya = tbhc)
+
+# We'll show DPMUnc annotations as well
+resdpmunc <- readRDS("../data/Myo_7PC_psm_data.rds")
+resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc = resdpmunc$calls$cl)
+resdpmunc[, Label:=stringr::str_trunc(Label, 50, ellipsis = " [...]")]
+
+# Set colours, this palette is adapted from the DPMUnc code
+palette1 <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#F46D43", "#FEE08B", "#ABDDA4", "#66C2A5",             "#5E4FA2", 
+             "#FDAE61", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", 
+             "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788")
+
+bhattacolp <- rev(colorRampPalette(RColorBrewer::brewer.pal(n = 9, name = "Spectral"))(100))
+
+# Prepare annotation object
+
+ann <- merge(bht, resdpmunc, by = "Label")
+ann <- data.frame(ann[, 2:3], row.names = ann$Label) # Format
+
+dpcol <- palette1[1:max(ann$DPMUnc)]
+names(dpcol)  <- as.character(1:max(ann$DPMUnc))
+bhcol <- palette1[1:max(ann$Bhattacharyya)]
+names(bhcol)  <- as.character(1:max(ann$Bhattacharyya))
+
+annotations <- list(ann = ann, colors = list( Bhattacharyya = bhcol,DPMUnc = dpcol))
+
+bh.ph <- pheatmap(bhatta.d,
+                cluster_cols = bh.cl, 
+                cluster_rows = bh.cl,
+                annotation_names_row = FALSE,
+                annotation_legend = FALSE,
+                treeheight_col=0,
+                fontsize_row=8,
+                annotation_row = annotations$ann,
+                annotation_col = annotations$ann,
+                annotation_colors = annotations$colors,
+                color = bhattacolp, 
+                show_colnames = FALSE, 
+                labels_row = make_bold_names(bhatta.d, rownames, papsb))
+
+#ggsave("../figures/Myositis_bhattacharyya_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
+
+
+
 
 ```
 
@@ -796,7 +842,7 @@ bhatta.sel
 
 ```{r echo=FALSE, eval=FALSE}
 # At this point, we prepare the data for DPMUnc using significant PCs for myositis 
-ps2s[grepl("myositis", Label, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, Label, stars)][, .N, by = PC]
+ps2s[grepl("myositis|IIM", Label, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, Label, stars)][, .N, by = PC]
 
 dpmunc.ds <- ps2s[PC %in% paste0("PC", c(1,2,3,8,9,12,13)), .(PC, Delta, Var.Delta, Label)]
 dpmunc.delta <- reshape(dpmunc.ds[, .(PC, Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
@@ -808,10 +854,26 @@ dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", tim
 ```
 
 
+
+```{r echo=FALSE, eval=FALSE}
+# This chunk is intended to generate DPMUnc files using all 13 PCs instead of the key 7 ones
+ps2s[grepl("myositis|IIM", Label, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, Label, stars)][, .N, by = PC]
+
+dpmunc.ds <- ps2s[, .(PC, Delta, Var.Delta, Label)]
+dpmunc.delta <- reshape(dpmunc.ds[, .(PC, Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
+dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
+
+# fwrite(dpmunc.delta, "../data/Myo_13PC_Delta.tsv", sep = "\t")
+# fwrite(dpmunc.var, "../data/Myo_13PC_Var.tsv", sep = "\t")
+
+```
+
+
+
 ```{r include=FALSE, echo=FALSE}
 
-resdpmunc <- readRDS("../data/Myo_7PC_psm_data.rds")
-resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc.cl = resdpmunc$calls$cl)
+# resdpmunc <- readRDS("../data/Myo_7PC_psm_data.rds")
+# resdpmunc <- data.table(Label = names(resdpmunc$calls$cl), DPMUnc.cl = resdpmunc$calls$cl)
 
 p7 <- ps2s[ PC %in% paste0("PC", c(1,2,3,8,9,12,13)), .(Trait, Label, PC, Delta, Trait_long, Trait_class, stars)]
 p7 <- data.table::dcast(p7, Label + Trait + Trait_class  + Trait_long ~ PC, value.var = c("Delta", "stars"))
@@ -950,21 +1012,19 @@ Let's take a look at how Bhattacharyya distance and DPMUnc differ in their clust
 ```{r echo = FALSE}
 library(ggalluvial)
 
-resdpmunc
-resbhat <- data.table(Label = names(tbhc), Bhatta.cl = tbhc)
-#fwrite(resbhat, "../data/bhattacharyya_clustering.tsv", sep = "\t")
-rescl <- merge(resdpmunc, resbhat, by ="Label")
+# Recover annotation object
+rescl <- ann %>% data.table(keep.rownames = TRUE)
 
-clsum=rescl[,.(y=.N),by=c("DPMUnc.cl","Bhatta.cl")]
+clsum=rescl[,.(y=.N),by=c("DPMUnc","Bhattacharyya")]
 
 
 # Plot Relationship between disease clusterings
-sdiag <- ggplot(clsum, aes(y=y, axis1=Bhatta.cl,axis2=DPMUnc.cl)) + geom_alluvium(aes(fill=factor(DPMUnc.cl))) +
+sdiag <- ggplot(clsum, aes(y=y, axis1=DPMUnc,axis2=Bhattacharyya)) + geom_alluvium(aes(fill=factor(DPMUnc))) +
             geom_stratum(width = 1/5,  fill="white", color = "black") +
             #geom_label(stat = "stratum", aes(label = after_stat(stratum))) +
             geom_text(stat = "stratum", aes(label = after_stat(stratum)))+
-            scale_x_discrete(limits = c("Bhattacharyya", "DPMUnc"), expand = c(.05, .05)) +
-            scale_fill_manual(values = palette[c(3,5,11,10,6, 14,16,17,20,30)])+
+            scale_x_discrete(limits = c("DPMUnc","Bhattacharyya"), expand = c(.05, .05)) +
+            scale_fill_manual(values = palette1[1:10])+
             scale_y_continuous("Count") +
             ggtitle("Relationship between disease clusterings")+
             theme_minimal()+
@@ -972,7 +1032,7 @@ sdiag <- ggplot(clsum, aes(y=y, axis1=Bhatta.cl,axis2=DPMUnc.cl)) + geom_alluviu
                   axis.title.y = element_blank(), panel.grid = element_blank(), 
                  legend.position = "none", axis.text.x = element_text(size = 13))
 sdiag
-#ggsave("../figures/sdiag_Bh_DP.png", sdiag, height = 9, width = 7, bg = "white")
+#ggsave("../figures/sdiag_Bh_DP.png", sdiag, height = 9, width = 8, bg = "white")
 
 ```
 
