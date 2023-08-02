@@ -34,25 +34,6 @@ library(GGally)
 library(fpc)
 library(cupcake)
 
-# Load files
-
-m <- fread("../data/Metadata_20230608-v1.tsv")
-m <- m[, .(Trait, First_Author, Reference, Trait_ID_2.0, Trait_long, Trait_class, N0, N1, N, Population, Public)]
-
-q <- fread("../data/QC_IMD_basis_20230503-v1.tsv")
-q <- merge(q, m, by="Trait")
-q[ First_Author == "Rothwell", Reference:="36580032"]
-q <- q[Trait != "PAPS_Casares_up_1"] # Remove PAPS
-q[ First_Author == "Lessard", c("First_Author", "Reference"):=list("Khatri", "35896530")][ First_Author == "Wong", Reference:="doi:10.17863/CAM.51022"]
-
-
-p <- fread("../data/Projection_IMD_basis_20230503-v1.tsv")
-p[, Var.Delta:=as.numeric(Var.Delta)]
-b <- p[1:169] # Basis traits
-p <- p[179:nrow(p)] # projection table without basis traits
-p[, z:=NULL]
-p <- p[Trait != "PAPS_Casares_up_1"]
-
 ```
 
 
@@ -63,115 +44,160 @@ Next we analysed our myositis datasets in the context of meta-analyses and the r
 
 
 ```{r include=FALSE}
-#
-# This chunk includes a lot of stuff we won't be showing, but I keep the code here because it might be useful
+
+# Load files
+
+# We'll need the SNP manifest
+SNP.manifest <- cupcake::SNP.manifest
+
+# Meta-data table, containing information about the datasets
+m <- fread("../data/Metadata_20230608-v1.tsv")
+m <- m[, .(Trait, First_Author, Reference, Trait_ID_2.0, Trait_long, Trait_class, N0, N1, N, Population, Public)]
+
+# Projection QC table, containing information about the projections and their quality
+q <- fread("../data/QC_IMD_basis_20230503-v1.tsv")
+q <- merge(q, m, by="Trait") # Get metadata together
+
+# Take the chance now to update some references in the q table
+q[ First_Author == "Rothwell", Reference:="36580032"]
+q[ First_Author == "Lessard", c("First_Author", "Reference"):=list("Khatri", "35896530")][ First_Author == "Wong", Reference:="doi:10.17863/CAM.51022"]
+
+
+# Projection table
+p <- fread("../data/Projection_IMD_basis_20230503-v1.tsv")
+p[, Var.Delta:=as.numeric(Var.Delta)]
+b <- p[1:169] # Basis traits
+p <- p[179:nrow(p)] # projection table without basis traits
+p[, z:=NULL]
+
+
+#######################################################
 
 # Now it's time to do our proper EDA on the projections. This will involve:
 #
-# (1) Apply usual QC, including dataset removal
-# (2) Get some basic statistics from the basis
-# (3) Learn about myositis (and subtypes) location onto the basis
+# (1) Remove projections with low SNP match, Immunochip (ex. Rothwell), unauthorised (PAPS) and Neale. Keep IMD only
+# (2) Prepare proper labels for selected datasets
+# (3) Apply FDR procedure and remove datasets with FDR overall > 1%
+# (4) Remove redundant datasets for visualisation and further analyses
 
-### (1) QC
-SNP.manifest <- cupcake::SNP.manifest
 
-# Checking missing projections
+### (1) Remove projections with low SNP match, Immunochip (ex. Rothwell), unauthorised (PAPS) and Neale. Keep IMD only.
+
+
+# Remove unauthorised projection (PAPS)
+p <- p[Trait != "PAPS_Casares_up_1"]
+q <- q[Trait != "PAPS_Casares_up_1"] # Remove PAPS
+
+
+# Remove datasets with missing overall p-values
 summary(q)
 q[is.na(q$overall_p)] 
 # MDD_Wray_2, Major depression disorder, that failed to project by low SNP match.
 # T2D_Gaulton 
-q <- q[!is.na(q$overall_p)] # Remove datasets with missing overall p-values
+q <- q[!is.na(q$overall_p)] 
 
 
+# Remove datasets with <80% SNP match. This will include datasets using targeted arrays only (ie. ImmunoChip).
 # Check SNP match
 c(lessthan95 = nrow(q[q$nSNP < nrow(SNP.manifest)*.95,]), lessthan80 = nrow(q[q$nSNP < nrow(SNP.manifest)*.8,]), lessthan50 = nrow(q[q$nSNP < nrow(SNP.manifest)*.5,]))
 c(lessthan95 = nrow(q[q$nSNP < nrow(SNP.manifest)*.95,])/nrow(q), lessthan80 = nrow(q[q$nSNP < nrow(SNP.manifest)*.8,])/nrow(q), lessthan50 = nrow(q[q$nSNP < nrow(SNP.manifest)*.5,])/nrow(q))
 # 4% of datasets (248) have <80% SNP match
 
-# Dataset filtering
-
-# This is a crucial point.
-# As we have many datasets, many of them redundant or not so interesting for our purposes, and the set of datasets included in the adjustment will influence the resulting set of overall significant datasets, so we must choose carefully which datasets we remove *before* performing the FDR adjustment on the next step.
-# 
-# At this step, we'll:
-# 
-# 1. Focus on files that came from a Genome-wide array (ie. not Immunochip), and have at least **80%** of matching SNPs, so we can have confidence in our observations.
-# 2. Remove basis datasets
-# 3. Remove Neale, as we already have PanUKBBR2
-# 4. Apply FDR procedure
-
-# 1. Remove datasets with <80% SNP match. This will include datasets using targeted arrays only (ie. ImmunoChip). Keep Deakin's JDM for its interest
 qf <- q[nSNP >= max(nSNP) * 0.8 ]
 
-# 2. Remove basis datasets
+# Remove datasets used to build the IMD basis, which are overfitted
 basis.datasets <- c("CD_DeLange_28067908_1", "PSC_Ji_27992413_1", "UC_DeLange_28067908_1", "SLE_Bentham_26502338_1", "PBC_Cordell_26394269_1", "IGAN_Kiryluk_25305756_1", "CEL_Dubois_20190752_1", "MS_IMSGC_21833088_1", "AST_Demenais_29273806_1", "VIT_Jin_27723757_1", "RA_Okada_24390342_1", "LADA_Cousminer_30254083_1", "T1D_Cooper_doi101101120022_1")
-#Also, remove datasets used to build the IMD basis, which are overfitted
+
 qf <- qf[!Trait %in% basis.datasets]
 
-# 3. Remove Neale, as we already have PanUKBBR2
+# Remove Neale, as we already have PanUKBBR2
 qf <- qf[First_Author != "Neale"]
 
+# Keep IMD traits only
+qf <- qf[Trait_class == "IMD"] # Interested in IMDs for now
 
-# Check traits by class
+# Check traits by class. In this case we have only one class
 table(qf$Trait_class)
+# IMD 
+# 524 
 
-# 4. Apply FDR procedure
-
-# Apply 1% FDR correction to overall p for all remaining datasets
-qf[, FDR.overall := p.adjust(overall_p, method = "BH"), by="Trait_class"]
-
-tsig <- copy(qf)
-tsig[, sig.overall:=ifelse(FDR.overall < 0.01, "Y", "N")]
-table(tsig$sig.overall)
-#     N    Y 
-#  4800  857
 
 ########################################
-# Prepare Labels
+
+
+# (2) Prepare proper labels for selected datasets
+
 qf[,Label:=Trait_long] %>% .[!grepl("myositis", Trait_long, ignore.case = TRUE), Label:=gsub(" \\(UKBB\\)", "", Label)] %>% .[!grepl("myositis", Trait_long, ignore.case = TRUE) , Label:=gsub(" \\(FinnGen\\)", "", Label)] %>% .[, Label:=gsub(" \\(FG\\)", "", Label)] # Remove UKBB/FinnGen stuff save for myositis datasets
 # Relabel some Myositis datasets -- this is the place to modify the labels
 qf[ First_Author == "Rothwell", Label:=gsub("Idiopathic Inflammatory Myopathies \\(IIM, Myositis\\)", "IIM", Label)]
 qf[ First_Author == "Miller", Label:=gsub("Myositis", "IIM", Label, fixed = TRUE)]
-qf[First_Author %in% c("Rothwell", "Miller"), Label:=paste0(Label, " (", First_Author, ")")]
+qf[ First_Author %in% c("Rothwell", "Miller"), Label:=paste0(Label, " (", First_Author, ")")]
 # Rename PBC and PSC
 qf[grepl("sclerosing", Label), Label:= "Primary sclerosing cholangitis"]
 qf[grepl("chirrosis", Label), Label:= "Primary biliary cholangitis"]
 qf[grepl("MS-disease", Label), Label:="Multiple Sclerosis"] # Fix weird FinnGen MS label
 
-###########################################
+
 # Create a filtered projection table with new labels too
 
 pf <- merge(p, qf[,c("First_Author","Trait", "Trait_ID_2.0", "Trait_long","Trait_class", "Population", "Label")], by = "Trait")
 
+
 ###########################################
-# Prepare Supplementary Table with coloc info
+
+### (3) Apply FDR procedure and remove datasets with FDR overall > 1%
+
+# Apply 1% FDR correction to overall p for all remaining datasets
+qf[, FDR.overall := p.adjust(overall_p, method = "BH"), by="Trait_class"] # Only IMD, so trait class shouldn't matter
+
+# Apply FDR.PC to projections
+pf[, FDR.PC:=p.adjust(P, method = "BH"), by = c("PC", "Trait_class")][, stars:=ifelse(!is.na(FDR.PC) & FDR.PC<0.05,"○","")][ FDR.PC < 0.01 , stars:="●"]
+# Filter pf by overall significant traits
+
+
+####
+
+## Now we have added the FDR information to the filtered (qf, pf) tables, we can extract them to create Supplementary tables
+
+# At this point, prepare Supplementary Table with coloc info
 qmyo <- qf[ First_Author %in% c("Miller", "Rothwell")]
 qmyo <- qmyo[, .(Label, First_Author, Reference, N0, N1, N, FDR.overall )][order(First_Author, Label)]
 qmyo
 # fwrite(qmyo, "../tables/ST_Myo_info.tsv", sep="\t")
 
-###########################################
 
+# Save filtered datasets - not sure if we'll show these
 
 # fwrite(qf, "../tables/ST_all_datasets.tsv", sep ="\t")
 # fwrite(pf, "../tables/ST_all_projections.tsv", sep ="\t")
 
-###########################################
 
+####
 
+## Create significant-only datasets
+
+# Keep significant datasets only in qs
 qs <- qf[FDR.overall < 0.01]
 nrow(qs) / nrow(qf)
-# 15% significant
-table(qs$Trait_class) / nrow(qs)
-# 16.5% Blood cells
-# 35.8% IMD
+# 58.6% significant
 
-table(qs$Trait_class)
-#  BC BMK CAN IMD INF OTH PSD 
-# 142  72  17 307  35 282   2 
+# Do the same for ps
+ps <- pf[Trait %in% qs$Trait ]
+ps[, PC:=factor(PC, levels = paste0("PC", 1:13))]
+
+####
+
+## Now we can explore the datasets a little bit 
+
+# Check how many are significant
+tsig <- copy(qf)
+tsig[, sig.overall:=ifelse(FDR.overall < 0.01, "Y", "N")]
+table(tsig$sig.overall)
+#   N   Y 
+# 217 307 
 
 # Which myositis datasets didn't make the cut?
-qf[grepl("myositis", Trait_long, ignore.case = TRUE) & !Trait %in% qs$Trait]
+qf[grepl("myositis", Trait_long, ignore.case = TRUE) & !Trait %in% qs$Trait, .(First_Author, Trait_ID_2.0, Trait_long)]
 # 6 datasets. These include:
 #    First_Author       Trait_ID_2.0                                 Trait_long 
 # 1:      PanUKBB         20002_1322                   Myositis/Myopathy (UKBB) 
@@ -181,77 +207,19 @@ qf[grepl("myositis", Trait_long, ignore.case = TRUE) & !Trait %in% qs$Trait]
 # 5:       Sakaue                 PM                               Polymyositis 
 # 6:      PanUKBB              ph770    Myalgia and myositis unspecified (UKBB) 
 
-# Apply 5% FDR correction by trait and PC to projections, then filter by overall significant traits
-# NOTE: Here we'll do something different. As meta-analyses and PAPS don't come with overall_p, 
-# we'll consider them significant overall, for their interest.
 
-pf[, FDR.PC:=p.adjust(P, method = "BH"), by = c("PC", "Trait_class")][, stars:=ifelse(!is.na(FDR.PC) & FDR.PC<0.05,"○","")][ FDR.PC < 0.01 , stars:="●"]
-# Filter pf by overall significant traits
-ps <- pf[Trait %in% qs$Trait ]
-ps[, PC:=factor(PC, levels = paste0("PC", 1:13))]
-
-
-### (2) Get some basic statistics from the basis in the light of new projections
-
-# Let's create a plot akin to figure 2 of the blood cell basis paper
-
-tfp <- c(BC = "#CF000F", BMK = "#2E8856", IMD = "#1460AA", INF = "#B8860B", CAN = "#E65722", OTH ="#1C2833", PSD="#708090")
-
-tcf <- ggplot(data = qf, aes(x=Trait_class, fill = Trait_class)) +
-    geom_bar()+
-    scale_y_continuous(breaks = seq(0, 5000, 500))+
-    scale_fill_manual(values = tfp)+
-    scale_x_discrete(labels=c("BC" = "Blood Cells", "BMK" = "Biomarkers", "CAN" = "Cancer", "IMD" = "IMD", "INF" = "Infectious", "OTH"= "Other", "PSD" = "Psych"))+
-    theme_classic(base_size = 11)+
-    ylab("Datasets") +
-    theme(axis.ticks = element_blank(), axis.line = element_blank(), panel.grid.major.y = element_line(colour = "lightgray", size =  0.3),axis.text.x = element_text(angle = 270, hjust = 0, vjust = 0.5),legend.position = "none",axis.title.x = element_blank())
-
-
-
-# A little modification to include OR values in the RHS plot (see how values are computed below)
-
-qcsigOR <- merge(qf[, .(count.filt=.N), by=Trait_class], qs[, .(count.sig=.N), by=Trait_class], all.x = TRUE)
-qcsigOR[,prop:=count.sig/count.filt][, `OR vs Other`:= (count.sig/(count.filt - count.sig)) / qcsigOR[Trait_class == "OTH", count.sig/(count.filt - count.sig)]]
-qcsigOR[, ORvalue:=format(`OR vs Other`, digits=2)]
-
-tcsigOR <- ggplot(data = qcsigOR, aes(x=Trait_class, y=count.sig, fill = Trait_class)) +
-  geom_bar(stat = "identity")+
-  scale_y_continuous(breaks = seq(0, 300, 50), limits = c(0, 340))+
-  scale_fill_manual(values =tfp)+
-  scale_x_discrete(labels=c("BC" = "Blood Cells", "BMK" = "Biomarkers", "CAN" = "Cancer", "IMD" = "IMD", "INF" = "Infectious", "OTH"= "Other", "PSD" = "Psych"))+
-  geom_text(aes(label = ORvalue), vjust = -0.8, hjust = 0.55, size=4)+
-  theme_classic(base_size = 11)+
-  theme(axis.ticks = element_blank(), axis.line = element_blank(), panel.grid.major.y = element_line(colour = "lightgray", size =  0.3),axis.text.x = element_text(angle=270, hjust = 0, vjust = 0.5),legend.position = "none",axis.title.x = element_blank(), axis.title.y = element_blank())
-
-# Note, this ps will include meta-analysis and PAPS
-sigct <- ps[ FDR.PC < 0.01 , .(count = .N), by=c("PC", "Trait_class")][, PC:=factor(PC, levels = paste0("PC", 1:13))]
-
-sig.per.pc <- ggplot(sigct, aes(fill=Trait_class, y=count, x=PC))+
-              geom_bar(position="stack", stat="identity")+
-              scale_y_continuous(breaks = seq(0, 400, 50), limits = c(0, 450))+
-              scale_fill_manual(values =tfp)+
-              theme_classic(base_size = 11)+
-              theme(axis.ticks = element_blank(), axis.line = element_blank(), panel.grid.major.y = element_line(colour = "lightgray", size =  0.3),axis.text.x = element_text(angle=270, hjust = 0, vjust = 0.5),legend.position = "none",axis.title.x = element_blank(), axis.title.y = element_blank())
-
-top <- plot_grid(tcf, # Before FDR, should be the same traits for all bases. For comparison purposes
-                 tcsigOR, nrow = 1, labels = "AUTO")
-bottom <- plot_grid(sig.per.pc, nrow = 1, labels = "C")
-plot_grid(top, bottom, nrow = 2)
-
-# ggsave("../figures/IMDbasis_distribution.png", width = 8, height = 6.5, bg = "white")
-
-
-
-# (3) Learn about myositis position onto the basis
-
+# Which features are relevant for myositis?
 ps[grepl("myositis", Trait_long, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, First_Author, Trait_long, FDR.PC, stars)][order(PC)]
 # We have some significant Myositis for PC1, 2, 3, 8, 9, 12, and 13
 
+####
+
+###########################################
+
+# (4) Remove redundant datasets for visualisation and further analyses
+
 # Let's try to remove redundant datasets in a less manual way
 qs2 <- copy(qs)
-qs2 <- qs2[Trait_class == "IMD"] # Interested in IMDs for now
-
-
 
 # There are a number of duplicated diseases that we can revisit
 # CD
@@ -384,7 +352,7 @@ length(unique(qs2$Label))
 # Check for duplicates, if there are still
 dp <- qs2[duplicated(Label), unique(Label)]
 qsdup <- qs2[Label %in% dp]
-qsdup
+qsdup # No duplicates
 
 # Apply this to projections as well
 ttk2 <- qs2$Trait # Traits to keep
@@ -392,6 +360,7 @@ ps2 <- ps[Trait %in% ttk2]
 
 ps2[, PC:=factor(PC, levels = paste0("PC", 1:13))]
 
+# These can be used for supplementary tables
 
 # fwrite(ps2, "../data/ps2.tsv", sep="\t")
 # fwrite(qs2, "../data/qs2.tsv", sep="\t")
@@ -420,10 +389,12 @@ range <- max(abs(Mmp))
 
 # Create heatmap
 Mphm <- pheatmap(Mmp,  breaks = seq(-range, range, length.out = 100), 
-                cluster_cols = FALSE, display_numbers = Mmp.stars,
+                cluster_cols = FALSE, cluster_rows = FALSE, display_numbers = Mmp.stars,
                 fontsize_row = 8.4, fontsize_number = 11, color = hmcol, 
                 annotation_names_row = FALSE, annotation_legend = TRUE)
 Mphm
+
+# Figure 1
 #ggsave("../figures/Myositis_allsources_heatmap.png", Mphm, width = 6, height = 2.5, bg="white")
 
 ```
@@ -513,7 +484,7 @@ dpm <- ggplot(pmyo, aes(x = Delta, y = Label, xmin=Delta-ci, xmax=Delta+ci, colo
 
 ggsave("../figures/deltaplot_myo.png", dpm, height = 10, width = 6, bg = "white")
 
-
+####
 
 # Define a more customisable function for individual plotting
 make.custom.forest.plots <- function(ps, bs, feature, palette = tfp, fsize = NULL, threshold_basis=0, threshold_gen = 0, remove_sum = FALSE, remove_perc = FALSE, remove_side = "none"){
@@ -557,208 +528,6 @@ make.custom.forest.plots <- function(ps, bs, feature, palette = tfp, fsize = NUL
 ```
 
 
-
-## Compute Mahalanobis distance for Myositis subtypes
-
-Considering the reasons above, we decided to apply a different approach and looked at distances between myositis subtypes and each of the other IMD specifically, using the Mahalanobis distance.
-
-The Mahalanobis distance measures the distance between a point (the IMDs), and the mean or center of a distribution, while taking into account the correlations of the dataset (derived from the LD among the SNPs in the features). We put every myositis projection at the center of the distribution and computed the Mahalanobis distance to every other IMD.
-
-Below we show the top 20 closest IMD by Mahalanobis distance, together with their respective sample (cases) size. **Please see below for a heatmap showing all distances together, including FinnGen myositis datasets.** 
-
-
-```{r echo=FALSE}
-v <- cupcake::shrinkage * cupcake::rot.pca
-var.proj  <- t(v) %*% cupcake::LD %*% v
-```
-
-
-```{r echo=FALSE}
-
-# Map[grep("myositis", rownames(Map), ignore.case = TRUE),]
-
-# A little function to prepare the tables for us
-mahal.f <- function(i, var.proj, ref){
-  mah <- data.table(Trait = row.names(i), mahal =  mahalanobis(i, i[which(rownames(i) == ref),], cov = var.proj))
-  mah <- merge(mah, qs2[, .(N1,N0, Label)], all.x = TRUE, by.x = "Trait", by.y = "Label")
-  mah <- mah[order(mahal)]
-  mah[, Rank:=0:(nrow(mah)-1)]      
-}
-
-# General myositis
-Mah.myoR <- mahal.f(i=Map, var.proj = var.proj, ref="Myositis (Rothwell)")
-Mah.myoM <- mahal.f(i=Map, var.proj = var.proj, ref="Myositis (Miller)")
-Mah.myoF <- mahal.f(i=Map, var.proj = var.proj, ref="Myositis (FinnGen)")
-
-# JDM
-Mah.jdmR <- mahal.f(i=Map, var.proj = var.proj, ref="Juvenile Dermatomyositis (Rothwell)")
-Mah.jdmM <- mahal.f(i=Map, var.proj = var.proj, ref="Juvenile Dermatomyositis (Miller)")
-# Mah.jdmD <- mahal.f(i=Map, var.proj = var.proj, ref="Juvenile Dermatomyositis (Deakin)")
-
-# PM  
-Mah.pmR <- mahal.f(i=Map, var.proj = var.proj, ref="Polymyositis (Rothwell)")
-Mah.pmM <- mahal.f(i=Map, var.proj = var.proj, ref="Polymyositis (Miller)")
-Mah.pmF <- mahal.f(i=Map, var.proj = var.proj, ref="Polymyositis (FinnGen)")
-
-# DM
-Mah.dmR <- mahal.f(i=Map, var.proj = var.proj, ref="Dermatomyositis (Rothwell)")
-Mah.dmM <- mahal.f(i=Map, var.proj = var.proj, ref="Dermatomyositis (Miller)")
-
-
-# Note we don't show the tables below, but they'll be in the picture
-Mah.jo1 <- mahal.f(i=Map, var.proj = var.proj, ref="Jo1+ Myositis (Rothwell)")
-Mah.dmpmF <- mahal.f(i=Map, var.proj = var.proj, ref="Dermatopolymyositis (FinnGen)")
-
-```
-
-
-## Myositis (pooled)
-
-### Rothwell
-
-```{r echo=FALSE}
-kable(Mah.myoR[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
-```
-
-### Miller
-
-```{r echo=FALSE}
-kable(Mah.myoM[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
-```
-
-
-## Juvenile Dermatomyositis
-
-### Rothwell
-
-```{r echo=FALSE}
-kable(Mah.jdmR[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
-```
-
-### Miller
-
-```{r echo=FALSE}
-kable(Mah.jdmM[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
-```
-
-
-
-## Polymyositis
-
-
-### Rothwell
-
-```{r echo=FALSE}
-kable(Mah.pmR[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
-```
-
-### Miller
-
-```{r echo=FALSE}
-kable(Mah.pmM[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
-```
-
-
-## Dermatomyositis
-
-### Rothwell
-
-```{r echo=FALSE}
-kable(Mah.dmR[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
-```
-
-### Miller
-
-```{r echo=FALSE}
-kable(Mah.dmM[1:21, .(Rank, Trait, mahal, N1)]) %>% kable_styling()
-```
-
-
-## Looking at everything together
-
-We want a better view of these distances, so we'll put everything together. 
-
-The heatmap below shows the distance between the myositis projections (rows) and the rest of IMD (columns). The Mahalanobis distance is heavily right-skewed, so we'll show log(1 + mahalanobis) instead, which will help us distinguish colours. Hence, here blue means close, and red means far. We have removed the distances among the myositis projections for clarity.
-
-
-
-
-```{r include=FALSE, echo=FALSE, fig.width=6.5, fig.height=14, dev.args = list(type = "cairo-png")}
-tlis <- copy(mget(ls(pattern="Mah\\.")))
-tlis <- lapply(tlis, function(x){
-          x[, Focus:=Trait[1]]
-          x[, TraitL:=stringr::str_trunc(Trait, 50, ellipsis = " [...]")]
-          x[, c("N0", "N1", "Rank"):=NULL][, logmahal:=log(1+mahal)]
-          x
-})
-tlis <- rbindlist(tlis)
-# Remove myositis from the x axis
-mlb <- unique(tlis$Focus)
-tlis <- tlis[!TraitL %in% mlb]
-tlis.map <- acast(tlis, TraitL~Focus, value.var = "logmahal")
-
-mahalcolp <- rev(colorRampPalette(RColorBrewer::brewer.pal(n = 9, name = "Spectral"))(100))
-#"#D53E4F" "#F46D43" "#FDAE61" "#FEE08B" "#FFFFBF" "#E6F598" "#ABDDA4" "#66C2A5" "#3288BD"
-
-#mahalcolp <- wesanderson::wes_palette("Zissou1", n=50, "continuous")
-
-# Create heatmap
-tlis.ph <- pheatmap(tlis.map,  breaks = seq(0, 1, length.out = 100), 
-                cluster_cols = F, cluster_rows = T,
-                fontsize = 9, color = mahalcolp, angle_col = "315",
-                annotation_names_row = FALSE, annotation_legend = TRUE)
-
-tlis.ph
-#ggsave("../figures/Myositis_mahalanobis_heatmap.svg", tlis.ph, width = 6.5, height = 14, bg="white")
-
-th <- tlis.ph$tree_row
-thc <- cutree(th, k=9) # manually adjusted to capture visually-selected IMD
-mahal.d <- names(thc[thc == 4])
-
-```
-
-![](../figures/Myositis_mahalanobis_heatmap_mod_v2.png){out.height="100%"}
-
-We observe a block of IMD (highlighted within the red square) that are closer to most myositis subtypes with two exceptions: Polymyositis (FinnGen), and anti-Jo1+. 
-Among the closest IMD across most myositis we find several forms of vasculitis (eg. MPO+ AAV, PR3+AAV, Wegener granulomatosis), some arthritis-related IMD (Juvenile idiopathic arthritis, juvenile rheuma), and both hyper- (Graves' disease) and hypothyroidism. We also find other IMD affecting muscles, like myastenia gravis and polymyalgya rheumatica. 
-
-We find some IMD that seem to be closer to particular myositis subtypes. For example, MPO+ AAV, Sjögren's syndrome, Systemic sclerosis, Graves' disease/autoimmune hyperthyroidism are closer to Dermatomyositis than to other subtypes. Juvenile dermatomyositis (Miller) projection highlights arthropathic psoriasis as a close IMD.
-
-Noteworthy, dermatomyositis and juvenile dermatomyositis appear to be further away than other subtypes from IMD with eosinophil involvement, like Eosinophilic granulomatosis with polyangiitis (EGPA and its subtypes MPO+ EGPA and ANCA-negative EGPA), and type 1 diabetes. This is reflected by particularly weak signals these subtypes on PC13, characterised by eosinphil levels (see myositis-only heatmap above).
-
-Regarding Polymyositis, the closest IMD are JIA, Systemic sclerosis, and Wegener granulomatosis.
-
-
-## One more thing in Mahalanobis
-
-We'd like to use Mahalanobis distance followed by clustering, to be able to better compare results to those of DPMUnc later. 
-
-```{r}
-
-
-mahal.dist <- lapply(row.names(Map), function(x){
-  mah <- data.table(Trait1 = x, Trait2 = row.names(Map), mahal =  mahalanobis(Map, Map[which(rownames(Map) == x),], cov = var.proj))
-})
-mahal.dist <- rbindlist(mahal.dist)
-mahal.dist[, Trait1:=stringr::str_trunc(Trait1, 50, ellipsis = " [...]")][, Trait2:=stringr::str_trunc(Trait2, 50, ellipsis = " [...]")]
-mahal.dist[, logmahal:=log(1+mahal)]
-
-# We keep the initial matrices for make_bold_names(), since I don't have the time to adapt it now
-mahal.d1 <-  acast(mahal.dist, Trait1~Trait2, value.var = "mahal")
-md1 <- mahal.d1 %>% as.dist %>% hclust
-mahal.d2 <-  acast(mahal.dist, Trait1~Trait2, value.var = "logmahal") 
-md2 <- mahal.d2 %>% as.dist %>% hclust
-
-md1.ph <- pheatmap(mahal.d1,
-                cluster_cols = md1, cluster_rows = md1,
-                fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(mahal.d1, rownames, papsb))
-md2.ph <- pheatmap(mahal.d2, 
-                cluster_cols = md2, cluster_rows = md2,
-                fontsize = 9, color = mahalcolp, show_colnames = FALSE, labels_row = make_bold_names(mahal.d2, rownames, papsb))
-
-
-
-```
 
 
 ## Compute Bhattacharyyan distance for Myositis subtypes
@@ -862,7 +631,7 @@ ps2s[grepl("myositis|IIM", Label, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, Lab
 dpmunc.ds <- ps2s[, .(PC, Delta, Var.Delta, Label)]
 dpmunc.delta <- reshape(dpmunc.ds[, .(PC, Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
 dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
-
+  
 # fwrite(dpmunc.delta, "../data/Myo_13PC_Delta.tsv", sep = "\t")
 # fwrite(dpmunc.var, "../data/Myo_13PC_Var.tsv", sep = "\t")
 
