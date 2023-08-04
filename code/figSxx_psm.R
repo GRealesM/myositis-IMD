@@ -2,8 +2,10 @@
 # Creating PSM with DPMUnc and Bhatta clustering #
 ##################################################
 
-# Date: 27/07/2023
+# Date: 04/08/2023
 # Guillermo Reales
+
+# NOTE: We needed to load r-4.0.2 since r-4.1.3 didn't have png/cairo capabilities
 
 setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
 
@@ -99,7 +101,6 @@ make_bold_names <- function(mat, rc_fun, rc_names) {
                          header=1, row.names=1, quote="", sep="\t")
 
     bht = fread("../data/bhattacharyya_clustering.tsv")
-    names(bht)[2] <- "Bhattacharyya"
     
     
     # Some names are too long for display -- and won't match bhattacharyya, which are truncated already
@@ -139,7 +140,7 @@ make_bold_names <- function(mat, rc_fun, rc_names) {
     dpcol <- palette[1:max(ann$DPMUnc)]
     names(dpcol)  <- as.character(1:max(ann$DPMUnc))
     bhcol <- palette[1:max(ann$Bhattacharyya)]
-    names(bhcol)  <- as.character(1:max(ann$Bhatta.cl))
+    names(bhcol)  <- as.character(1:max(ann$Bhattacharyya))
 
     annotations <- list(ann = ann, colors = list(DPMUnc = dpcol, Bhattacharyya = bhcol))
 
@@ -169,3 +170,34 @@ svg(paste0(outdir, exp, "_DPMUnc_Bh_psm_heatmap.svg"), width = 9, height = 9.5)
   psm_heatmap
 dev.off()
 
+sessionInfo()
+# R version 4.0.2 (2020-06-22)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Rocky Linux 8.7 (Green Obsidian)
+
+# Matrix products: default
+# BLAS:   /usr/local/software/spack/spack-0.11.2/opt/spack/linux-rhel7-x86_64/gcc-5.4.0/r-4.0.2-xyx46xbuw2lmofomvrkwuty5rlez6to6/rlib/R/lib/libRblas.so
+# LAPACK: /usr/local/software/spack/spack-0.11.2/opt/spack/linux-rhel7-x86_64/gcc-5.4.0/r-4.0.2-xyx46xbuw2lmofomvrkwuty5rlez6to6/rlib/R/lib/libRlapack.so
+
+# locale:
+#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+#  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+
+# other attached packages:
+# [1] clue_0.3-64       mcclust_1.0.1     lpSolve_5.6.18    pheatmap_1.0.12  
+# [5] R.cache_0.16.0    magrittr_2.0.3    data.table_1.14.8
+
+# loaded via a namespace (and not attached):
+#  [1] cluster_2.1.4      munsell_0.5.0      colorspace_2.1-0   R6_2.5.1          
+#  [5] rlang_1.0.6        stringr_1.5.0      tools_4.0.2        grid_4.0.2        
+#  [9] gtable_0.3.1       R.oo_1.25.0        cli_3.6.0          digest_0.6.31     
+# [13] lifecycle_1.0.3    farver_2.1.1       purrr_1.0.1        RColorBrewer_1.1-3
+# [17] vctrs_0.5.2        R.utils_2.12.2     glue_1.6.2         stringi_1.7.12    
+# [21] compiler_4.0.2     scales_1.2.1       R.methodsS3_1.8.2
