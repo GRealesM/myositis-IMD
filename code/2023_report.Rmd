@@ -578,9 +578,9 @@ resdpmunc[, Label:=stringr::str_trunc(Label, 50, ellipsis = " [...]")]
 #              "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788") # Colours for clusters  
 
 # Set colours, this palette is adapted from the DPMUnc code, but removing one colour
-palette1 <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#F46D43", "#FEE08B", "#ABDDA4", "#66C2A5",           "#5E4FA2", 
-             "#FDAE61", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", 
-             "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788")
+palette1 <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#F46D43", "#FEE08B", "#ABDDA4", "#66C2A5",            "#5E4FA2", 
+              "#FDAE61", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", 
+              "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788")
 
 
 
@@ -614,6 +614,10 @@ bh.ph <- pheatmap(bhatta.d,
 
 #ggsave("../figures/Myositis_bhattacharyya_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
 
+# Trick: If modifying the text (like font, etc.), sometimes the text is fixed within a box, and adding anything will make it 
+# squeeze in the box, which is not ideal. TO avoid this behavior, apply the following one-liner below to the file:
+# sed -i 's/ textLength="[^"]*"//' Myositis_bhattacharyya_heatmap.svg
+# This will remove the fixed textLength from the XML.
 
 
 
@@ -742,7 +746,6 @@ sdiag <- ggplot(clsum, aes(y=y, axis1=DPMUnc,axis2=Bhattacharyya)) + geom_alluvi
             scale_x_discrete(limits = c("DPMUnc","Bhattacharyya"), expand = c(.05, .05)) +
             scale_fill_manual(values = palette1[1:10])+
             scale_y_continuous("Count") +
-            ggtitle("Relationship between disease clusterings")+
             theme_minimal()+
             theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), 
                   axis.title.y = element_blank(), panel.grid = element_blank(), 
@@ -750,6 +753,11 @@ sdiag <- ggplot(clsum, aes(y=y, axis1=DPMUnc,axis2=Bhattacharyya)) + geom_alluvi
 sdiag
 # ggsave("../figures/sdiag_Bh_DP.png", sdiag, height = 9, width = 8, bg = "white")
 # ggsave("../figures/sdiag_Bh_DP.svg", sdiag, height = 9, width = 8, bg = "white")
+
+# Trick: If modifying the text (like font, etc.), sometimes the text is fixed within a box, and adding anything will make it 
+# squeeze in the box, which is not ideal. TO avoid this behavior, apply the following one-liner below to the file:
+# sed -i 's/ textLength="[^"]*"//' sdiag_Bh_DP.svg
+# This will remove the fixed textLength from the XML.
 
 ```
 
