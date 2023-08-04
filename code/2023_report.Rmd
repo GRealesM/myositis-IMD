@@ -345,9 +345,11 @@ tr <- c(tr, setdiff(qs2[grepl("addison", Label, ignore.case = TRUE) , Trait], c(
 # We'll also remove all myositis from FinnGen, as they're not informative
 tr <- c(tr, "DERMATOPOLY_FG_FinnGen_FinnGenR7_1", "M13_MYOSITIS_FinnGen_FinnGenR7_1", "M13_POLYMYO_FinnGen_FinnGenR7_1", "M13_DERMATOPOLY_FinnGen_FinnGenR7_1")
 
+tr <- c(tr, "M13_JUVERHEU_FinnGen_FinnGenR7_1") #  Remove juvenile rheuma, as it's essentially the same as JIA
+
 qs2 <- qs2[!Trait %in% tr] # First pass
 length(unique(qs2$Label))
-# 74
+# 73
 
 # Check for duplicates, if there are still
 dp <- qs2[duplicated(Label), unique(Label)]
@@ -482,7 +484,7 @@ dpm <- ggplot(pmyo, aes(x = Delta, y = Label, xmin=Delta-ci, xmax=Delta+ci, colo
   theme_cowplot(11)+
   theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank())
 
-ggsave("../figures/deltaplot_myo.png", dpm, height = 10, width = 6, bg = "white")
+# ggsave("../figures/deltaplot_myo.png", dpm, height = 10, width = 6, bg = "white")
 
 ####
 
@@ -535,7 +537,7 @@ make.custom.forest.plots <- function(ps, bs, feature, palette = tfp, fsize = NUL
 As an alternative, we'll use the Bhattacharyyan distance to do the same as we tried with Mahalanobis. Bhattacharyyan distance takes uncertainty around the estimates into account.
 
 ```{r}
-
+# At this point, we need to run compute-bhattacharyyan-distance.R in the HPC
 
 bhd <- fread("../data/bh_dist.tsv")
 bhd[, logbhat:=log(1 + bhat.dist)]
@@ -859,7 +861,7 @@ coloc[ driver.rsid == "rs991817", driver.nearestgene:="SH2B3"]
 coloc[ bestsnp.rsid == "rs991817", bestsnp.nearestgene:="SH2B3"]
 
 # Add novelty on bestsnps
-coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos.region > 5e-8, bestsnp.novel:="Yes"] # Add novelty
+coloc[H4 > 0.5 & pbest.myos.region > 5e-8, bestsnp.novel:="Yes"][is.na(bestsnp.novel), bestsnp.novel:="No"] # Add novelty
 # Add gene/ driver SNP label
 coloc[, dlabel:=paste( driver.nearestgene, driver.rsid, sep=" / ")]
 
@@ -891,7 +893,7 @@ cdis <- cdis[, .(Label, First_Author, Reference, Bhattacharyya, DPMUnc, coloc, f
 cts <- coloc[H4 > 0.5, .(driver.rsid, driver.nearestgene, bestsnp.rsid, mlabel, trait.other, pairwise_fdr, H4, pbest.myos, pbest.myos.region, bestsnp.novel )][order(driver.nearestgene, bestsnp.rsid)]
 cts <- merge(cts, fc[, .(coloc.label, fig.label)], by.x = "trait.other", by.y = "coloc.label")
 cts[, .(H4 = max(H4), bestsnp.rsid), by=driver.rsid]
-
+cts <- cts[, .(driver.rsid, driver.nearestgene, bestsnp.rsid, bestsnp.novel, pbest.myos, mlabel, fig.label, pairwise_fdr, H4)][order(driver.nearestgene, mlabel, fig.label)]
 
 #fwrite(cts, "../tables/MT_coloc_results.tsv", sep = "\t")
 
@@ -1328,5 +1330,8 @@ We found two novel SNPs for PAPS: [7:129011468](https://genetics.opentargets.org
 
 
 
+```{r}
+sessionInfo()
+```
 
 
