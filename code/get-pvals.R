@@ -95,6 +95,9 @@ ml <- data.table(mlabel = c("DM (M)", "DM (R)", "JDM (M)","JDM (R)", "Anti-Jo1+ 
 d3  <- merge(d3, ml, by.x = "study", by.y = "trait.myos")
 myoc <- c(`PM (R)` = "#CF000F", `PM (M)` = "#CF000F", `PM (FG)` = "#CF000F", `DM (R)` = "#2E8856", `DM (M)` = "#2E8856", `IIM (R)` = "#1460AA", `IIM (M)` = "#1460AA", `JDM (M)` = "#B8860B", `JDM (R)` = "#B8860B", `IBM (R)` = "#E65722", `Anti-Jo1+ (R)` ="#1C2833", `DPM (FG)` = "#053061")
 
+# Remove IIM as it's composite
+d3 <- d3[!grepl("IIM", mlabel)]
+
 library(ggplot2)
 library(cowplot)
 dpm <- ggplot(d3, aes(x = BETA, y = mlabel, xmin=BETA-SE, xmax=BETA+SE, colour = mlabel))+
@@ -102,7 +105,7 @@ dpm <- ggplot(d3, aes(x = BETA, y = mlabel, xmin=BETA-SE, xmax=BETA+SE, colour =
   geom_vline(xintercept = 0, col="red", lty=2)+
   scale_colour_manual(values = myoc)+
   xlab("Beta")+
-  theme_cowplot(12)+
+  theme_cowplot(15)+
   theme(legend.position = "none", axis.title.y = element_blank())
 dpm
 ggsave("../figures/ladder_plot_rs2476601.png", dpm, height = 3, width = 5, bg="white")
