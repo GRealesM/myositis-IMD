@@ -16,22 +16,12 @@ library(pheatmap)
 library(mcclust)
 library(clue)
 
-# library(cluster)
-# library(dplyr)
-# library(ggplot2)
-# library(grid)
-# library(gridExtra)
-
-# library(mclust)
-
-
-
-
 # Here we adapted helper functions from Kath's repo (https://github.com/nichollskc/clusteringPublicGeneExpr/blob/26e1fad109009563c8a0dc1254a54f796176f6c5/scripts/psm_plots.R)
 # Also from scripts/utils.R (https://github.com/nichollskc/clusteringPublicGeneExpr/blob/26e1fad109009563c8a0dc1254a54f796176f6c5/scripts/utils.R)
 
 
 # Define some variables
+
 
 palette <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#F46D43", "#FEE08B", "#ABDDA4", "#66C2A5",             "#5E4FA2", 
              "#FDAE61", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", 
@@ -179,10 +169,3 @@ svg(paste0(outdir, exp, "_DPMUnc_Bh_psm_heatmap.svg"), width = 9, height = 9.5)
   psm_heatmap
 dev.off()
 
-#save_pheatmap_png <- function(x, filename, width=1200, height=1000, res = 150) {
-#  png(filename, width = width, height = height, res = res)
-#  grid::grid.newpage()
-#  grid::grid.draw(x$gtable)
-#  dev.off()
-
-#####

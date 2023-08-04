@@ -1,4 +1,5 @@
-### Getting p-values of top candidate SNPs in their respective myositis datasets
+### Getting p-values of top candidate SNPs in their respective myositis datasets.
+### We'll also take the chance to made some ladder plots of SNPs of interest
 
 # Date: 2023/08/01
 # Author: Guillermo Reales
@@ -47,88 +48,95 @@ setnames(coloc, c("SNPID", "nearestGene"), c("bestsnp.rsid", "bestsnp.nearestgen
 
 
 # List top SNPs
-top <- c("rs11692867","rs2736340","rs819991","rs13236009","rs3821236","rs2476601","rs597808","rs597808")
+#top <- c("rs11692867","rs2736340","rs819991","rs13236009","rs3821236","rs2476601","rs597808","rs597808")
+top <- c("rs2736340", "rs13236009","rs2476601") 
+
 topids <- coloc[ bestsnp.rsid %in% top, .(bestsnp, bestsnp.rsid)]  %>% unique
+studies <- names(data)
 
 # Extract required SNPs
-d2 <- lapply(data, function(x){
-        x[, pid:=paste(CHR38, BP38, sep=":")]
-        x <- x[ pid %in% topids$bestsnp]
-        x
-})
-names(d2) = names(data)
 d2 <- lapply(1:9, function(i){
-        d2[[i]][, study:=names(d2)[i]]
-        d2[[i]][, .(pid, REF,ALT, P, study)]
+        x <- data[[i]]
+        x[, pid := paste(CHR38, BP38, sep=":")]
+        x  <- x[ pid %in% topids$bestsnp , .(pid, SNPID, REF, ALT, BETA, SE, P)]
+        x[, study := studies[i]]
+        x
 
 }) %>% rbindlist
 
 d2 <- merge(d2, topids, by.x="pid", by.y="bestsnp")
-d2
-#              pid REF ALT           P  study bestsnp.rsid
-#  1: 12:111535554   A   G 5.66558e-02  dmy.m     rs597808
-#  2: 12:111535554   A   G 2.11556e-01  dmy.r     rs597808
-#  3: 12:111535554   A   G 8.73370e-02  jdm.m     rs597808
-#  4: 12:111535554   A   G 1.14514e-02  jdm.r     rs597808
-#  5: 12:111535554   A   G 1.84146e-01 jo1m.r     rs597808
-#  6: 12:111535554   A   G 1.22923e-02  myo.m     rs597808
-#  7: 12:111535554   A   G 2.97654e-04  myo.r     rs597808
-#  8: 12:111535554   A   G 1.10678e-01   pm.m     rs597808
-#  9: 12:111535554   A   G 1.84235e-01   pm.r     rs597808
-# 10:  1:113834946   A   G 6.32200e-01  dmy.m    rs2476601
-# 11:  1:113834946   A   G 2.24673e-01  dmy.r    rs2476601
-# 12:  1:113834946   A   G 7.74000e-01  jdm.m    rs2476601
-# 13:  1:113834946   A   G 3.25488e-01  jdm.r    rs2476601
-# 14:  1:113834946   A   G 2.72829e-03 jo1m.r    rs2476601
-# 15:  1:113834946   A   G 7.43500e-03  myo.m    rs2476601
-# 16:  1:113834946   A   G 1.62873e-07  myo.r    rs2476601
-# 17:  1:113834946   A   G 2.58500e-05   pm.m    rs2476601
-# 18:  1:113834946   A   G 1.24733e-06   pm.r    rs2476601
-# 19:  2:100143015   G   A 1.71914e-02  dmy.m   rs11692867
-# 20:  2:100143015   G   A 2.04719e-01  dmy.r   rs11692867
-# 21:  2:100143015   G   A 6.40861e-01  jdm.m   rs11692867
-# 22:  2:100143015   G   A 2.73739e-01  jdm.r   rs11692867
-# 23:  2:100143015   G   A 3.99187e-01 jo1m.r   rs11692867
-# 24:  2:100143015   G   A 2.90187e-03  myo.m   rs11692867
-# 25:  2:100143015   G   A 3.99102e-04  myo.r   rs11692867
-# 26:  2:100143015   G   A 4.13220e-03   pm.m   rs11692867
-# 27:  2:100143015   G   A 3.65442e-02   pm.r   rs11692867
-# 28:  2:191038032   G   A 3.32900e-02  dmy.m    rs3821236
-# 29:  2:191038032   G   A 7.36387e-03  dmy.r    rs3821236
-# 30:  2:191038032   G   A 7.43300e-02  jdm.m    rs3821236
-# 31:  2:191038032   G   A 9.55881e-02  jdm.r    rs3821236
-# 32:  2:191038032   G   A 4.35381e-02 jo1m.r    rs3821236
-# 33:  2:191038032   G   A 5.06200e-03  myo.m    rs3821236
-# 34:  2:191038032   G   A 1.01225e-05  myo.r    rs3821236
-# 35:  2:191038032   G   A 1.39500e-01   pm.m    rs3821236
-# 36:  2:191038032   G   A 6.10401e-03   pm.r    rs3821236
-# 37:   3:28033679   G   T 1.13920e-01  dmy.m     rs819991
-# 38:   3:28033679   G   T 2.91717e-02  dmy.r     rs819991
-# 39:   3:28033679   G   T 4.39394e-01  jdm.m     rs819991
-# 40:   3:28033679   G   T 2.91194e-01  jdm.r     rs819991
-# 41:   3:28033679   G   T 1.64494e-01 jo1m.r     rs819991
-# 42:   3:28033679   G   T 5.23297e-02  myo.m     rs819991
-# 43:   3:28033679   G   T 1.05722e-03  myo.r     rs819991
-# 44:   3:28033679   G   T 2.30833e-01   pm.m     rs819991
-# 45:   3:28033679   G   T 1.16681e-01   pm.r     rs819991
-# 46:  7:129023119   T   G 2.01914e-03  dmy.m   rs13236009
-# 47:  7:129023119   T   G 1.00165e-02  dmy.r   rs13236009
-# 48:  7:129023119   T   G 7.47704e-01  jdm.m   rs13236009
-# 49:  7:129023119   T   G 2.05076e-01  jdm.r   rs13236009
-# 50:  7:129023119   T   G 1.16643e-03 jo1m.r   rs13236009
-# 51:  7:129023119   T   G 1.34854e-03  myo.m   rs13236009
-# 52:  7:129023119   T   G 6.41047e-05  myo.r   rs13236009
-# 53:  7:129023119   T   G 2.29058e-02   pm.m   rs13236009
-# 54:  7:129023119   T   G 5.17526e-02   pm.r   rs13236009
-# 55:   8:11486464   C   T 2.69300e-03  dmy.m    rs2736340
-# 56:   8:11486464   C   T 1.43846e-02  dmy.r    rs2736340
-# 57:   8:11486464   C   T 4.18800e-03  jdm.m    rs2736340
-# 58:   8:11486464   C   T 1.85708e-03  jdm.r    rs2736340
-# 59:   8:11486464   C   T 2.28270e-01 jo1m.r    rs2736340
-# 60:   8:11486464   C   T 1.52900e-04  myo.m    rs2736340
-# 61:   8:11486464   C   T 1.92214e-04  myo.r    rs2736340
-# 62:   8:11486464   C   T 2.96900e-02   pm.m    rs2736340
-# 63:   8:11486464   C   T 1.03374e-02   pm.r    rs2736340
-#              pid REF ALT           P  study bestsnp.rsid
 
-coloc[bestsnp.rsid == "rs3821236" & trait.myos == "myo.r"]
+d2[ bestsnp.rsid %in% top[1:2], .(bestsnp.rsid, pid, REF,ALT, P, study)]
+#    bestsnp.rsid         pid REF ALT           P  study
+#  1:   rs13236009 7:129023119   T   G 2.01914e-03  dmy.m
+#  2:   rs13236009 7:129023119   T   G 1.00165e-02  dmy.r
+#  3:   rs13236009 7:129023119   T   G 7.47704e-01  jdm.m
+#  4:   rs13236009 7:129023119   T   G 2.05076e-01  jdm.r
+#  5:   rs13236009 7:129023119   T   G 1.16643e-03 jo1m.r
+#  6:   rs13236009 7:129023119   T   G 1.34854e-03  myo.m
+#  7:   rs13236009 7:129023119   T   G 6.41047e-05  myo.r
+#  8:   rs13236009 7:129023119   T   G 2.29058e-02   pm.m
+#  9:   rs13236009 7:129023119   T   G 5.17526e-02   pm.r
+# 10:    rs2736340  8:11486464   C   T 2.69300e-03  dmy.m
+# 11:    rs2736340  8:11486464   C   T 1.43846e-02  dmy.r
+# 12:    rs2736340  8:11486464   C   T 4.18800e-03  jdm.m
+# 13:    rs2736340  8:11486464   C   T 1.85708e-03  jdm.r
+# 14:    rs2736340  8:11486464   C   T 2.28270e-01 jo1m.r
+# 15:    rs2736340  8:11486464   C   T 1.52900e-04  myo.m
+# 16:    rs2736340  8:11486464   C   T 1.92214e-04  myo.r
+# 17:    rs2736340  8:11486464   C   T 2.96900e-02   pm.m
+# 18:    rs2736340  8:11486464   C   T 1.03374e-02   pm.r
+
+## Extract info on rs2476601 to create a ladder plot
+d3  <- d2[bestsnp.rsid == "rs2476601"]
+
+ml <- data.table(mlabel = c("DM (M)", "DM (R)", "JDM (M)","JDM (R)", "Anti-Jo1+ (R)", "IIM (M)", "IIM (R)", "PM (M)", "PM (R)"),
+                 trait.myos = c("dmy.m", "dmy.r", "jdm.m", "jdm.r", "jo1m.r", "myo.m", "myo.r", "pm.m", "pm.r"))
+d3  <- merge(d3, ml, by.x = "study", by.y = "trait.myos")
+myoc <- c(`PM (R)` = "#CF000F", `PM (M)` = "#CF000F", `PM (FG)` = "#CF000F", `DM (R)` = "#2E8856", `DM (M)` = "#2E8856", `IIM (R)` = "#1460AA", `IIM (M)` = "#1460AA", `JDM (M)` = "#B8860B", `JDM (R)` = "#B8860B", `IBM (R)` = "#E65722", `Anti-Jo1+ (R)` ="#1C2833", `DPM (FG)` = "#053061")
+
+library(ggplot2)
+library(cowplot)
+dpm <- ggplot(d3, aes(x = BETA, y = mlabel, xmin=BETA-SE, xmax=BETA+SE, colour = mlabel))+
+  geom_pointrange()+
+  geom_vline(xintercept = 0, col="red", lty=2)+
+  scale_colour_manual(values = myoc)+
+  xlab("Beta")+
+  theme_cowplot(12)+
+  theme(legend.position = "none", axis.title.y = element_blank())
+dpm
+ggsave("../figures/ladder_plot_rs2476601.png", dpm, height = 3, width = 5, bg="white")
+
+
+sessionInfo()
+# R version 4.1.3 (2022-03-10)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Rocky Linux 8.7 (Green Obsidian)
+
+# Matrix products: default
+# BLAS/LAPACK: /usr/local/software/spack/spack-rhel8-20210927/opt/spack/linux-centos8-icelake/gcc-11.2.0/intel-oneapi-mkl-2021.4.0-s2cksi33smowj5zlqvmew37cufvztdkc/mkl/2021.4.0/lib/intel64/libmkl_gf_lp64.so.1
+
+# locale:
+#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+#  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+
+# other attached packages:
+# [1] cowplot_1.1.1     ggplot2_3.4.1     magrittr_2.0.3    data.table_1.14.8
+
+# loaded via a namespace (and not attached):
+#  [1] Rcpp_1.0.10       tidyselect_1.2.0  munsell_0.5.0     colorspace_2.1-0 
+#  [5] R6_2.5.1          ragg_1.2.5        rlang_1.0.6       fansi_1.0.4      
+#  [9] dplyr_1.1.0       tools_4.1.3       grid_4.1.3        gtable_0.3.1     
+# [13] R.oo_1.25.0       utf8_1.2.3        cli_3.6.0         withr_2.5.0      
+# [17] systemfonts_1.0.4 tibble_3.1.8      lifecycle_1.0.3   textshaping_0.3.6
+# [21] farver_2.1.1      later_1.3.0       vctrs_0.5.2       R.utils_2.12.2   
+# [25] glue_1.6.2        labeling_0.4.2    compiler_4.1.3    pillar_1.8.1     
+# [29] generics_0.1.3    scales_1.2.1      R.methodsS3_1.8.2 httpgd_1.3.1     
+# [33] jsonlite_1.8.4    pkgconfig_2.0.3  
