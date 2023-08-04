@@ -551,7 +551,9 @@ bh.ph <- pheatmap(bhatta.d,
                 cluster_cols = bh.cl, 
                 cluster_rows = bh.cl,
                 annotation_names_row = FALSE,
+                show_colnames = FALSE,
                 annotation_legend = FALSE,
+                cutree_rows = 15,
                 treeheight_col=0,
                 fontsize_row=8)
 
@@ -561,6 +563,8 @@ tbhc <- cutree(tbh, k=15) # manually adjusted to capture visually-selected IMD
 bhatta.sel <- names(tbhc[tbhc ==9]) # Myositis cluster is 9
 bhatta.sel
 bht <- data.table(Label = names(tbhc), Bhattacharyya = tbhc)
+#fwrite(bht, "../data/bhattacharyya_clustering.tsv", sep="\t")
+
 
 # We'll show DPMUnc annotations as well. Note, this file is generated later, but we recover it now
 resdpmunc <- readRDS("../data/Myo_7PC_psm_data.rds")
@@ -569,9 +573,9 @@ resdpmunc[, Label:=stringr::str_trunc(Label, 50, ellipsis = " [...]")]
 
 
 ### Full palette from DPMUnc code. We'll use an adapted one (below)
-palette <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#FDAE61", "#66C2A5", "#ABDDA4", "#F46D43", "#3288BD", "#5E4FA2",
-             "#FEE08B", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", 
-             "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788") # Colours for clusters  
+# palette <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#FDAE61", "#66C2A5", "#ABDDA4", "#F46D43", "#3288BD", "#5E4FA2",
+#              "#FEE08B", "#E6F598", "#771155", "#AA4488", "#CC99BB", "#114477", "#774411", "#EEEEEE", "#117777", "#117744", 
+#              "#44AA77", "#88CCAA", "#777711", "#44AAAA", "#AAAA44", "#77CCCC", "#DDDD77", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788") # Colours for clusters  
 
 # Set colours, this palette is adapted from the DPMUnc code, but removing one colour
 palette1 <- c("#77AADD", "#000000", "#9E0142", "#D53E4F", "#F46D43", "#FEE08B", "#ABDDA4", "#66C2A5",           "#5E4FA2", 
