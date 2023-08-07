@@ -1,7 +1,7 @@
 Label	First_Author	Reference	Bhattacharyya	DPMUnc	coloc	fig.label
 Autoimmune Thyroid disease	Saevarsdottir	32581359	No	Yes	No	
 Autoimmune thyroiditis	FinnGen	FinnGenR7	No	Yes	No	
-Biological medication for rheuma	FinnGen	FinnGenR7	No	Yes	No	
+Biological medication for rheuma	FinnGen	FinnGenR7	No	Yes	Yes	BioMedRhe
 CR(E)ST syndrome	FinnGen	FinnGenR7	Yes	Yes	Yes	CR(E)ST
 Dermatomyositis (Miller)	Miller	26291516	Yes	Yes	Yes	
 Dermatomyositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
@@ -17,12 +17,11 @@ Jo1+ Myositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes
 Juvenile Dermatomyositis (Miller)	Miller	26291516	Yes	Yes	Yes	
 Juvenile Dermatomyositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
 Juvenile Idiopathic Arthritis	LopezIsac	33106285	Yes	Yes	Yes	JIA
-Juvenile rheuma	FinnGen	FinnGenR7	No	Yes	No	
 Late-onset Myastenia Gravis	Renton	25643325	No	Yes	No	
 MPO+ AAV	Wong	doi:10.17863/CAM.51022	Yes	Yes	Yes	MPO+ AAV
 Myastenia Gravis	Chia	35074870	No	Yes	Yes	MG
 PR3+ AAV	Wong	doi:10.17863/CAM.51022	No	Yes	Yes	PR3+ AAV
-Palindromic rheumatism	FinnGen	FinnGenR7	No	Yes	No	
+Palindromic rheumatism	FinnGen	FinnGenR7	No	Yes	Yes	PR
 Polymyositis (Miller)	Miller	26291516	Yes	Yes	Yes	
 Polymyositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
 Primary biliary cholangitis	FinnGen	FinnGenR7	Yes	Yes	Yes	PBC
