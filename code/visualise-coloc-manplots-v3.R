@@ -125,10 +125,10 @@ data$BioMedRhe=BMR[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, 
 
 # Load index (aka coloc results)
 
-coloc <- fread("../tables/coloc_results_dfilt-v3.tsv")
+coloc <- fread("../data/coloc_results_dfilt-v3.tsv")
 
 # Import mapped genes 
-mg <- fread("../data/mapped.genes.tsv") %>% unique
+mg <- fread("../data/mapped.genes_v2.tsv") %>% unique
 mg <- mg[,.(SNPID, pid, nearestGene)]
 
 # Add some info to the coloc table, and extract rsids to map
@@ -144,15 +144,11 @@ coloc[ bestsnp.rsid == "rs2476601", bestsnp.nearestgene:="PTPN22"]
 coloc[ driver.rsid == "rs991817", driver.nearestgene:="SH2B3"]
 coloc[ bestsnp.rsid == "rs991817", bestsnp.nearestgene:="SH2B3"]
 
-# Add novelty on bestsnps
-coloc[H4 > 0.5 & pbest.myos > 5e-8 & pbest.myos.region > 5e-8, bestsnp.novel:="Yes"] # Add novelty
 # Add gene/ driver SNP label
 coloc[, dlabel:=paste( driver.nearestgene, driver.rsid, sep=" / ")]
 
-# Add proper labels
-ml <- data.table(mlabel = c("DM (Miller)", "DM (Rothwell)", "JDM (Miller)","JDM (Rothwell)", "Jo1+ (Rothwell)", "Myositis (Miller)", "Myositis (Rothwell)", "PM (Miller)", "PM (Rothwell)"),
-                 trait.myos = c("dmy.m", "dmy.r", "jdm.m", "jdm.r", "jo1m.r", "myo.m", "myo.r", "pm.m", "pm.r"))
-coloc <- merge(coloc, ml, by="trait.myos")
+# Add novelty
+coloc[H4 > 0.5 & pbest.myos.region > 5e-8, bestsnp.novel:="Yes"][is.na(bestsnp.novel), bestsnp.novel:="No"] # Add novelty
 
 index <- coloc # we were using index instead of coloc. so let's simply use this other name
 
@@ -165,8 +161,8 @@ index[ H4>.5, unique(pid)]
 index[ H4>.5, unique(trait.other)]
 # We have coloc associations with 8 (out of 14) IMDs
 # These are
-# [1] "ssc"      "sjos"     "jia"      "hypothy"  "mpoaav"   "pbc"      "hyperthy"
-# [8] "myag"
+# [1] "JIA"      "HypoThy"  "MPO+ AAV" "PBC"      "HyperThy" "MG"       "SSc"     
+# [8] "SjS" 
 
 ## plot these signals
 plotter=function(pid,w=1e+6) {
@@ -180,7 +176,7 @@ plotter=function(pid,w=1e+6) {
     traits=unique(c(index$trait.myos[wh],index$trait.other[wh]))
     dp=lapply(data[traits], function(d)
         d[CHR38==chr & BP38>st & BP38<en & !is.na(SE) & !is.na(BETA) & !duplicated(pid),
-          .(pid,CHR38,BP38,BETA,SE,P=2*pnorm(-abs(BETA)/SE))])
+          .(pid,CHR38,BP38,BETA,SE,P)])
     for(i in seq_along(traits))
         dp[[i]]$trait=traits[i]
     dp %<>% rbindlist()
@@ -195,14 +191,13 @@ plotter=function(pid,w=1e+6) {
                   )
 }
 
-
-
 plots <- lapply(index[ H4>.5, unique(pid)], plotter)
 names(plots) <- index[ H4>.5, unique(pid)]
 
 index[ H4>.5, unique(pid)]
 
 index[ H4 > 0.5, .(bestsnp, bestsnp.novel)] %>% unique
+
 
 ggsave("../figures/coloc_chr1.png", plots$`1:113834946`, height = 11, width = 8, bg="white")
 ggsave("../figures/coloc_chr2_1.png", plots$`2:100215693`, height = 5, width = 8, bg="white")
