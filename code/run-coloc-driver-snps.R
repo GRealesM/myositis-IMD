@@ -446,7 +446,7 @@ index <- merge(index, p.myos, by=c("pid", "trait.myos"), all.x=TRUE)
 index[ H4>.5 , .(trait.myos, trait.other,  fdr.myos, fdr.other, pairwise_fdr, H4, pid, bestsnp, bestsnp.pp, pdriver.myos)]
 
 # Save results
-fwrite(index, "../tables/coloc_results_dfilt.tsv", sep="\t")
+fwrite(index, "../data/coloc_results_dfilt.tsv", sep="\t")
 
 
 ###########
