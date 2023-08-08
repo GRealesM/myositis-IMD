@@ -166,10 +166,6 @@ qmyo
 # fwrite(qmyo, "../tables/ST_Myo_info.tsv", sep="\t")
 
 
-# Save filtered datasets - not sure if we'll show these
-
-# fwrite(qf, "../tables/ST_all_datasets.tsv", sep ="\t")
-# fwrite(pf, "../tables/ST_all_projections.tsv", sep ="\t")
 
 
 ####
@@ -362,10 +358,26 @@ ps2 <- ps[Trait %in% ttk2]
 
 ps2[, PC:=factor(PC, levels = paste0("PC", 1:13))]
 
-# These can be used for supplementary tables
-
 # fwrite(ps2, "../data/ps2.tsv", sep="\t")
 # fwrite(qs2, "../data/qs2.tsv", sep="\t")
+
+# Prepare supplementary tables for ALL datasets and projections
+
+# Save filtered datasets - not sure if we'll show these
+
+aq <- copy(qf)
+ap <- copy(pf)
+
+aq[, sig.overall:=ifelse(Trait %in% qs$Trait, "Yes", "No")][, in.selection:=ifelse(Trait %in% qs2$Trait, "Yes", "No")]
+ap[, sig.overall:=ifelse(Trait %in% qs$Trait, "Yes", "No")][, in.selection:=ifelse(Trait %in% qs2$Trait, "Yes", "No")]
+
+aq <- aq[,.(Trait, Label, First_Author, Reference, N0, N1,N, Population, nSNP, mscomp, overall_p, FDR.overall, sig.overall, in.selection)]
+ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR.PC, stars, sig.overall, in.selection)]
+
+# fwrite(aq, "../tables/ST_all_datasets.tsv", sep ="\t")
+#fwrite(ap, "../tables/ST_all_projections.tsv", sep ="\t")
+
+
 
 ```
 
@@ -858,6 +870,7 @@ coloc[H4 > 0.5 & pbest.myos.region > 5e-8, bestsnp.novel:="Yes"][is.na(bestsnp.n
 # Add gene/ driver SNP label
 coloc[, dlabel:=paste( driver.nearestgene, driver.rsid, sep=" / ")]
 
+#fwrite(coloc, "../tables/ST_full_coloc_results.tsv", sep="\t")
 
 ```
 
@@ -999,7 +1012,7 @@ gp3 <-  ggplot(sumc[ grepl(pattern = "IIM|Jo1", trait.myos) ], aes(x =  trait.ot
               facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
               labs(fill = "PP")
 
-gp <- plot_grid(gp1, gp2, gp3, nrow = 3, rel_heights = c(0.8,0.8,1.3))
+gp <- plot_grid(gp1, gp2, gp3, nrow = 3, rel_heights = c(0.75,0.75,1.4))
 #ggsave("../figures/driverSNP_H4_v2.png", gp, height =7 , width = 8, bg="white")
 
 ```
