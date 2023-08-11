@@ -166,10 +166,6 @@ qmyo
 # fwrite(qmyo, "../tables/ST_Myo_info.tsv", sep="\t")
 
 
-# Save filtered datasets - not sure if we'll show these
-
-# fwrite(qf, "../tables/ST_all_datasets.tsv", sep ="\t")
-# fwrite(pf, "../tables/ST_all_projections.tsv", sep ="\t")
 
 
 ####
@@ -362,10 +358,26 @@ ps2 <- ps[Trait %in% ttk2]
 
 ps2[, PC:=factor(PC, levels = paste0("PC", 1:13))]
 
-# These can be used for supplementary tables
-
 # fwrite(ps2, "../data/ps2.tsv", sep="\t")
 # fwrite(qs2, "../data/qs2.tsv", sep="\t")
+
+# Prepare supplementary tables for ALL datasets and projections
+
+# Save filtered datasets - not sure if we'll show these
+
+aq <- copy(qf)
+ap <- copy(pf)
+
+aq[, sig.overall:=ifelse(Trait %in% qs$Trait, "Yes", "No")][, in.selection:=ifelse(Trait %in% qs2$Trait, "Yes", "No")]
+ap[, sig.overall:=ifelse(Trait %in% qs$Trait, "Yes", "No")][, in.selection:=ifelse(Trait %in% qs2$Trait, "Yes", "No")]
+
+aq <- aq[,.(Trait, Label, First_Author, Reference, N0, N1,N, Population, nSNP, mscomp, overall_p, FDR.overall, sig.overall, in.selection)]
+ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR.PC, stars, sig.overall, in.selection)]
+
+# fwrite(aq, "../tables/ST_all_datasets.tsv", sep ="\t")
+#fwrite(ap, "../tables/ST_all_projections.tsv", sep ="\t")
+
+
 
 ```
 
@@ -828,35 +840,16 @@ We computed the pairwise FDR for all myositis-IMD pairs resulting in 58 myositis
 
 
 ```{r echo=FALSE}
+# This bit is run after having run
+# * run-coloc-driver-snps-v3.R
+# * extract-SNPs-to-map.R
+# * visualise-coloc-manplots-v3.R
+# * mapping-genes.py
 
-## CONTINUE HERE
-# Check that coloc results haven't changed
-
-coloc <- fread("../tables/coloc_results_dfilt-v2.tsv", na.strings = "")
-
-## The commented step below extracts the list of candidate SNPs and driver SNPs in coloc to map to genes using mapping-genes.py,
-## which will create the mapped.genes.tsv
-## This bit is not reproducible because I couldn't find the code for bestsnp.rsids.tsv (likely extracted from some summary stats).
-## I need to update the code to reflect the proper extraction.
-# 
-# #Get alleles and positions to map SNPs to  genes
-# best.rsids <- fread("../data/bestsnp.rsids.tsv")
-# names(best.rsids)[2:3] <- c("CHR", "BP")
-# 
-# man <- fread("../data/Manifest_build_translator.tsv")
-# man[,pid38:=paste(CHR38,BP38, sep=":")][,pid19:=paste(CHR19,BP19, sep=":")]
-# man <- merge(man, cupcake::SNP.manifest[,.(pid, ref_a1, ref_a2)], by.x = "pid19", by.y="pid")
-# man <- man[, .(pid38, SNPID, ref_a1, ref_a2)]
-# man[, c("CHR", "BP"):=tstrsplit(pid38, split=":")]
-# names(man)[c(1, 3:4)] <- c("pid", "REF", "ALT")
-# 
-# snp.to.map <- rbindlist(list(best.rsids,man), use.names = TRUE)
-# fwrite(snp.to.map, "../data/snp.to.map.tsv", sep="\t")
-# # After this, we run the mapping-genes.py routine in the HPC to get the associated genes from opentargets
-
+coloc <- fread("../data/coloc_results_dfilt-v3.tsv", na.strings = "")
 
 # Import mapped genes 
-mg <- fread("../data/mapped.genes.tsv") %>% unique
+mg <- fread("../data/mapped.genes_v2.tsv") %>% unique
 mg <- mg[,.(SNPID, pid, nearestGene)]
 
 # Add some info to the coloc table, and extract rsids to map
@@ -877,37 +870,32 @@ coloc[H4 > 0.5 & pbest.myos.region > 5e-8, bestsnp.novel:="Yes"][is.na(bestsnp.n
 # Add gene/ driver SNP label
 coloc[, dlabel:=paste( driver.nearestgene, driver.rsid, sep=" / ")]
 
-# Add proper labels
-ml <- data.table(mlabel = c("DM (M)", "DM (R)", "JDM (M)","JDM (R)", "Jo1+ (R)", "IIM (M)", "IIM (R)", "PM (M)", "PM (R)"),
-                 trait.myos = c("dmy.m", "dmy.r", "jdm.m", "jdm.r", "jo1m.r", "myo.m", "myo.r", "pm.m", "pm.r"))
-coloc <- merge(coloc, ml, by="trait.myos")
+#fwrite(coloc, "../tables/ST_full_coloc_results.tsv", sep="\t")
 
 ```
 
 
 ```{r}
 ddm <- unique(c(bhatta.sel, dpimd))
-fc <- data.table(Label =   c("Idiopathic thrombocytopenic purpura","IgG+ Neuromyelitis Optica","Primary biliary cholangitis","Juvenile Idiopathic Arthritis","CR(E)ST syndrome","Myastenia Gravis","Felty syndrome","Sjögren's syndrome","Systemic Sclerosis","Wegener granulomatosis","MPO+ AAV","PR3+ AAV","Hyperthyroidism/Thyrotoxicosis","Hypothyroidism (congenital or acquired)"),
-coloc.label = c("itp","nmo","pbc","jia","crest","myag","felty","sjos","ssc","wegen","mpoaav","pr3aav","hyperthy","hypothy"),
-fig.label = c("ITP", "IgG+ NMO", "PBC", "JIA", "CR(E)ST", "MG", "Felty", "SjS", "SSc", "GPA", "MPO+ AAV", "PR3+ AAV", "HyperThy", "HypoThy"))
+fc <- data.table(Label =   c("Idiopathic thrombocytopenic purpura","IgG+ Neuromyelitis Optica","Primary biliary cholangitis","Juvenile Idiopathic Arthritis","CR(E)ST syndrome","Myastenia Gravis","Felty syndrome","Sjögren's syndrome","Systemic Sclerosis","Wegener granulomatosis","MPO+ AAV","PR3+ AAV","Hyperthyroidism/Thyrotoxicosis","Hypothyroidism (congenital or acquired)", "Palindromic rheumatism", "Biological medication for rheuma"),
+fig.label = c("ITP", "IgG+ NMO", "PBC", "JIA", "CR(E)ST", "MG", "Felty", "SjS", "SSc", "GPA", "MPO+ AAV", "PR3+ AAV", "HyperThy", "HypoThy", "PR", "BioMedRhe"))
 ddmt <- p7[ Label %in% ddm, Trait]
 cdis <- qs2[ First_Author %in% c("Miller", "Rothwell") | Trait %in% ddmt, .(Label, First_Author, Reference)]
 cdis <- merge(cdis, fc, by="Label", all.x=TRUE)
-cdis[First_Author %in% c("Miller", "Rothwell") | Label %in% bhatta.sel, Bhattacharyya:="Yes"][First_Author %in% c("Miller", "Rothwell") | Label %in% dpimd, DPMUnc:="Yes"][First_Author %in% c("Miller", "Rothwell") | !is.na(coloc.label), coloc:="Yes"][is.na(Bhattacharyya), Bhattacharyya:="No"][is.na(Bhattacharyya), Bhattacharyya:="No"][is.na(coloc), coloc:="No"]
+cdis[First_Author %in% c("Miller", "Rothwell") | Label %in% bhatta.sel, Bhattacharyya:="Yes"][First_Author %in% c("Miller", "Rothwell") | Label %in% dpimd, DPMUnc:="Yes"][First_Author %in% c("Miller", "Rothwell") | !is.na(fig.label), coloc:="Yes"][is.na(Bhattacharyya), Bhattacharyya:="No"][is.na(Bhattacharyya), Bhattacharyya:="No"][is.na(coloc), coloc:="No"]
 cdis <- cdis[, .(Label, First_Author, Reference, Bhattacharyya, DPMUnc, coloc, fig.label)]
-# fwrite(cdis, "../tables/ST_coloc_diseases.tsv", sep = "\t")
+#fwrite(cdis, "../tables/ST_coloc_diseases.tsv", sep = "\t")
 
 ```
 
 
 ```{r echo = FALSE}
 # Create a main summary table for coloc results
-cts <- coloc[H4 > 0.5, .(driver.rsid, driver.nearestgene, bestsnp.rsid, mlabel, trait.other, pairwise_fdr, H4, pbest.myos, pbest.myos.region, bestsnp.novel )][order(driver.nearestgene, bestsnp.rsid)]
-cts <- merge(cts, fc[, .(coloc.label, fig.label)], by.x = "trait.other", by.y = "coloc.label")
+cts <- coloc[H4 > 0.5, .(driver.rsid, driver.nearestgene, bestsnp.rsid, trait.myos, trait.other, pairwise_fdr, H4, pbest.myos, pbest.myos.region, bestsnp.novel )][order(driver.nearestgene, bestsnp.rsid)]
 cts[, .(H4 = max(H4), bestsnp.rsid), by=driver.rsid]
-cts <- cts[, .(driver.rsid, driver.nearestgene, bestsnp.rsid, bestsnp.novel, pbest.myos, mlabel, fig.label, pairwise_fdr, H4)][order(driver.nearestgene, mlabel, fig.label)]
+cts <- cts[, .(driver.rsid, driver.nearestgene, bestsnp.rsid, bestsnp.novel, pbest.myos, trait.myos,trait.other, pairwise_fdr, H4)][order(driver.nearestgene, trait.myos, trait.other)]
 
-#fwrite(cts, "../tables/MT_coloc_results.tsv", sep = "\t")
+#fwrite(cts, "../tables/MT_coloc_results-v2.tsv", sep = "\t")
 
 ```
 
@@ -956,22 +944,21 @@ Below we show a summary figure of the results, where driver SNPs and their neare
 
 keypids <- coloc[ H4 > 0.5, unique(pid)]
 
-sumc <- coloc[pid %in% keypids, .(dlabel, mlabel,  trait.other, H4)]
-sumc <- sumc %>% tidyr::complete(dlabel, mlabel, trait.other ) %>% as.data.table()
+sumc <- coloc[pid %in% keypids, .(dlabel, trait.myos,  trait.other, H4)]
+sumc <- sumc %>% tidyr::complete(dlabel, trait.myos, trait.other ) %>% as.data.table()
 sumc[, dlabel:=factor(dlabel, levels = rev(unique(dlabel)))]
 sumc[, trait.other:=factor(trait.other, levels = rev(unique(trait.other)))]
 sumc[,flag:=ifelse(H4>.8, "High", ifelse(H4>.5, "Med", "Low"))]
-sumc <- merge(sumc, fc[, .(coloc.label, fig.label)], by.x = "trait.other", by.y = "coloc.label")
-sumc <- sumc[, .(dlabel, mlabel, fig.label, H4, flag)]
+sumc <- sumc[, .(dlabel, trait.myos, trait.other, H4, flag)]
 
 
-gp1 <-  ggplot(sumc[ grepl(pattern = "^DM|JDM \\(M\\)", mlabel) ], aes(x =  fig.label, y = dlabel, colour=flag, fill = H4)) +
+gp1 <-  ggplot(sumc[ grepl(pattern = "^DM|JDM \\(M\\)", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
               geom_tile( color = "black",
                         lwd = 0.2,
                         linetype = 1) +
               scale_fill_gradient(limits = c(0,1), na.value = "white")+
               geom_tile(aes( colour = flag),
-                          lwd=1, linetype = 1, data = sumc[grepl(pattern = "^DM|JDM \\(M\\)", mlabel) & H4 > 0.25]) + # Little trick to keep tiles in place
+                          lwd=1, linetype = 1, data = sumc[grepl(pattern = "^DM|JDM \\(M\\)", trait.myos) & H4 > 0.25]) + # Little trick to keep tiles in place
               scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
               
               #scale_x_discrete(position = "top")+
@@ -982,16 +969,16 @@ gp1 <-  ggplot(sumc[ grepl(pattern = "^DM|JDM \\(M\\)", mlabel) ], aes(x =  fig.
                     legend.position = "none",
                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
                     )+
-              facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")+
+              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
               labs(fill = "PP")
 
-gp2 <-  ggplot(sumc[ grepl(pattern = "PM|JDM \\(R\\)", mlabel) ], aes(x =  fig.label, y = dlabel, colour=flag, fill = H4)) +
+gp2 <-  ggplot(sumc[ grepl(pattern = "PM|JDM \\(R\\)", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
               geom_tile( color = "black",
                         lwd = 0.2,
                         linetype = 1) +
               scale_fill_gradient(limits = c(0,1), na.value = "white")+
               geom_tile(aes( colour = flag),
-                          lwd=1, linetype = 1, data = sumc[grepl(pattern = "PM|JDM \\(R\\)", mlabel) & H4 > 0.25]) + # Little trick to keep tiles in place
+                          lwd=1, linetype = 1, data = sumc[grepl(pattern = "PM|JDM \\(R\\)", trait.myos) & H4 > 0.25]) + # Little trick to keep tiles in place
               scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
               
               #scale_x_discrete(position = "top")+
@@ -1002,16 +989,16 @@ gp2 <-  ggplot(sumc[ grepl(pattern = "PM|JDM \\(R\\)", mlabel) ], aes(x =  fig.l
                     legend.position = "none",
                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
                     )+
-              facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")+
+              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
               labs(fill = "PP")
 
-gp3 <-  ggplot(sumc[ grepl(pattern = "IIM|Jo1", mlabel) ], aes(x =  fig.label, y = dlabel, colour=flag, fill = H4)) +
+gp3 <-  ggplot(sumc[ grepl(pattern = "IIM|Jo1", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
               geom_tile( color = "black",
                         lwd = 0.2,
                         linetype = 1) +
               scale_fill_gradient(limits = c(0,1), na.value = "white")+
               geom_tile(aes( colour = flag),
-                          lwd=1, linetype = 1, data = sumc[grepl(pattern = "IIM|Jo1", mlabel) & H4 > .5]) +
+                          lwd=1, linetype = 1, data = sumc[grepl(pattern = "IIM|Jo1", trait.myos) & H4 > .5]) +
               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
               #scale_x_discrete(position = "top")+
               theme_minimal() +
@@ -1022,74 +1009,11 @@ gp3 <-  ggplot(sumc[ grepl(pattern = "IIM|Jo1", mlabel) ], aes(x =  fig.label, y
                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
                     )+
               guides(fill = guide_colorbar(title.vjust = 0.8))+
-              facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")+
+              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
               labs(fill = "PP")
 
-gp <- plot_grid(gp1, gp2, gp3, nrow = 3, rel_heights = c(0.8,0.8,1.3))
- ggsave("../figures/driverSNP_H4.png", gp, height =7 , width = 7.5, bg="white")
-
-# 
-# grplot <-  ggplot(sumc, aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
-#               geom_tile( color = "black",
-#                         lwd = 0.2,
-#                         linetype = 1) +
-#               scale_fill_gradient(na.value = "white")+
-#               geom_tile(aes( colour = flag),
-#                           lwd=1, linetype = 1, data = sumc[H4 > .5]) +
-#               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
-#               #scale_x_discrete(position = "top")+
-#               theme_minimal() +
-#               theme(panel.grid.major = element_blank(),
-#                     axis.title = element_blank(),
-#                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5)
-#                     )+
-#               facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")+
-#               labs(fill = "PP")
-# grplot
-# #ggsave("../figures/driverSNP_H4.png", grplot, height = 3.5, width = 15, bg="white")
-# 
-# 
-# grplot <-  ggplot(sumc, aes(x =  dlabel, y = trait.other, colour=flag, fill = H4)) +
-#               geom_tile( color = "black",
-#                         lwd = 0.2,
-#                         linetype = 1) +
-#               scale_fill_gradient(na.value = "white")+
-#               geom_tile(aes( colour = flag),
-#                           lwd=1, linetype = 1, data = sumc[H4 > .5]) +
-#               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
-#               #scale_x_discrete(position = "top")+
-#               theme_minimal() +
-#               theme(panel.grid.major = element_blank(),
-#                     axis.title = element_blank(),
-#                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5),
-#                     strip.text.y = element_text(angle = 0),
-#                     axis.text.y = element_text(size = 10)
-#                     )+
-#               facet_grid(rows = vars(mlabel), scales = "free", space = "free",switch = "x")+
-#               labs(fill = "PP")
-# grplot
-# ggsave("../figures/driverSNP_H4.png", grplot, height =13 , width = 5, bg="white")
-
-
-# grplot <-  ggplot(sumc, aes(x =  trait.other, y = mlabel, colour=flag, fill = H4)) +
-#               geom_tile( color = "black",
-#                         lwd = 0.2,
-#                         linetype = 1) +
-#               scale_fill_gradient(na.value = "white")+
-#               geom_tile(aes( colour = flag),
-#                           lwd=1, linetype = 1, data = sumc[H4 > .5]) +
-#               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
-#               #scale_x_discrete(position = "top")+
-#               theme_minimal() +
-#               theme(panel.grid.major = element_blank(),
-#                     axis.title = element_blank(),
-#                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5),
-#                     strip.text.y = element_text(angle = 0)
-#                     )+
-#               facet_grid(rows = vars(dlabel), scales = "free", space = "free",switch = "x")+
-#               labs(fill = "PP")
-# grplot
-
+gp <- plot_grid(gp1, gp2, gp3, nrow = 3, rel_heights = c(0.75,0.75,1.4))
+#ggsave("../figures/driverSNP_H4_v2.png", gp, height =7 , width = 8, bg="white")
 
 ```
 
@@ -1098,30 +1022,77 @@ gp <- plot_grid(gp1, gp2, gp3, nrow = 3, rel_heights = c(0.8,0.8,1.3))
 
 keypids <- coloc[ H4 > 0.5, unique(pid)]
 
-sumc3 <- coloc[pid %in% keypids, .(dlabel, mlabel,  trait.other, H3)]
-sumc3 <- sumc3 %>% tidyr::complete(dlabel, mlabel, trait.other ) %>% as.data.table()
+sumc3 <- coloc[pid %in% keypids, .(dlabel, trait.myos,  trait.other, H3)]
+sumc3 <- sumc3 %>% tidyr::complete(dlabel, trait.myos, trait.other ) %>% as.data.table()
 sumc3[, dlabel:=factor(dlabel, levels = rev(unique(dlabel)))]
 sumc3[, trait.other:=factor(trait.other, levels = rev(unique(trait.other)))]
 sumc3[,flag:=ifelse(H3>.8, "High", ifelse(H3>.5, "Med", "Low"))]
+sumc3 <- sumc3[, .(dlabel, trait.myos, trait.other, H3, flag)]
 
 
-grploth3 <-  ggplot(sumc3, aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
+gph3.1 <-  ggplot(sumc3[ grepl(pattern = "^DM|JDM \\(M\\)", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
               geom_tile( color = "black",
                         lwd = 0.2,
                         linetype = 1) +
-              scale_fill_gradient(na.value = "white")+
+              scale_fill_gradient(limits = c(0,1), na.value = "white")+
               geom_tile(aes( colour = flag),
-                          lwd=1, linetype = 1, data = sumc3[H3 > .5]) +
+                          lwd=1, linetype = 1, data = sumc3[grepl(pattern = "^DM|JDM \\(M\\)", trait.myos) & H3 > 0.25]) + # Little trick to keep tiles in place
+              scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
+              
+              #scale_x_discrete(position = "top")+
+              theme_minimal() +
+              theme(panel.grid.major = element_blank(),
+                    axis.title = element_blank(),
+                    axis.text.x = element_blank(),
+                    legend.position = "none",
+                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+                    )+
+              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+              labs(fill = "PP")
+
+gph3.2 <-  ggplot(sumc3[ grepl(pattern = "PM|JDM \\(R\\)", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
+              geom_tile( color = "black",
+                        lwd = 0.2,
+                        linetype = 1) +
+              scale_fill_gradient(limits = c(0,1), na.value = "white")+
+              geom_tile(aes( colour = flag),
+                          lwd=1, linetype = 1, data = sumc3[grepl(pattern = "PM|JDM \\(R\\)", trait.myos) & H3 > 0.25]) + # Little trick to keep tiles in place
+              scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
+              
+              #scale_x_discrete(position = "top")+
+              theme_minimal() +
+              theme(panel.grid.major = element_blank(),
+                    axis.title = element_blank(),
+                    axis.text.x = element_blank(),
+                    legend.position = "none",
+                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+                    )+
+              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+              labs(fill = "PP")
+
+gph3.3 <-  ggplot(sumc3[ grepl(pattern = "IIM|Jo1", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
+              geom_tile( color = "black",
+                        lwd = 0.2,
+                        linetype = 1) +
+              scale_fill_gradient(limits = c(0,1), na.value = "white")+
+              geom_tile(aes( colour = flag),
+                          lwd=1, linetype = 1, data = sumc3[grepl(pattern = "IIM|Jo1", trait.myos) & H3 > .5]) +
               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
               #scale_x_discrete(position = "top")+
               theme_minimal() +
-               theme(panel.grid.major = element_blank(),
+              theme(panel.grid.major = element_blank(),
                     axis.title = element_blank(),
-                    axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5)
+                    axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5, size = 11),
+                    legend.position = "bottom",
+                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
                     )+
-              facet_grid(cols = vars(mlabel), scales = "free", space = "free",switch = "y")
-grploth3
-#ggsave("../figures/driverSNP_H3.png", grploth3, height = 5, width = 15, bg="white")
+              guides(fill = guide_colorbar(title.vjust = 0.8))+
+              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+              labs(fill = "PP")
+
+gph3 <- plot_grid(gph3.1, gph3.2, gph3.3, nrow = 3, rel_heights = c(0.8,0.8,1.3))
+
+#ggsave("../figures/driverSNP_H3_v2.png", gph3, height = 7, width = 8, bg="white")
 
 ```
 
