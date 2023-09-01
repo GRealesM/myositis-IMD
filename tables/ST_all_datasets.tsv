@@ -184,7 +184,7 @@ E4_DM1NOCOMP_FinnGen_FinnGenR7_1	Type 1 diabetes without complications	FinnGen	F
 E4_DM1OPTH_FinnGen_FinnGenR7_1	Type 1 diabetes with ophthalmic complications	FinnGen	FinnGenR7	255466	4204	259670	European (Finnish)	562	PC1 (9e-42)	5.96359086194556e-152	7.62176002843774e-151	Yes	No
 E4_DM1PERIPH_FinnGen_FinnGenR7_1	Type 1 diabetes with peripheral circulatory complications	FinnGen	FinnGenR7	255466	546	256012	European (Finnish)	562	PC1 (1e-04)	2.11570150526895e-10	5.35568883459386e-10	Yes	No
 E4_DM1REN_FinnGen_FinnGenR7_1	Type 1 diabetes with renal complications	FinnGen	FinnGenR7	255466	1342	256808	European (Finnish)	562	PC1 (2e-18)	5.398773611421e-49	2.94683059623396e-48	Yes	No
-E4_DM1_FinnGen_FinnGenR7_1	Type 1 diabetes	FinnGen	FinnGenR7	255466	8671	264137	European (Finnish)	562	PC1 (2e-59)	6.32927625948927e-187	1.10551358665746e-185	Yes	No
+E4_DM1_FinnGen_FinnGenR7_1	Type 1 diabetes	FinnGen	FinnGenR7	255466	8671	264137	European (Finnish)	562	PC1 (2e-59)	6.32927625948927e-187	1.10551358665746e-185	Yes	Yes
 E4_DM1_STRICT_FinnGen_FinnGenR7_1	Type 1 diabetes, strict (exclude DM2)	FinnGen	FinnGenR7	256173	3678	259851	European (Finnish)	562	PC1 (8e-39)	3.60018373784425e-126	3.55942694081205e-125	Yes	No
 E4_DM2_FinnGen_FinnGenR7_1	Type 2 diabetes	FinnGen	FinnGenR7	255466	49303	304769	European (Finnish)	562	PC1 (3e-11)	2.67811660531091e-16	8.01904629247381e-16	Yes	Yes
 E4_GRAVES_OPHT_STRICT_FinnGen_FinnGenR7_1	Graves opthalmopathy, strict	FinnGen	FinnGenR7	308718	436	309154	European (Finnish)	562	PC3 (8e-04)	1.84612661373512e-07	4.2615433726749e-07	Yes	No
@@ -344,10 +344,10 @@ M13_POLYARTERETAL_FinnGen_FinnGenR7_1	Polyarteritis nodosa and related condition
 M13_POLYMYALGIA_FinnGen_FinnGenR7_1	Polymyalgia rheumatica	FinnGen	FinnGenR7	300162	2535	302697	European (Finnish)	562	PC13 (3e-03)	0.000251988237607544	0.000469899774043961	Yes	Yes
 M13_POLYMYO_FinnGen_FinnGenR7_1	Polymyositis (FinnGen)	FinnGen	FinnGenR7	300162	178	300340	European (Finnish)	562	PC13 (2e-04)	2.83453227002631e-05	5.66906454005262e-05	Yes	No
 M13_PSORIARTH_ICD10_FinnGen_FinnGenR7_1	Psoriatic arthropathies, ICD10	FinnGen	FinnGenR7	306835	2319	309154	European (Finnish)	562	PC5 (5e-04)	3.38947952586728e-06	7.19063672694111e-06	Yes	No
-M13_RHEUMA_FinnGen_FinnGenR7_1	Rheumatoid arthritis	FinnGen	FinnGenR7	202617	9855	212472	European (Finnish)	562	PC9 (7e-35)	2.69517780685798e-147	3.36255516855615e-146	Yes	No
+M13_RHEUMA_FinnGen_FinnGenR7_1	Rheumatoid arthritis	FinnGen	FinnGenR7	202617	9855	212472	European (Finnish)	562	PC9 (7e-35)	2.69517780685798e-147	3.36255516855615e-146	Yes	Yes
 M13_RHEUMA_INCLAVO_FinnGen_FinnGenR7_1	Rheumatoid arthritis, including avohilmo	FinnGen	FinnGenR7	298550	10604	309154	European (Finnish)	562	PC1 (9e-33)	1.06465352924138e-154	1.43045756236534e-153	Yes	No
 M13_SJOGREN_FinnGen_FinnGenR7_1	Sicca syndrome [Sjogren]	FinnGen	FinnGenR7	300162	1981	302143	European (Finnish)	562	PC2 (2e-11)	1.35321637230806e-24	4.75896227576794e-24	Yes	No
-M13_SLE_FinnGen_FinnGenR7_1	Systemic lupus erythematosus	FinnGen	FinnGenR7	300162	835	300997	European (Finnish)	562	PC2 (7e-13)	1.6833684157907e-28	6.25592233953423e-28	Yes	No
+M13_SLE_FinnGen_FinnGenR7_1	Systemic lupus erythematosus	FinnGen	FinnGenR7	300162	835	300997	European (Finnish)	562	PC2 (7e-13)	1.6833684157907e-28	6.25592233953423e-28	Yes	Yes
 M13_SYSTSLCE_FinnGen_FinnGenR7_1	Systemic sclerosis	FinnGen	FinnGenR7	300162	482	300644	European (Finnish)	562	PC2 (1e-05)	2.13823845210205e-06	4.5919547086126e-06	Yes	No
 M13_TEMPARTERIT_FinnGen_FinnGenR7_1	Temporal arteritis	FinnGen	FinnGenR7	300162	685	300847	European (Finnish)	562	PC8 (2e-02)	0.0770863981349599	0.10917100708843	No	No
 M13_WEGENER_FinnGen_FinnGenR7_1	Wegener granulomatosis	FinnGen	FinnGenR7	300162	350	300512	European (Finnish)	562	PC3 (3e-04)	0.000721221548498049	0.00132603540846659	Yes	Yes
@@ -386,7 +386,7 @@ PSO_Sakaue_doi1011012020102320213652_1	Psoriasis vulgaris	Sakaue	doi101101202010
 R18_ABNORMALITY_WHITE_BLOOD_CELLS_NOT_ELSEW_CLASSIFIED_FinnGen_FinnGenR7_1	Abnormality of white blood cells, not elsewhere classified	FinnGen	FinnGenR7	297969	122	298091	European (Finnish)	562	PC4 (3e-01)	0.976363467557623	0.98198552207331	No	No
 RA_Ishigaki_36333501_1	Rheumatoid Arthritis	Ishigaki	36333501	162608	11025	173633	East Asian	525	PC9 (1e-04)	1.223750028277e-23	4.16392866764382e-23	Yes	No
 RA_Ishigaki_36333501_2	Rheumatoid Arthritis	Ishigaki	36333501	74823	22350	97173	European	566	PC9 (2e-188)	0	0	Yes	No
-RA_Ishigaki_36333501_3	Rheumatoid Arthritis	Ishigaki	36333501	240149	35871	276020	Trans-ethnic (EUR, EAS, AFR, SAS, ARB)	566	PC9 (4e-233)	0	0	Yes	Yes
+RA_Ishigaki_36333501_3	Rheumatoid Arthritis	Ishigaki	36333501	240149	35871	276020	Trans-ethnic (EUR, EAS, AFR, SAS, ARB)	566	PC9 (4e-233)	0	0	Yes	No
 RA_Ishigaki_doi101101795948_1	Rheumatoid Arthritis	Ishigaki	doi101101795948	208254	4199	212453	East Asian (Japanese)	529	PC9 (7e-02)	2.52141413690394e-09	6.26171093714533e-09	Yes	No
 RA_Kubo_BBJ_1	Rheumatoid Arthritis	Kubo	BBJ	208254	4199	212453	East Asian (Japanese)	529	PC9 (7e-02)	2.52141413690394e-09	6.26171093714533e-09	Yes	No
 RA_Okada_24390342_2	Rheumatoid Arthritis	Okada	24390342	17642	4873	22515	Asian	457	PC1 (3e-06)	1.45157468970105e-25	5.20976121509144e-25	Yes	No
@@ -410,7 +410,7 @@ SARC_Sakaue_doi1011012020102320213652_1	Sarcoidosis	Sakaue	doi101101202010232021
 SJOS_Lessard_up_1	Sjögren's syndrome	Khatri	35896530	17481	3232	20713	European	553	PC2 (5e-29)	2.06060915126866e-53	1.22699908552816e-52	Yes	Yes
 SJOS_Sakaue_doi1011012020102320213652_1	Sjögren's syndrome	Sakaue	doi1011012020102320213652	175599	303	175902	East Asian (Japanese)	534	PC7 (4e-01)	0.567016767202516	0.641105922319098	No	No
 SLE_FG_FinnGen_FinnGenR7_1	SLE	FinnGen	FinnGenR7	232612	835	233447	European (Finnish)	562	PC2 (4e-12)	1.76591756486261e-34	7.58476068842629e-34	Yes	No
-SLE_Julia_29848360_1	Systemic Lupus Erythematosus	Julia	29848360	8483	4943	13426	European (North + Spain)	566	PC2 (1e-213)	0	0	Yes	Yes
+SLE_Julia_29848360_1	Systemic Lupus Erythematosus	Julia	29848360	8483	4943	13426	European (North + Spain)	566	PC2 (1e-213)	0	0	Yes	No
 SLE_Julia_29848360_2	Systemic Lupus Erythematosus	Julia	29848360	1524	907	2431	European (Spanish)	566	PC2 (7e-04)	5.71410400898047e-22	1.9071277074559e-21	Yes	No
 SLE_NOS_FinnGen_FinnGenR7_1	Systemic lupus erythematosus, unspecified	FinnGen	FinnGenR7	308319	680	308999	European (Finnish)	562	PC2 (1e-11)	2.8995277615354e-24	1.0061937397646e-23	Yes	No
 SLE_OTH_FinnGen_FinnGenR7_1	Other forms of Systemic Lupus Erythematosus	FinnGen	FinnGenR7	308319	196	308515	European (Finnish)	562	PC2 (3e-11)	6.26649078939009e-14	1.75595784686653e-13	Yes	No
@@ -421,7 +421,7 @@ SSC_LopezIsac_31672989_1	Systemic Sclerosis	LopezIsac	31672989	18333	9846	28179	
 ST19_FAILU_REJEC_TRANSPLANTED_ORGANS_TISSU_FinnGen_FinnGenR7_1	Failure and rejection of transplanted organs and tissues	FinnGen	FinnGenR7	278724	209	278933	European (Finnish)	562	PC13 (1e-03)	0.0587399158845772	0.0847926058499131	No	No
 STILL_ADULT_FinnGen_FinnGenR7_1	Adult-onset Still disease	FinnGen	FinnGenR7	281678	81	281759	European (Finnish)	562	PC8 (5e-02)	0.565417412177084	0.641105922319098	No	No
 SYSTSCLE_STRICT_FinnGen_FinnGenR7_1	Systemic sclerosis,strict definition	FinnGen	FinnGenR7	308683	164	308847	European (Finnish)	562	PC2 (1e-03)	0.0032025558772938	0.00557521355382708	Yes	No
-T1D_Chiou_34012112_1	Type 1 Diabetes	Chiou	34012112	501368	18942	520310	European	566	PC3 (8e-150)	0	0	Yes	Yes
+T1D_Chiou_34012112_1	Type 1 Diabetes	Chiou	34012112	501368	18942	520310	European	566	PC3 (8e-150)	0	0	Yes	No
 T1D_EARLY_FinnGen_FinnGenR7_1	Type1 diabetes, definitions combined, early onset	FinnGen	FinnGenR7	306619	2535	309154	European (Finnish)	562	PC1 (2e-25)	1.01537720516442e-92	7.94115903740532e-92	Yes	No
 T1D_FinnGen_FinnGenR7_1	Type 1 Diabetes	FinnGen	FinnGenR7	255449	3711	259160	European (Finnish)	562	PC1 (5e-38)	2.15977429787464e-126	2.17638794631983e-125	Yes	No
 T1D_Inshaw_up_1	Type 1 Diabetes	Inshaw	up	8828	5913	14741	European	566	PC3 (1e-74)	2.92283589965522e-285	8.06087374431229e-284	Yes	No

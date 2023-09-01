@@ -228,23 +228,47 @@ tr <- c(tr, setdiff(qs2[grepl("colitis|UC |Ulcerative", Label), Trait], "UC_Liu_
 
 # IBD
 qs2[grepl("bowel|IBD ", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("bowel|IBD ", Label, ignore.case = TRUE), Trait], "IBD_Liu_26192919_1")) #  There's a larger, DeLange IBD, but we stick with Liu for consistency
+tr <- c(tr, setdiff(qs2[grepl("bowel|IBD ", Label, ignore.case = TRUE), Trait], "IBD_Liu_26192919_1")) 
 
 # T1D
 qs2[grepl("Type 1 diabetes|Type1", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("Type 1 diabetes|Type1", Label, ignore.case = TRUE), Trait], "T1D_Chiou_34012112_1"))
+tr <- c(tr, setdiff(qs2[grepl("Type 1 diabetes|Type1", Label, ignore.case = TRUE), Trait], "E4_DM1_FinnGen_FinnGenR7_1")) 
 
 # Asthma
 qs2[grepl("Asthma", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("Asthma", Label, ignore.case = TRUE), Trait], c("ph495_PanUKBB_PanUKBBR2_1", "ASTAO_Ferreira_30929738_1", "ASTCO_Ferreira_30929738_1")))
 
-# COPD
-qs2[grepl("COPD|chronic obstructive", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("COPD|chronic obstructive", Label, ignore.case = TRUE), Trait], "J10_COPD"))
+# Celiac disease
+qs2[grepl("celiac|coeliac", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("celiac|coeliac", Label, ignore.case = TRUE), Trait], c("K11_COELIAC_FinnGen_FinnGenR7_1")))
 
 # (Rheumatoid) Arthritis
 qs2[grepl("Arthritis", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("Arthritis", Label, ignore.case = TRUE), Trait], c("RA_Ishigaki_36333501_3", "JIA_LopezIsac_33106285_1")))
+tr <- c(tr, setdiff(qs2[grepl("Arthritis", Label, ignore.case = TRUE), Trait], c("M13_RHEUMA_FinnGen_FinnGenR7_1", "JIA_LopezIsac_33106285_1"))) 
+
+# Multiple sclerosis
+qs2[grepl("multiple sclerosis", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("multiple sclerosis", Label, ignore.case = TRUE), Trait], c("G6_MS_FinnGen_FinnGenR7_1"))) # largest, non-IMSGC dataset
+
+# PBC
+qs2[grepl("biliary", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("biliary", Label, ignore.case = TRUE), Trait], c("CHIRBIL_PRIM_FinnGen_FinnGenR7_1")))
+
+# PSC
+qs2[grepl("sclerosing", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("sclerosing", Label, ignore.case = TRUE), Trait], c("K11_CHOLANGI_FinnGen_FinnGenR7_1")))
+
+# Lupus
+qs2[grepl("Lupus|SLE", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+  tr <- c(tr, setdiff(qs2[grepl("Lupus|SLE", Label, ignore.case = TRUE), Trait], c("M13_SLE_FinnGen_FinnGenR7_1"))) # Replace by FinnGen
+
+# Vitiligo
+qs2[grepl("vitiligo", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("vitiligo", Label, ignore.case = TRUE), Trait], c("L12_VITILIGO_FinnGen_FinnGenR7_1")))
+
+# COPD
+qs2[grepl("COPD|chronic obstructive", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("COPD|chronic obstructive", Label, ignore.case = TRUE), Trait], "J10_COPD"))
 
 # Hypothyroidism
 qs2[grepl("Hypothyroidism", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
@@ -282,30 +306,13 @@ tr <- c(tr, setdiff(qs2[grepl("Dermatitis", Label, ignore.case = TRUE), Trait], 
 qs2[grepl("Sjogren|Sjögren|Sicca", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("Sjogren|Sjögren|Sicca", Label, ignore.case = TRUE), Trait], c("SJOS_Lessard_up_1")))
 
-# Lupus
-qs2[grepl("Lupus|SLE", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("Lupus|SLE", Label, ignore.case = TRUE), Trait], c("SLE_Julia_29848360_1")))
-
 # Allergic
 qs2[grepl("allerg", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("allerg", Label, ignore.case = TRUE), Trait], c("20002_1387_PanUKBB_PanUKBBR2_1")))
 
-# Multiple sclerosis
-qs2[grepl("multiple sclerosis", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("multiple sclerosis", Label, ignore.case = TRUE), Trait], c("G6_MS_FinnGen_FinnGenR7_1"))) # largest, non-IMSGC dataset
-
-
 # Nasal polyps
 qs2[grepl("polyp", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("polyp", Label, ignore.case = TRUE), Trait], c("J10_NASALPOLYP_FinnGen_FinnGenR7_1")))
-
-# PBC
-qs2[grepl("biliary", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("biliary", Label, ignore.case = TRUE), Trait], c("CHIRBIL_PRIM_FinnGen_FinnGenR7_1")))
-
-# PSC
-qs2[grepl("sclerosing", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("sclerosing", Label, ignore.case = TRUE), Trait], c("K11_CHOLANGI_FinnGen_FinnGenR7_1")))
 
 # Systemic sclerosis
 qs2[grepl("systemic sclerosis", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
@@ -314,17 +321,10 @@ tr <- c(tr, setdiff(qs2[grepl("systemic sclerosis", Label, ignore.case = TRUE), 
 # Autoimmune disorders
 tr <- c(tr, qs2[grepl("autoimmune dis", Label, ignore.case = TRUE), Trait]) 
 
-# Celiac disease
-qs2[grepl("celiac|coeliac", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("celiac|coeliac", Label, ignore.case = TRUE), Trait], c("K11_COELIAC_FinnGen_FinnGenR7_1")))
 
 # Gout and ankylosing
 qs2[grepl("gout|ankylosing", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("gout|ankylosing", Label, ignore.case = TRUE), Trait], c("GOUT_FinnGen_FinnGenR7_1", "M13_ANKYLOSPON_FinnGen_FinnGenR7_1")))
-
-# Vitiligo
-qs2[grepl("vitiligo", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("vitiligo", Label, ignore.case = TRUE), Trait], c("L12_VITILIGO_FinnGen_FinnGenR7_1")))
 
 # Myastenia gravis
 qs2[Label == "Myastenia Gravis"][order(N1, decreasing = TRUE)]
@@ -375,7 +375,7 @@ aq <- aq[,.(Trait, Label, First_Author, Reference, N0, N1,N, Population, nSNP, m
 ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR.PC, stars, sig.overall, in.selection)]
 
 # fwrite(aq, "../tables/ST_all_datasets.tsv", sep ="\t")
-#fwrite(ap, "../tables/ST_all_projections.tsv", sep ="\t")
+# fwrite(ap, "../tables/ST_all_projections.tsv", sep ="\t")
 
 
 
@@ -499,44 +499,6 @@ dpm <- ggplot(pmyo, aes(x = Delta, y = Label, xmin=Delta-ci, xmax=Delta+ci, colo
 # ggsave("../figures/deltaplot_myo.png", dpm, height = 10, width = 6, bg = "white")
 
 ####
-
-# Define a more customisable function for individual plotting
-make.custom.forest.plots <- function(ps, bs, feature, palette = tfp, fsize = NULL, threshold_basis=0, threshold_gen = 0, remove_sum = FALSE, remove_perc = FALSE, remove_side = "none"){
-      pdelta <- ps[stars == "●"][Trait_class == "IMD"] # Remove all blood cells save for key ones
-      pdelta <- rbind(pdelta, bs, fill = TRUE)
-      pdelta[Var.Delta != 0, ci:=sqrt(Var.Delta) * 1.96][is.na(ci),ci:=0][is.na(Label), Label:=Trait]
-      pdelta[ ci == 0, Trait_class:= "Basis"]
-      pdelta[ Trait_class == "Basis" & Label == "Asthma", Label:="AST"] # Rename basis Asthma to avoid confusion with external asthma
-      pdelta[ First_Author %in% c("Miller", "Rothwell"), Trait_class:="Myo"] # Make myositis a different colour
-      pdelta[, Label:=stringr::str_trunc(Label, 50, ellipsis = " [...]")]
-      ds.col <- data.table(Trait_class = names(tfp), colours=tfp)
-      # Need to update names in tfp for scale_colour_manual
-      tfp.manual <- tfp
-      names(tfp.manual) <- tfp.manual
-      
-      pdelta <- merge(pdelta, ds.col, by = "Trait_class", all.x=TRUE)
-      
-      ft <- paste0("PC", feature)
-      dt <- pdelta[PC == ft][order(Delta, decreasing = TRUE)][!(Trait_class == "BC" & abs(Delta) < threshold_basis)][ abs(Delta) > threshold_gen]
-      
-      if(remove_sum) dt <- dt[!grepl("Sum ", Label, ignore.case = TRUE)]
-      if(remove_perc) dt <- dt[!grepl("percentage of", Label, ignore.case = TRUE)]
-      if(remove_side == "positive") dt <- dt[Delta <= 0]
-      if(remove_side == "negative") dt <- dt[Delta >= 0]
-      
-      fplot <- ggplot(dt, aes(x = reorder(Label, -Delta), y = Delta, ymin=Delta-ci, ymax=Delta+ci, colour = colours))+
-      geom_pointrange()+
-      #scale_colour_manual(values = c("red" = "red", "#26547c" = "#26547c", "#049F76" = "#049F76", "#E09D00" = "#E09D00", "#F3B8A5" = "#F3B8A5", "black" = "black"))+
-      scale_colour_manual(values = tfp.manual)+
-      geom_hline(yintercept = 0, col="red", lty=2)+
-      coord_flip()+
-      #xlab("Traits")+
-      ylab("Delta")+
-      ggtitle(ft)+
-      theme_minimal()+
-      theme(axis.text.y = element_text(colour = dt$colours, size = fsize), legend.position = "none", axis.title.y = element_blank())
-      fplot
-}
 
 
 ```
@@ -667,7 +629,7 @@ ps2s[grepl("myositis|IIM", Label, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, Lab
 dpmunc.ds <- ps2s[, .(PC, Delta, Var.Delta, Label)]
 dpmunc.delta <- reshape(dpmunc.ds[, .(PC, Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
 dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
-  
+# 
 # fwrite(dpmunc.delta, "../data/Myo_13PC_Delta.tsv", sep = "\t")
 # fwrite(dpmunc.var, "../data/Myo_13PC_Var.tsv", sep = "\t")
 
@@ -770,6 +732,73 @@ sdiag
 # squeeze in the box, which is not ideal. TO avoid this behavior, apply the following one-liner below to the file:
 # sed -i 's/ textLength="[^"]*"//' sdiag_Bh_DP.svg
 # This will remove the fixed textLength from the XML.
+
+```
+
+
+
+
+## EXTRA: Clustering with all 13 PCs
+
+```{r echo = FALSE}
+
+
+bhd13 <- fread("../data/bh_dist_13PC.tsv")
+bhd13[, logbhat:=log(1 + bhat.dist)]
+bhd13[, T1:=stringr::str_trunc(T1, 50, ellipsis = " [...]")][, T2:=stringr::str_trunc(T2, 50, ellipsis = " [...]")]
+
+# We keep the initial matrices for make_bold_names(), since I don't have the time to adapt it now
+bh13.cl <- acast(bhd13, T1~T2, value.var = "bhat.dist") %>% as.dist %>% hclust # Cluster by raw
+bhatta13.d <-  acast(bhd13, T1~T2, value.var = "logbhat") # Show log
+
+bh13.ph <- pheatmap(bhatta13.d,
+                cluster_cols = bh13.cl, 
+                cluster_rows = bh13.cl,
+                annotation_names_row = FALSE,
+                show_colnames = FALSE,
+                annotation_legend = FALSE,
+                cutree_rows = 15,
+                treeheight_col=0,
+                fontsize_row=8)
+bh13.ph
+
+# Call clusters for Bhattacharyya
+tbh13 <- bh13.ph$tree_row
+tbhc13 <- cutree(tbh13, k=15) # manually adjusted to capture visually-selected IMD
+bhatta13.sel <- names(tbhc13[tbhc13 ==8]) # Myositis cluster is 8
+bhatta13.sel
+bht13 <- data.table(Label = names(tbhc13), Bhattacharyya = tbhc13)
+
+# We'll show DPMUnc annotations as well. Note, this file is generated later, but we recover it now
+resdpmunc13 <- readRDS("../data/Myo_13PC_psm_data.rds")
+resdpmunc13 <- data.table(Label = names(resdpmunc13$calls$cl), DPMUnc = resdpmunc13$calls$cl)
+resdpmunc13[, Label:=stringr::str_trunc(Label, 50, ellipsis = " [...]")]
+
+
+ann13 <- merge(bht13, resdpmunc13, by = "Label")
+ann13 <- data.frame(ann13[, 2:3], row.names = ann13$Label) # Format
+
+dpcol13 <- palette1[1:max(ann13$DPMUnc)]
+names(dpcol13)  <- as.character(1:max(ann13$DPMUnc))
+bhcol13 <- palette1[1:max(ann13$Bhattacharyya)]
+names(bhcol13)  <- as.character(1:max(ann13$Bhattacharyya))
+
+annotations13 <- list(ann = ann13, colors = list( Bhattacharyya = bhcol13, DPMUnc = dpcol13))
+
+bh13.ph <- pheatmap(bhatta13.d,
+                cluster_cols = bh13.cl, 
+                cluster_rows = bh13.cl,
+                annotation_names_row = FALSE,
+                annotation_legend = FALSE,
+                treeheight_col=0,
+                fontsize_row=8,
+                annotation_row = annotations13$ann,
+                annotation_col = annotations13$ann,
+                annotation_colors = annotations13$colors,
+                color = bhattacolp, 
+                show_colnames = FALSE, 
+                labels_row = make_bold_names(bhatta13.d, rownames, papsb))
+# ggsave("../figures/Intfig_Myositis_bhattacharyya_heatmap13.png", bh13.ph, width = 9, height = 9.5, bg="white")
 
 ```
 
@@ -891,9 +920,9 @@ cdis <- cdis[, .(Label, First_Author, Reference, Bhattacharyya, DPMUnc, coloc, f
 
 ```{r echo = FALSE}
 # Create a main summary table for coloc results
-cts <- coloc[H4 > 0.5, .(driver.rsid, driver.nearestgene, bestsnp.rsid, trait.myos, trait.other, pairwise_fdr, H4, pbest.myos, pbest.myos.region, bestsnp.novel )][order(driver.nearestgene, bestsnp.rsid)]
+cts <- coloc[H4 > 0.5, .(pid, driver.rsid, driver.nearestgene, bestsnp.rsid, trait.myos, trait.other, pairwise_fdr, H4, pbest.myos, pbest.myos.region, bestsnp.novel )][order(driver.nearestgene, bestsnp.rsid)]
 cts[, .(H4 = max(H4), bestsnp.rsid), by=driver.rsid]
-cts <- cts[, .(driver.rsid, driver.nearestgene, bestsnp.rsid, bestsnp.novel, pbest.myos, trait.myos,trait.other, pairwise_fdr, H4)][order(driver.nearestgene, trait.myos, trait.other)]
+cts <- cts[, .(pid,driver.rsid, driver.nearestgene, bestsnp.rsid, bestsnp.novel, pbest.myos, trait.myos,trait.other, pairwise_fdr, H4)][order(driver.nearestgene, trait.myos, trait.other)]
 
 #fwrite(cts, "../tables/MT_coloc_results-v2.tsv", sep = "\t")
 

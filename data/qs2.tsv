@@ -22,6 +22,7 @@ DMY_Rothwell_up_1	479	5.68078820289897e-06	PC1 (2e-04)	Rothwell	36580032	DMY	Der
 DM_NEPHROPATHY_FinnGen_FinnGenR7_1	562	2.03364417052912e-22	PC1 (4e-09)	FinnGen	FinnGenR7	DM_NEPHROPATHY	Diabetic nephropathy (FinnGen)	IMD	296367	3256	299623	European (Finnish)	Y	Diabetic nephropathy	6.83095862408499e-22
 DM_PERIPHATHERO_FinnGen_FinnGenR7_1	562	0.00022763980576371	PC1 (1e-04)	FinnGen	FinnGenR7	DM_PERIPHATHERO	Peripheral atherosclerosis (FinnGen)	IMD	225597	11197	236794	European (Finnish)	Y	Peripheral atherosclerosis	0.000427538559928975
 DM_RETINOPATHY_FinnGen_FinnGenR7_1	562	2.93564231807072e-28	PC1 (4e-11)	FinnGen	FinnGenR7	DM_RETINOPATHY	Diabetic retinopathy (FinnGen)	IMD	289034	12242	301276	European (Finnish)	Y	Diabetic retinopathy	1.07571788438396e-27
+E4_DM1_FinnGen_FinnGenR7_1	562	6.32927625948927e-187	PC1 (2e-59)	FinnGen	FinnGenR7	E4_DM1	Type 1 diabetes (FinnGen)	IMD	255466	8671	264137	European (Finnish)	Y	Type 1 diabetes	1.10551358665746e-185
 E4_DM2_FinnGen_FinnGenR7_1	562	2.67811660531091e-16	PC1 (3e-11)	FinnGen	FinnGenR7	E4_DM2	Type 2 diabetes (FinnGen)	IMD	255466	49303	304769	European (Finnish)	Y	Type 2 diabetes	8.01904629247381e-16
 E4_THYROIDITAUTOIM_FinnGen_FinnGenR7_1	562	5.62665490765888e-17	PC1 (1e-07)	FinnGen	FinnGenR7	E4_THYROIDITAUTOIM	Autoimmune thyroiditis (FinnGen)	IMD	263704	366	264070	European (Finnish)	Y	Autoimmune thyroiditis	1.74459595953447e-16
 EGPAANCAn_Lyons_31719529_1	566	1.44939471086705e-18	PC13 (3e-17)	Lyons	31719529	EGPAANCAn	ANCA negative EGPA	IMD	6688	352	7040	European	Y	ANCA negative EGPA	4.54780136822955e-18
@@ -54,6 +55,8 @@ L12_VITILIGO_FinnGen_FinnGenR7_1	562	7.966596158777e-07	PC1 (1e-03)	FinnGen	Finn
 M13_ANKYLOSPON_FinnGen_FinnGenR7_1	562	1.0800154654235e-12	PC1 (9e-06)	FinnGen	FinnGenR7	M13_ANKYLOSPON	Ankylosing spondylitis (FinnGen)	IMD	227388	2252	229640	European (Finnish)	Y	Ankylosing spondylitis	2.90219540452264e-12
 M13_PALINDROMIC_FinnGen_FinnGenR7_1	562	0.000132990251080508	PC3 (9e-04)	FinnGen	FinnGenR7	M13_PALINDROMIC	Palindromic rheumatism (FinnGen)	IMD	202617	225	202842	European (Finnish)	Y	Palindromic rheumatism	0.000254331721044475
 M13_POLYMYALGIA_FinnGen_FinnGenR7_1	562	0.000251988237607544	PC13 (3e-03)	FinnGen	FinnGenR7	M13_POLYMYALGIA	Polymyalgia rheumatica (FinnGen)	IMD	300162	2535	302697	European (Finnish)	Y	Polymyalgia rheumatica	0.000469899774043961
+M13_RHEUMA_FinnGen_FinnGenR7_1	562	2.69517780685798e-147	PC9 (7e-35)	FinnGen	FinnGenR7	M13_RHEUMA	Rheumatoid arthritis (FinnGen)	IMD	202617	9855	212472	European (Finnish)	Y	Rheumatoid arthritis	3.36255516855615e-146
+M13_SLE_FinnGen_FinnGenR7_1	562	1.6833684157907e-28	PC2 (7e-13)	FinnGen	FinnGenR7	M13_SLE	Systemic lupus erythematosus (FinnGen)	IMD	300162	835	300997	European (Finnish)	Y	Systemic lupus erythematosus	6.25592233953423e-28
 M13_WEGENER_FinnGen_FinnGenR7_1	562	0.000721221548498049	PC3 (3e-04)	FinnGen	FinnGenR7	M13_WEGENER	Wegener granulomatosis (FinnGen)	IMD	300162	350	300512	European (Finnish)	Y	Wegener granulomatosis	0.00132603540846659
 MYGEO_Renton_25643325_1	564	5.9883598965413e-08	PC1 (2e-03)	Renton	25643325	MYGEO	Early-onset Myastenia Gravis	IMD	1977	235	2212	European (North America)	N	Early-onset Myastenia Gravis	1.40084847579805e-07
 MYGLO_Renton_25643325_1	564	1.39349495042457e-10	PC3 (2e-07)	Renton	25643325	MYGLO	Late-onset Myastenia Gravis	IMD	1977	737	2714	European (North America)	N	Late-onset Myastenia Gravis	3.54461822341007e-10
@@ -63,12 +66,9 @@ N14_GLOMER_NEPHRITIS_FinnGen_FinnGenR7_1	562	0.000811007615869287	PC3 (2e-03)	Fi
 NMOIGGp_Estrada_29769526_1	564	0.00199659380706983	PC1 (5e-03)	Estrada	29769526	NMOIGGp	IgG+ Neuromyelitis Optica	IMD	1244	132	1376	European	Y	IgG+ Neuromyelitis Optica	0.00353451065846146
 PM_Miller_26291516_1	564	2.96797551351487e-07	PC13 (6e-05)	Miller	26291516	PM	Polymyositis	IMD	4724	533	5257	European	N	Polymyositis (Miller)	6.73255051550559e-07
 PM_Rothwell_up_1	479	2.04578078462164e-11	PC3 (9e-06)	Rothwell	36580032	PM	Polymyositis	IMD	3612	903	4515	European	N	Polymyositis (Rothwell)	5.33327925941164e-11
-RA_Ishigaki_36333501_3	566	0	PC9 (4e-233)	Ishigaki	36333501	RA	Rheumatoid Arthritis	IMD	240149	35871	276020	Trans-ethnic (EUR, EAS, AFR, SAS, ARB)	Y	Rheumatoid Arthritis	0
 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1	562	2.43933419693529e-37	PC3 (2e-17)	FinnGen	FinnGenR7	RX_RHEUMA_BIOLOGICAL	Biological medication for rheuma (FinnGen)	IMD	306015	3139	309154	European (Finnish)	Y	Biological medication for rheuma	1.10190613723629e-36
 SJOS_Lessard_up_1	553	2.06060915126866e-53	PC2 (5e-29)	Khatri	35896530	SJOS	Sjögren's syndrome	IMD	17481	3232	20713	European	Y	Sjögren's syndrome	1.22699908552816e-52
-SLE_Julia_29848360_1	566	0	PC2 (1e-213)	Julia	29848360	SLE	Systemic Lupus Erythematosus	IMD	8483	4943	13426	European (North + Spain)	Y	Systemic Lupus Erythematosus	0
 SSC_LopezIsac_31672989_1	561	7.49308177776997e-61	PC2 (2e-30)	LopezIsac	31672989	SSC	Systemic Sclerosis	IMD	18333	9846	28179	European	Y	Systemic Sclerosis	4.84737635994008e-60
-T1D_Chiou_34012112_1	566	0	PC3 (8e-150)	Chiou	34012112	T1D	Type 1 Diabetes	IMD	501368	18942	520310	European	Y	Type 1 Diabetes	0
 UC_Liu_26192919_1	565	0	PC1 (2e-110)	Liu	26192919	UC	Ulcerative Colitis	IMD	20464	6968	27432	European	Y	Ulcerative Colitis	0
 ph371.3_PanUKBB_PanUKBBR2_1	566	0.000380926097145954	PC3 (2e-04)	PanUKBB	PanUKBBR2	ph371.3	Inflammation of eyelids (UKBB)	IMD	417645	2854	420499	Trans-ethnic (CSA,EUR)	Y	Inflammation of eyelids	0.000705318992595335
 ph495_PanUKBB_PanUKBBR2_1	566	7.5346897575045e-177	PC13 (8e-142)	PanUKBB	PanUKBBR2	ph495	Asthma (UKBB)	IMD	398413	33000	431413	Trans-ethnic (CSA,EUR,MID)	Y	Asthma	1.1964174039189e-175
