@@ -22,6 +22,7 @@ Hyperthyroidism/Thyrotoxicosis	Dermatomyositis (Rothwell)	8.2802331290072
 Hyperthyroidism/Thyrotoxicosis	Diabetic nephropathy	13.086077790763
 Hyperthyroidism/Thyrotoxicosis	Peripheral atherosclerosis	41.7131866855731
 Hyperthyroidism/Thyrotoxicosis	Diabetic retinopathy	31.7076765640715
+Hyperthyroidism/Thyrotoxicosis	Type 1 diabetes	21.4856368912038
 Hyperthyroidism/Thyrotoxicosis	Type 2 diabetes	53.3380590533483
 Hyperthyroidism/Thyrotoxicosis	Autoimmune thyroiditis	10.1625597275555
 Hyperthyroidism/Thyrotoxicosis	ANCA negative EGPA	26.5739916167116
@@ -52,9 +53,10 @@ Hyperthyroidism/Thyrotoxicosis	Arthropathic psoriasis	18.632938984329
 Hyperthyroidism/Thyrotoxicosis	Rosacea	26.3299901308971
 Hyperthyroidism/Thyrotoxicosis	Vitiligo	9.86497474811042
 Hyperthyroidism/Thyrotoxicosis	Ankylosing spondylitis	36.4875615750264
-Hyperthyroidism/Thyrotoxicosis	Juvenile rheuma	9.91701081742886
 Hyperthyroidism/Thyrotoxicosis	Palindromic rheumatism	8.78368110254804
 Hyperthyroidism/Thyrotoxicosis	Polymyalgia rheumatica	15.2873046175681
+Hyperthyroidism/Thyrotoxicosis	Rheumatoid arthritis	13.929034364614
+Hyperthyroidism/Thyrotoxicosis	Systemic lupus erythematosus	21.8540734460221
 Hyperthyroidism/Thyrotoxicosis	Wegener granulomatosis	9.24408064247247
 Hyperthyroidism/Thyrotoxicosis	Early-onset Myastenia Gravis	11.9260893240804
 Hyperthyroidism/Thyrotoxicosis	Late-onset Myastenia Gravis	9.81317682751746
@@ -64,12 +66,9 @@ Hyperthyroidism/Thyrotoxicosis	Glomerulonephritis	14.9110272010509
 Hyperthyroidism/Thyrotoxicosis	IgG+ Neuromyelitis Optica	12.485390003734
 Hyperthyroidism/Thyrotoxicosis	Polymyositis (Miller)	7.95527565166391
 Hyperthyroidism/Thyrotoxicosis	Polymyositis (Rothwell)	11.6454814512849
-Hyperthyroidism/Thyrotoxicosis	Rheumatoid Arthritis	40.8537616671133
 Hyperthyroidism/Thyrotoxicosis	Biological medication for rheuma	14.7299665326012
 Hyperthyroidism/Thyrotoxicosis	Sjögren's syndrome	36.3269875256552
-Hyperthyroidism/Thyrotoxicosis	Systemic Lupus Erythematosus	186.641792590425
 Hyperthyroidism/Thyrotoxicosis	Systemic Sclerosis	37.6079683013176
-Hyperthyroidism/Thyrotoxicosis	Type 1 Diabetes	66.1276259614707
 Hyperthyroidism/Thyrotoxicosis	Ulcerative Colitis	179.920932649676
 Hyperthyroidism/Thyrotoxicosis	Inflammation of eyelids	31.7998185427784
 Hyperthyroidism/Thyrotoxicosis	Asthma	69.8284220413672
@@ -96,6 +95,7 @@ Hayfever/Allergic Rhinitis	Dermatomyositis (Rothwell)	26.9683125097622
 Hayfever/Allergic Rhinitis	Diabetic nephropathy	48.3389640845254
 Hayfever/Allergic Rhinitis	Peripheral atherosclerosis	38.494870469692
 Hayfever/Allergic Rhinitis	Diabetic retinopathy	67.2654316772259
+Hayfever/Allergic Rhinitis	Type 1 diabetes	193.617083370625
 Hayfever/Allergic Rhinitis	Type 2 diabetes	89.2290273139725
 Hayfever/Allergic Rhinitis	Autoimmune thyroiditis	40.7360572746295
 Hayfever/Allergic Rhinitis	ANCA negative EGPA	29.159648456409
@@ -126,9 +126,10 @@ Hayfever/Allergic Rhinitis	Arthropathic psoriasis	28.8688480346587
 Hayfever/Allergic Rhinitis	Rosacea	22.3988857411536
 Hayfever/Allergic Rhinitis	Vitiligo	26.2242953640156
 Hayfever/Allergic Rhinitis	Ankylosing spondylitis	22.5683388359833
-Hayfever/Allergic Rhinitis	Juvenile rheuma	29.772923558454
 Hayfever/Allergic Rhinitis	Palindromic rheumatism	20.6061985821943
 Hayfever/Allergic Rhinitis	Polymyalgia rheumatica	21.7527151070991
+Hayfever/Allergic Rhinitis	Rheumatoid arthritis	150.208989634587
+Hayfever/Allergic Rhinitis	Systemic lupus erythematosus	52.8973528018874
 Hayfever/Allergic Rhinitis	Wegener granulomatosis	19.1420209661239
 Hayfever/Allergic Rhinitis	Early-onset Myastenia Gravis	28.5274418796218
 Hayfever/Allergic Rhinitis	Late-onset Myastenia Gravis	34.3582237680512
@@ -138,12 +139,9 @@ Hayfever/Allergic Rhinitis	Glomerulonephritis	20.4226197208582
 Hayfever/Allergic Rhinitis	IgG+ Neuromyelitis Optica	22.6730164264283
 Hayfever/Allergic Rhinitis	Polymyositis (Miller)	22.2855242198687
 Hayfever/Allergic Rhinitis	Polymyositis (Rothwell)	29.657867908468
-Hayfever/Allergic Rhinitis	Rheumatoid Arthritis	458.263413158146
 Hayfever/Allergic Rhinitis	Biological medication for rheuma	59.5739792104306
 Hayfever/Allergic Rhinitis	Sjögren's syndrome	86.6275202031125
-Hayfever/Allergic Rhinitis	Systemic Lupus Erythematosus	417.155634504579
 Hayfever/Allergic Rhinitis	Systemic Sclerosis	92.6224974948161
-Hayfever/Allergic Rhinitis	Type 1 Diabetes	504.845522728598
 Hayfever/Allergic Rhinitis	Ulcerative Colitis	340.39758452933
 Hayfever/Allergic Rhinitis	Inflammation of eyelids	26.5751878435952
 Hayfever/Allergic Rhinitis	Asthma	16.1544553801082
@@ -170,6 +168,7 @@ Autoimmune Addison's disease	Dermatomyositis (Rothwell)	11.9255177305125
 Autoimmune Addison's disease	Diabetic nephropathy	18.1783272201172
 Autoimmune Addison's disease	Peripheral atherosclerosis	42.2991697251848
 Autoimmune Addison's disease	Diabetic retinopathy	33.3744468279166
+Autoimmune Addison's disease	Type 1 diabetes	15.8266138391575
 Autoimmune Addison's disease	Type 2 diabetes	48.4024440728805
 Autoimmune Addison's disease	Autoimmune thyroiditis	3.38419202692211
 Autoimmune Addison's disease	ANCA negative EGPA	29.0809636743849
@@ -200,9 +199,10 @@ Autoimmune Addison's disease	Arthropathic psoriasis	24.6394765103449
 Autoimmune Addison's disease	Rosacea	32.3202282525561
 Autoimmune Addison's disease	Vitiligo	3.74524538179623
 Autoimmune Addison's disease	Ankylosing spondylitis	41.2913926714725
-Autoimmune Addison's disease	Juvenile rheuma	9.63529184778015
 Autoimmune Addison's disease	Palindromic rheumatism	9.49688314732937
 Autoimmune Addison's disease	Polymyalgia rheumatica	26.5987561504293
+Autoimmune Addison's disease	Rheumatoid arthritis	27.9122430143922
+Autoimmune Addison's disease	Systemic lupus erythematosus	18.7220988798759
 Autoimmune Addison's disease	Wegener granulomatosis	9.20568480008795
 Autoimmune Addison's disease	Early-onset Myastenia Gravis	6.84639339625539
 Autoimmune Addison's disease	Late-onset Myastenia Gravis	8.30274330865336
@@ -212,12 +212,9 @@ Autoimmune Addison's disease	Glomerulonephritis	22.6958857393246
 Autoimmune Addison's disease	IgG+ Neuromyelitis Optica	8.57471615285353
 Autoimmune Addison's disease	Polymyositis (Miller)	10.9541111182316
 Autoimmune Addison's disease	Polymyositis (Rothwell)	17.198648223725
-Autoimmune Addison's disease	Rheumatoid Arthritis	38.1988160694709
 Autoimmune Addison's disease	Biological medication for rheuma	23.3715985434086
 Autoimmune Addison's disease	Sjögren's syndrome	30.3134310876519
-Autoimmune Addison's disease	Systemic Lupus Erythematosus	90.6115081124925
 Autoimmune Addison's disease	Systemic Sclerosis	31.443052010541
-Autoimmune Addison's disease	Type 1 Diabetes	20.5895557827386
 Autoimmune Addison's disease	Ulcerative Colitis	109.546001691722
 Autoimmune Addison's disease	Inflammation of eyelids	38.3862049556216
 Autoimmune Addison's disease	Asthma	60.9789022871173
@@ -244,6 +241,7 @@ MPO+ AAV	Dermatomyositis (Rothwell)	2.93937152841335
 MPO+ AAV	Diabetic nephropathy	16.4672782060248
 MPO+ AAV	Peripheral atherosclerosis	21.9446603403136
 MPO+ AAV	Diabetic retinopathy	23.338103060679
+MPO+ AAV	Type 1 diabetes	22.2550670517403
 MPO+ AAV	Type 2 diabetes	28.7506917494669
 MPO+ AAV	Autoimmune thyroiditis	5.83836311787491
 MPO+ AAV	ANCA negative EGPA	21.4956244678445
@@ -274,9 +272,10 @@ MPO+ AAV	Arthropathic psoriasis	12.8395471638688
 MPO+ AAV	Rosacea	19.2784227205294
 MPO+ AAV	Vitiligo	6.78228130136129
 MPO+ AAV	Ankylosing spondylitis	21.7991824577288
-MPO+ AAV	Juvenile rheuma	6.13846258335801
 MPO+ AAV	Palindromic rheumatism	8.37448399256236
 MPO+ AAV	Polymyalgia rheumatica	12.6955405295316
+MPO+ AAV	Rheumatoid arthritis	10.7328878644836
+MPO+ AAV	Systemic lupus erythematosus	9.86472642671001
 MPO+ AAV	Wegener granulomatosis	7.79219599442839
 MPO+ AAV	Early-onset Myastenia Gravis	4.87785303968152
 MPO+ AAV	Late-onset Myastenia Gravis	6.09931118525056
@@ -286,12 +285,9 @@ MPO+ AAV	Glomerulonephritis	12.1397031158356
 MPO+ AAV	IgG+ Neuromyelitis Optica	4.6518655880023
 MPO+ AAV	Polymyositis (Miller)	3.91418747009785
 MPO+ AAV	Polymyositis (Rothwell)	6.15361501527169
-MPO+ AAV	Rheumatoid Arthritis	14.6518459848474
 MPO+ AAV	Biological medication for rheuma	11.6927373532538
 MPO+ AAV	Sjögren's syndrome	11.1956328543703
-MPO+ AAV	Systemic Lupus Erythematosus	55.0433539941206
 MPO+ AAV	Systemic Sclerosis	9.32392777462588
-MPO+ AAV	Type 1 Diabetes	36.8403589265635
 MPO+ AAV	Ulcerative Colitis	71.9920055559216
 MPO+ AAV	Inflammation of eyelids	22.0442202982771
 MPO+ AAV	Asthma	35.4128102647533
@@ -318,6 +314,7 @@ PR3+ AAV	Dermatomyositis (Rothwell)	5.72192258292699
 PR3+ AAV	Diabetic nephropathy	15.7306924890651
 PR3+ AAV	Peripheral atherosclerosis	13.3286371557967
 PR3+ AAV	Diabetic retinopathy	16.3554368625012
+PR3+ AAV	Type 1 diabetes	34.1778964675149
 PR3+ AAV	Type 2 diabetes	20.245382772369
 PR3+ AAV	Autoimmune thyroiditis	18.118062620811
 PR3+ AAV	ANCA negative EGPA	20.0553397360251
@@ -348,9 +345,10 @@ PR3+ AAV	Arthropathic psoriasis	9.82562979896228
 PR3+ AAV	Rosacea	10.0510582900643
 PR3+ AAV	Vitiligo	10.971960815432
 PR3+ AAV	Ankylosing spondylitis	10.6494059263263
-PR3+ AAV	Juvenile rheuma	9.63655898766934
 PR3+ AAV	Palindromic rheumatism	6.75076939890584
 PR3+ AAV	Polymyalgia rheumatica	8.30082429880689
+PR3+ AAV	Rheumatoid arthritis	13.2816910180834
+PR3+ AAV	Systemic lupus erythematosus	21.0977516148576
 PR3+ AAV	Wegener granulomatosis	5.48058445541415
 PR3+ AAV	Early-onset Myastenia Gravis	12.5642551411905
 PR3+ AAV	Late-onset Myastenia Gravis	13.2379843388406
@@ -360,12 +358,9 @@ PR3+ AAV	Glomerulonephritis	2.95862094380348
 PR3+ AAV	IgG+ Neuromyelitis Optica	9.51770092357063
 PR3+ AAV	Polymyositis (Miller)	6.90953377120374
 PR3+ AAV	Polymyositis (Rothwell)	6.5805552944963
-PR3+ AAV	Rheumatoid Arthritis	32.5830781702831
 PR3+ AAV	Biological medication for rheuma	7.81908942743167
 PR3+ AAV	Sjögren's syndrome	19.4318201247304
-PR3+ AAV	Systemic Lupus Erythematosus	112.774897581304
 PR3+ AAV	Systemic Sclerosis	21.852565005088
-PR3+ AAV	Type 1 Diabetes	74.2889586589107
 PR3+ AAV	Ulcerative Colitis	78.7455930779458
 PR3+ AAV	Inflammation of eyelids	10.1009049107125
 PR3+ AAV	Asthma	18.5034583153862
@@ -392,6 +387,7 @@ Autoimmune Thyroid disease	Dermatomyositis (Rothwell)	14.8553723173886
 Autoimmune Thyroid disease	Diabetic nephropathy	20.7207827426393
 Autoimmune Thyroid disease	Peripheral atherosclerosis	106.007556367926
 Autoimmune Thyroid disease	Diabetic retinopathy	82.5120690263907
+Autoimmune Thyroid disease	Type 1 diabetes	49.7837181532913
 Autoimmune Thyroid disease	Type 2 diabetes	239.853203562425
 Autoimmune Thyroid disease	Autoimmune thyroiditis	16.5818206113048
 Autoimmune Thyroid disease	ANCA negative EGPA	38.8868934338585
@@ -422,9 +418,10 @@ Autoimmune Thyroid disease	Arthropathic psoriasis	27.0493863191658
 Autoimmune Thyroid disease	Rosacea	38.90179859651
 Autoimmune Thyroid disease	Vitiligo	16.0076381000152
 Autoimmune Thyroid disease	Ankylosing spondylitis	59.8055081126168
-Autoimmune Thyroid disease	Juvenile rheuma	15.5095258585529
 Autoimmune Thyroid disease	Palindromic rheumatism	17.9257807687935
 Autoimmune Thyroid disease	Polymyalgia rheumatica	29.3336449910032
+Autoimmune Thyroid disease	Rheumatoid arthritis	51.3304812250588
+Autoimmune Thyroid disease	Systemic lupus erythematosus	28.4049170367961
 Autoimmune Thyroid disease	Wegener granulomatosis	16.0242745957644
 Autoimmune Thyroid disease	Early-onset Myastenia Gravis	17.1800627364319
 Autoimmune Thyroid disease	Late-onset Myastenia Gravis	13.7389645971006
@@ -434,12 +431,9 @@ Autoimmune Thyroid disease	Glomerulonephritis	23.5741158765665
 Autoimmune Thyroid disease	IgG+ Neuromyelitis Optica	18.5900651333157
 Autoimmune Thyroid disease	Polymyositis (Miller)	15.7279882373092
 Autoimmune Thyroid disease	Polymyositis (Rothwell)	20.4269643285886
-Autoimmune Thyroid disease	Rheumatoid Arthritis	208.203818686879
 Autoimmune Thyroid disease	Biological medication for rheuma	27.8990325714405
 Autoimmune Thyroid disease	Sjögren's syndrome	54.2950674447276
-Autoimmune Thyroid disease	Systemic Lupus Erythematosus	318.380473288866
 Autoimmune Thyroid disease	Systemic Sclerosis	60.3981291677795
-Autoimmune Thyroid disease	Type 1 Diabetes	200.176537011967
 Autoimmune Thyroid disease	Ulcerative Colitis	373.376035284626
 Autoimmune Thyroid disease	Inflammation of eyelids	54.7586168474144
 Autoimmune Thyroid disease	Asthma	342.579683633499
@@ -466,6 +460,7 @@ Anaphylactic shock due to adverse effect of correct drug or medicament properly 
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Diabetic nephropathy	14.2145769219362
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Peripheral atherosclerosis	15.5752446914994
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Diabetic retinopathy	17.4302065181001
+Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Type 1 diabetes	20.8815453904637
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Type 2 diabetes	21.5318021573908
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Autoimmune thyroiditis	11.5977271454559
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	ANCA negative EGPA	15.6736725272683
@@ -496,9 +491,10 @@ Anaphylactic shock due to adverse effect of correct drug or medicament properly 
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Rosacea	9.04798341638905
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Vitiligo	9.16724687022139
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Ankylosing spondylitis	7.64630913316938
-Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Juvenile rheuma	4.43355751518571
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Palindromic rheumatism	6.783652518815
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Polymyalgia rheumatica	11.5029413416697
+Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Rheumatoid arthritis	15.6631529647151
+Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Systemic lupus erythematosus	12.0439296512673
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Wegener granulomatosis	4.68202984804206
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Early-onset Myastenia Gravis	7.91873827598376
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Late-onset Myastenia Gravis	9.8324341834482
@@ -508,12 +504,9 @@ Anaphylactic shock due to adverse effect of correct drug or medicament properly 
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	IgG+ Neuromyelitis Optica	7.99524405390081
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Polymyositis (Miller)	4.92687074047293
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Polymyositis (Rothwell)	6.69314587647349
-Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Rheumatoid Arthritis	22.4477747028446
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Biological medication for rheuma	9.5355398183334
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Sjögren's syndrome	12.5706748678786
-Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Systemic Lupus Erythematosus	38.0606908250205
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Systemic Sclerosis	12.6174247963955
-Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Type 1 Diabetes	30.3041898749879
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Ulcerative Colitis	21.165678472838
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Inflammation of eyelids	11.4138034939549
 Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	Asthma	18.3204536242345
@@ -540,6 +533,7 @@ Adult-onset Asthma	Dermatomyositis (Rothwell)	26.5377189815939
 Adult-onset Asthma	Diabetic nephropathy	45.7550784664946
 Adult-onset Asthma	Peripheral atherosclerosis	46.0409420539348
 Adult-onset Asthma	Diabetic retinopathy	67.6669890816424
+Adult-onset Asthma	Type 1 diabetes	184.127649207811
 Adult-onset Asthma	Type 2 diabetes	110.323921999138
 Adult-onset Asthma	Autoimmune thyroiditis	38.6290698340367
 Adult-onset Asthma	ANCA negative EGPA	26.8031672282694
@@ -570,9 +564,10 @@ Adult-onset Asthma	Arthropathic psoriasis	31.18220095819
 Adult-onset Asthma	Rosacea	26.2681657895583
 Adult-onset Asthma	Vitiligo	25.1281153200336
 Adult-onset Asthma	Ankylosing spondylitis	27.8547889767767
-Adult-onset Asthma	Juvenile rheuma	29.2491562999027
 Adult-onset Asthma	Palindromic rheumatism	19.5800250394422
 Adult-onset Asthma	Polymyalgia rheumatica	21.0060327553999
+Adult-onset Asthma	Rheumatoid arthritis	135.512606017615
+Adult-onset Asthma	Systemic lupus erythematosus	53.0395974701906
 Adult-onset Asthma	Wegener granulomatosis	18.7452492524221
 Adult-onset Asthma	Early-onset Myastenia Gravis	28.5492732882971
 Adult-onset Asthma	Late-onset Myastenia Gravis	34.1915429971657
@@ -582,12 +577,9 @@ Adult-onset Asthma	Glomerulonephritis	19.8249548157349
 Adult-onset Asthma	IgG+ Neuromyelitis Optica	22.9787630997533
 Adult-onset Asthma	Polymyositis (Miller)	21.6299324026969
 Adult-onset Asthma	Polymyositis (Rothwell)	28.8699132237496
-Adult-onset Asthma	Rheumatoid Arthritis	447.02242602885
 Adult-onset Asthma	Biological medication for rheuma	55.8097003547075
 Adult-onset Asthma	Sjögren's syndrome	88.6952337943044
-Adult-onset Asthma	Systemic Lupus Erythematosus	429.863764458103
 Adult-onset Asthma	Systemic Sclerosis	93.8124268265193
-Adult-onset Asthma	Type 1 Diabetes	503.357304055773
 Adult-onset Asthma	Ulcerative Colitis	354.897088895986
 Adult-onset Asthma	Inflammation of eyelids	31.0280019129333
 Adult-onset Asthma	Asthma	3.12698307240555
@@ -614,6 +606,7 @@ Childhood-onset Asthma	Dermatomyositis (Rothwell)	46.0657423704939
 Childhood-onset Asthma	Diabetic nephropathy	95.4289597519601
 Childhood-onset Asthma	Peripheral atherosclerosis	145.512486263426
 Childhood-onset Asthma	Diabetic retinopathy	182.849710460866
+Childhood-onset Asthma	Type 1 diabetes	261.383972246402
 Childhood-onset Asthma	Type 2 diabetes	288.542153115948
 Childhood-onset Asthma	Autoimmune thyroiditis	49.9150873833664
 Childhood-onset Asthma	ANCA negative EGPA	20.0333495615243
@@ -644,9 +637,10 @@ Childhood-onset Asthma	Arthropathic psoriasis	72.7371289054215
 Childhood-onset Asthma	Rosacea	57.60109177813
 Childhood-onset Asthma	Vitiligo	28.5202876230799
 Childhood-onset Asthma	Ankylosing spondylitis	56.664601159929
-Childhood-onset Asthma	Juvenile rheuma	41.3196563344773
 Childhood-onset Asthma	Palindromic rheumatism	21.077960125492
 Childhood-onset Asthma	Polymyalgia rheumatica	60.3531849587504
+Childhood-onset Asthma	Rheumatoid arthritis	229.670078155384
+Childhood-onset Asthma	Systemic lupus erythematosus	69.5829082902056
 Childhood-onset Asthma	Wegener granulomatosis	23.0036329167677
 Childhood-onset Asthma	Early-onset Myastenia Gravis	33.5037011728326
 Childhood-onset Asthma	Late-onset Myastenia Gravis	50.7828964269803
@@ -656,12 +650,9 @@ Childhood-onset Asthma	Glomerulonephritis	43.1380636747347
 Childhood-onset Asthma	IgG+ Neuromyelitis Optica	24.2536943562997
 Childhood-onset Asthma	Polymyositis (Miller)	25.8139217267128
 Childhood-onset Asthma	Polymyositis (Rothwell)	44.4941197090193
-Childhood-onset Asthma	Rheumatoid Arthritis	539.088289102489
 Childhood-onset Asthma	Biological medication for rheuma	106.340744136459
 Childhood-onset Asthma	Sjögren's syndrome	132.258254089076
-Childhood-onset Asthma	Systemic Lupus Erythematosus	448.439829010242
 Childhood-onset Asthma	Systemic Sclerosis	141.527166821724
-Childhood-onset Asthma	Type 1 Diabetes	534.307118152774
 Childhood-onset Asthma	Ulcerative Colitis	377.615373778021
 Childhood-onset Asthma	Inflammation of eyelids	79.0750272644129
 Childhood-onset Asthma	Asthma	60.6469111871019
@@ -688,6 +679,7 @@ Atopic Dermatitis	Dermatomyositis (Rothwell)	19.6746557152576
 Atopic Dermatitis	Diabetic nephropathy	33.6372293421765
 Atopic Dermatitis	Peripheral atherosclerosis	19.2323462140019
 Atopic Dermatitis	Diabetic retinopathy	37.2344491452123
+Atopic Dermatitis	Type 1 diabetes	110.148311418701
 Atopic Dermatitis	Type 2 diabetes	39.7303536433431
 Atopic Dermatitis	Autoimmune thyroiditis	34.1119507282095
 Atopic Dermatitis	ANCA negative EGPA	29.4657830139581
@@ -718,9 +710,10 @@ Atopic Dermatitis	Arthropathic psoriasis	14.5774015675055
 Atopic Dermatitis	Rosacea	14.050202891473
 Atopic Dermatitis	Vitiligo	21.7907496511442
 Atopic Dermatitis	Ankylosing spondylitis	14.9634100057366
-Atopic Dermatitis	Juvenile rheuma	22.8021096853852
 Atopic Dermatitis	Palindromic rheumatism	17.8880463196635
 Atopic Dermatitis	Polymyalgia rheumatica	16.6142818735133
+Atopic Dermatitis	Rheumatoid arthritis	82.1406673114463
+Atopic Dermatitis	Systemic lupus erythematosus	38.7527426671563
 Atopic Dermatitis	Wegener granulomatosis	14.1980715573812
 Atopic Dermatitis	Early-onset Myastenia Gravis	22.4521460368658
 Atopic Dermatitis	Late-onset Myastenia Gravis	27.5330486801978
@@ -730,12 +723,9 @@ Atopic Dermatitis	Glomerulonephritis	17.5712333272503
 Atopic Dermatitis	IgG+ Neuromyelitis Optica	18.0012550044533
 Atopic Dermatitis	Polymyositis (Miller)	17.7957737636288
 Atopic Dermatitis	Polymyositis (Rothwell)	23.3041515933827
-Atopic Dermatitis	Rheumatoid Arthritis	230.870529745763
 Atopic Dermatitis	Biological medication for rheuma	39.6010933487684
 Atopic Dermatitis	Sjögren's syndrome	52.3918165047684
-Atopic Dermatitis	Systemic Lupus Erythematosus	288.676676336652
 Atopic Dermatitis	Systemic Sclerosis	58.5874382452739
-Atopic Dermatitis	Type 1 Diabetes	276.146472032279
 Atopic Dermatitis	Ulcerative Colitis	274.265969667456
 Atopic Dermatitis	Inflammation of eyelids	18.7184465837554
 Atopic Dermatitis	Asthma	27.1672844494125
@@ -762,6 +752,7 @@ Crohn's Disease	Dermatomyositis (Rothwell)	92.0905755280639
 Crohn's Disease	Diabetic nephropathy	238.120548671932
 Crohn's Disease	Peripheral atherosclerosis	375.719661058431
 Crohn's Disease	Diabetic retinopathy	396.508247785497
+Crohn's Disease	Type 1 diabetes	400.77033515991
 Crohn's Disease	Type 2 diabetes	491.356212859732
 Crohn's Disease	Autoimmune thyroiditis	68.9692630305401
 Crohn's Disease	ANCA negative EGPA	85.5443516877252
@@ -792,9 +783,10 @@ Crohn's Disease	Arthropathic psoriasis	185.963763574526
 Crohn's Disease	Rosacea	124.199531153726
 Crohn's Disease	Vitiligo	40.0183664340079
 Crohn's Disease	Ankylosing spondylitis	133.068241503834
-Crohn's Disease	Juvenile rheuma	55.9007199323193
 Crohn's Disease	Palindromic rheumatism	42.1130848400312
 Crohn's Disease	Polymyalgia rheumatica	207.748056862774
+Crohn's Disease	Rheumatoid arthritis	377.510508234291
+Crohn's Disease	Systemic lupus erythematosus	104.145323285561
 Crohn's Disease	Wegener granulomatosis	46.3510072973214
 Crohn's Disease	Early-onset Myastenia Gravis	34.9460792846941
 Crohn's Disease	Late-onset Myastenia Gravis	72.6509338321544
@@ -804,12 +796,9 @@ Crohn's Disease	Glomerulonephritis	121.307934634354
 Crohn's Disease	IgG+ Neuromyelitis Optica	32.8305756250312
 Crohn's Disease	Polymyositis (Miller)	57.3988059167369
 Crohn's Disease	Polymyositis (Rothwell)	94.1377364017091
-Crohn's Disease	Rheumatoid Arthritis	521.765431334356
 Crohn's Disease	Biological medication for rheuma	176.664639116325
 Crohn's Disease	Sjögren's syndrome	227.722317631062
-Crohn's Disease	Systemic Lupus Erythematosus	459.064793109268
 Crohn's Disease	Systemic Sclerosis	226.216354447789
-Crohn's Disease	Type 1 Diabetes	467.275457349801
 Crohn's Disease	Ulcerative Colitis	184.115557118936
 Crohn's Disease	Inflammation of eyelids	184.589797572915
 Crohn's Disease	Asthma	453.606929879621
@@ -836,6 +825,7 @@ Primary biliary cholangitis	Dermatomyositis (Rothwell)	9.1138197007352
 Primary biliary cholangitis	Diabetic nephropathy	22.246997663416
 Primary biliary cholangitis	Peripheral atherosclerosis	29.8475926793388
 Primary biliary cholangitis	Diabetic retinopathy	29.5781104608796
+Primary biliary cholangitis	Type 1 diabetes	27.4289698265034
 Primary biliary cholangitis	Type 2 diabetes	36.6372124829794
 Primary biliary cholangitis	Autoimmune thyroiditis	9.47976584341449
 Primary biliary cholangitis	ANCA negative EGPA	26.8133078357931
@@ -866,9 +856,10 @@ Primary biliary cholangitis	Arthropathic psoriasis	15.9023759962369
 Primary biliary cholangitis	Rosacea	18.4013482145295
 Primary biliary cholangitis	Vitiligo	10.0576147363969
 Primary biliary cholangitis	Ankylosing spondylitis	22.5764260610916
-Primary biliary cholangitis	Juvenile rheuma	6.56199757433657
 Primary biliary cholangitis	Palindromic rheumatism	12.9175643993759
 Primary biliary cholangitis	Polymyalgia rheumatica	19.0744633003256
+Primary biliary cholangitis	Rheumatoid arthritis	19.2226856976691
+Primary biliary cholangitis	Systemic lupus erythematosus	6.07880683879266
 Primary biliary cholangitis	Wegener granulomatosis	6.40770448449411
 Primary biliary cholangitis	Early-onset Myastenia Gravis	4.68260033057531
 Primary biliary cholangitis	Late-onset Myastenia Gravis	7.23413725585359
@@ -878,12 +869,9 @@ Primary biliary cholangitis	Glomerulonephritis	17.3294107304161
 Primary biliary cholangitis	IgG+ Neuromyelitis Optica	6.58677199919123
 Primary biliary cholangitis	Polymyositis (Miller)	5.95624879616157
 Primary biliary cholangitis	Polymyositis (Rothwell)	6.70090862325568
-Primary biliary cholangitis	Rheumatoid Arthritis	23.6391366601844
 Primary biliary cholangitis	Biological medication for rheuma	15.285126260673
 Primary biliary cholangitis	Sjögren's syndrome	10.3885590306155
-Primary biliary cholangitis	Systemic Lupus Erythematosus	34.6444179384355
 Primary biliary cholangitis	Systemic Sclerosis	9.09308401684666
-Primary biliary cholangitis	Type 1 Diabetes	35.7081731182303
 Primary biliary cholangitis	Ulcerative Colitis	48.2691762502511
 Primary biliary cholangitis	Inflammation of eyelids	25.9546587978275
 Primary biliary cholangitis	Asthma	38.6367882955958
@@ -910,6 +898,7 @@ CR(E)ST syndrome	Dermatomyositis (Rothwell)	4.90242560578356
 CR(E)ST syndrome	Diabetic nephropathy	13.4223074471251
 CR(E)ST syndrome	Peripheral atherosclerosis	15.320421797992
 CR(E)ST syndrome	Diabetic retinopathy	17.029446570975
+CR(E)ST syndrome	Type 1 diabetes	20.0620404330845
 CR(E)ST syndrome	Type 2 diabetes	21.3461510415834
 CR(E)ST syndrome	Autoimmune thyroiditis	11.4452963595496
 CR(E)ST syndrome	ANCA negative EGPA	16.220962961052
@@ -940,9 +929,10 @@ CR(E)ST syndrome	Arthropathic psoriasis	8.43641181942626
 CR(E)ST syndrome	Rosacea	7.72340995169566
 CR(E)ST syndrome	Vitiligo	9.06015635559075
 CR(E)ST syndrome	Ankylosing spondylitis	9.29108133363807
-CR(E)ST syndrome	Juvenile rheuma	5.3384953373395
 CR(E)ST syndrome	Palindromic rheumatism	9.12483276787534
 CR(E)ST syndrome	Polymyalgia rheumatica	9.61777601538091
+CR(E)ST syndrome	Rheumatoid arthritis	13.3814910371884
+CR(E)ST syndrome	Systemic lupus erythematosus	3.18953791352118
 CR(E)ST syndrome	Wegener granulomatosis	3.84770680649866
 CR(E)ST syndrome	Early-onset Myastenia Gravis	5.14486735451305
 CR(E)ST syndrome	Late-onset Myastenia Gravis	6.07011410058773
@@ -952,12 +942,9 @@ CR(E)ST syndrome	Glomerulonephritis	8.13065312656629
 CR(E)ST syndrome	IgG+ Neuromyelitis Optica	4.16080820383027
 CR(E)ST syndrome	Polymyositis (Miller)	4.07457975255195
 CR(E)ST syndrome	Polymyositis (Rothwell)	3.65066003221013
-CR(E)ST syndrome	Rheumatoid Arthritis	21.1344167169226
 CR(E)ST syndrome	Biological medication for rheuma	8.66220700933231
 CR(E)ST syndrome	Sjögren's syndrome	5.20251296024802
-CR(E)ST syndrome	Systemic Lupus Erythematosus	19.6554273761729
 CR(E)ST syndrome	Systemic Sclerosis	5.73001946340428
-CR(E)ST syndrome	Type 1 Diabetes	29.4622605752939
 CR(E)ST syndrome	Ulcerative Colitis	29.5297304410383
 CR(E)ST syndrome	Inflammation of eyelids	12.5111960297281
 CR(E)ST syndrome	Asthma	21.0013586644015
@@ -984,6 +971,7 @@ Diseases of the blood and blood-forming organs and certain disorders involving t
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Diabetic nephropathy	20.302072373871
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Peripheral atherosclerosis	11.149991451735
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Diabetic retinopathy	16.6279381100219
+Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Type 1 diabetes	126.070932962446
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Type 2 diabetes	19.898417689299
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Autoimmune thyroiditis	30.2769157049344
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	ANCA negative EGPA	36.4143118716251
@@ -1014,9 +1002,10 @@ Diseases of the blood and blood-forming organs and certain disorders involving t
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Rosacea	10.9280954188058
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Vitiligo	22.0595160482475
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Ankylosing spondylitis	20.3529257535845
-Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Juvenile rheuma	21.4546508432526
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Palindromic rheumatism	19.4238123618076
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Polymyalgia rheumatica	7.16449650626864
+Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Rheumatoid arthritis	85.9704966284191
+Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Systemic lupus erythematosus	37.095125669142
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Wegener granulomatosis	15.9438797099349
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Early-onset Myastenia Gravis	23.3394735293901
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Late-onset Myastenia Gravis	22.2431415753814
@@ -1026,12 +1015,9 @@ Diseases of the blood and blood-forming organs and certain disorders involving t
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	IgG+ Neuromyelitis Optica	20.7409650194649
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Polymyositis (Miller)	19.8643463237066
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Polymyositis (Rothwell)	21.3180921969093
-Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Rheumatoid Arthritis	350.643091591279
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Biological medication for rheuma	28.8123494436984
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Sjögren's syndrome	54.26023642269
-Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Systemic Lupus Erythematosus	363.47829377222
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Systemic Sclerosis	61.7019945226667
-Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Type 1 Diabetes	414.337018737075
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Ulcerative Colitis	330.062176175673
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Inflammation of eyelids	12.4147049220899
 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	Asthma	103.147940684202
@@ -1058,6 +1044,7 @@ Other and unspecified disorders involving the immune mechanism, not elsewhere cl
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Diabetic nephropathy	11.5295396803156
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Peripheral atherosclerosis	11.623945118967
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Diabetic retinopathy	14.043664464861
+Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Type 1 diabetes	23.4458457425525
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Type 2 diabetes	16.7772347044746
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Autoimmune thyroiditis	15.9539601065825
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	ANCA negative EGPA	16.3052857143594
@@ -1088,9 +1075,10 @@ Other and unspecified disorders involving the immune mechanism, not elsewhere cl
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Rosacea	8.58645196257654
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Vitiligo	9.5478600140031
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Ankylosing spondylitis	8.12059852080508
-Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Juvenile rheuma	7.68383670845795
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Palindromic rheumatism	7.49860975950201
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Polymyalgia rheumatica	7.6445346406469
+Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Rheumatoid arthritis	14.3973804633942
+Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Systemic lupus erythematosus	16.1827867306645
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Wegener granulomatosis	5.53395205556122
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Early-onset Myastenia Gravis	10.9760373005729
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Late-onset Myastenia Gravis	14.0262775417523
@@ -1100,12 +1088,9 @@ Other and unspecified disorders involving the immune mechanism, not elsewhere cl
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	IgG+ Neuromyelitis Optica	7.97410569571019
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Polymyositis (Miller)	6.32772694528881
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Polymyositis (Rothwell)	8.03441823136406
-Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Rheumatoid Arthritis	28.934386935293
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Biological medication for rheuma	8.38983521553661
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Sjögren's syndrome	14.8593067151104
-Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Systemic Lupus Erythematosus	70.427848019589
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Systemic Sclerosis	16.3329466207211
-Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Type 1 Diabetes	46.2169592118211
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Ulcerative Colitis	41.6551570443918
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Inflammation of eyelids	9.18743421278295
 Other and unspecified disorders involving the immune mechanism, not elsewhere classified	Asthma	14.811153247819
@@ -1132,6 +1117,7 @@ Certain disorders involving the immune mechanism	Dermatomyositis (Rothwell)	10.6
 Certain disorders involving the immune mechanism	Diabetic nephropathy	9.70183231871246
 Certain disorders involving the immune mechanism	Peripheral atherosclerosis	14.3075806970136
 Certain disorders involving the immune mechanism	Diabetic retinopathy	10.2872983530291
+Certain disorders involving the immune mechanism	Type 1 diabetes	47.9962845454646
 Certain disorders involving the immune mechanism	Type 2 diabetes	18.8478853154037
 Certain disorders involving the immune mechanism	Autoimmune thyroiditis	20.2768098923357
 Certain disorders involving the immune mechanism	ANCA negative EGPA	28.970634659992
@@ -1162,9 +1148,10 @@ Certain disorders involving the immune mechanism	Arthropathic psoriasis	5.920833
 Certain disorders involving the immune mechanism	Rosacea	6.04288128035969
 Certain disorders involving the immune mechanism	Vitiligo	14.4289334822005
 Certain disorders involving the immune mechanism	Ankylosing spondylitis	12.5276541615004
-Certain disorders involving the immune mechanism	Juvenile rheuma	11.959582228161
 Certain disorders involving the immune mechanism	Palindromic rheumatism	12.0103929213526
 Certain disorders involving the immune mechanism	Polymyalgia rheumatica	4.06437628790118
+Certain disorders involving the immune mechanism	Rheumatoid arthritis	32.71698150776
+Certain disorders involving the immune mechanism	Systemic lupus erythematosus	28.1258269850818
 Certain disorders involving the immune mechanism	Wegener granulomatosis	9.01857340023432
 Certain disorders involving the immune mechanism	Early-onset Myastenia Gravis	16.4909776790105
 Certain disorders involving the immune mechanism	Late-onset Myastenia Gravis	14.7645357862481
@@ -1174,12 +1161,9 @@ Certain disorders involving the immune mechanism	Glomerulonephritis	5.6937342667
 Certain disorders involving the immune mechanism	IgG+ Neuromyelitis Optica	15.3272684036362
 Certain disorders involving the immune mechanism	Polymyositis (Miller)	13.2137613528387
 Certain disorders involving the immune mechanism	Polymyositis (Rothwell)	14.3301963806315
-Certain disorders involving the immune mechanism	Rheumatoid Arthritis	116.993139798537
 Certain disorders involving the immune mechanism	Biological medication for rheuma	12.2245533737582
 Certain disorders involving the immune mechanism	Sjögren's syndrome	39.6105796341729
-Certain disorders involving the immune mechanism	Systemic Lupus Erythematosus	248.566300840454
 Certain disorders involving the immune mechanism	Systemic Sclerosis	43.9772813506135
-Certain disorders involving the immune mechanism	Type 1 Diabetes	156.724959856537
 Certain disorders involving the immune mechanism	Ulcerative Colitis	171.503752113345
 Certain disorders involving the immune mechanism	Inflammation of eyelids	8.5645673761209
 Certain disorders involving the immune mechanism	Asthma	35.8477254509277
@@ -1206,6 +1190,7 @@ Idiopathic thrombocytopenic purpura	Dermatomyositis (Rothwell)	5.27160403247177
 Idiopathic thrombocytopenic purpura	Diabetic nephropathy	10.1865427651093
 Idiopathic thrombocytopenic purpura	Peripheral atherosclerosis	13.8078748806387
 Idiopathic thrombocytopenic purpura	Diabetic retinopathy	13.4192022510803
+Idiopathic thrombocytopenic purpura	Type 1 diabetes	20.1930120175953
 Idiopathic thrombocytopenic purpura	Type 2 diabetes	18.588948777178
 Idiopathic thrombocytopenic purpura	Autoimmune thyroiditis	12.0108179851736
 Idiopathic thrombocytopenic purpura	ANCA negative EGPA	19.9851929652168
@@ -1236,9 +1221,10 @@ Idiopathic thrombocytopenic purpura	Arthropathic psoriasis	6.50757627799758
 Idiopathic thrombocytopenic purpura	Rosacea	3.70390536191661
 Idiopathic thrombocytopenic purpura	Vitiligo	8.61443294458602
 Idiopathic thrombocytopenic purpura	Ankylosing spondylitis	6.94924426763369
-Idiopathic thrombocytopenic purpura	Juvenile rheuma	4.409800460399
 Idiopathic thrombocytopenic purpura	Palindromic rheumatism	7.19984050804907
 Idiopathic thrombocytopenic purpura	Polymyalgia rheumatica	6.89939947560817
+Idiopathic thrombocytopenic purpura	Rheumatoid arthritis	11.4334522097134
+Idiopathic thrombocytopenic purpura	Systemic lupus erythematosus	10.3142189781523
 Idiopathic thrombocytopenic purpura	Wegener granulomatosis	2.68265763792231
 Idiopathic thrombocytopenic purpura	Early-onset Myastenia Gravis	7.57412333511691
 Idiopathic thrombocytopenic purpura	Late-onset Myastenia Gravis	6.6502305688701
@@ -1248,12 +1234,9 @@ Idiopathic thrombocytopenic purpura	Glomerulonephritis	3.4298363133043
 Idiopathic thrombocytopenic purpura	IgG+ Neuromyelitis Optica	7.81363188293236
 Idiopathic thrombocytopenic purpura	Polymyositis (Miller)	5.77647030511401
 Idiopathic thrombocytopenic purpura	Polymyositis (Rothwell)	4.09374368388746
-Idiopathic thrombocytopenic purpura	Rheumatoid Arthritis	23.4796024544346
 Idiopathic thrombocytopenic purpura	Biological medication for rheuma	4.47857870953235
 Idiopathic thrombocytopenic purpura	Sjögren's syndrome	11.6531923416159
-Idiopathic thrombocytopenic purpura	Systemic Lupus Erythematosus	63.0123431018444
 Idiopathic thrombocytopenic purpura	Systemic Sclerosis	13.0160792391898
-Idiopathic thrombocytopenic purpura	Type 1 Diabetes	38.1733525513249
 Idiopathic thrombocytopenic purpura	Ulcerative Colitis	33.0090895613047
 Idiopathic thrombocytopenic purpura	Inflammation of eyelids	7.16284005143601
 Idiopathic thrombocytopenic purpura	Asthma	19.1303988565254
@@ -1280,6 +1263,7 @@ Sarcoidosis	Dermatomyositis (Rothwell)	8.5739887003358
 Sarcoidosis	Diabetic nephropathy	7.71228641572028
 Sarcoidosis	Peripheral atherosclerosis	13.5451586771004
 Sarcoidosis	Diabetic retinopathy	9.86565648916652
+Sarcoidosis	Type 1 diabetes	34.8816642483968
 Sarcoidosis	Type 2 diabetes	18.241740299647
 Sarcoidosis	Autoimmune thyroiditis	16.6099329749299
 Sarcoidosis	ANCA negative EGPA	29.2865973183508
@@ -1310,9 +1294,10 @@ Sarcoidosis	Arthropathic psoriasis	4.99051882410081
 Sarcoidosis	Rosacea	5.50675365138175
 Sarcoidosis	Vitiligo	12.4565624360409
 Sarcoidosis	Ankylosing spondylitis	12.2449023330384
-Sarcoidosis	Juvenile rheuma	9.6286541476427
 Sarcoidosis	Palindromic rheumatism	10.8189900190797
 Sarcoidosis	Polymyalgia rheumatica	4.78015349205246
+Sarcoidosis	Rheumatoid arthritis	25.1089053833574
+Sarcoidosis	Systemic lupus erythematosus	24.8762243857901
 Sarcoidosis	Wegener granulomatosis	7.98458965055301
 Sarcoidosis	Early-onset Myastenia Gravis	14.2177319212139
 Sarcoidosis	Late-onset Myastenia Gravis	11.5511500030425
@@ -1322,12 +1307,9 @@ Sarcoidosis	Glomerulonephritis	5.95799550533403
 Sarcoidosis	IgG+ Neuromyelitis Optica	14.0265001890451
 Sarcoidosis	Polymyositis (Miller)	12.2127460630745
 Sarcoidosis	Polymyositis (Rothwell)	13.499755719003
-Sarcoidosis	Rheumatoid Arthritis	84.2498171219432
 Sarcoidosis	Biological medication for rheuma	9.47888371612053
 Sarcoidosis	Sjögren's syndrome	33.7070733003391
-Sarcoidosis	Systemic Lupus Erythematosus	207.715983669261
 Sarcoidosis	Systemic Sclerosis	37.3728436590828
-Sarcoidosis	Type 1 Diabetes	113.69799784555
 Sarcoidosis	Ulcerative Colitis	144.786479606479
 Sarcoidosis	Inflammation of eyelids	7.87066008198744
 Sarcoidosis	Asthma	36.3641645241985
@@ -1354,6 +1336,7 @@ Dermatomyositis (Miller)	Dermatomyositis (Rothwell)	2.21184741829353
 Dermatomyositis (Miller)	Diabetic nephropathy	10.0833789743817
 Dermatomyositis (Miller)	Peripheral atherosclerosis	11.5986518387942
 Dermatomyositis (Miller)	Diabetic retinopathy	14.2918862802649
+Dermatomyositis (Miller)	Type 1 diabetes	17.5944577464425
 Dermatomyositis (Miller)	Type 2 diabetes	18.0184309887005
 Dermatomyositis (Miller)	Autoimmune thyroiditis	10.071631249901
 Dermatomyositis (Miller)	ANCA negative EGPA	16.5270421655302
@@ -1384,9 +1367,10 @@ Dermatomyositis (Miller)	Arthropathic psoriasis	6.48782380806236
 Dermatomyositis (Miller)	Rosacea	10.9258092399534
 Dermatomyositis (Miller)	Vitiligo	7.81301032228941
 Dermatomyositis (Miller)	Ankylosing spondylitis	12.2023878138132
-Dermatomyositis (Miller)	Juvenile rheuma	6.6724086096772
 Dermatomyositis (Miller)	Palindromic rheumatism	6.79466901670679
 Dermatomyositis (Miller)	Polymyalgia rheumatica	6.46340529043291
+Dermatomyositis (Miller)	Rheumatoid arthritis	8.26713292581184
+Dermatomyositis (Miller)	Systemic lupus erythematosus	7.07096540077285
 Dermatomyositis (Miller)	Wegener granulomatosis	5.77124778534496
 Dermatomyositis (Miller)	Early-onset Myastenia Gravis	6.9566243954134
 Dermatomyositis (Miller)	Late-onset Myastenia Gravis	7.52891812992088
@@ -1396,12 +1380,9 @@ Dermatomyositis (Miller)	Glomerulonephritis	6.36972844182809
 Dermatomyositis (Miller)	IgG+ Neuromyelitis Optica	4.40338959979468
 Dermatomyositis (Miller)	Polymyositis (Miller)	2.52142974884035
 Dermatomyositis (Miller)	Polymyositis (Rothwell)	3.92476870726869
-Dermatomyositis (Miller)	Rheumatoid Arthritis	16.9780360564273
 Dermatomyositis (Miller)	Biological medication for rheuma	7.32693814850148
 Dermatomyositis (Miller)	Sjögren's syndrome	6.17548028525573
-Dermatomyositis (Miller)	Systemic Lupus Erythematosus	41.2419348768584
 Dermatomyositis (Miller)	Systemic Sclerosis	6.59656463938015
-Dermatomyositis (Miller)	Type 1 Diabetes	33.8869687986533
 Dermatomyositis (Miller)	Ulcerative Colitis	54.6985500482351
 Dermatomyositis (Miller)	Inflammation of eyelids	12.5245176218012
 Dermatomyositis (Miller)	Asthma	21.1279900337534
@@ -1428,6 +1409,7 @@ Dermatomyositis (Rothwell)	Dermatomyositis (Rothwell)	0
 Dermatomyositis (Rothwell)	Diabetic nephropathy	11.6049112132857
 Dermatomyositis (Rothwell)	Peripheral atherosclerosis	12.3775066774147
 Dermatomyositis (Rothwell)	Diabetic retinopathy	14.8586605787837
+Dermatomyositis (Rothwell)	Type 1 diabetes	21.1070601016127
 Dermatomyositis (Rothwell)	Type 2 diabetes	18.7412954475264
 Dermatomyositis (Rothwell)	Autoimmune thyroiditis	8.55338093423317
 Dermatomyositis (Rothwell)	ANCA negative EGPA	23.7549004916642
@@ -1458,9 +1440,10 @@ Dermatomyositis (Rothwell)	Arthropathic psoriasis	6.87557740679535
 Dermatomyositis (Rothwell)	Rosacea	9.79904999984265
 Dermatomyositis (Rothwell)	Vitiligo	7.97097562180505
 Dermatomyositis (Rothwell)	Ankylosing spondylitis	13.1525088342523
-Dermatomyositis (Rothwell)	Juvenile rheuma	5.98434023050947
 Dermatomyositis (Rothwell)	Palindromic rheumatism	6.74764613452619
 Dermatomyositis (Rothwell)	Polymyalgia rheumatica	6.55382392526642
+Dermatomyositis (Rothwell)	Rheumatoid arthritis	8.42229861127871
+Dermatomyositis (Rothwell)	Systemic lupus erythematosus	9.37089921653272
 Dermatomyositis (Rothwell)	Wegener granulomatosis	4.43557434077786
 Dermatomyositis (Rothwell)	Early-onset Myastenia Gravis	6.98459301486249
 Dermatomyositis (Rothwell)	Late-onset Myastenia Gravis	5.55687495019361
@@ -1470,12 +1453,9 @@ Dermatomyositis (Rothwell)	Glomerulonephritis	6.19941222302193
 Dermatomyositis (Rothwell)	IgG+ Neuromyelitis Optica	5.86265622593269
 Dermatomyositis (Rothwell)	Polymyositis (Miller)	4.89418227813327
 Dermatomyositis (Rothwell)	Polymyositis (Rothwell)	3.63199516804584
-Dermatomyositis (Rothwell)	Rheumatoid Arthritis	17.2684603412879
 Dermatomyositis (Rothwell)	Biological medication for rheuma	7.36694803097469
 Dermatomyositis (Rothwell)	Sjögren's syndrome	6.73511055378764
-Dermatomyositis (Rothwell)	Systemic Lupus Erythematosus	63.8331812706281
 Dermatomyositis (Rothwell)	Systemic Sclerosis	6.73878425289437
-Dermatomyositis (Rothwell)	Type 1 Diabetes	43.4429776171611
 Dermatomyositis (Rothwell)	Ulcerative Colitis	69.0207758953902
 Dermatomyositis (Rothwell)	Inflammation of eyelids	11.5077517598764
 Dermatomyositis (Rothwell)	Asthma	27.2264435368225
@@ -1502,6 +1482,7 @@ Diabetic nephropathy	Dermatomyositis (Rothwell)	11.6049112132857
 Diabetic nephropathy	Diabetic nephropathy	0
 Diabetic nephropathy	Peripheral atherosclerosis	20.8626624935303
 Diabetic nephropathy	Diabetic retinopathy	7.10914542830757
+Diabetic nephropathy	Type 1 diabetes	11.5067857663461
 Diabetic nephropathy	Type 2 diabetes	24.2796400115332
 Diabetic nephropathy	Autoimmune thyroiditis	15.1336842499554
 Diabetic nephropathy	ANCA negative EGPA	28.9861947115513
@@ -1532,9 +1513,10 @@ Diabetic nephropathy	Arthropathic psoriasis	10.4994873753519
 Diabetic nephropathy	Rosacea	14.471704831624
 Diabetic nephropathy	Vitiligo	11.8203046697514
 Diabetic nephropathy	Ankylosing spondylitis	28.8017662892707
-Diabetic nephropathy	Juvenile rheuma	13.6866537485136
 Diabetic nephropathy	Palindromic rheumatism	10.5813212292591
 Diabetic nephropathy	Polymyalgia rheumatica	9.7391416455573
+Diabetic nephropathy	Rheumatoid arthritis	28.6789428280886
+Diabetic nephropathy	Systemic lupus erythematosus	25.7303691065143
 Diabetic nephropathy	Wegener granulomatosis	8.40478851408849
 Diabetic nephropathy	Early-onset Myastenia Gravis	14.8199020852574
 Diabetic nephropathy	Late-onset Myastenia Gravis	12.9794374750436
@@ -1544,12 +1526,9 @@ Diabetic nephropathy	Glomerulonephritis	11.8879616570031
 Diabetic nephropathy	IgG+ Neuromyelitis Optica	13.7899872815515
 Diabetic nephropathy	Polymyositis (Miller)	11.7714069279231
 Diabetic nephropathy	Polymyositis (Rothwell)	15.0617345195291
-Diabetic nephropathy	Rheumatoid Arthritis	91.6414511172569
 Diabetic nephropathy	Biological medication for rheuma	19.2370228166375
 Diabetic nephropathy	Sjögren's syndrome	39.848462605041
-Diabetic nephropathy	Systemic Lupus Erythematosus	199.860718092008
 Diabetic nephropathy	Systemic Sclerosis	44.5440652750527
-Diabetic nephropathy	Type 1 Diabetes	75.555789784524
 Diabetic nephropathy	Ulcerative Colitis	180.873253305872
 Diabetic nephropathy	Inflammation of eyelids	15.4446298392152
 Diabetic nephropathy	Asthma	46.7636669623138
@@ -1576,6 +1555,7 @@ Peripheral atherosclerosis	Dermatomyositis (Rothwell)	12.3775066774147
 Peripheral atherosclerosis	Diabetic nephropathy	20.8626624935303
 Peripheral atherosclerosis	Peripheral atherosclerosis	0
 Peripheral atherosclerosis	Diabetic retinopathy	15.4098718744518
+Peripheral atherosclerosis	Type 1 diabetes	101.696893184108
 Peripheral atherosclerosis	Type 2 diabetes	7.40022615054337
 Peripheral atherosclerosis	Autoimmune thyroiditis	28.1890158504875
 Peripheral atherosclerosis	ANCA negative EGPA	32.8687633772985
@@ -1606,9 +1586,10 @@ Peripheral atherosclerosis	Arthropathic psoriasis	8.96128260526978
 Peripheral atherosclerosis	Rosacea	13.294078144776
 Peripheral atherosclerosis	Vitiligo	19.4139940248408
 Peripheral atherosclerosis	Ankylosing spondylitis	19.5361500780635
-Peripheral atherosclerosis	Juvenile rheuma	20.6238477357082
 Peripheral atherosclerosis	Palindromic rheumatism	16.4780290939859
 Peripheral atherosclerosis	Polymyalgia rheumatica	7.02291490360557
+Peripheral atherosclerosis	Rheumatoid arthritis	65.1355947526675
+Peripheral atherosclerosis	Systemic lupus erythematosus	36.1084627160556
 Peripheral atherosclerosis	Wegener granulomatosis	14.2326856106118
 Peripheral atherosclerosis	Early-onset Myastenia Gravis	20.837726691568
 Peripheral atherosclerosis	Late-onset Myastenia Gravis	21.1839429760101
@@ -1618,12 +1599,9 @@ Peripheral atherosclerosis	Glomerulonephritis	10.7410749929144
 Peripheral atherosclerosis	IgG+ Neuromyelitis Optica	16.9251750474754
 Peripheral atherosclerosis	Polymyositis (Miller)	16.9508934985773
 Peripheral atherosclerosis	Polymyositis (Rothwell)	19.8243341154305
-Peripheral atherosclerosis	Rheumatoid Arthritis	227.492315846629
 Peripheral atherosclerosis	Biological medication for rheuma	31.105195212601
 Peripheral atherosclerosis	Sjögren's syndrome	46.1424619868677
-Peripheral atherosclerosis	Systemic Lupus Erythematosus	304.094796074822
 Peripheral atherosclerosis	Systemic Sclerosis	51.6651483432063
-Peripheral atherosclerosis	Type 1 Diabetes	313.585085626055
 Peripheral atherosclerosis	Ulcerative Colitis	305.627428604294
 Peripheral atherosclerosis	Inflammation of eyelids	11.5202636012306
 Peripheral atherosclerosis	Asthma	55.7288069640085
@@ -1650,6 +1628,7 @@ Diabetic retinopathy	Dermatomyositis (Rothwell)	14.8586605787837
 Diabetic retinopathy	Diabetic nephropathy	7.10914542830757
 Diabetic retinopathy	Peripheral atherosclerosis	15.4098718744518
 Diabetic retinopathy	Diabetic retinopathy	0
+Diabetic retinopathy	Type 1 diabetes	56.7571941184732
 Diabetic retinopathy	Type 2 diabetes	16.8518924500822
 Diabetic retinopathy	Autoimmune thyroiditis	24.5323724017883
 Diabetic retinopathy	ANCA negative EGPA	32.9464187743307
@@ -1680,9 +1659,10 @@ Diabetic retinopathy	Arthropathic psoriasis	13.9057889606439
 Diabetic retinopathy	Rosacea	14.1774632953273
 Diabetic retinopathy	Vitiligo	17.8545016555184
 Diabetic retinopathy	Ankylosing spondylitis	30.1420704479808
-Diabetic retinopathy	Juvenile rheuma	20.5718066408912
 Diabetic retinopathy	Palindromic rheumatism	15.1570368811968
 Diabetic retinopathy	Polymyalgia rheumatica	8.94864932911902
+Diabetic retinopathy	Rheumatoid arthritis	65.584487153968
+Diabetic retinopathy	Systemic lupus erythematosus	37.2604370995458
 Diabetic retinopathy	Wegener granulomatosis	12.5187258250709
 Diabetic retinopathy	Early-onset Myastenia Gravis	20.9194537965162
 Diabetic retinopathy	Late-onset Myastenia Gravis	18.9308506809868
@@ -1692,15 +1672,85 @@ Diabetic retinopathy	Glomerulonephritis	11.8576069823677
 Diabetic retinopathy	IgG+ Neuromyelitis Optica	18.2052712482438
 Diabetic retinopathy	Polymyositis (Miller)	17.3873095267418
 Diabetic retinopathy	Polymyositis (Rothwell)	19.8185188029746
-Diabetic retinopathy	Rheumatoid Arthritis	241.996576618263
 Diabetic retinopathy	Biological medication for rheuma	32.0106573300129
 Diabetic retinopathy	Sjögren's syndrome	58.5979747634629
-Diabetic retinopathy	Systemic Lupus Erythematosus	330.231829825147
 Diabetic retinopathy	Systemic Sclerosis	65.8797100011087
-Diabetic retinopathy	Type 1 Diabetes	243.211886164435
 Diabetic retinopathy	Ulcerative Colitis	306.589570839147
 Diabetic retinopathy	Inflammation of eyelids	13.0213725645223
 Diabetic retinopathy	Asthma	72.6913869101663
+Type 1 diabetes	Hyperthyroidism/Thyrotoxicosis	21.4856368912038
+Type 1 diabetes	Hayfever/Allergic Rhinitis	193.617083370625
+Type 1 diabetes	Autoimmune Addison's disease	15.8266138391575
+Type 1 diabetes	MPO+ AAV	22.2550670517404
+Type 1 diabetes	PR3+ AAV	34.1778964675149
+Type 1 diabetes	Autoimmune Thyroid disease	49.7837181532913
+Type 1 diabetes	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	20.8815453904637
+Type 1 diabetes	Adult-onset Asthma	184.127649207811
+Type 1 diabetes	Childhood-onset Asthma	261.383972246402
+Type 1 diabetes	Atopic Dermatitis	110.148311418701
+Type 1 diabetes	Crohn's Disease	400.77033515991
+Type 1 diabetes	Primary biliary cholangitis	27.4289698265034
+Type 1 diabetes	CR(E)ST syndrome	20.0620404330845
+Type 1 diabetes	Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	126.070932962446
+Type 1 diabetes	Other and unspecified disorders involving the immune mechanism, not elsewhere classified	23.4458457425525
+Type 1 diabetes	Certain disorders involving the immune mechanism	47.9962845454646
+Type 1 diabetes	Idiopathic thrombocytopenic purpura	20.1930120175953
+Type 1 diabetes	Sarcoidosis	34.8816642483968
+Type 1 diabetes	Dermatomyositis (Miller)	17.5944577464425
+Type 1 diabetes	Dermatomyositis (Rothwell)	21.1070601016127
+Type 1 diabetes	Diabetic nephropathy	11.5067857663461
+Type 1 diabetes	Peripheral atherosclerosis	101.696893184108
+Type 1 diabetes	Diabetic retinopathy	56.7571941184732
+Type 1 diabetes	Type 1 diabetes	0
+Type 1 diabetes	Type 2 diabetes	145.767577458178
+Type 1 diabetes	Autoimmune thyroiditis	14.6409023976839
+Type 1 diabetes	ANCA negative EGPA	34.8440883436194
+Type 1 diabetes	MPO+ EGPA	17.9078824027004
+Type 1 diabetes	Eosinophilic Granulomatosis with Polyangiitis	37.5901055265449
+Type 1 diabetes	Eosinophilic Esophagitis	63.6885312470768
+Type 1 diabetes	Felty syndrome	15.6736862739384
+Type 1 diabetes	Diabethic neuropathy	11.9543726750873
+Type 1 diabetes	Multiple Sclerosis	75.1992275813684
+Type 1 diabetes	Gout	86.2981834702859
+Type 1 diabetes	Hypothyroidism (congenital or acquired)	47.7244477694327
+Type 1 diabetes	Inflammatory Bowel Disease	414.911863727968
+Type 1 diabetes	IgA deficiency	23.0620191320139
+Type 1 diabetes	IIM (Rothwell)	43.5803107686774
+Type 1 diabetes	Nasal polyp	100.770718063183
+Type 1 diabetes	Juvenile Dermatomyositis (Miller)	13.4867631185131
+Type 1 diabetes	Juvenile Dermatomyositis (Rothwell)	21.1366944529286
+Type 1 diabetes	Juvenile Idiopathic Arthritis	37.4290922499298
+Type 1 diabetes	Jo1+ Myositis (Rothwell)	20.61077791282
+Type 1 diabetes	Primary sclerosing cholangitis	33.5538883735203
+Type 1 diabetes	Coeliac disease	70.6452263740603
+Type 1 diabetes	Erythema nodosum	19.8271859335798
+Type 1 diabetes	Lichen planus	38.6156287800633
+Type 1 diabetes	Lichen sclerosus et atrophicus	30.0563358266808
+Type 1 diabetes	Localized scleroderma [morphea]	14.4620414861844
+Type 1 diabetes	Psoriasis	90.1014278876463
+Type 1 diabetes	Arthropathic psoriasis	39.3356498960337
+Type 1 diabetes	Rosacea	43.0048262237401
+Type 1 diabetes	Vitiligo	13.8165648798218
+Type 1 diabetes	Ankylosing spondylitis	73.0190752494858
+Type 1 diabetes	Palindromic rheumatism	13.7546905648888
+Type 1 diabetes	Polymyalgia rheumatica	38.1209341816051
+Type 1 diabetes	Rheumatoid arthritis	78.0526664742175
+Type 1 diabetes	Systemic lupus erythematosus	36.2894169310421
+Type 1 diabetes	Wegener granulomatosis	12.3134348598391
+Type 1 diabetes	Early-onset Myastenia Gravis	17.5797162554482
+Type 1 diabetes	Late-onset Myastenia Gravis	17.3112962810686
+Type 1 diabetes	Myastenia Gravis	16.1729614511443
+Type 1 diabetes	IIM (Miller)	23.5229051301017
+Type 1 diabetes	Glomerulonephritis	32.9909134219704
+Type 1 diabetes	IgG+ Neuromyelitis Optica	17.4570137694434
+Type 1 diabetes	Polymyositis (Miller)	15.453915489956
+Type 1 diabetes	Polymyositis (Rothwell)	23.5664095452407
+Type 1 diabetes	Biological medication for rheuma	52.99128421339
+Type 1 diabetes	Sjögren's syndrome	75.9806177958809
+Type 1 diabetes	Systemic Sclerosis	79.0117769605664
+Type 1 diabetes	Ulcerative Colitis	321.51590861646
+Type 1 diabetes	Inflammation of eyelids	52.3879379928045
+Type 1 diabetes	Asthma	178.638757320501
 Type 2 diabetes	Hyperthyroidism/Thyrotoxicosis	53.3380590533483
 Type 2 diabetes	Hayfever/Allergic Rhinitis	89.2290273139725
 Type 2 diabetes	Autoimmune Addison's disease	48.4024440728805
@@ -1724,6 +1774,7 @@ Type 2 diabetes	Dermatomyositis (Rothwell)	18.7412954475264
 Type 2 diabetes	Diabetic nephropathy	24.2796400115332
 Type 2 diabetes	Peripheral atherosclerosis	7.40022615054337
 Type 2 diabetes	Diabetic retinopathy	16.8518924500822
+Type 2 diabetes	Type 1 diabetes	145.767577458178
 Type 2 diabetes	Type 2 diabetes	0
 Type 2 diabetes	Autoimmune thyroiditis	33.2781650538158
 Type 2 diabetes	ANCA negative EGPA	37.8496998609726
@@ -1754,9 +1805,10 @@ Type 2 diabetes	Arthropathic psoriasis	18.6286528635791
 Type 2 diabetes	Rosacea	18.1954127440199
 Type 2 diabetes	Vitiligo	23.8225144589431
 Type 2 diabetes	Ankylosing spondylitis	30.4331237826032
-Type 2 diabetes	Juvenile rheuma	27.3855068812806
 Type 2 diabetes	Palindromic rheumatism	20.4538299941755
 Type 2 diabetes	Polymyalgia rheumatica	10.868292213479
+Type 2 diabetes	Rheumatoid arthritis	119.417423986312
+Type 2 diabetes	Systemic lupus erythematosus	46.2094336452363
 Type 2 diabetes	Wegener granulomatosis	18.6980969391847
 Type 2 diabetes	Early-onset Myastenia Gravis	26.4930109217119
 Type 2 diabetes	Late-onset Myastenia Gravis	26.4345123098441
@@ -1766,12 +1818,9 @@ Type 2 diabetes	Glomerulonephritis	14.9502860816125
 Type 2 diabetes	IgG+ Neuromyelitis Optica	22.1407912445185
 Type 2 diabetes	Polymyositis (Miller)	23.315774957958
 Type 2 diabetes	Polymyositis (Rothwell)	26.6427230685992
-Type 2 diabetes	Rheumatoid Arthritis	439.871813037232
 Type 2 diabetes	Biological medication for rheuma	46.7954020271684
 Type 2 diabetes	Sjögren's syndrome	70.1379703462044
-Type 2 diabetes	Systemic Lupus Erythematosus	406.746973325168
 Type 2 diabetes	Systemic Sclerosis	77.5745102006725
-Type 2 diabetes	Type 1 Diabetes	484.395833410617
 Type 2 diabetes	Ulcerative Colitis	396.407244374877
 Type 2 diabetes	Inflammation of eyelids	14.3394262571809
 Type 2 diabetes	Asthma	128.425723645373
@@ -1798,6 +1847,7 @@ Autoimmune thyroiditis	Dermatomyositis (Rothwell)	8.55338093423317
 Autoimmune thyroiditis	Diabetic nephropathy	15.1336842499554
 Autoimmune thyroiditis	Peripheral atherosclerosis	28.1890158504875
 Autoimmune thyroiditis	Diabetic retinopathy	24.5323724017883
+Autoimmune thyroiditis	Type 1 diabetes	14.6409023976839
 Autoimmune thyroiditis	Type 2 diabetes	33.2781650538158
 Autoimmune thyroiditis	Autoimmune thyroiditis	0
 Autoimmune thyroiditis	ANCA negative EGPA	25.0216507505247
@@ -1828,9 +1878,10 @@ Autoimmune thyroiditis	Arthropathic psoriasis	17.4156257420382
 Autoimmune thyroiditis	Rosacea	22.2984323509312
 Autoimmune thyroiditis	Vitiligo	3.22761245372295
 Autoimmune thyroiditis	Ankylosing spondylitis	27.669786641889
-Autoimmune thyroiditis	Juvenile rheuma	6.19111840969091
 Autoimmune thyroiditis	Palindromic rheumatism	7.29591541071978
 Autoimmune thyroiditis	Polymyalgia rheumatica	19.3843821560365
+Autoimmune thyroiditis	Rheumatoid arthritis	18.0769040996311
+Autoimmune thyroiditis	Systemic lupus erythematosus	14.274919637451
 Autoimmune thyroiditis	Wegener granulomatosis	7.34505071867825
 Autoimmune thyroiditis	Early-onset Myastenia Gravis	3.80255804876782
 Autoimmune thyroiditis	Late-onset Myastenia Gravis	5.73812861109789
@@ -1840,12 +1891,9 @@ Autoimmune thyroiditis	Glomerulonephritis	18.2973908687277
 Autoimmune thyroiditis	IgG+ Neuromyelitis Optica	7.14632389859541
 Autoimmune thyroiditis	Polymyositis (Miller)	7.72156175216918
 Autoimmune thyroiditis	Polymyositis (Rothwell)	12.2473737961798
-Autoimmune thyroiditis	Rheumatoid Arthritis	19.8049838006043
 Autoimmune thyroiditis	Biological medication for rheuma	16.4801499055629
 Autoimmune thyroiditis	Sjögren's syndrome	20.2161065358481
-Autoimmune thyroiditis	Systemic Lupus Erythematosus	52.7158146557735
 Autoimmune thyroiditis	Systemic Sclerosis	18.8909916437609
-Autoimmune thyroiditis	Type 1 Diabetes	17.1851377906796
 Autoimmune thyroiditis	Ulcerative Colitis	57.4660155680837
 Autoimmune thyroiditis	Inflammation of eyelids	24.4554449833241
 Autoimmune thyroiditis	Asthma	38.665909855483
@@ -1872,6 +1920,7 @@ ANCA negative EGPA	Dermatomyositis (Rothwell)	23.7549004916642
 ANCA negative EGPA	Diabetic nephropathy	28.9861947115513
 ANCA negative EGPA	Peripheral atherosclerosis	32.8687633772985
 ANCA negative EGPA	Diabetic retinopathy	32.9464187743307
+ANCA negative EGPA	Type 1 diabetes	34.8440883436194
 ANCA negative EGPA	Type 2 diabetes	37.8496998609726
 ANCA negative EGPA	Autoimmune thyroiditis	25.0216507505247
 ANCA negative EGPA	ANCA negative EGPA	0
@@ -1902,9 +1951,10 @@ ANCA negative EGPA	Arthropathic psoriasis	29.1298240401329
 ANCA negative EGPA	Rosacea	29.402930287886
 ANCA negative EGPA	Vitiligo	12.7858693419654
 ANCA negative EGPA	Ankylosing spondylitis	29.2001458100428
-ANCA negative EGPA	Juvenile rheuma	24.2959662104155
 ANCA negative EGPA	Palindromic rheumatism	10.6410043853043
 ANCA negative EGPA	Polymyalgia rheumatica	23.5918368777245
+ANCA negative EGPA	Rheumatoid arthritis	29.610185094537
+ANCA negative EGPA	Systemic lupus erythematosus	27.876405062153
 ANCA negative EGPA	Wegener granulomatosis	15.4335403694206
 ANCA negative EGPA	Early-onset Myastenia Gravis	18.426936458328
 ANCA negative EGPA	Late-onset Myastenia Gravis	24.7863190712405
@@ -1914,12 +1964,9 @@ ANCA negative EGPA	Glomerulonephritis	22.4119933299747
 ANCA negative EGPA	IgG+ Neuromyelitis Optica	11.7450991215173
 ANCA negative EGPA	Polymyositis (Miller)	13.150744978265
 ANCA negative EGPA	Polymyositis (Rothwell)	22.8799095840205
-ANCA negative EGPA	Rheumatoid Arthritis	37.3212871507882
 ANCA negative EGPA	Biological medication for rheuma	28.9129520232821
 ANCA negative EGPA	Sjögren's syndrome	33.8794650264564
-ANCA negative EGPA	Systemic Lupus Erythematosus	64.7301462352422
 ANCA negative EGPA	Systemic Sclerosis	35.9013940585008
-ANCA negative EGPA	Type 1 Diabetes	46.4091147978371
 ANCA negative EGPA	Ulcerative Colitis	58.141392174075
 ANCA negative EGPA	Inflammation of eyelids	32.6580891738481
 ANCA negative EGPA	Asthma	25.3359475600586
@@ -1946,6 +1993,7 @@ MPO+ EGPA	Dermatomyositis (Rothwell)	11.5835715381106
 MPO+ EGPA	Diabetic nephropathy	14.9370154013782
 MPO+ EGPA	Peripheral atherosclerosis	19.4185720535993
 MPO+ EGPA	Diabetic retinopathy	18.8775887022705
+MPO+ EGPA	Type 1 diabetes	17.9078824027004
 MPO+ EGPA	Type 2 diabetes	23.777920950728
 MPO+ EGPA	Autoimmune thyroiditis	11.019090445234
 MPO+ EGPA	ANCA negative EGPA	2.34414495507309
@@ -1976,9 +2024,10 @@ MPO+ EGPA	Arthropathic psoriasis	15.079579238833
 MPO+ EGPA	Rosacea	14.8026625518929
 MPO+ EGPA	Vitiligo	5.26697803243968
 MPO+ EGPA	Ankylosing spondylitis	15.1425308592637
-MPO+ EGPA	Juvenile rheuma	10.4549611527659
 MPO+ EGPA	Palindromic rheumatism	6.10427203682772
 MPO+ EGPA	Polymyalgia rheumatica	12.8996763716938
+MPO+ EGPA	Rheumatoid arthritis	17.1641652678736
+MPO+ EGPA	Systemic lupus erythematosus	13.6759585514043
 MPO+ EGPA	Wegener granulomatosis	7.63648385861014
 MPO+ EGPA	Early-onset Myastenia Gravis	8.77763400766665
 MPO+ EGPA	Late-onset Myastenia Gravis	10.0972458995099
@@ -1988,12 +2037,9 @@ MPO+ EGPA	Glomerulonephritis	11.0864467069701
 MPO+ EGPA	IgG+ Neuromyelitis Optica	7.18787574048151
 MPO+ EGPA	Polymyositis (Miller)	7.06584254436702
 MPO+ EGPA	Polymyositis (Rothwell)	11.2519297524784
-MPO+ EGPA	Rheumatoid Arthritis	21.1859679648545
 MPO+ EGPA	Biological medication for rheuma	14.4789138945646
 MPO+ EGPA	Sjögren's syndrome	17.4594131948542
-MPO+ EGPA	Systemic Lupus Erythematosus	33.5103110142085
 MPO+ EGPA	Systemic Sclerosis	18.2841395122578
-MPO+ EGPA	Type 1 Diabetes	21.9763885191441
 MPO+ EGPA	Ulcerative Colitis	25.6789351495926
 MPO+ EGPA	Inflammation of eyelids	17.51303228159
 MPO+ EGPA	Asthma	19.2722047821441
@@ -2020,6 +2066,7 @@ Eosinophilic Granulomatosis with Polyangiitis	Dermatomyositis (Rothwell)	24.6542
 Eosinophilic Granulomatosis with Polyangiitis	Diabetic nephropathy	30.5591195280177
 Eosinophilic Granulomatosis with Polyangiitis	Peripheral atherosclerosis	36.8292273155976
 Eosinophilic Granulomatosis with Polyangiitis	Diabetic retinopathy	35.4961117843675
+Eosinophilic Granulomatosis with Polyangiitis	Type 1 diabetes	37.5901055265449
 Eosinophilic Granulomatosis with Polyangiitis	Type 2 diabetes	41.9129572910229
 Eosinophilic Granulomatosis with Polyangiitis	Autoimmune thyroiditis	24.6565219808292
 Eosinophilic Granulomatosis with Polyangiitis	ANCA negative EGPA	0.681971930623349
@@ -2050,9 +2097,10 @@ Eosinophilic Granulomatosis with Polyangiitis	Arthropathic psoriasis	31.70627174
 Eosinophilic Granulomatosis with Polyangiitis	Rosacea	31.9321415009026
 Eosinophilic Granulomatosis with Polyangiitis	Vitiligo	11.8120634974384
 Eosinophilic Granulomatosis with Polyangiitis	Ankylosing spondylitis	32.7319830131116
-Eosinophilic Granulomatosis with Polyangiitis	Juvenile rheuma	24.359254067157
 Eosinophilic Granulomatosis with Polyangiitis	Palindromic rheumatism	10.3975237203831
 Eosinophilic Granulomatosis with Polyangiitis	Polymyalgia rheumatica	24.6413081769593
+Eosinophilic Granulomatosis with Polyangiitis	Rheumatoid arthritis	31.9483136703078
+Eosinophilic Granulomatosis with Polyangiitis	Systemic lupus erythematosus	30.1826167893205
 Eosinophilic Granulomatosis with Polyangiitis	Wegener granulomatosis	14.6546847850179
 Eosinophilic Granulomatosis with Polyangiitis	Early-onset Myastenia Gravis	17.8034924464768
 Eosinophilic Granulomatosis with Polyangiitis	Late-onset Myastenia Gravis	24.2870715086865
@@ -2062,12 +2110,9 @@ Eosinophilic Granulomatosis with Polyangiitis	Glomerulonephritis	22.713366651269
 Eosinophilic Granulomatosis with Polyangiitis	IgG+ Neuromyelitis Optica	11.8782675778738
 Eosinophilic Granulomatosis with Polyangiitis	Polymyositis (Miller)	12.8636106576163
 Eosinophilic Granulomatosis with Polyangiitis	Polymyositis (Rothwell)	23.8107361678554
-Eosinophilic Granulomatosis with Polyangiitis	Rheumatoid Arthritis	42.8791906215611
 Eosinophilic Granulomatosis with Polyangiitis	Biological medication for rheuma	31.0772769638008
 Eosinophilic Granulomatosis with Polyangiitis	Sjögren's syndrome	39.211956949791
-Eosinophilic Granulomatosis with Polyangiitis	Systemic Lupus Erythematosus	86.1886764658498
 Eosinophilic Granulomatosis with Polyangiitis	Systemic Sclerosis	42.2230599109041
-Eosinophilic Granulomatosis with Polyangiitis	Type 1 Diabetes	53.4632197416842
 Eosinophilic Granulomatosis with Polyangiitis	Ulcerative Colitis	72.6603964804268
 Eosinophilic Granulomatosis with Polyangiitis	Inflammation of eyelids	36.5915267262358
 Eosinophilic Granulomatosis with Polyangiitis	Asthma	26.5868909306137
@@ -2094,6 +2139,7 @@ Eosinophilic Esophagitis	Dermatomyositis (Rothwell)	23.238858187716
 Eosinophilic Esophagitis	Diabetic nephropathy	30.6797693112034
 Eosinophilic Esophagitis	Peripheral atherosclerosis	24.7972465860907
 Eosinophilic Esophagitis	Diabetic retinopathy	30.5252283083814
+Eosinophilic Esophagitis	Type 1 diabetes	63.6885312470768
 Eosinophilic Esophagitis	Type 2 diabetes	33.1889563946138
 Eosinophilic Esophagitis	Autoimmune thyroiditis	34.7019000845667
 Eosinophilic Esophagitis	ANCA negative EGPA	15.698874046623
@@ -2124,9 +2170,10 @@ Eosinophilic Esophagitis	Arthropathic psoriasis	23.5254553138623
 Eosinophilic Esophagitis	Rosacea	16.8905795439039
 Eosinophilic Esophagitis	Vitiligo	18.9014442674339
 Eosinophilic Esophagitis	Ankylosing spondylitis	16.8159051511383
-Eosinophilic Esophagitis	Juvenile rheuma	24.2665842470457
 Eosinophilic Esophagitis	Palindromic rheumatism	14.5366412123928
 Eosinophilic Esophagitis	Polymyalgia rheumatica	19.596706067023
+Eosinophilic Esophagitis	Rheumatoid arthritis	46.4986822764791
+Eosinophilic Esophagitis	Systemic lupus erythematosus	37.1598860581519
 Eosinophilic Esophagitis	Wegener granulomatosis	13.5186912316218
 Eosinophilic Esophagitis	Early-onset Myastenia Gravis	20.7983362499811
 Eosinophilic Esophagitis	Late-onset Myastenia Gravis	27.0300258144831
@@ -2136,12 +2183,9 @@ Eosinophilic Esophagitis	Glomerulonephritis	15.1315258799953
 Eosinophilic Esophagitis	IgG+ Neuromyelitis Optica	14.8731445390255
 Eosinophilic Esophagitis	Polymyositis (Miller)	15.6379985317756
 Eosinophilic Esophagitis	Polymyositis (Rothwell)	23.4113933679773
-Eosinophilic Esophagitis	Rheumatoid Arthritis	97.164880808719
 Eosinophilic Esophagitis	Biological medication for rheuma	30.9807777339446
 Eosinophilic Esophagitis	Sjögren's syndrome	48.6423824874079
-Eosinophilic Esophagitis	Systemic Lupus Erythematosus	172.261218336848
 Eosinophilic Esophagitis	Systemic Sclerosis	55.5299018978489
-Eosinophilic Esophagitis	Type 1 Diabetes	126.426953685538
 Eosinophilic Esophagitis	Ulcerative Colitis	116.675142603005
 Eosinophilic Esophagitis	Inflammation of eyelids	20.3471151283163
 Eosinophilic Esophagitis	Asthma	13.3364230382847
@@ -2168,6 +2212,7 @@ Felty syndrome	Dermatomyositis (Rothwell)	7.16589514529954
 Felty syndrome	Diabetic nephropathy	13.4223477194325
 Felty syndrome	Peripheral atherosclerosis	17.9831346144202
 Felty syndrome	Diabetic retinopathy	17.9372638119683
+Felty syndrome	Type 1 diabetes	15.6736862739384
 Felty syndrome	Type 2 diabetes	22.7163400907014
 Felty syndrome	Autoimmune thyroiditis	6.78755788870374
 Felty syndrome	ANCA negative EGPA	6.65501207378846
@@ -2198,9 +2243,10 @@ Felty syndrome	Arthropathic psoriasis	13.4114174021117
 Felty syndrome	Rosacea	14.6730101849811
 Felty syndrome	Vitiligo	4.97917141197045
 Felty syndrome	Ankylosing spondylitis	17.2763605030755
-Felty syndrome	Juvenile rheuma	9.62438310640815
 Felty syndrome	Palindromic rheumatism	6.60268860394706
 Felty syndrome	Polymyalgia rheumatica	12.517645265866
+Felty syndrome	Rheumatoid arthritis	14.2811586980547
+Felty syndrome	Systemic lupus erythematosus	8.86104935033304
 Felty syndrome	Wegener granulomatosis	5.74254190305632
 Felty syndrome	Early-onset Myastenia Gravis	4.55029375407906
 Felty syndrome	Late-onset Myastenia Gravis	7.41625171526875
@@ -2210,12 +2256,9 @@ Felty syndrome	Glomerulonephritis	11.9083723005514
 Felty syndrome	IgG+ Neuromyelitis Optica	2.13918524568747
 Felty syndrome	Polymyositis (Miller)	4.6866545005426
 Felty syndrome	Polymyositis (Rothwell)	7.4840197164185
-Felty syndrome	Rheumatoid Arthritis	16.1334381068068
 Felty syndrome	Biological medication for rheuma	13.828798171516
 Felty syndrome	Sjögren's syndrome	11.4708858379485
-Felty syndrome	Systemic Lupus Erythematosus	19.5495163249963
 Felty syndrome	Systemic Sclerosis	11.1965426701776
-Felty syndrome	Type 1 Diabetes	18.7904261137657
 Felty syndrome	Ulcerative Colitis	31.6209010312477
 Felty syndrome	Inflammation of eyelids	16.1898485690575
 Felty syndrome	Asthma	21.4981603710632
@@ -2242,6 +2285,7 @@ Diabethic neuropathy	Dermatomyositis (Rothwell)	9.14176650582698
 Diabethic neuropathy	Diabetic nephropathy	1.99588552090737
 Diabethic neuropathy	Peripheral atherosclerosis	16.0766951379943
 Diabethic neuropathy	Diabetic retinopathy	6.80886002357804
+Diabethic neuropathy	Type 1 diabetes	11.9543726750873
 Diabethic neuropathy	Type 2 diabetes	19.3898873130002
 Diabethic neuropathy	Autoimmune thyroiditis	13.9730975302219
 Diabethic neuropathy	ANCA negative EGPA	25.836522377388
@@ -2272,9 +2316,10 @@ Diabethic neuropathy	Arthropathic psoriasis	11.1945062082097
 Diabethic neuropathy	Rosacea	14.7669702206415
 Diabethic neuropathy	Vitiligo	10.9594173208413
 Diabethic neuropathy	Ankylosing spondylitis	26.1678284291572
-Diabethic neuropathy	Juvenile rheuma	13.4039584595836
 Diabethic neuropathy	Palindromic rheumatism	8.17104585375897
 Diabethic neuropathy	Polymyalgia rheumatica	8.39367716235665
+Diabethic neuropathy	Rheumatoid arthritis	20.491805849038
+Diabethic neuropathy	Systemic lupus erythematosus	26.7701868931893
 Diabethic neuropathy	Wegener granulomatosis	7.59644627323372
 Diabethic neuropathy	Early-onset Myastenia Gravis	14.4542405523348
 Diabethic neuropathy	Late-onset Myastenia Gravis	11.6546086899997
@@ -2284,12 +2329,9 @@ Diabethic neuropathy	Glomerulonephritis	9.66233104039029
 Diabethic neuropathy	IgG+ Neuromyelitis Optica	12.816330442635
 Diabethic neuropathy	Polymyositis (Miller)	9.99305893301138
 Diabethic neuropathy	Polymyositis (Rothwell)	12.8008285596829
-Diabethic neuropathy	Rheumatoid Arthritis	60.6749105261263
 Diabethic neuropathy	Biological medication for rheuma	17.5724966924006
 Diabethic neuropathy	Sjögren's syndrome	36.4258353945174
-Diabethic neuropathy	Systemic Lupus Erythematosus	171.98130798248
 Diabethic neuropathy	Systemic Sclerosis	39.8265896690054
-Diabethic neuropathy	Type 1 Diabetes	64.0058976431743
 Diabethic neuropathy	Ulcerative Colitis	148.408584956206
 Diabethic neuropathy	Inflammation of eyelids	12.7874861626905
 Diabethic neuropathy	Asthma	33.3596591636153
@@ -2316,6 +2358,7 @@ Multiple Sclerosis	Dermatomyositis (Rothwell)	15.9379129932866
 Multiple Sclerosis	Diabetic nephropathy	41.3864088676837
 Multiple Sclerosis	Peripheral atherosclerosis	39.8459707550268
 Multiple Sclerosis	Diabetic retinopathy	49.964771827525
+Multiple Sclerosis	Type 1 diabetes	75.1992275813684
 Multiple Sclerosis	Type 2 diabetes	47.8912896801677
 Multiple Sclerosis	Autoimmune thyroiditis	26.2186761063986
 Multiple Sclerosis	ANCA negative EGPA	31.1778886505846
@@ -2346,9 +2389,10 @@ Multiple Sclerosis	Arthropathic psoriasis	28.3347818581405
 Multiple Sclerosis	Rosacea	23.5636274386631
 Multiple Sclerosis	Vitiligo	18.9025335337771
 Multiple Sclerosis	Ankylosing spondylitis	25.1716764449929
-Multiple Sclerosis	Juvenile rheuma	19.8796147345912
 Multiple Sclerosis	Palindromic rheumatism	17.285627912556
 Multiple Sclerosis	Polymyalgia rheumatica	21.3079458749233
+Multiple Sclerosis	Rheumatoid arthritis	57.5626347358314
+Multiple Sclerosis	Systemic lupus erythematosus	29.3841291459292
 Multiple Sclerosis	Wegener granulomatosis	16.513025099614
 Multiple Sclerosis	Early-onset Myastenia Gravis	18.6965378094149
 Multiple Sclerosis	Late-onset Myastenia Gravis	25.5577177994864
@@ -2358,12 +2402,9 @@ Multiple Sclerosis	Glomerulonephritis	25.4899816002368
 Multiple Sclerosis	IgG+ Neuromyelitis Optica	12.543879867724
 Multiple Sclerosis	Polymyositis (Miller)	20.4988198972584
 Multiple Sclerosis	Polymyositis (Rothwell)	24.254866791182
-Multiple Sclerosis	Rheumatoid Arthritis	107.385451896164
 Multiple Sclerosis	Biological medication for rheuma	42.2719862567232
 Multiple Sclerosis	Sjögren's syndrome	39.9228811383407
-Multiple Sclerosis	Systemic Lupus Erythematosus	148.637243614283
 Multiple Sclerosis	Systemic Sclerosis	36.4133063934943
-Multiple Sclerosis	Type 1 Diabetes	136.324825696799
 Multiple Sclerosis	Ulcerative Colitis	137.478684944736
 Multiple Sclerosis	Inflammation of eyelids	32.7206025471546
 Multiple Sclerosis	Asthma	61.5200531182547
@@ -2390,6 +2431,7 @@ Gout	Dermatomyositis (Rothwell)	12.8809532249836
 Gout	Diabetic nephropathy	19.9014837000647
 Gout	Peripheral atherosclerosis	8.16578665665244
 Gout	Diabetic retinopathy	15.9397113349358
+Gout	Type 1 diabetes	86.2981834702859
 Gout	Type 2 diabetes	14.9265545176633
 Gout	Autoimmune thyroiditis	26.9822280475017
 Gout	ANCA negative EGPA	32.9207033344607
@@ -2420,9 +2462,10 @@ Gout	Arthropathic psoriasis	7.26941636354065
 Gout	Rosacea	7.14184674628401
 Gout	Vitiligo	17.8193047263721
 Gout	Ankylosing spondylitis	12.8060927134678
-Gout	Juvenile rheuma	16.8937304110391
 Gout	Palindromic rheumatism	16.6139681521764
 Gout	Polymyalgia rheumatica	8.06243573501083
+Gout	Rheumatoid arthritis	58.0570087007298
+Gout	Systemic lupus erythematosus	32.7679433614547
 Gout	Wegener granulomatosis	12.454933150556
 Gout	Early-onset Myastenia Gravis	18.2366882019084
 Gout	Late-onset Myastenia Gravis	17.4143117639569
@@ -2432,12 +2475,9 @@ Gout	Glomerulonephritis	6.82831512469967
 Gout	IgG+ Neuromyelitis Optica	15.7645237157564
 Gout	Polymyositis (Miller)	16.2950828876885
 Gout	Polymyositis (Rothwell)	18.1678674536096
-Gout	Rheumatoid Arthritis	182.072351621436
 Gout	Biological medication for rheuma	22.6688859985156
 Gout	Sjögren's syndrome	42.4640514063997
-Gout	Systemic Lupus Erythematosus	274.884333701968
 Gout	Systemic Sclerosis	50.5232180317829
-Gout	Type 1 Diabetes	244.021315090091
 Gout	Ulcerative Colitis	209.809525871874
 Gout	Inflammation of eyelids	8.86253632455108
 Gout	Asthma	50.1341335209976
@@ -2464,6 +2504,7 @@ Hypothyroidism (congenital or acquired)	Dermatomyositis (Rothwell)	13.3281371755
 Hypothyroidism (congenital or acquired)	Diabetic nephropathy	9.98044601620293
 Hypothyroidism (congenital or acquired)	Peripheral atherosclerosis	53.8204589066381
 Hypothyroidism (congenital or acquired)	Diabetic retinopathy	34.3749082611186
+Hypothyroidism (congenital or acquired)	Type 1 diabetes	47.7244477694327
 Hypothyroidism (congenital or acquired)	Type 2 diabetes	107.417212815541
 Hypothyroidism (congenital or acquired)	Autoimmune thyroiditis	18.5377643292565
 Hypothyroidism (congenital or acquired)	ANCA negative EGPA	36.4243022407961
@@ -2494,9 +2535,10 @@ Hypothyroidism (congenital or acquired)	Arthropathic psoriasis	13.555762070767
 Hypothyroidism (congenital or acquired)	Rosacea	23.8809753063382
 Hypothyroidism (congenital or acquired)	Vitiligo	16.0959171538903
 Hypothyroidism (congenital or acquired)	Ankylosing spondylitis	40.3077159140982
-Hypothyroidism (congenital or acquired)	Juvenile rheuma	14.6384701937726
 Hypothyroidism (congenital or acquired)	Palindromic rheumatism	16.9973223397403
 Hypothyroidism (congenital or acquired)	Polymyalgia rheumatica	15.3609515604169
+Hypothyroidism (congenital or acquired)	Rheumatoid arthritis	42.3296491697523
+Hypothyroidism (congenital or acquired)	Systemic lupus erythematosus	27.7177321070804
 Hypothyroidism (congenital or acquired)	Wegener granulomatosis	14.0776076626747
 Hypothyroidism (congenital or acquired)	Early-onset Myastenia Gravis	17.4253893972771
 Hypothyroidism (congenital or acquired)	Late-onset Myastenia Gravis	14.3992450980897
@@ -2506,12 +2548,9 @@ Hypothyroidism (congenital or acquired)	Glomerulonephritis	15.5139750762388
 Hypothyroidism (congenital or acquired)	IgG+ Neuromyelitis Optica	17.8743099768969
 Hypothyroidism (congenital or acquired)	Polymyositis (Miller)	15.2720359398468
 Hypothyroidism (congenital or acquired)	Polymyositis (Rothwell)	18.3572168157127
-Hypothyroidism (congenital or acquired)	Rheumatoid Arthritis	209.507119671849
 Hypothyroidism (congenital or acquired)	Biological medication for rheuma	19.4262951289441
 Hypothyroidism (congenital or acquired)	Sjögren's syndrome	47.4617738476044
-Hypothyroidism (congenital or acquired)	Systemic Lupus Erythematosus	314.754941272433
 Hypothyroidism (congenital or acquired)	Systemic Sclerosis	53.8963192205468
-Hypothyroidism (congenital or acquired)	Type 1 Diabetes	219.190441644312
 Hypothyroidism (congenital or acquired)	Ulcerative Colitis	326.21328084071
 Hypothyroidism (congenital or acquired)	Inflammation of eyelids	33.4212780533096
 Hypothyroidism (congenital or acquired)	Asthma	197.914113499897
@@ -2538,6 +2577,7 @@ Inflammatory Bowel Disease	Dermatomyositis (Rothwell)	71.4345456459909
 Inflammatory Bowel Disease	Diabetic nephropathy	205.014867690472
 Inflammatory Bowel Disease	Peripheral atherosclerosis	383.685508046103
 Inflammatory Bowel Disease	Diabetic retinopathy	404.565656224279
+Inflammatory Bowel Disease	Type 1 diabetes	414.911863727968
 Inflammatory Bowel Disease	Type 2 diabetes	570.096455587109
 Inflammatory Bowel Disease	Autoimmune thyroiditis	58.4794492860351
 Inflammatory Bowel Disease	ANCA negative EGPA	65.6332145356692
@@ -2568,9 +2608,10 @@ Inflammatory Bowel Disease	Arthropathic psoriasis	157.425205142518
 Inflammatory Bowel Disease	Rosacea	87.4662732346037
 Inflammatory Bowel Disease	Vitiligo	34.5682955611832
 Inflammatory Bowel Disease	Ankylosing spondylitis	91.5819977639891
-Inflammatory Bowel Disease	Juvenile rheuma	39.236504893251
 Inflammatory Bowel Disease	Palindromic rheumatism	32.1169059555604
 Inflammatory Bowel Disease	Polymyalgia rheumatica	160.342518457758
+Inflammatory Bowel Disease	Rheumatoid arthritis	375.282971601235
+Inflammatory Bowel Disease	Systemic lupus erythematosus	88.0085810857028
 Inflammatory Bowel Disease	Wegener granulomatosis	34.4550341371355
 Inflammatory Bowel Disease	Early-onset Myastenia Gravis	32.2124599341407
 Inflammatory Bowel Disease	Late-onset Myastenia Gravis	55.0553921575823
@@ -2580,12 +2621,9 @@ Inflammatory Bowel Disease	Glomerulonephritis	77.3367079822222
 Inflammatory Bowel Disease	IgG+ Neuromyelitis Optica	29.2790608093765
 Inflammatory Bowel Disease	Polymyositis (Miller)	41.9697665330932
 Inflammatory Bowel Disease	Polymyositis (Rothwell)	64.1692882051859
-Inflammatory Bowel Disease	Rheumatoid Arthritis	584.908835283781
 Inflammatory Bowel Disease	Biological medication for rheuma	139.174476806564
 Inflammatory Bowel Disease	Sjögren's syndrome	213.083847077564
-Inflammatory Bowel Disease	Systemic Lupus Erythematosus	512.073854223272
 Inflammatory Bowel Disease	Systemic Sclerosis	213.637975241179
-Inflammatory Bowel Disease	Type 1 Diabetes	529.675459860154
 Inflammatory Bowel Disease	Ulcerative Colitis	44.8741715987534
 Inflammatory Bowel Disease	Inflammation of eyelids	149.032243457104
 Inflammatory Bowel Disease	Asthma	492.23677477926
@@ -2612,6 +2650,7 @@ IgA deficiency	Dermatomyositis (Rothwell)	15.0185354941469
 IgA deficiency	Diabetic nephropathy	12.1916524131016
 IgA deficiency	Peripheral atherosclerosis	23.5573910978531
 IgA deficiency	Diabetic retinopathy	20.7606762470265
+IgA deficiency	Type 1 diabetes	23.0620191320139
 IgA deficiency	Type 2 diabetes	28.2912378132569
 IgA deficiency	Autoimmune thyroiditis	15.3213213954073
 IgA deficiency	ANCA negative EGPA	24.5434239067994
@@ -2642,9 +2681,10 @@ IgA deficiency	Arthropathic psoriasis	14.0899845796859
 IgA deficiency	Rosacea	18.9300748662309
 IgA deficiency	Vitiligo	7.7437657340641
 IgA deficiency	Ankylosing spondylitis	22.1147394202317
-IgA deficiency	Juvenile rheuma	12.9796913143775
 IgA deficiency	Palindromic rheumatism	9.52830403188874
 IgA deficiency	Polymyalgia rheumatica	14.4380408097753
+IgA deficiency	Rheumatoid arthritis	30.5638852523876
+IgA deficiency	Systemic lupus erythematosus	21.2784788782369
 IgA deficiency	Wegener granulomatosis	11.6241960791924
 IgA deficiency	Early-onset Myastenia Gravis	13.5952224793745
 IgA deficiency	Late-onset Myastenia Gravis	12.5300063103695
@@ -2654,12 +2694,9 @@ IgA deficiency	Glomerulonephritis	12.30745803581
 IgA deficiency	IgG+ Neuromyelitis Optica	12.7150630496298
 IgA deficiency	Polymyositis (Miller)	13.4829773649237
 IgA deficiency	Polymyositis (Rothwell)	21.9947895026963
-IgA deficiency	Rheumatoid Arthritis	58.5013509804378
 IgA deficiency	Biological medication for rheuma	17.7249079468698
 IgA deficiency	Sjögren's syndrome	31.4040014864529
-IgA deficiency	Systemic Lupus Erythematosus	110.38673976366
 IgA deficiency	Systemic Sclerosis	39.3883869934302
-IgA deficiency	Type 1 Diabetes	51.1492038094958
 IgA deficiency	Ulcerative Colitis	96.350261874529
 IgA deficiency	Inflammation of eyelids	23.6181558583029
 IgA deficiency	Asthma	37.9118237534216
@@ -2686,6 +2723,7 @@ IIM (Rothwell)	Dermatomyositis (Rothwell)	2.94991362188187
 IIM (Rothwell)	Diabetic nephropathy	21.7050980921883
 IIM (Rothwell)	Peripheral atherosclerosis	29.239001338712
 IIM (Rothwell)	Diabetic retinopathy	32.0303232102101
+IIM (Rothwell)	Type 1 diabetes	43.5803107686774
 IIM (Rothwell)	Type 2 diabetes	41.7674582778909
 IIM (Rothwell)	Autoimmune thyroiditis	14.4913045919228
 IIM (Rothwell)	ANCA negative EGPA	32.3666647835196
@@ -2716,9 +2754,10 @@ IIM (Rothwell)	Arthropathic psoriasis	12.4564716192647
 IIM (Rothwell)	Rosacea	16.7300676376581
 IIM (Rothwell)	Vitiligo	12.9552433004088
 IIM (Rothwell)	Ankylosing spondylitis	25.9770262464331
-IIM (Rothwell)	Juvenile rheuma	9.21239897734613
 IIM (Rothwell)	Palindromic rheumatism	11.0411121741407
 IIM (Rothwell)	Polymyalgia rheumatica	13.2917601013663
+IIM (Rothwell)	Rheumatoid arthritis	10.9164601643
+IIM (Rothwell)	Systemic lupus erythematosus	11.3039118945442
 IIM (Rothwell)	Wegener granulomatosis	6.05126738405209
 IIM (Rothwell)	Early-onset Myastenia Gravis	10.1704387963898
 IIM (Rothwell)	Late-onset Myastenia Gravis	10.3133699747965
@@ -2728,12 +2767,9 @@ IIM (Rothwell)	Glomerulonephritis	11.5079000785363
 IIM (Rothwell)	IgG+ Neuromyelitis Optica	8.90532338377495
 IIM (Rothwell)	Polymyositis (Miller)	6.28160736704116
 IIM (Rothwell)	Polymyositis (Rothwell)	2.49687810709832
-IIM (Rothwell)	Rheumatoid Arthritis	33.4395263428632
 IIM (Rothwell)	Biological medication for rheuma	11.2771520196668
 IIM (Rothwell)	Sjögren's syndrome	8.43903067174803
-IIM (Rothwell)	Systemic Lupus Erythematosus	117.576809016272
 IIM (Rothwell)	Systemic Sclerosis	7.29662087068856
-IIM (Rothwell)	Type 1 Diabetes	93.9971509833867
 IIM (Rothwell)	Ulcerative Colitis	141.762105291097
 IIM (Rothwell)	Inflammation of eyelids	22.8014128523797
 IIM (Rothwell)	Asthma	60.5599298914225
@@ -2760,6 +2796,7 @@ Nasal polyp	Dermatomyositis (Rothwell)	26.3713718302596
 Nasal polyp	Diabetic nephropathy	44.1478297613984
 Nasal polyp	Peripheral atherosclerosis	58.4798414072956
 Nasal polyp	Diabetic retinopathy	57.4775276087647
+Nasal polyp	Type 1 diabetes	100.770718063183
 Nasal polyp	Type 2 diabetes	77.2056515237485
 Nasal polyp	Autoimmune thyroiditis	32.542254446636
 Nasal polyp	ANCA negative EGPA	16.006972335008
@@ -2790,9 +2827,10 @@ Nasal polyp	Arthropathic psoriasis	41.9051540602956
 Nasal polyp	Rosacea	35.499648483197
 Nasal polyp	Vitiligo	17.7953463437319
 Nasal polyp	Ankylosing spondylitis	37.3704682323317
-Nasal polyp	Juvenile rheuma	27.0714389639615
 Nasal polyp	Palindromic rheumatism	10.9888577065318
 Nasal polyp	Polymyalgia rheumatica	27.9269171736373
+Nasal polyp	Rheumatoid arthritis	85.8122820970121
+Nasal polyp	Systemic lupus erythematosus	54.2162666288174
 Nasal polyp	Wegener granulomatosis	13.7035511080249
 Nasal polyp	Early-onset Myastenia Gravis	25.5455204663181
 Nasal polyp	Late-onset Myastenia Gravis	32.6981106766787
@@ -2802,12 +2840,9 @@ Nasal polyp	Glomerulonephritis	20.5940601967142
 Nasal polyp	IgG+ Neuromyelitis Optica	18.8732944763071
 Nasal polyp	Polymyositis (Miller)	18.2138055934846
 Nasal polyp	Polymyositis (Rothwell)	28.4931172731461
-Nasal polyp	Rheumatoid Arthritis	185.220610087967
 Nasal polyp	Biological medication for rheuma	53.0919561040671
 Nasal polyp	Sjögren's syndrome	86.6055378473251
-Nasal polyp	Systemic Lupus Erythematosus	324.937842027258
 Nasal polyp	Systemic Sclerosis	91.7004390264578
-Nasal polyp	Type 1 Diabetes	231.206747027041
 Nasal polyp	Ulcerative Colitis	221.833134421597
 Nasal polyp	Inflammation of eyelids	40.815486665378
 Nasal polyp	Asthma	20.3342216784455
@@ -2834,6 +2869,7 @@ Juvenile Dermatomyositis (Miller)	Dermatomyositis (Rothwell)	3.24428143360756
 Juvenile Dermatomyositis (Miller)	Diabetic nephropathy	7.88419177612723
 Juvenile Dermatomyositis (Miller)	Peripheral atherosclerosis	11.2361943726281
 Juvenile Dermatomyositis (Miller)	Diabetic retinopathy	12.9243145430798
+Juvenile Dermatomyositis (Miller)	Type 1 diabetes	13.4867631185131
 Juvenile Dermatomyositis (Miller)	Type 2 diabetes	16.9094898235684
 Juvenile Dermatomyositis (Miller)	Autoimmune thyroiditis	6.76945972515547
 Juvenile Dermatomyositis (Miller)	ANCA negative EGPA	18.3375855869301
@@ -2864,9 +2900,10 @@ Juvenile Dermatomyositis (Miller)	Arthropathic psoriasis	5.62243064885758
 Juvenile Dermatomyositis (Miller)	Rosacea	10.3526063438795
 Juvenile Dermatomyositis (Miller)	Vitiligo	5.47839457527439
 Juvenile Dermatomyositis (Miller)	Ankylosing spondylitis	11.7014355308008
-Juvenile Dermatomyositis (Miller)	Juvenile rheuma	5.2766221648457
 Juvenile Dermatomyositis (Miller)	Palindromic rheumatism	5.69489131609838
 Juvenile Dermatomyositis (Miller)	Polymyalgia rheumatica	7.49154427464208
+Juvenile Dermatomyositis (Miller)	Rheumatoid arthritis	10.5837460959038
+Juvenile Dermatomyositis (Miller)	Systemic lupus erythematosus	7.67460395438539
 Juvenile Dermatomyositis (Miller)	Wegener granulomatosis	4.88053542813492
 Juvenile Dermatomyositis (Miller)	Early-onset Myastenia Gravis	6.13641672333046
 Juvenile Dermatomyositis (Miller)	Late-onset Myastenia Gravis	7.43629152556174
@@ -2876,12 +2913,9 @@ Juvenile Dermatomyositis (Miller)	Glomerulonephritis	6.7529052756773
 Juvenile Dermatomyositis (Miller)	IgG+ Neuromyelitis Optica	4.59332340828716
 Juvenile Dermatomyositis (Miller)	Polymyositis (Miller)	3.62011151901742
 Juvenile Dermatomyositis (Miller)	Polymyositis (Rothwell)	5.95017894437244
-Juvenile Dermatomyositis (Miller)	Rheumatoid Arthritis	18.190922780174
 Juvenile Dermatomyositis (Miller)	Biological medication for rheuma	7.72090888241388
 Juvenile Dermatomyositis (Miller)	Sjögren's syndrome	7.48237560218992
-Juvenile Dermatomyositis (Miller)	Systemic Lupus Erythematosus	37.6988554740057
 Juvenile Dermatomyositis (Miller)	Systemic Sclerosis	8.33174113213177
-Juvenile Dermatomyositis (Miller)	Type 1 Diabetes	24.6557852026771
 Juvenile Dermatomyositis (Miller)	Ulcerative Colitis	45.3713383206042
 Juvenile Dermatomyositis (Miller)	Inflammation of eyelids	11.1088379522746
 Juvenile Dermatomyositis (Miller)	Asthma	20.7350898847345
@@ -2908,6 +2942,7 @@ Juvenile Dermatomyositis (Rothwell)	Dermatomyositis (Rothwell)	2.56442732668803
 Juvenile Dermatomyositis (Rothwell)	Diabetic nephropathy	11.6665370587532
 Juvenile Dermatomyositis (Rothwell)	Peripheral atherosclerosis	11.4167048979699
 Juvenile Dermatomyositis (Rothwell)	Diabetic retinopathy	15.0618015603964
+Juvenile Dermatomyositis (Rothwell)	Type 1 diabetes	21.1366944529286
 Juvenile Dermatomyositis (Rothwell)	Type 2 diabetes	16.8568346710049
 Juvenile Dermatomyositis (Rothwell)	Autoimmune thyroiditis	11.1614251943274
 Juvenile Dermatomyositis (Rothwell)	ANCA negative EGPA	24.8813173592904
@@ -2938,9 +2973,10 @@ Juvenile Dermatomyositis (Rothwell)	Arthropathic psoriasis	7.09186387228587
 Juvenile Dermatomyositis (Rothwell)	Rosacea	8.85698005965645
 Juvenile Dermatomyositis (Rothwell)	Vitiligo	9.60644801397446
 Juvenile Dermatomyositis (Rothwell)	Ankylosing spondylitis	10.1426721298775
-Juvenile Dermatomyositis (Rothwell)	Juvenile rheuma	7.27515401255959
 Juvenile Dermatomyositis (Rothwell)	Palindromic rheumatism	7.43870567981107
 Juvenile Dermatomyositis (Rothwell)	Polymyalgia rheumatica	7.13658403341945
+Juvenile Dermatomyositis (Rothwell)	Rheumatoid arthritis	13.0875739312968
+Juvenile Dermatomyositis (Rothwell)	Systemic lupus erythematosus	9.92773568535358
 Juvenile Dermatomyositis (Rothwell)	Wegener granulomatosis	6.19693799643694
 Juvenile Dermatomyositis (Rothwell)	Early-onset Myastenia Gravis	8.97999245674628
 Juvenile Dermatomyositis (Rothwell)	Late-onset Myastenia Gravis	9.33753043783417
@@ -2950,12 +2986,9 @@ Juvenile Dermatomyositis (Rothwell)	Glomerulonephritis	6.29716338019995
 Juvenile Dermatomyositis (Rothwell)	IgG+ Neuromyelitis Optica	5.61446937438129
 Juvenile Dermatomyositis (Rothwell)	Polymyositis (Miller)	7.00011183438732
 Juvenile Dermatomyositis (Rothwell)	Polymyositis (Rothwell)	6.22560657804867
-Juvenile Dermatomyositis (Rothwell)	Rheumatoid Arthritis	22.1079753714627
 Juvenile Dermatomyositis (Rothwell)	Biological medication for rheuma	9.7850086281631
 Juvenile Dermatomyositis (Rothwell)	Sjögren's syndrome	8.05806855494639
-Juvenile Dermatomyositis (Rothwell)	Systemic Lupus Erythematosus	47.5622739458652
 Juvenile Dermatomyositis (Rothwell)	Systemic Sclerosis	8.03671476329077
-Juvenile Dermatomyositis (Rothwell)	Type 1 Diabetes	37.9615945049273
 Juvenile Dermatomyositis (Rothwell)	Ulcerative Colitis	48.0078122717211
 Juvenile Dermatomyositis (Rothwell)	Inflammation of eyelids	9.56497042747502
 Juvenile Dermatomyositis (Rothwell)	Asthma	24.4039216501433
@@ -2982,6 +3015,7 @@ Juvenile Idiopathic Arthritis	Dermatomyositis (Rothwell)	7.17759404562518
 Juvenile Idiopathic Arthritis	Diabetic nephropathy	22.3524787311543
 Juvenile Idiopathic Arthritis	Peripheral atherosclerosis	47.1298944668372
 Juvenile Idiopathic Arthritis	Diabetic retinopathy	44.386756305944
+Juvenile Idiopathic Arthritis	Type 1 diabetes	37.4290922499298
 Juvenile Idiopathic Arthritis	Type 2 diabetes	63.4854451833199
 Juvenile Idiopathic Arthritis	Autoimmune thyroiditis	10.9026080490321
 Juvenile Idiopathic Arthritis	ANCA negative EGPA	33.6435148466243
@@ -3012,9 +3046,10 @@ Juvenile Idiopathic Arthritis	Arthropathic psoriasis	15.3390429086597
 Juvenile Idiopathic Arthritis	Rosacea	21.94920991927
 Juvenile Idiopathic Arthritis	Vitiligo	10.644324496458
 Juvenile Idiopathic Arthritis	Ankylosing spondylitis	33.10730262684
-Juvenile Idiopathic Arthritis	Juvenile rheuma	6.96411123530568
 Juvenile Idiopathic Arthritis	Palindromic rheumatism	12.6141507799253
 Juvenile Idiopathic Arthritis	Polymyalgia rheumatica	21.0255831140653
+Juvenile Idiopathic Arthritis	Rheumatoid arthritis	16.8734661463235
+Juvenile Idiopathic Arthritis	Systemic lupus erythematosus	5.78032671416782
 Juvenile Idiopathic Arthritis	Wegener granulomatosis	7.67842493440415
 Juvenile Idiopathic Arthritis	Early-onset Myastenia Gravis	7.59779489964019
 Juvenile Idiopathic Arthritis	Late-onset Myastenia Gravis	8.0393268138737
@@ -3024,12 +3059,9 @@ Juvenile Idiopathic Arthritis	Glomerulonephritis	18.5408433466484
 Juvenile Idiopathic Arthritis	IgG+ Neuromyelitis Optica	9.52747158893805
 Juvenile Idiopathic Arthritis	Polymyositis (Miller)	6.90231427347101
 Juvenile Idiopathic Arthritis	Polymyositis (Rothwell)	7.26346683234932
-Juvenile Idiopathic Arthritis	Rheumatoid Arthritis	41.0398942503058
 Juvenile Idiopathic Arthritis	Biological medication for rheuma	10.1610070831945
 Juvenile Idiopathic Arthritis	Sjögren's syndrome	11.8911498013403
-Juvenile Idiopathic Arthritis	Systemic Lupus Erythematosus	101.077395921944
 Juvenile Idiopathic Arthritis	Systemic Sclerosis	13.1840917038807
-Juvenile Idiopathic Arthritis	Type 1 Diabetes	69.2268238699272
 Juvenile Idiopathic Arthritis	Ulcerative Colitis	153.572148250297
 Juvenile Idiopathic Arthritis	Inflammation of eyelids	35.5384595228151
 Juvenile Idiopathic Arthritis	Asthma	83.040072302391
@@ -3056,6 +3088,7 @@ Jo1+ Myositis (Rothwell)	Dermatomyositis (Rothwell)	5.27557942107484
 Jo1+ Myositis (Rothwell)	Diabetic nephropathy	16.0306444027547
 Jo1+ Myositis (Rothwell)	Peripheral atherosclerosis	19.6514385438715
 Jo1+ Myositis (Rothwell)	Diabetic retinopathy	19.8635469323615
+Jo1+ Myositis (Rothwell)	Type 1 diabetes	20.61077791282
 Jo1+ Myositis (Rothwell)	Type 2 diabetes	25.1953974717143
 Jo1+ Myositis (Rothwell)	Autoimmune thyroiditis	10.2666041308335
 Jo1+ Myositis (Rothwell)	ANCA negative EGPA	15.5865397173546
@@ -3086,9 +3119,10 @@ Jo1+ Myositis (Rothwell)	Arthropathic psoriasis	13.8816973475438
 Jo1+ Myositis (Rothwell)	Rosacea	13.7100149449328
 Jo1+ Myositis (Rothwell)	Vitiligo	8.09028715988999
 Jo1+ Myositis (Rothwell)	Ankylosing spondylitis	16.2735157242595
-Jo1+ Myositis (Rothwell)	Juvenile rheuma	8.27118931186148
 Jo1+ Myositis (Rothwell)	Palindromic rheumatism	6.06860709846687
 Jo1+ Myositis (Rothwell)	Polymyalgia rheumatica	12.6550194923153
+Jo1+ Myositis (Rothwell)	Rheumatoid arthritis	12.8488695999602
+Jo1+ Myositis (Rothwell)	Systemic lupus erythematosus	8.52664637260092
 Jo1+ Myositis (Rothwell)	Wegener granulomatosis	4.59439451907198
 Jo1+ Myositis (Rothwell)	Early-onset Myastenia Gravis	5.57263513090684
 Jo1+ Myositis (Rothwell)	Late-onset Myastenia Gravis	5.11212272480987
@@ -3098,12 +3132,9 @@ Jo1+ Myositis (Rothwell)	Glomerulonephritis	9.15874937720429
 Jo1+ Myositis (Rothwell)	IgG+ Neuromyelitis Optica	4.28840183965685
 Jo1+ Myositis (Rothwell)	Polymyositis (Miller)	3.23295479732884
 Jo1+ Myositis (Rothwell)	Polymyositis (Rothwell)	3.42167519134528
-Jo1+ Myositis (Rothwell)	Rheumatoid Arthritis	14.1951309770489
 Jo1+ Myositis (Rothwell)	Biological medication for rheuma	11.2002387811038
 Jo1+ Myositis (Rothwell)	Sjögren's syndrome	9.93572191839699
-Jo1+ Myositis (Rothwell)	Systemic Lupus Erythematosus	28.4594369081646
 Jo1+ Myositis (Rothwell)	Systemic Sclerosis	10.4299047721799
-Jo1+ Myositis (Rothwell)	Type 1 Diabetes	27.7925457502353
 Jo1+ Myositis (Rothwell)	Ulcerative Colitis	30.9098425630692
 Jo1+ Myositis (Rothwell)	Inflammation of eyelids	16.5013164476866
 Jo1+ Myositis (Rothwell)	Asthma	24.7461829099154
@@ -3130,6 +3161,7 @@ Primary sclerosing cholangitis	Dermatomyositis (Rothwell)	8.74083789882642
 Primary sclerosing cholangitis	Diabetic nephropathy	13.6365632684635
 Primary sclerosing cholangitis	Peripheral atherosclerosis	13.2892667097171
 Primary sclerosing cholangitis	Diabetic retinopathy	13.87635013677
+Primary sclerosing cholangitis	Type 1 diabetes	33.5538883735203
 Primary sclerosing cholangitis	Type 2 diabetes	17.3132812586597
 Primary sclerosing cholangitis	Autoimmune thyroiditis	18.8078720745054
 Primary sclerosing cholangitis	ANCA negative EGPA	19.8985775035874
@@ -3160,9 +3192,10 @@ Primary sclerosing cholangitis	Arthropathic psoriasis	8.29601351802759
 Primary sclerosing cholangitis	Rosacea	5.8906744430161
 Primary sclerosing cholangitis	Vitiligo	10.7272759729128
 Primary sclerosing cholangitis	Ankylosing spondylitis	7.60402381678666
-Primary sclerosing cholangitis	Juvenile rheuma	9.15336980674969
 Primary sclerosing cholangitis	Palindromic rheumatism	9.29086012743343
 Primary sclerosing cholangitis	Polymyalgia rheumatica	6.14236862483178
+Primary sclerosing cholangitis	Rheumatoid arthritis	19.8006536720168
+Primary sclerosing cholangitis	Systemic lupus erythematosus	21.3175675608544
 Primary sclerosing cholangitis	Wegener granulomatosis	6.06533670291257
 Primary sclerosing cholangitis	Early-onset Myastenia Gravis	12.7786169235743
 Primary sclerosing cholangitis	Late-onset Myastenia Gravis	12.960259731938
@@ -3172,12 +3205,9 @@ Primary sclerosing cholangitis	Glomerulonephritis	2.10399804782624
 Primary sclerosing cholangitis	IgG+ Neuromyelitis Optica	10.4751751148296
 Primary sclerosing cholangitis	Polymyositis (Miller)	10.1733664736054
 Primary sclerosing cholangitis	Polymyositis (Rothwell)	10.1110998509721
-Primary sclerosing cholangitis	Rheumatoid Arthritis	48.6618674325735
 Primary sclerosing cholangitis	Biological medication for rheuma	9.04608966310028
 Primary sclerosing cholangitis	Sjögren's syndrome	23.123276936766
-Primary sclerosing cholangitis	Systemic Lupus Erythematosus	125.407491945323
 Primary sclerosing cholangitis	Systemic Sclerosis	26.3709020590638
-Primary sclerosing cholangitis	Type 1 Diabetes	76.4669067665061
 Primary sclerosing cholangitis	Ulcerative Colitis	62.5290183441349
 Primary sclerosing cholangitis	Inflammation of eyelids	8.79596286284963
 Primary sclerosing cholangitis	Asthma	17.6164153455226
@@ -3204,6 +3234,7 @@ Coeliac disease	Dermatomyositis (Rothwell)	15.3761142283855
 Coeliac disease	Diabetic nephropathy	32.0091539497007
 Coeliac disease	Peripheral atherosclerosis	41.615525347711
 Coeliac disease	Diabetic retinopathy	49.8659883962708
+Coeliac disease	Type 1 diabetes	70.6452263740603
 Coeliac disease	Type 2 diabetes	61.4517323216362
 Coeliac disease	Autoimmune thyroiditis	20.597692816251
 Coeliac disease	ANCA negative EGPA	42.0586325172955
@@ -3234,9 +3265,10 @@ Coeliac disease	Arthropathic psoriasis	18.2503755719486
 Coeliac disease	Rosacea	26.0152446094849
 Coeliac disease	Vitiligo	15.8323251494958
 Coeliac disease	Ankylosing spondylitis	21.4658459138398
-Coeliac disease	Juvenile rheuma	10.2475176246734
 Coeliac disease	Palindromic rheumatism	12.666523620711
 Coeliac disease	Polymyalgia rheumatica	27.7973389818398
+Coeliac disease	Rheumatoid arthritis	64.7893183953548
+Coeliac disease	Systemic lupus erythematosus	35.8405630833031
 Coeliac disease	Wegener granulomatosis	12.6143930596407
 Coeliac disease	Early-onset Myastenia Gravis	18.0044225063346
 Coeliac disease	Late-onset Myastenia Gravis	23.4298122623421
@@ -3246,12 +3278,9 @@ Coeliac disease	Glomerulonephritis	19.8427781218801
 Coeliac disease	IgG+ Neuromyelitis Optica	15.6652818624543
 Coeliac disease	Polymyositis (Miller)	15.265086541131
 Coeliac disease	Polymyositis (Rothwell)	21.2987758112627
-Coeliac disease	Rheumatoid Arthritis	137.554698577535
 Coeliac disease	Biological medication for rheuma	30.7968132389222
 Coeliac disease	Sjögren's syndrome	48.9549927563398
-Coeliac disease	Systemic Lupus Erythematosus	226.10452655331
 Coeliac disease	Systemic Sclerosis	47.8907648613516
-Coeliac disease	Type 1 Diabetes	153.520960388181
 Coeliac disease	Ulcerative Colitis	169.490743573526
 Coeliac disease	Inflammation of eyelids	31.5587824004481
 Coeliac disease	Asthma	78.6596982940218
@@ -3278,6 +3307,7 @@ Erythema nodosum	Dermatomyositis (Rothwell)	6.40308606962787
 Erythema nodosum	Diabetic nephropathy	8.47774695922347
 Erythema nodosum	Peripheral atherosclerosis	12.2090985093151
 Erythema nodosum	Diabetic retinopathy	12.3893957277072
+Erythema nodosum	Type 1 diabetes	19.8271859335798
 Erythema nodosum	Type 2 diabetes	16.8420157244862
 Erythema nodosum	Autoimmune thyroiditis	13.5817033608495
 Erythema nodosum	ANCA negative EGPA	23.0573015653356
@@ -3308,9 +3338,10 @@ Erythema nodosum	Arthropathic psoriasis	6.55033436661793
 Erythema nodosum	Rosacea	3.35607758174594
 Erythema nodosum	Vitiligo	9.85648768466026
 Erythema nodosum	Ankylosing spondylitis	6.85142573527368
-Erythema nodosum	Juvenile rheuma	6.3260197387158
 Erythema nodosum	Palindromic rheumatism	8.0593717509418
 Erythema nodosum	Polymyalgia rheumatica	6.94985231871012
+Erythema nodosum	Rheumatoid arthritis	13.5253303964063
+Erythema nodosum	Systemic lupus erythematosus	11.841470462384
 Erythema nodosum	Wegener granulomatosis	5.40216158683309
 Erythema nodosum	Early-onset Myastenia Gravis	8.94073240729176
 Erythema nodosum	Late-onset Myastenia Gravis	7.93281143049398
@@ -3320,12 +3351,9 @@ Erythema nodosum	Glomerulonephritis	4.1870369658496
 Erythema nodosum	IgG+ Neuromyelitis Optica	8.45591679067412
 Erythema nodosum	Polymyositis (Miller)	7.67637566510754
 Erythema nodosum	Polymyositis (Rothwell)	7.12913184687668
-Erythema nodosum	Rheumatoid Arthritis	29.9119673359931
 Erythema nodosum	Biological medication for rheuma	5.39315857643258
 Erythema nodosum	Sjögren's syndrome	14.8832838242147
-Erythema nodosum	Systemic Lupus Erythematosus	66.6048513694646
 Erythema nodosum	Systemic Sclerosis	16.9178319314736
-Erythema nodosum	Type 1 Diabetes	39.7503093056855
 Erythema nodosum	Ulcerative Colitis	38.757012398587
 Erythema nodosum	Inflammation of eyelids	5.40078017912843
 Erythema nodosum	Asthma	21.0728387484569
@@ -3352,6 +3380,7 @@ Lichen planus	Dermatomyositis (Rothwell)	11.7532836863847
 Lichen planus	Diabetic nephropathy	11.5016706250225
 Lichen planus	Peripheral atherosclerosis	15.7404287983586
 Lichen planus	Diabetic retinopathy	14.9498407379395
+Lichen planus	Type 1 diabetes	38.6156287800633
 Lichen planus	Type 2 diabetes	23.1534774590272
 Lichen planus	Autoimmune thyroiditis	17.7326690187075
 Lichen planus	ANCA negative EGPA	29.2396738378821
@@ -3382,9 +3411,10 @@ Lichen planus	Arthropathic psoriasis	7.86007519478625
 Lichen planus	Rosacea	13.6941336035652
 Lichen planus	Vitiligo	11.5673206463889
 Lichen planus	Ankylosing spondylitis	14.9016401558057
-Lichen planus	Juvenile rheuma	10.6801138279808
 Lichen planus	Palindromic rheumatism	11.8686082236815
 Lichen planus	Polymyalgia rheumatica	10.3276347798346
+Lichen planus	Rheumatoid arthritis	41.4089419289908
+Lichen planus	Systemic lupus erythematosus	29.7842810115342
 Lichen planus	Wegener granulomatosis	11.0093367678883
 Lichen planus	Early-onset Myastenia Gravis	15.295930688461
 Lichen planus	Late-onset Myastenia Gravis	13.7397894622882
@@ -3394,12 +3424,9 @@ Lichen planus	Glomerulonephritis	8.93256143224718
 Lichen planus	IgG+ Neuromyelitis Optica	14.4740249763334
 Lichen planus	Polymyositis (Miller)	14.0767463980085
 Lichen planus	Polymyositis (Rothwell)	20.091401806798
-Lichen planus	Rheumatoid Arthritis	110.998639754828
 Lichen planus	Biological medication for rheuma	18.1157329678491
 Lichen planus	Sjögren's syndrome	41.2379509357028
-Lichen planus	Systemic Lupus Erythematosus	211.150501749173
 Lichen planus	Systemic Sclerosis	46.7873093159086
-Lichen planus	Type 1 Diabetes	118.309042003693
 Lichen planus	Ulcerative Colitis	155.250613457662
 Lichen planus	Inflammation of eyelids	17.7610792833253
 Lichen planus	Asthma	41.8570372416181
@@ -3426,6 +3453,7 @@ Lichen sclerosus et atrophicus	Dermatomyositis (Rothwell)	8.66728605846936
 Lichen sclerosus et atrophicus	Diabetic nephropathy	10.8941597822061
 Lichen sclerosus et atrophicus	Peripheral atherosclerosis	10.9022920467979
 Lichen sclerosus et atrophicus	Diabetic retinopathy	10.871041972284
+Lichen sclerosus et atrophicus	Type 1 diabetes	30.0563358266808
 Lichen sclerosus et atrophicus	Type 2 diabetes	16.6652377088124
 Lichen sclerosus et atrophicus	Autoimmune thyroiditis	17.8525765172906
 Lichen sclerosus et atrophicus	ANCA negative EGPA	23.0410471748726
@@ -3456,9 +3484,10 @@ Lichen sclerosus et atrophicus	Arthropathic psoriasis	6.77830113462409
 Lichen sclerosus et atrophicus	Rosacea	8.79530732227136
 Lichen sclerosus et atrophicus	Vitiligo	11.0159120873954
 Lichen sclerosus et atrophicus	Ankylosing spondylitis	10.7464169607657
-Lichen sclerosus et atrophicus	Juvenile rheuma	10.6000186318662
 Lichen sclerosus et atrophicus	Palindromic rheumatism	8.19347368173646
 Lichen sclerosus et atrophicus	Polymyalgia rheumatica	6.98094170670774
+Lichen sclerosus et atrophicus	Rheumatoid arthritis	25.3338821004806
+Lichen sclerosus et atrophicus	Systemic lupus erythematosus	24.6931773972444
 Lichen sclerosus et atrophicus	Wegener granulomatosis	6.16926034029792
 Lichen sclerosus et atrophicus	Early-onset Myastenia Gravis	14.7826546067189
 Lichen sclerosus et atrophicus	Late-onset Myastenia Gravis	13.2605659897611
@@ -3468,12 +3497,9 @@ Lichen sclerosus et atrophicus	Glomerulonephritis	5.9869478110139
 Lichen sclerosus et atrophicus	IgG+ Neuromyelitis Optica	12.8712784648415
 Lichen sclerosus et atrophicus	Polymyositis (Miller)	10.6349482705559
 Lichen sclerosus et atrophicus	Polymyositis (Rothwell)	12.7748498838327
-Lichen sclerosus et atrophicus	Rheumatoid Arthritis	63.8906912518683
 Lichen sclerosus et atrophicus	Biological medication for rheuma	13.5923506445458
 Lichen sclerosus et atrophicus	Sjögren's syndrome	26.6409385165846
-Lichen sclerosus et atrophicus	Systemic Lupus Erythematosus	144.6947205891
 Lichen sclerosus et atrophicus	Systemic Sclerosis	31.1431179623348
-Lichen sclerosus et atrophicus	Type 1 Diabetes	83.5510658711793
 Lichen sclerosus et atrophicus	Ulcerative Colitis	107.659504878153
 Lichen sclerosus et atrophicus	Inflammation of eyelids	10.7524025335382
 Lichen sclerosus et atrophicus	Asthma	18.0943087313845
@@ -3500,6 +3526,7 @@ Localized scleroderma [morphea]	Dermatomyositis (Rothwell)	6.68249423897801
 Localized scleroderma [morphea]	Diabetic nephropathy	9.92598218671076
 Localized scleroderma [morphea]	Peripheral atherosclerosis	14.42611926674
 Localized scleroderma [morphea]	Diabetic retinopathy	13.4883681664131
+Localized scleroderma [morphea]	Type 1 diabetes	14.4620414861844
 Localized scleroderma [morphea]	Type 2 diabetes	19.1333232194854
 Localized scleroderma [morphea]	Autoimmune thyroiditis	9.54682469631457
 Localized scleroderma [morphea]	ANCA negative EGPA	12.7072167465153
@@ -3530,9 +3557,10 @@ Localized scleroderma [morphea]	Arthropathic psoriasis	9.18279756084142
 Localized scleroderma [morphea]	Rosacea	6.53752299685235
 Localized scleroderma [morphea]	Vitiligo	7.12036948153276
 Localized scleroderma [morphea]	Ankylosing spondylitis	9.13233292236558
-Localized scleroderma [morphea]	Juvenile rheuma	5.8365382414506
 Localized scleroderma [morphea]	Palindromic rheumatism	6.73094333399657
 Localized scleroderma [morphea]	Polymyalgia rheumatica	8.66425194755878
+Localized scleroderma [morphea]	Rheumatoid arthritis	13.4984969523248
+Localized scleroderma [morphea]	Systemic lupus erythematosus	8.07814332083752
 Localized scleroderma [morphea]	Wegener granulomatosis	3.68343067974421
 Localized scleroderma [morphea]	Early-onset Myastenia Gravis	6.13733080170689
 Localized scleroderma [morphea]	Late-onset Myastenia Gravis	3.22482942190272
@@ -3542,12 +3570,9 @@ Localized scleroderma [morphea]	Glomerulonephritis	6.5084311912696
 Localized scleroderma [morphea]	IgG+ Neuromyelitis Optica	7.00598802736546
 Localized scleroderma [morphea]	Polymyositis (Miller)	5.01712901323594
 Localized scleroderma [morphea]	Polymyositis (Rothwell)	5.40251073427337
-Localized scleroderma [morphea]	Rheumatoid Arthritis	20.7279317981926
 Localized scleroderma [morphea]	Biological medication for rheuma	8.8002353193735
 Localized scleroderma [morphea]	Sjögren's syndrome	11.6083779488808
-Localized scleroderma [morphea]	Systemic Lupus Erythematosus	32.0404305213798
 Localized scleroderma [morphea]	Systemic Sclerosis	12.9731780588706
-Localized scleroderma [morphea]	Type 1 Diabetes	21.5546540774107
 Localized scleroderma [morphea]	Ulcerative Colitis	22.0422582182665
 Localized scleroderma [morphea]	Inflammation of eyelids	10.2759739755686
 Localized scleroderma [morphea]	Asthma	18.2784384464195
@@ -3574,6 +3599,7 @@ Psoriasis	Dermatomyositis (Rothwell)	11.353486422772
 Psoriasis	Diabetic nephropathy	20.313748502048
 Psoriasis	Peripheral atherosclerosis	10.7320653927701
 Psoriasis	Diabetic retinopathy	23.3119260734267
+Psoriasis	Type 1 diabetes	90.1014278876463
 Psoriasis	Type 2 diabetes	25.6818802471658
 Psoriasis	Autoimmune thyroiditis	24.7889298419777
 Psoriasis	ANCA negative EGPA	35.9955669236756
@@ -3604,9 +3630,10 @@ Psoriasis	Arthropathic psoriasis	3.60127042263745
 Psoriasis	Rosacea	8.3306223209978
 Psoriasis	Vitiligo	17.635674147831
 Psoriasis	Ankylosing spondylitis	9.74151133771649
-Psoriasis	Juvenile rheuma	13.291896853649
 Psoriasis	Palindromic rheumatism	16.3809809805825
 Psoriasis	Polymyalgia rheumatica	8.67195777763058
+Psoriasis	Rheumatoid arthritis	58.7261514897362
+Psoriasis	Systemic lupus erythematosus	29.6978988739386
 Psoriasis	Wegener granulomatosis	12.624376030912
 Psoriasis	Early-onset Myastenia Gravis	17.7852145615563
 Psoriasis	Late-onset Myastenia Gravis	17.7929850664445
@@ -3616,12 +3643,9 @@ Psoriasis	Glomerulonephritis	8.66169547122943
 Psoriasis	IgG+ Neuromyelitis Optica	16.0124866297461
 Psoriasis	Polymyositis (Miller)	15.4416372415603
 Psoriasis	Polymyositis (Rothwell)	17.4504737297965
-Psoriasis	Rheumatoid Arthritis	197.874011744934
 Psoriasis	Biological medication for rheuma	18.6196315378346
 Psoriasis	Sjögren's syndrome	37.9157072441933
-Psoriasis	Systemic Lupus Erythematosus	274.496353631878
 Psoriasis	Systemic Sclerosis	42.1343620036085
-Psoriasis	Type 1 Diabetes	256.368244503759
 Psoriasis	Ulcerative Colitis	228.074234062134
 Psoriasis	Inflammation of eyelids	12.2700720418867
 Psoriasis	Asthma	68.6474479370034
@@ -3648,6 +3672,7 @@ Arthropathic psoriasis	Dermatomyositis (Rothwell)	6.87557740679535
 Arthropathic psoriasis	Diabetic nephropathy	10.4994873753519
 Arthropathic psoriasis	Peripheral atherosclerosis	8.96128260526978
 Arthropathic psoriasis	Diabetic retinopathy	13.9057889606439
+Arthropathic psoriasis	Type 1 diabetes	39.3356498960337
 Arthropathic psoriasis	Type 2 diabetes	18.6286528635791
 Arthropathic psoriasis	Autoimmune thyroiditis	17.4156257420382
 Arthropathic psoriasis	ANCA negative EGPA	29.1298240401329
@@ -3678,9 +3703,10 @@ Arthropathic psoriasis	Arthropathic psoriasis	0
 Arthropathic psoriasis	Rosacea	8.08071753811072
 Arthropathic psoriasis	Vitiligo	12.9878238442167
 Arthropathic psoriasis	Ankylosing spondylitis	11.0127543092937
-Arthropathic psoriasis	Juvenile rheuma	8.59290412302482
 Arthropathic psoriasis	Palindromic rheumatism	12.6720165651806
 Arthropathic psoriasis	Polymyalgia rheumatica	5.21680243383001
+Arthropathic psoriasis	Rheumatoid arthritis	20.3278245439756
+Arthropathic psoriasis	Systemic lupus erythematosus	17.452635612961
 Arthropathic psoriasis	Wegener granulomatosis	8.50202434030546
 Arthropathic psoriasis	Early-onset Myastenia Gravis	12.5399707236416
 Arthropathic psoriasis	Late-onset Myastenia Gravis	12.3026903861343
@@ -3690,12 +3716,9 @@ Arthropathic psoriasis	Glomerulonephritis	7.35866846027962
 Arthropathic psoriasis	IgG+ Neuromyelitis Optica	11.8988499112214
 Arthropathic psoriasis	Polymyositis (Miller)	9.22150274383356
 Arthropathic psoriasis	Polymyositis (Rothwell)	10.8745974654154
-Arthropathic psoriasis	Rheumatoid Arthritis	76.0794214629244
 Arthropathic psoriasis	Biological medication for rheuma	8.37587640179609
 Arthropathic psoriasis	Sjögren's syndrome	17.6357623987749
-Arthropathic psoriasis	Systemic Lupus Erythematosus	157.640043050971
 Arthropathic psoriasis	Systemic Sclerosis	20.6195958573204
-Arthropathic psoriasis	Type 1 Diabetes	115.449552577194
 Arthropathic psoriasis	Ulcerative Colitis	151.250415300887
 Arthropathic psoriasis	Inflammation of eyelids	12.389157907986
 Arthropathic psoriasis	Asthma	34.2243921924447
@@ -3722,6 +3745,7 @@ Rosacea	Dermatomyositis (Rothwell)	9.79904999984264
 Rosacea	Diabetic nephropathy	14.471704831624
 Rosacea	Peripheral atherosclerosis	13.294078144776
 Rosacea	Diabetic retinopathy	14.1774632953273
+Rosacea	Type 1 diabetes	43.0048262237401
 Rosacea	Type 2 diabetes	18.1954127440199
 Rosacea	Autoimmune thyroiditis	22.2984323509312
 Rosacea	ANCA negative EGPA	29.402930287886
@@ -3752,9 +3776,10 @@ Rosacea	Arthropathic psoriasis	8.08071753811072
 Rosacea	Rosacea	0
 Rosacea	Vitiligo	15.4100202450954
 Rosacea	Ankylosing spondylitis	5.47710702819109
-Rosacea	Juvenile rheuma	11.6782740028244
 Rosacea	Palindromic rheumatism	11.9003624325359
 Rosacea	Polymyalgia rheumatica	6.8320678631334
+Rosacea	Rheumatoid arthritis	29.6290324827454
+Rosacea	Systemic lupus erythematosus	22.0382130332168
 Rosacea	Wegener granulomatosis	7.31365869464978
 Rosacea	Early-onset Myastenia Gravis	14.8023995588296
 Rosacea	Late-onset Myastenia Gravis	12.5254845156177
@@ -3764,12 +3789,9 @@ Rosacea	Glomerulonephritis	5.46659310460717
 Rosacea	IgG+ Neuromyelitis Optica	13.0054972106025
 Rosacea	Polymyositis (Miller)	12.7782035397197
 Rosacea	Polymyositis (Rothwell)	11.1953586467195
-Rosacea	Rheumatoid Arthritis	77.7470429569515
 Rosacea	Biological medication for rheuma	12.4054616186427
 Rosacea	Sjögren's syndrome	27.195813877757
-Rosacea	Systemic Lupus Erythematosus	148.325374998598
 Rosacea	Systemic Sclerosis	30.8519032025085
-Rosacea	Type 1 Diabetes	103.191469578928
 Rosacea	Ulcerative Colitis	88.2019278548328
 Rosacea	Inflammation of eyelids	3.60110744832241
 Rosacea	Asthma	27.1075692024544
@@ -3796,6 +3818,7 @@ Vitiligo	Dermatomyositis (Rothwell)	7.97097562180505
 Vitiligo	Diabetic nephropathy	11.8203046697514
 Vitiligo	Peripheral atherosclerosis	19.4139940248408
 Vitiligo	Diabetic retinopathy	17.8545016555184
+Vitiligo	Type 1 diabetes	13.8165648798218
 Vitiligo	Type 2 diabetes	23.8225144589431
 Vitiligo	Autoimmune thyroiditis	3.22761245372295
 Vitiligo	ANCA negative EGPA	12.7858693419654
@@ -3826,9 +3849,10 @@ Vitiligo	Arthropathic psoriasis	12.9878238442167
 Vitiligo	Rosacea	15.4100202450954
 Vitiligo	Vitiligo	0
 Vitiligo	Ankylosing spondylitis	17.9544377291125
-Vitiligo	Juvenile rheuma	6.50562760708002
 Vitiligo	Palindromic rheumatism	4.44650780462822
 Vitiligo	Polymyalgia rheumatica	13.4063515711074
+Vitiligo	Rheumatoid arthritis	15.4772050064296
+Vitiligo	Systemic lupus erythematosus	10.6496205422341
 Vitiligo	Wegener granulomatosis	5.70246046239564
 Vitiligo	Early-onset Myastenia Gravis	4.20588031340267
 Vitiligo	Late-onset Myastenia Gravis	6.22139098839514
@@ -3838,12 +3862,9 @@ Vitiligo	Glomerulonephritis	11.0103005309281
 Vitiligo	IgG+ Neuromyelitis Optica	5.36569131341269
 Vitiligo	Polymyositis (Miller)	7.20566671805022
 Vitiligo	Polymyositis (Rothwell)	10.8612388663911
-Vitiligo	Rheumatoid Arthritis	18.6354540692352
 Vitiligo	Biological medication for rheuma	11.9055122083519
 Vitiligo	Sjögren's syndrome	14.6496052197555
-Vitiligo	Systemic Lupus Erythematosus	32.8190226341136
 Vitiligo	Systemic Sclerosis	15.9057324148424
-Vitiligo	Type 1 Diabetes	17.1775702616327
 Vitiligo	Ulcerative Colitis	34.0353561570142
 Vitiligo	Inflammation of eyelids	17.2161437242855
 Vitiligo	Asthma	24.8561257347481
@@ -3870,6 +3891,7 @@ Ankylosing spondylitis	Dermatomyositis (Rothwell)	13.1525088342523
 Ankylosing spondylitis	Diabetic nephropathy	28.8017662892707
 Ankylosing spondylitis	Peripheral atherosclerosis	19.5361500780635
 Ankylosing spondylitis	Diabetic retinopathy	30.1420704479808
+Ankylosing spondylitis	Type 1 diabetes	73.0190752494858
 Ankylosing spondylitis	Type 2 diabetes	30.4331237826032
 Ankylosing spondylitis	Autoimmune thyroiditis	27.669786641889
 Ankylosing spondylitis	ANCA negative EGPA	29.2001458100428
@@ -3900,9 +3922,10 @@ Ankylosing spondylitis	Arthropathic psoriasis	11.0127543092937
 Ankylosing spondylitis	Rosacea	5.47710702819109
 Ankylosing spondylitis	Vitiligo	17.9544377291125
 Ankylosing spondylitis	Ankylosing spondylitis	0
-Ankylosing spondylitis	Juvenile rheuma	11.4336817134637
 Ankylosing spondylitis	Palindromic rheumatism	14.3579355393783
 Ankylosing spondylitis	Polymyalgia rheumatica	12.0735955992189
+Ankylosing spondylitis	Rheumatoid arthritis	45.2682747224815
+Ankylosing spondylitis	Systemic lupus erythematosus	28.6107575856575
 Ankylosing spondylitis	Wegener granulomatosis	11.542066489604
 Ankylosing spondylitis	Early-onset Myastenia Gravis	17.0604362128191
 Ankylosing spondylitis	Late-onset Myastenia Gravis	18.6423324297208
@@ -3912,89 +3935,12 @@ Ankylosing spondylitis	Glomerulonephritis	8.15967871996705
 Ankylosing spondylitis	IgG+ Neuromyelitis Optica	14.4572992845929
 Ankylosing spondylitis	Polymyositis (Miller)	14.0059999044171
 Ankylosing spondylitis	Polymyositis (Rothwell)	15.9209418260843
-Ankylosing spondylitis	Rheumatoid Arthritis	110.3135086199
 Ankylosing spondylitis	Biological medication for rheuma	17.3709696477614
 Ankylosing spondylitis	Sjögren's syndrome	35.5841908506785
-Ankylosing spondylitis	Systemic Lupus Erythematosus	181.944618001187
 Ankylosing spondylitis	Systemic Sclerosis	36.9607193195766
-Ankylosing spondylitis	Type 1 Diabetes	155.006749496324
 Ankylosing spondylitis	Ulcerative Colitis	91.5757477628794
 Ankylosing spondylitis	Inflammation of eyelids	11.593720836047
 Ankylosing spondylitis	Asthma	30.2695035419297
-Juvenile rheuma	Hyperthyroidism/Thyrotoxicosis	9.91701081742886
-Juvenile rheuma	Hayfever/Allergic Rhinitis	29.772923558454
-Juvenile rheuma	Autoimmune Addison's disease	9.63529184778015
-Juvenile rheuma	MPO+ AAV	6.13846258335801
-Juvenile rheuma	PR3+ AAV	9.63655898766934
-Juvenile rheuma	Autoimmune Thyroid disease	15.5095258585529
-Juvenile rheuma	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	4.43355751518571
-Juvenile rheuma	Adult-onset Asthma	29.2491562999027
-Juvenile rheuma	Childhood-onset Asthma	41.3196563344773
-Juvenile rheuma	Atopic Dermatitis	22.8021096853852
-Juvenile rheuma	Crohn's Disease	55.9007199323193
-Juvenile rheuma	Primary biliary cholangitis	6.56199757433657
-Juvenile rheuma	CR(E)ST syndrome	5.3384953373395
-Juvenile rheuma	Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	21.4546508432526
-Juvenile rheuma	Other and unspecified disorders involving the immune mechanism, not elsewhere classified	7.68383670845795
-Juvenile rheuma	Certain disorders involving the immune mechanism	11.959582228161
-Juvenile rheuma	Idiopathic thrombocytopenic purpura	4.409800460399
-Juvenile rheuma	Sarcoidosis	9.6286541476427
-Juvenile rheuma	Dermatomyositis (Miller)	6.6724086096772
-Juvenile rheuma	Dermatomyositis (Rothwell)	5.98434023050947
-Juvenile rheuma	Diabetic nephropathy	13.6866537485136
-Juvenile rheuma	Peripheral atherosclerosis	20.6238477357082
-Juvenile rheuma	Diabetic retinopathy	20.5718066408912
-Juvenile rheuma	Type 2 diabetes	27.3855068812806
-Juvenile rheuma	Autoimmune thyroiditis	6.19111840969091
-Juvenile rheuma	ANCA negative EGPA	24.2959662104155
-Juvenile rheuma	MPO+ EGPA	10.4549611527659
-Juvenile rheuma	Eosinophilic Granulomatosis with Polyangiitis	24.359254067157
-Juvenile rheuma	Eosinophilic Esophagitis	24.2665842470457
-Juvenile rheuma	Felty syndrome	9.62438310640815
-Juvenile rheuma	Diabethic neuropathy	13.4039584595836
-Juvenile rheuma	Multiple Sclerosis	19.8796147345912
-Juvenile rheuma	Gout	16.8937304110391
-Juvenile rheuma	Hypothyroidism (congenital or acquired)	14.6384701937726
-Juvenile rheuma	Inflammatory Bowel Disease	39.236504893251
-Juvenile rheuma	IgA deficiency	12.9796913143775
-Juvenile rheuma	IIM (Rothwell)	9.21239897734613
-Juvenile rheuma	Nasal polyp	27.0714389639615
-Juvenile rheuma	Juvenile Dermatomyositis (Miller)	5.2766221648457
-Juvenile rheuma	Juvenile Dermatomyositis (Rothwell)	7.27515401255959
-Juvenile rheuma	Juvenile Idiopathic Arthritis	6.96411123530568
-Juvenile rheuma	Jo1+ Myositis (Rothwell)	8.27118931186148
-Juvenile rheuma	Primary sclerosing cholangitis	9.15336980674969
-Juvenile rheuma	Coeliac disease	10.2475176246734
-Juvenile rheuma	Erythema nodosum	6.3260197387158
-Juvenile rheuma	Lichen planus	10.6801138279808
-Juvenile rheuma	Lichen sclerosus et atrophicus	10.6000186318662
-Juvenile rheuma	Localized scleroderma [morphea]	5.8365382414506
-Juvenile rheuma	Psoriasis	13.291896853649
-Juvenile rheuma	Arthropathic psoriasis	8.59290412302482
-Juvenile rheuma	Rosacea	11.6782740028244
-Juvenile rheuma	Vitiligo	6.50562760708002
-Juvenile rheuma	Ankylosing spondylitis	11.4336817134637
-Juvenile rheuma	Juvenile rheuma	0
-Juvenile rheuma	Palindromic rheumatism	8.16319061944569
-Juvenile rheuma	Polymyalgia rheumatica	12.3993215510165
-Juvenile rheuma	Wegener granulomatosis	5.42313861756562
-Juvenile rheuma	Early-onset Myastenia Gravis	5.16195466155725
-Juvenile rheuma	Late-onset Myastenia Gravis	6.62188489774847
-Juvenile rheuma	Myastenia Gravis	9.59552828452737
-Juvenile rheuma	IIM (Miller)	6.80956565395543
-Juvenile rheuma	Glomerulonephritis	9.33947313128615
-Juvenile rheuma	IgG+ Neuromyelitis Optica	7.61346850684196
-Juvenile rheuma	Polymyositis (Miller)	4.95331459473945
-Juvenile rheuma	Polymyositis (Rothwell)	6.85942444761074
-Juvenile rheuma	Rheumatoid Arthritis	24.747071826162
-Juvenile rheuma	Biological medication for rheuma	6.81554546386153
-Juvenile rheuma	Sjögren's syndrome	13.5660147896616
-Juvenile rheuma	Systemic Lupus Erythematosus	60.9922595581253
-Juvenile rheuma	Systemic Sclerosis	12.299646906159
-Juvenile rheuma	Type 1 Diabetes	33.3616705918601
-Juvenile rheuma	Ulcerative Colitis	40.2229703455175
-Juvenile rheuma	Inflammation of eyelids	16.6799269790974
-Juvenile rheuma	Asthma	29.5271762085443
 Palindromic rheumatism	Hyperthyroidism/Thyrotoxicosis	8.78368110254805
 Palindromic rheumatism	Hayfever/Allergic Rhinitis	20.6061985821943
 Palindromic rheumatism	Autoimmune Addison's disease	9.49688314732937
@@ -4018,6 +3964,7 @@ Palindromic rheumatism	Dermatomyositis (Rothwell)	6.74764613452619
 Palindromic rheumatism	Diabetic nephropathy	10.581321229259
 Palindromic rheumatism	Peripheral atherosclerosis	16.4780290939859
 Palindromic rheumatism	Diabetic retinopathy	15.1570368811968
+Palindromic rheumatism	Type 1 diabetes	13.7546905648888
 Palindromic rheumatism	Type 2 diabetes	20.4538299941755
 Palindromic rheumatism	Autoimmune thyroiditis	7.29591541071978
 Palindromic rheumatism	ANCA negative EGPA	10.6410043853043
@@ -4048,9 +3995,10 @@ Palindromic rheumatism	Arthropathic psoriasis	12.6720165651806
 Palindromic rheumatism	Rosacea	11.9003624325359
 Palindromic rheumatism	Vitiligo	4.44650780462822
 Palindromic rheumatism	Ankylosing spondylitis	14.3579355393783
-Palindromic rheumatism	Juvenile rheuma	8.16319061944569
 Palindromic rheumatism	Palindromic rheumatism	0
 Palindromic rheumatism	Polymyalgia rheumatica	10.3515188018753
+Palindromic rheumatism	Rheumatoid arthritis	13.6566348084748
+Palindromic rheumatism	Systemic lupus erythematosus	14.2152662886187
 Palindromic rheumatism	Wegener granulomatosis	3.38435999977839
 Palindromic rheumatism	Early-onset Myastenia Gravis	9.59801023209841
 Palindromic rheumatism	Late-onset Myastenia Gravis	8.82525333197443
@@ -4060,12 +4008,9 @@ Palindromic rheumatism	Glomerulonephritis	8.18194318666846
 Palindromic rheumatism	IgG+ Neuromyelitis Optica	7.59305521187708
 Palindromic rheumatism	Polymyositis (Miller)	6.20200727366076
 Palindromic rheumatism	Polymyositis (Rothwell)	7.74165381454422
-Palindromic rheumatism	Rheumatoid Arthritis	16.8189012776258
 Palindromic rheumatism	Biological medication for rheuma	11.3738376978475
 Palindromic rheumatism	Sjögren's syndrome	16.1831707024766
-Palindromic rheumatism	Systemic Lupus Erythematosus	39.6369270324714
 Palindromic rheumatism	Systemic Sclerosis	16.8502814984869
-Palindromic rheumatism	Type 1 Diabetes	19.5600188556926
 Palindromic rheumatism	Ulcerative Colitis	29.4852713365084
 Palindromic rheumatism	Inflammation of eyelids	11.8878754300867
 Palindromic rheumatism	Asthma	18.8368434538279
@@ -4092,6 +4037,7 @@ Polymyalgia rheumatica	Dermatomyositis (Rothwell)	6.55382392526641
 Polymyalgia rheumatica	Diabetic nephropathy	9.7391416455573
 Polymyalgia rheumatica	Peripheral atherosclerosis	7.02291490360557
 Polymyalgia rheumatica	Diabetic retinopathy	8.94864932911902
+Polymyalgia rheumatica	Type 1 diabetes	38.1209341816051
 Polymyalgia rheumatica	Type 2 diabetes	10.868292213479
 Polymyalgia rheumatica	Autoimmune thyroiditis	19.3843821560365
 Polymyalgia rheumatica	ANCA negative EGPA	23.5918368777245
@@ -4122,9 +4068,10 @@ Polymyalgia rheumatica	Arthropathic psoriasis	5.21680243383001
 Polymyalgia rheumatica	Rosacea	6.8320678631334
 Polymyalgia rheumatica	Vitiligo	13.4063515711074
 Polymyalgia rheumatica	Ankylosing spondylitis	12.0735955992189
-Polymyalgia rheumatica	Juvenile rheuma	12.3993215510165
 Polymyalgia rheumatica	Palindromic rheumatism	10.3515188018753
 Polymyalgia rheumatica	Polymyalgia rheumatica	0
+Polymyalgia rheumatica	Rheumatoid arthritis	18.0819980596396
+Polymyalgia rheumatica	Systemic lupus erythematosus	21.1356315044318
 Polymyalgia rheumatica	Wegener granulomatosis	8.35697546432287
 Polymyalgia rheumatica	Early-onset Myastenia Gravis	14.9801189849835
 Polymyalgia rheumatica	Late-onset Myastenia Gravis	12.8480501676727
@@ -4134,15 +4081,158 @@ Polymyalgia rheumatica	Glomerulonephritis	4.24050195260595
 Polymyalgia rheumatica	IgG+ Neuromyelitis Optica	12.2340799965265
 Polymyalgia rheumatica	Polymyositis (Miller)	10.2791900789861
 Polymyalgia rheumatica	Polymyositis (Rothwell)	10.4516322409109
-Polymyalgia rheumatica	Rheumatoid Arthritis	67.9493632331342
 Polymyalgia rheumatica	Biological medication for rheuma	11.7498847421081
 Polymyalgia rheumatica	Sjögren's syndrome	23.827352499227
-Polymyalgia rheumatica	Systemic Lupus Erythematosus	163.891086825913
 Polymyalgia rheumatica	Systemic Sclerosis	26.7415892162764
-Polymyalgia rheumatica	Type 1 Diabetes	115.971181979775
 Polymyalgia rheumatica	Ulcerative Colitis	138.575841922394
 Polymyalgia rheumatica	Inflammation of eyelids	8.45755422798392
 Polymyalgia rheumatica	Asthma	22.7246156796886
+Rheumatoid arthritis	Hyperthyroidism/Thyrotoxicosis	13.929034364614
+Rheumatoid arthritis	Hayfever/Allergic Rhinitis	150.208989634587
+Rheumatoid arthritis	Autoimmune Addison's disease	27.9122430143922
+Rheumatoid arthritis	MPO+ AAV	10.7328878644836
+Rheumatoid arthritis	PR3+ AAV	13.2816910180834
+Rheumatoid arthritis	Autoimmune Thyroid disease	51.3304812250588
+Rheumatoid arthritis	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	15.6631529647151
+Rheumatoid arthritis	Adult-onset Asthma	135.512606017615
+Rheumatoid arthritis	Childhood-onset Asthma	229.670078155384
+Rheumatoid arthritis	Atopic Dermatitis	82.1406673114463
+Rheumatoid arthritis	Crohn's Disease	377.510508234291
+Rheumatoid arthritis	Primary biliary cholangitis	19.2226856976691
+Rheumatoid arthritis	CR(E)ST syndrome	13.3814910371884
+Rheumatoid arthritis	Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	85.9704966284191
+Rheumatoid arthritis	Other and unspecified disorders involving the immune mechanism, not elsewhere classified	14.3973804633942
+Rheumatoid arthritis	Certain disorders involving the immune mechanism	32.71698150776
+Rheumatoid arthritis	Idiopathic thrombocytopenic purpura	11.4334522097134
+Rheumatoid arthritis	Sarcoidosis	25.1089053833574
+Rheumatoid arthritis	Dermatomyositis (Miller)	8.26713292581183
+Rheumatoid arthritis	Dermatomyositis (Rothwell)	8.42229861127871
+Rheumatoid arthritis	Diabetic nephropathy	28.6789428280886
+Rheumatoid arthritis	Peripheral atherosclerosis	65.1355947526675
+Rheumatoid arthritis	Diabetic retinopathy	65.584487153968
+Rheumatoid arthritis	Type 1 diabetes	78.0526664742175
+Rheumatoid arthritis	Type 2 diabetes	119.417423986312
+Rheumatoid arthritis	Autoimmune thyroiditis	18.0769040996311
+Rheumatoid arthritis	ANCA negative EGPA	29.610185094537
+Rheumatoid arthritis	MPO+ EGPA	17.1641652678736
+Rheumatoid arthritis	Eosinophilic Granulomatosis with Polyangiitis	31.9483136703078
+Rheumatoid arthritis	Eosinophilic Esophagitis	46.4986822764791
+Rheumatoid arthritis	Felty syndrome	14.2811586980547
+Rheumatoid arthritis	Diabethic neuropathy	20.491805849038
+Rheumatoid arthritis	Multiple Sclerosis	57.5626347358314
+Rheumatoid arthritis	Gout	58.0570087007298
+Rheumatoid arthritis	Hypothyroidism (congenital or acquired)	42.3296491697523
+Rheumatoid arthritis	Inflammatory Bowel Disease	375.282971601235
+Rheumatoid arthritis	IgA deficiency	30.5638852523876
+Rheumatoid arthritis	IIM (Rothwell)	10.9164601643
+Rheumatoid arthritis	Nasal polyp	85.8122820970121
+Rheumatoid arthritis	Juvenile Dermatomyositis (Miller)	10.5837460959038
+Rheumatoid arthritis	Juvenile Dermatomyositis (Rothwell)	13.0875739312968
+Rheumatoid arthritis	Juvenile Idiopathic Arthritis	16.8734661463235
+Rheumatoid arthritis	Jo1+ Myositis (Rothwell)	12.8488695999602
+Rheumatoid arthritis	Primary sclerosing cholangitis	19.8006536720168
+Rheumatoid arthritis	Coeliac disease	64.7893183953548
+Rheumatoid arthritis	Erythema nodosum	13.5253303964063
+Rheumatoid arthritis	Lichen planus	41.4089419289908
+Rheumatoid arthritis	Lichen sclerosus et atrophicus	25.3338821004806
+Rheumatoid arthritis	Localized scleroderma [morphea]	13.4984969523248
+Rheumatoid arthritis	Psoriasis	58.7261514897362
+Rheumatoid arthritis	Arthropathic psoriasis	20.3278245439756
+Rheumatoid arthritis	Rosacea	29.6290324827454
+Rheumatoid arthritis	Vitiligo	15.4772050064296
+Rheumatoid arthritis	Ankylosing spondylitis	45.2682747224815
+Rheumatoid arthritis	Palindromic rheumatism	13.6566348084748
+Rheumatoid arthritis	Polymyalgia rheumatica	18.0819980596396
+Rheumatoid arthritis	Rheumatoid arthritis	0
+Rheumatoid arthritis	Systemic lupus erythematosus	21.5134632860507
+Rheumatoid arthritis	Wegener granulomatosis	11.2619523825769
+Rheumatoid arthritis	Early-onset Myastenia Gravis	14.5776847330464
+Rheumatoid arthritis	Late-onset Myastenia Gravis	14.2826025455831
+Rheumatoid arthritis	Myastenia Gravis	13.9057152550563
+Rheumatoid arthritis	IIM (Miller)	7.09482774344743
+Rheumatoid arthritis	Glomerulonephritis	15.8189574344253
+Rheumatoid arthritis	IgG+ Neuromyelitis Optica	14.3026664314659
+Rheumatoid arthritis	Polymyositis (Miller)	9.02231003384856
+Rheumatoid arthritis	Polymyositis (Rothwell)	9.37007754421184
+Rheumatoid arthritis	Biological medication for rheuma	12.6750659911168
+Rheumatoid arthritis	Sjögren's syndrome	28.2913120323118
+Rheumatoid arthritis	Systemic Sclerosis	29.9265909944952
+Rheumatoid arthritis	Ulcerative Colitis	289.083447326256
+Rheumatoid arthritis	Inflammation of eyelids	37.4579547097436
+Rheumatoid arthritis	Asthma	130.253167110965
+Systemic lupus erythematosus	Hyperthyroidism/Thyrotoxicosis	21.8540734460221
+Systemic lupus erythematosus	Hayfever/Allergic Rhinitis	52.8973528018874
+Systemic lupus erythematosus	Autoimmune Addison's disease	18.7220988798759
+Systemic lupus erythematosus	MPO+ AAV	9.86472642671002
+Systemic lupus erythematosus	PR3+ AAV	21.0977516148576
+Systemic lupus erythematosus	Autoimmune Thyroid disease	28.4049170367961
+Systemic lupus erythematosus	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	12.0439296512673
+Systemic lupus erythematosus	Adult-onset Asthma	53.0395974701906
+Systemic lupus erythematosus	Childhood-onset Asthma	69.5829082902056
+Systemic lupus erythematosus	Atopic Dermatitis	38.7527426671563
+Systemic lupus erythematosus	Crohn's Disease	104.145323285561
+Systemic lupus erythematosus	Primary biliary cholangitis	6.07880683879266
+Systemic lupus erythematosus	CR(E)ST syndrome	3.18953791352118
+Systemic lupus erythematosus	Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	37.095125669142
+Systemic lupus erythematosus	Other and unspecified disorders involving the immune mechanism, not elsewhere classified	16.1827867306645
+Systemic lupus erythematosus	Certain disorders involving the immune mechanism	28.1258269850818
+Systemic lupus erythematosus	Idiopathic thrombocytopenic purpura	10.3142189781523
+Systemic lupus erythematosus	Sarcoidosis	24.8762243857901
+Systemic lupus erythematosus	Dermatomyositis (Miller)	7.07096540077285
+Systemic lupus erythematosus	Dermatomyositis (Rothwell)	9.37089921653272
+Systemic lupus erythematosus	Diabetic nephropathy	25.7303691065143
+Systemic lupus erythematosus	Peripheral atherosclerosis	36.1084627160556
+Systemic lupus erythematosus	Diabetic retinopathy	37.2604370995458
+Systemic lupus erythematosus	Type 1 diabetes	36.2894169310421
+Systemic lupus erythematosus	Type 2 diabetes	46.2094336452363
+Systemic lupus erythematosus	Autoimmune thyroiditis	14.274919637451
+Systemic lupus erythematosus	ANCA negative EGPA	27.876405062153
+Systemic lupus erythematosus	MPO+ EGPA	13.6759585514043
+Systemic lupus erythematosus	Eosinophilic Granulomatosis with Polyangiitis	30.1826167893205
+Systemic lupus erythematosus	Eosinophilic Esophagitis	37.1598860581519
+Systemic lupus erythematosus	Felty syndrome	8.86104935033304
+Systemic lupus erythematosus	Diabethic neuropathy	26.7701868931893
+Systemic lupus erythematosus	Multiple Sclerosis	29.3841291459292
+Systemic lupus erythematosus	Gout	32.7679433614547
+Systemic lupus erythematosus	Hypothyroidism (congenital or acquired)	27.7177321070804
+Systemic lupus erythematosus	Inflammatory Bowel Disease	88.0085810857028
+Systemic lupus erythematosus	IgA deficiency	21.2784788782369
+Systemic lupus erythematosus	IIM (Rothwell)	11.3039118945442
+Systemic lupus erythematosus	Nasal polyp	54.2162666288174
+Systemic lupus erythematosus	Juvenile Dermatomyositis (Miller)	7.67460395438539
+Systemic lupus erythematosus	Juvenile Dermatomyositis (Rothwell)	9.92773568535358
+Systemic lupus erythematosus	Juvenile Idiopathic Arthritis	5.78032671416782
+Systemic lupus erythematosus	Jo1+ Myositis (Rothwell)	8.52664637260092
+Systemic lupus erythematosus	Primary sclerosing cholangitis	21.3175675608544
+Systemic lupus erythematosus	Coeliac disease	35.8405630833031
+Systemic lupus erythematosus	Erythema nodosum	11.841470462384
+Systemic lupus erythematosus	Lichen planus	29.7842810115342
+Systemic lupus erythematosus	Lichen sclerosus et atrophicus	24.6931773972444
+Systemic lupus erythematosus	Localized scleroderma [morphea]	8.07814332083752
+Systemic lupus erythematosus	Psoriasis	29.6978988739386
+Systemic lupus erythematosus	Arthropathic psoriasis	17.452635612961
+Systemic lupus erythematosus	Rosacea	22.0382130332168
+Systemic lupus erythematosus	Vitiligo	10.6496205422341
+Systemic lupus erythematosus	Ankylosing spondylitis	28.6107575856575
+Systemic lupus erythematosus	Palindromic rheumatism	14.2152662886187
+Systemic lupus erythematosus	Polymyalgia rheumatica	21.1356315044318
+Systemic lupus erythematosus	Rheumatoid arthritis	21.5134632860507
+Systemic lupus erythematosus	Systemic lupus erythematosus	0
+Systemic lupus erythematosus	Wegener granulomatosis	8.83889600456032
+Systemic lupus erythematosus	Early-onset Myastenia Gravis	6.05363390126986
+Systemic lupus erythematosus	Late-onset Myastenia Gravis	9.18711426126363
+Systemic lupus erythematosus	Myastenia Gravis	14.745608217256
+Systemic lupus erythematosus	IIM (Miller)	8.7868443877093
+Systemic lupus erythematosus	Glomerulonephritis	20.1547109853326
+Systemic lupus erythematosus	IgG+ Neuromyelitis Optica	6.01772216152007
+Systemic lupus erythematosus	Polymyositis (Miller)	6.78129015882116
+Systemic lupus erythematosus	Polymyositis (Rothwell)	8.74439558447988
+Systemic lupus erythematosus	Biological medication for rheuma	15.680148740159
+Systemic lupus erythematosus	Sjögren's syndrome	5.54511122484416
+Systemic lupus erythematosus	Systemic Sclerosis	7.49444669953887
+Systemic lupus erythematosus	Ulcerative Colitis	89.3402470554066
+Systemic lupus erythematosus	Inflammation of eyelids	34.095665323882
+Systemic lupus erythematosus	Asthma	52.0156903134507
 Wegener granulomatosis	Hyperthyroidism/Thyrotoxicosis	9.24408064247247
 Wegener granulomatosis	Hayfever/Allergic Rhinitis	19.1420209661239
 Wegener granulomatosis	Autoimmune Addison's disease	9.20568480008795
@@ -4166,6 +4256,7 @@ Wegener granulomatosis	Dermatomyositis (Rothwell)	4.43557434077786
 Wegener granulomatosis	Diabetic nephropathy	8.40478851408849
 Wegener granulomatosis	Peripheral atherosclerosis	14.2326856106118
 Wegener granulomatosis	Diabetic retinopathy	12.5187258250709
+Wegener granulomatosis	Type 1 diabetes	12.3134348598391
 Wegener granulomatosis	Type 2 diabetes	18.6980969391847
 Wegener granulomatosis	Autoimmune thyroiditis	7.34505071867825
 Wegener granulomatosis	ANCA negative EGPA	15.4335403694206
@@ -4196,9 +4287,10 @@ Wegener granulomatosis	Arthropathic psoriasis	8.50202434030546
 Wegener granulomatosis	Rosacea	7.31365869464978
 Wegener granulomatosis	Vitiligo	5.70246046239564
 Wegener granulomatosis	Ankylosing spondylitis	11.542066489604
-Wegener granulomatosis	Juvenile rheuma	5.42313861756562
 Wegener granulomatosis	Palindromic rheumatism	3.38435999977839
 Wegener granulomatosis	Polymyalgia rheumatica	8.35697546432287
+Wegener granulomatosis	Rheumatoid arthritis	11.2619523825769
+Wegener granulomatosis	Systemic lupus erythematosus	8.83889600456032
 Wegener granulomatosis	Wegener granulomatosis	0
 Wegener granulomatosis	Early-onset Myastenia Gravis	6.662478834186
 Wegener granulomatosis	Late-onset Myastenia Gravis	5.93772051576499
@@ -4208,12 +4300,9 @@ Wegener granulomatosis	Glomerulonephritis	6.347031023694
 Wegener granulomatosis	IgG+ Neuromyelitis Optica	6.0358955787433
 Wegener granulomatosis	Polymyositis (Miller)	4.09858423165476
 Wegener granulomatosis	Polymyositis (Rothwell)	3.10593499070597
-Wegener granulomatosis	Rheumatoid Arthritis	17.2604716639104
 Wegener granulomatosis	Biological medication for rheuma	8.20516652944294
 Wegener granulomatosis	Sjögren's syndrome	9.94233315019526
-Wegener granulomatosis	Systemic Lupus Erythematosus	38.3722821423722
 Wegener granulomatosis	Systemic Sclerosis	10.6896620972086
-Wegener granulomatosis	Type 1 Diabetes	20.1339016385782
 Wegener granulomatosis	Ulcerative Colitis	33.7632570954977
 Wegener granulomatosis	Inflammation of eyelids	9.41364140183651
 Wegener granulomatosis	Asthma	17.8891246292731
@@ -4240,6 +4329,7 @@ Early-onset Myastenia Gravis	Dermatomyositis (Rothwell)	6.98459301486249
 Early-onset Myastenia Gravis	Diabetic nephropathy	14.8199020852574
 Early-onset Myastenia Gravis	Peripheral atherosclerosis	20.837726691568
 Early-onset Myastenia Gravis	Diabetic retinopathy	20.9194537965162
+Early-onset Myastenia Gravis	Type 1 diabetes	17.5797162554482
 Early-onset Myastenia Gravis	Type 2 diabetes	26.4930109217119
 Early-onset Myastenia Gravis	Autoimmune thyroiditis	3.80255804876782
 Early-onset Myastenia Gravis	ANCA negative EGPA	18.426936458328
@@ -4270,9 +4360,10 @@ Early-onset Myastenia Gravis	Arthropathic psoriasis	12.5399707236416
 Early-onset Myastenia Gravis	Rosacea	14.8023995588296
 Early-onset Myastenia Gravis	Vitiligo	4.20588031340267
 Early-onset Myastenia Gravis	Ankylosing spondylitis	17.0604362128191
-Early-onset Myastenia Gravis	Juvenile rheuma	5.16195466155725
 Early-onset Myastenia Gravis	Palindromic rheumatism	9.59801023209841
 Early-onset Myastenia Gravis	Polymyalgia rheumatica	14.9801189849835
+Early-onset Myastenia Gravis	Rheumatoid arthritis	14.5776847330464
+Early-onset Myastenia Gravis	Systemic lupus erythematosus	6.05363390126986
 Early-onset Myastenia Gravis	Wegener granulomatosis	6.662478834186
 Early-onset Myastenia Gravis	Early-onset Myastenia Gravis	0
 Early-onset Myastenia Gravis	Late-onset Myastenia Gravis	4.09121597391523
@@ -4282,12 +4373,9 @@ Early-onset Myastenia Gravis	Glomerulonephritis	12.8191691395458
 Early-onset Myastenia Gravis	IgG+ Neuromyelitis Optica	3.02726713319839
 Early-onset Myastenia Gravis	Polymyositis (Miller)	4.64993533725388
 Early-onset Myastenia Gravis	Polymyositis (Rothwell)	7.67136394257934
-Early-onset Myastenia Gravis	Rheumatoid Arthritis	16.3170526610367
 Early-onset Myastenia Gravis	Biological medication for rheuma	11.0851242490263
 Early-onset Myastenia Gravis	Sjögren's syndrome	10.3711789024165
-Early-onset Myastenia Gravis	Systemic Lupus Erythematosus	22.8751179840646
 Early-onset Myastenia Gravis	Systemic Sclerosis	10.4111459342611
-Early-onset Myastenia Gravis	Type 1 Diabetes	19.6797263123027
 Early-onset Myastenia Gravis	Ulcerative Colitis	33.6450978019933
 Early-onset Myastenia Gravis	Inflammation of eyelids	18.2084967851689
 Early-onset Myastenia Gravis	Asthma	28.3909416301527
@@ -4314,6 +4402,7 @@ Late-onset Myastenia Gravis	Dermatomyositis (Rothwell)	5.55687495019361
 Late-onset Myastenia Gravis	Diabetic nephropathy	12.9794374750436
 Late-onset Myastenia Gravis	Peripheral atherosclerosis	21.1839429760101
 Late-onset Myastenia Gravis	Diabetic retinopathy	18.9308506809868
+Late-onset Myastenia Gravis	Type 1 diabetes	17.3112962810686
 Late-onset Myastenia Gravis	Type 2 diabetes	26.4345123098441
 Late-onset Myastenia Gravis	Autoimmune thyroiditis	5.73812861109789
 Late-onset Myastenia Gravis	ANCA negative EGPA	24.7863190712405
@@ -4344,9 +4433,10 @@ Late-onset Myastenia Gravis	Arthropathic psoriasis	12.3026903861343
 Late-onset Myastenia Gravis	Rosacea	12.5254845156177
 Late-onset Myastenia Gravis	Vitiligo	6.22139098839514
 Late-onset Myastenia Gravis	Ankylosing spondylitis	18.6423324297208
-Late-onset Myastenia Gravis	Juvenile rheuma	6.62188489774847
 Late-onset Myastenia Gravis	Palindromic rheumatism	8.82525333197443
 Late-onset Myastenia Gravis	Polymyalgia rheumatica	12.8480501676727
+Late-onset Myastenia Gravis	Rheumatoid arthritis	14.2826025455831
+Late-onset Myastenia Gravis	Systemic lupus erythematosus	9.18711426126363
 Late-onset Myastenia Gravis	Wegener granulomatosis	5.93772051576499
 Late-onset Myastenia Gravis	Early-onset Myastenia Gravis	4.09121597391523
 Late-onset Myastenia Gravis	Late-onset Myastenia Gravis	0
@@ -4356,12 +4446,9 @@ Late-onset Myastenia Gravis	Glomerulonephritis	10.4415040921834
 Late-onset Myastenia Gravis	IgG+ Neuromyelitis Optica	7.07161618259569
 Late-onset Myastenia Gravis	Polymyositis (Miller)	6.64947790268321
 Late-onset Myastenia Gravis	Polymyositis (Rothwell)	7.4158384064383
-Late-onset Myastenia Gravis	Rheumatoid Arthritis	19.3261310959403
 Late-onset Myastenia Gravis	Biological medication for rheuma	10.4534316630578
 Late-onset Myastenia Gravis	Sjögren's syndrome	13.665563119689
-Late-onset Myastenia Gravis	Systemic Lupus Erythematosus	51.1683950452091
 Late-onset Myastenia Gravis	Systemic Sclerosis	15.64762010178
-Late-onset Myastenia Gravis	Type 1 Diabetes	26.7433007680373
 Late-onset Myastenia Gravis	Ulcerative Colitis	53.0308931526605
 Late-onset Myastenia Gravis	Inflammation of eyelids	17.0524613180527
 Late-onset Myastenia Gravis	Asthma	34.3461678595407
@@ -4388,6 +4475,7 @@ Myastenia Gravis	Dermatomyositis (Rothwell)	5.94903301149327
 Myastenia Gravis	Diabetic nephropathy	10.1797744060518
 Myastenia Gravis	Peripheral atherosclerosis	26.8696015540276
 Myastenia Gravis	Diabetic retinopathy	18.9764514812231
+Myastenia Gravis	Type 1 diabetes	16.1729614511443
 Myastenia Gravis	Type 2 diabetes	32.0679139949311
 Myastenia Gravis	Autoimmune thyroiditis	8.26510126509129
 Myastenia Gravis	ANCA negative EGPA	27.4601814996936
@@ -4418,9 +4506,10 @@ Myastenia Gravis	Arthropathic psoriasis	13.4057370908982
 Myastenia Gravis	Rosacea	16.1267290205457
 Myastenia Gravis	Vitiligo	8.47446717409063
 Myastenia Gravis	Ankylosing spondylitis	28.9913182546492
-Myastenia Gravis	Juvenile rheuma	9.59552828452737
 Myastenia Gravis	Palindromic rheumatism	9.94362497479338
 Myastenia Gravis	Polymyalgia rheumatica	12.2027792851483
+Myastenia Gravis	Rheumatoid arthritis	13.9057152550563
+Myastenia Gravis	Systemic lupus erythematosus	14.745608217256
 Myastenia Gravis	Wegener granulomatosis	6.61242877348648
 Myastenia Gravis	Early-onset Myastenia Gravis	8.18574546025826
 Myastenia Gravis	Late-onset Myastenia Gravis	3.04986566996452
@@ -4430,12 +4519,9 @@ Myastenia Gravis	Glomerulonephritis	11.4670629771562
 Myastenia Gravis	IgG+ Neuromyelitis Optica	9.7003739351598
 Myastenia Gravis	Polymyositis (Miller)	8.07920702648223
 Myastenia Gravis	Polymyositis (Rothwell)	8.66600501605299
-Myastenia Gravis	Rheumatoid Arthritis	30.6314407054255
 Myastenia Gravis	Biological medication for rheuma	12.9055867938551
 Myastenia Gravis	Sjögren's syndrome	21.2818303257372
-Myastenia Gravis	Systemic Lupus Erythematosus	116.954075939973
 Myastenia Gravis	Systemic Sclerosis	24.8806379239765
-Myastenia Gravis	Type 1 Diabetes	42.8226697547093
 Myastenia Gravis	Ulcerative Colitis	124.158718968251
 Myastenia Gravis	Inflammation of eyelids	21.2135336486581
 Myastenia Gravis	Asthma	50.1750986941079
@@ -4462,6 +4548,7 @@ IIM (Miller)	Dermatomyositis (Rothwell)	3.46701533446781
 IIM (Miller)	Diabetic nephropathy	12.8202721626191
 IIM (Miller)	Peripheral atherosclerosis	16.8045402410017
 IIM (Miller)	Diabetic retinopathy	19.8227252040559
+IIM (Miller)	Type 1 diabetes	23.5229051301017
 IIM (Miller)	Type 2 diabetes	25.7081762325936
 IIM (Miller)	Autoimmune thyroiditis	11.5879594555228
 IIM (Miller)	ANCA negative EGPA	22.19977407597
@@ -4492,9 +4579,10 @@ IIM (Miller)	Arthropathic psoriasis	6.83107419541304
 IIM (Miller)	Rosacea	15.5614734769152
 IIM (Miller)	Vitiligo	9.54486356821344
 IIM (Miller)	Ankylosing spondylitis	17.8746452987673
-IIM (Miller)	Juvenile rheuma	6.80956565395543
 IIM (Miller)	Palindromic rheumatism	8.76594233097729
 IIM (Miller)	Polymyalgia rheumatica	8.83220285067388
+IIM (Miller)	Rheumatoid arthritis	7.09482774344743
+IIM (Miller)	Systemic lupus erythematosus	8.7868443877093
 IIM (Miller)	Wegener granulomatosis	6.63904609552085
 IIM (Miller)	Early-onset Myastenia Gravis	8.06916556801966
 IIM (Miller)	Late-onset Myastenia Gravis	9.45125483787386
@@ -4504,12 +4592,9 @@ IIM (Miller)	Glomerulonephritis	8.82210180174617
 IIM (Miller)	IgG+ Neuromyelitis Optica	6.77556037595032
 IIM (Miller)	Polymyositis (Miller)	2.5810421393552
 IIM (Miller)	Polymyositis (Rothwell)	4.22562658890594
-IIM (Miller)	Rheumatoid Arthritis	20.98133677853
 IIM (Miller)	Biological medication for rheuma	7.11862492491079
 IIM (Miller)	Sjögren's syndrome	7.4860264023319
-IIM (Miller)	Systemic Lupus Erythematosus	72.4718257831941
 IIM (Miller)	Systemic Sclerosis	7.78623519651439
-IIM (Miller)	Type 1 Diabetes	51.0041621224329
 IIM (Miller)	Ulcerative Colitis	90.9724406624128
 IIM (Miller)	Inflammation of eyelids	18.9051598973763
 IIM (Miller)	Asthma	31.1521663011534
@@ -4536,6 +4621,7 @@ Glomerulonephritis	Dermatomyositis (Rothwell)	6.19941222302192
 Glomerulonephritis	Diabetic nephropathy	11.8879616570031
 Glomerulonephritis	Peripheral atherosclerosis	10.7410749929144
 Glomerulonephritis	Diabetic retinopathy	11.8576069823677
+Glomerulonephritis	Type 1 diabetes	32.9909134219704
 Glomerulonephritis	Type 2 diabetes	14.9502860816125
 Glomerulonephritis	Autoimmune thyroiditis	18.2973908687277
 Glomerulonephritis	ANCA negative EGPA	22.4119933299747
@@ -4566,9 +4652,10 @@ Glomerulonephritis	Arthropathic psoriasis	7.35866846027962
 Glomerulonephritis	Rosacea	5.46659310460717
 Glomerulonephritis	Vitiligo	11.0103005309281
 Glomerulonephritis	Ankylosing spondylitis	8.15967871996705
-Glomerulonephritis	Juvenile rheuma	9.33947313128615
 Glomerulonephritis	Palindromic rheumatism	8.18194318666846
 Glomerulonephritis	Polymyalgia rheumatica	4.24050195260595
+Glomerulonephritis	Rheumatoid arthritis	15.8189574344253
+Glomerulonephritis	Systemic lupus erythematosus	20.1547109853326
 Glomerulonephritis	Wegener granulomatosis	6.347031023694
 Glomerulonephritis	Early-onset Myastenia Gravis	12.8191691395458
 Glomerulonephritis	Late-onset Myastenia Gravis	10.4415040921834
@@ -4578,12 +4665,9 @@ Glomerulonephritis	Glomerulonephritis	0
 Glomerulonephritis	IgG+ Neuromyelitis Optica	10.4269304084497
 Glomerulonephritis	Polymyositis (Miller)	9.15617440468031
 Glomerulonephritis	Polymyositis (Rothwell)	8.19891419481632
-Glomerulonephritis	Rheumatoid Arthritis	42.43817437473
 Glomerulonephritis	Biological medication for rheuma	6.75689459400013
 Glomerulonephritis	Sjögren's syndrome	20.9637224812345
-Glomerulonephritis	Systemic Lupus Erythematosus	122.404470152425
 Glomerulonephritis	Systemic Sclerosis	24.9230996956684
-Glomerulonephritis	Type 1 Diabetes	79.8965097437553
 Glomerulonephritis	Ulcerative Colitis	67.4846775779512
 Glomerulonephritis	Inflammation of eyelids	6.56042338992591
 Glomerulonephritis	Asthma	20.3331764225611
@@ -4610,6 +4694,7 @@ IgG+ Neuromyelitis Optica	Dermatomyositis (Rothwell)	5.86265622593269
 IgG+ Neuromyelitis Optica	Diabetic nephropathy	13.7899872815515
 IgG+ Neuromyelitis Optica	Peripheral atherosclerosis	16.9251750474754
 IgG+ Neuromyelitis Optica	Diabetic retinopathy	18.2052712482438
+IgG+ Neuromyelitis Optica	Type 1 diabetes	17.4570137694434
 IgG+ Neuromyelitis Optica	Type 2 diabetes	22.1407912445185
 IgG+ Neuromyelitis Optica	Autoimmune thyroiditis	7.14632389859541
 IgG+ Neuromyelitis Optica	ANCA negative EGPA	11.7450991215173
@@ -4640,9 +4725,10 @@ IgG+ Neuromyelitis Optica	Arthropathic psoriasis	11.8988499112214
 IgG+ Neuromyelitis Optica	Rosacea	13.0054972106025
 IgG+ Neuromyelitis Optica	Vitiligo	5.36569131341269
 IgG+ Neuromyelitis Optica	Ankylosing spondylitis	14.4572992845929
-IgG+ Neuromyelitis Optica	Juvenile rheuma	7.61346850684196
 IgG+ Neuromyelitis Optica	Palindromic rheumatism	7.59305521187708
 IgG+ Neuromyelitis Optica	Polymyalgia rheumatica	12.2340799965265
+IgG+ Neuromyelitis Optica	Rheumatoid arthritis	14.3026664314659
+IgG+ Neuromyelitis Optica	Systemic lupus erythematosus	6.01772216152007
 IgG+ Neuromyelitis Optica	Wegener granulomatosis	6.0358955787433
 IgG+ Neuromyelitis Optica	Early-onset Myastenia Gravis	3.02726713319839
 IgG+ Neuromyelitis Optica	Late-onset Myastenia Gravis	7.07161618259569
@@ -4652,12 +4738,9 @@ IgG+ Neuromyelitis Optica	Glomerulonephritis	10.4269304084497
 IgG+ Neuromyelitis Optica	IgG+ Neuromyelitis Optica	0
 IgG+ Neuromyelitis Optica	Polymyositis (Miller)	4.54287617071982
 IgG+ Neuromyelitis Optica	Polymyositis (Rothwell)	6.53081970542603
-IgG+ Neuromyelitis Optica	Rheumatoid Arthritis	16.706705101158
 IgG+ Neuromyelitis Optica	Biological medication for rheuma	11.9929075985194
 IgG+ Neuromyelitis Optica	Sjögren's syndrome	8.59035210335727
-IgG+ Neuromyelitis Optica	Systemic Lupus Erythematosus	13.0644658588201
 IgG+ Neuromyelitis Optica	Systemic Sclerosis	8.60403026163486
-IgG+ Neuromyelitis Optica	Type 1 Diabetes	20.8198066510491
 IgG+ Neuromyelitis Optica	Ulcerative Colitis	27.4304479073884
 IgG+ Neuromyelitis Optica	Inflammation of eyelids	14.8459789143747
 IgG+ Neuromyelitis Optica	Asthma	22.6656358023967
@@ -4684,6 +4767,7 @@ Polymyositis (Miller)	Dermatomyositis (Rothwell)	4.89418227813327
 Polymyositis (Miller)	Diabetic nephropathy	11.7714069279231
 Polymyositis (Miller)	Peripheral atherosclerosis	16.9508934985773
 Polymyositis (Miller)	Diabetic retinopathy	17.3873095267417
+Polymyositis (Miller)	Type 1 diabetes	15.453915489956
 Polymyositis (Miller)	Type 2 diabetes	23.315774957958
 Polymyositis (Miller)	Autoimmune thyroiditis	7.72156175216918
 Polymyositis (Miller)	ANCA negative EGPA	13.150744978265
@@ -4714,9 +4798,10 @@ Polymyositis (Miller)	Arthropathic psoriasis	9.22150274383357
 Polymyositis (Miller)	Rosacea	12.7782035397197
 Polymyositis (Miller)	Vitiligo	7.20566671805022
 Polymyositis (Miller)	Ankylosing spondylitis	14.0059999044171
-Polymyositis (Miller)	Juvenile rheuma	4.95331459473945
 Polymyositis (Miller)	Palindromic rheumatism	6.20200727366076
 Polymyositis (Miller)	Polymyalgia rheumatica	10.279190078986
+Polymyositis (Miller)	Rheumatoid arthritis	9.02231003384856
+Polymyositis (Miller)	Systemic lupus erythematosus	6.78129015882116
 Polymyositis (Miller)	Wegener granulomatosis	4.09858423165476
 Polymyositis (Miller)	Early-onset Myastenia Gravis	4.64993533725388
 Polymyositis (Miller)	Late-onset Myastenia Gravis	6.64947790268321
@@ -4726,12 +4811,9 @@ Polymyositis (Miller)	Glomerulonephritis	9.15617440468031
 Polymyositis (Miller)	IgG+ Neuromyelitis Optica	4.54287617071982
 Polymyositis (Miller)	Polymyositis (Miller)	0
 Polymyositis (Miller)	Polymyositis (Rothwell)	2.63491647994656
-Polymyositis (Miller)	Rheumatoid Arthritis	12.9956222532994
 Polymyositis (Miller)	Biological medication for rheuma	8.03345313822539
 Polymyositis (Miller)	Sjögren's syndrome	8.47459894755455
-Polymyositis (Miller)	Systemic Lupus Erythematosus	34.1354120119205
 Polymyositis (Miller)	Systemic Sclerosis	7.89925008229421
-Polymyositis (Miller)	Type 1 Diabetes	22.6455119901392
 Polymyositis (Miller)	Ulcerative Colitis	38.7100151893888
 Polymyositis (Miller)	Inflammation of eyelids	15.6451985330951
 Polymyositis (Miller)	Asthma	20.9544828784987
@@ -4758,6 +4840,7 @@ Polymyositis (Rothwell)	Dermatomyositis (Rothwell)	3.63199516804584
 Polymyositis (Rothwell)	Diabetic nephropathy	15.0617345195291
 Polymyositis (Rothwell)	Peripheral atherosclerosis	19.8243341154305
 Polymyositis (Rothwell)	Diabetic retinopathy	19.8185188029746
+Polymyositis (Rothwell)	Type 1 diabetes	23.5664095452407
 Polymyositis (Rothwell)	Type 2 diabetes	26.6427230685992
 Polymyositis (Rothwell)	Autoimmune thyroiditis	12.2473737961798
 Polymyositis (Rothwell)	ANCA negative EGPA	22.8799095840205
@@ -4788,9 +4871,10 @@ Polymyositis (Rothwell)	Arthropathic psoriasis	10.8745974654154
 Polymyositis (Rothwell)	Rosacea	11.1953586467195
 Polymyositis (Rothwell)	Vitiligo	10.8612388663911
 Polymyositis (Rothwell)	Ankylosing spondylitis	15.9209418260843
-Polymyositis (Rothwell)	Juvenile rheuma	6.85942444761074
 Polymyositis (Rothwell)	Palindromic rheumatism	7.74165381454422
 Polymyositis (Rothwell)	Polymyalgia rheumatica	10.4516322409109
+Polymyositis (Rothwell)	Rheumatoid arthritis	9.37007754421184
+Polymyositis (Rothwell)	Systemic lupus erythematosus	8.74439558447988
 Polymyositis (Rothwell)	Wegener granulomatosis	3.10593499070597
 Polymyositis (Rothwell)	Early-onset Myastenia Gravis	7.67136394257934
 Polymyositis (Rothwell)	Late-onset Myastenia Gravis	7.4158384064383
@@ -4800,89 +4884,12 @@ Polymyositis (Rothwell)	Glomerulonephritis	8.19891419481632
 Polymyositis (Rothwell)	IgG+ Neuromyelitis Optica	6.53081970542603
 Polymyositis (Rothwell)	Polymyositis (Miller)	2.63491647994656
 Polymyositis (Rothwell)	Polymyositis (Rothwell)	0
-Polymyositis (Rothwell)	Rheumatoid Arthritis	17.8629864442397
 Polymyositis (Rothwell)	Biological medication for rheuma	8.70815863370561
 Polymyositis (Rothwell)	Sjögren's syndrome	8.2222612512838
-Polymyositis (Rothwell)	Systemic Lupus Erythematosus	60.4943276384779
 Polymyositis (Rothwell)	Systemic Sclerosis	7.33127450162904
-Polymyositis (Rothwell)	Type 1 Diabetes	41.8211977570775
 Polymyositis (Rothwell)	Ulcerative Colitis	56.883296786957
 Polymyositis (Rothwell)	Inflammation of eyelids	15.2672138908798
 Polymyositis (Rothwell)	Asthma	27.9162792142983
-Rheumatoid Arthritis	Hyperthyroidism/Thyrotoxicosis	40.8537616671133
-Rheumatoid Arthritis	Hayfever/Allergic Rhinitis	458.263413158146
-Rheumatoid Arthritis	Autoimmune Addison's disease	38.1988160694709
-Rheumatoid Arthritis	MPO+ AAV	14.6518459848474
-Rheumatoid Arthritis	PR3+ AAV	32.5830781702831
-Rheumatoid Arthritis	Autoimmune Thyroid disease	208.203818686879
-Rheumatoid Arthritis	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	22.4477747028446
-Rheumatoid Arthritis	Adult-onset Asthma	447.02242602885
-Rheumatoid Arthritis	Childhood-onset Asthma	539.088289102489
-Rheumatoid Arthritis	Atopic Dermatitis	230.870529745763
-Rheumatoid Arthritis	Crohn's Disease	521.765431334356
-Rheumatoid Arthritis	Primary biliary cholangitis	23.6391366601844
-Rheumatoid Arthritis	CR(E)ST syndrome	21.1344167169226
-Rheumatoid Arthritis	Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	350.643091591279
-Rheumatoid Arthritis	Other and unspecified disorders involving the immune mechanism, not elsewhere classified	28.934386935293
-Rheumatoid Arthritis	Certain disorders involving the immune mechanism	116.993139798537
-Rheumatoid Arthritis	Idiopathic thrombocytopenic purpura	23.4796024544346
-Rheumatoid Arthritis	Sarcoidosis	84.2498171219432
-Rheumatoid Arthritis	Dermatomyositis (Miller)	16.9780360564273
-Rheumatoid Arthritis	Dermatomyositis (Rothwell)	17.2684603412879
-Rheumatoid Arthritis	Diabetic nephropathy	91.6414511172569
-Rheumatoid Arthritis	Peripheral atherosclerosis	227.492315846629
-Rheumatoid Arthritis	Diabetic retinopathy	241.996576618263
-Rheumatoid Arthritis	Type 2 diabetes	439.871813037232
-Rheumatoid Arthritis	Autoimmune thyroiditis	19.8049838006044
-Rheumatoid Arthritis	ANCA negative EGPA	37.3212871507882
-Rheumatoid Arthritis	MPO+ EGPA	21.1859679648545
-Rheumatoid Arthritis	Eosinophilic Granulomatosis with Polyangiitis	42.8791906215611
-Rheumatoid Arthritis	Eosinophilic Esophagitis	97.164880808719
-Rheumatoid Arthritis	Felty syndrome	16.1334381068068
-Rheumatoid Arthritis	Diabethic neuropathy	60.6749105261263
-Rheumatoid Arthritis	Multiple Sclerosis	107.385451896164
-Rheumatoid Arthritis	Gout	182.072351621436
-Rheumatoid Arthritis	Hypothyroidism (congenital or acquired)	209.507119671849
-Rheumatoid Arthritis	Inflammatory Bowel Disease	584.908835283781
-Rheumatoid Arthritis	IgA deficiency	58.5013509804378
-Rheumatoid Arthritis	IIM (Rothwell)	33.4395263428632
-Rheumatoid Arthritis	Nasal polyp	185.220610087967
-Rheumatoid Arthritis	Juvenile Dermatomyositis (Miller)	18.190922780174
-Rheumatoid Arthritis	Juvenile Dermatomyositis (Rothwell)	22.1079753714627
-Rheumatoid Arthritis	Juvenile Idiopathic Arthritis	41.0398942503058
-Rheumatoid Arthritis	Jo1+ Myositis (Rothwell)	14.1951309770489
-Rheumatoid Arthritis	Primary sclerosing cholangitis	48.6618674325735
-Rheumatoid Arthritis	Coeliac disease	137.554698577535
-Rheumatoid Arthritis	Erythema nodosum	29.9119673359931
-Rheumatoid Arthritis	Lichen planus	110.998639754828
-Rheumatoid Arthritis	Lichen sclerosus et atrophicus	63.8906912518683
-Rheumatoid Arthritis	Localized scleroderma [morphea]	20.7279317981926
-Rheumatoid Arthritis	Psoriasis	197.874011744934
-Rheumatoid Arthritis	Arthropathic psoriasis	76.0794214629244
-Rheumatoid Arthritis	Rosacea	77.7470429569515
-Rheumatoid Arthritis	Vitiligo	18.6354540692352
-Rheumatoid Arthritis	Ankylosing spondylitis	110.3135086199
-Rheumatoid Arthritis	Juvenile rheuma	24.747071826162
-Rheumatoid Arthritis	Palindromic rheumatism	16.8189012776258
-Rheumatoid Arthritis	Polymyalgia rheumatica	67.9493632331342
-Rheumatoid Arthritis	Wegener granulomatosis	17.2604716639104
-Rheumatoid Arthritis	Early-onset Myastenia Gravis	16.3170526610367
-Rheumatoid Arthritis	Late-onset Myastenia Gravis	19.3261310959403
-Rheumatoid Arthritis	Myastenia Gravis	30.6314407054255
-Rheumatoid Arthritis	IIM (Miller)	20.98133677853
-Rheumatoid Arthritis	Glomerulonephritis	42.43817437473
-Rheumatoid Arthritis	IgG+ Neuromyelitis Optica	16.706705101158
-Rheumatoid Arthritis	Polymyositis (Miller)	12.9956222532994
-Rheumatoid Arthritis	Polymyositis (Rothwell)	17.8629864442397
-Rheumatoid Arthritis	Rheumatoid Arthritis	0
-Rheumatoid Arthritis	Biological medication for rheuma	56.4435681567944
-Rheumatoid Arthritis	Sjögren's syndrome	62.3714815557861
-Rheumatoid Arthritis	Systemic Lupus Erythematosus	313.058040718813
-Rheumatoid Arthritis	Systemic Sclerosis	63.3448408487606
-Rheumatoid Arthritis	Type 1 Diabetes	329.368194111636
-Rheumatoid Arthritis	Ulcerative Colitis	410.259906929844
-Rheumatoid Arthritis	Inflammation of eyelids	96.3570256755004
-Rheumatoid Arthritis	Asthma	424.362367670996
 Biological medication for rheuma	Hyperthyroidism/Thyrotoxicosis	14.7299665326012
 Biological medication for rheuma	Hayfever/Allergic Rhinitis	59.5739792104306
 Biological medication for rheuma	Autoimmune Addison's disease	23.3715985434086
@@ -4906,6 +4913,7 @@ Biological medication for rheuma	Dermatomyositis (Rothwell)	7.36694803097469
 Biological medication for rheuma	Diabetic nephropathy	19.2370228166375
 Biological medication for rheuma	Peripheral atherosclerosis	31.105195212601
 Biological medication for rheuma	Diabetic retinopathy	32.0106573300129
+Biological medication for rheuma	Type 1 diabetes	52.99128421339
 Biological medication for rheuma	Type 2 diabetes	46.7954020271684
 Biological medication for rheuma	Autoimmune thyroiditis	16.4801499055629
 Biological medication for rheuma	ANCA negative EGPA	28.9129520232821
@@ -4936,9 +4944,10 @@ Biological medication for rheuma	Arthropathic psoriasis	8.37587640179609
 Biological medication for rheuma	Rosacea	12.4054616186427
 Biological medication for rheuma	Vitiligo	11.9055122083519
 Biological medication for rheuma	Ankylosing spondylitis	17.3709696477614
-Biological medication for rheuma	Juvenile rheuma	6.81554546386153
 Biological medication for rheuma	Palindromic rheumatism	11.3738376978475
 Biological medication for rheuma	Polymyalgia rheumatica	11.7498847421081
+Biological medication for rheuma	Rheumatoid arthritis	12.6750659911168
+Biological medication for rheuma	Systemic lupus erythematosus	15.680148740159
 Biological medication for rheuma	Wegener granulomatosis	8.20516652944294
 Biological medication for rheuma	Early-onset Myastenia Gravis	11.0851242490263
 Biological medication for rheuma	Late-onset Myastenia Gravis	10.4534316630578
@@ -4948,12 +4957,9 @@ Biological medication for rheuma	Glomerulonephritis	6.75689459400013
 Biological medication for rheuma	IgG+ Neuromyelitis Optica	11.9929075985194
 Biological medication for rheuma	Polymyositis (Miller)	8.0334531382254
 Biological medication for rheuma	Polymyositis (Rothwell)	8.70815863370561
-Biological medication for rheuma	Rheumatoid Arthritis	56.4435681567944
 Biological medication for rheuma	Biological medication for rheuma	0
 Biological medication for rheuma	Sjögren's syndrome	20.819623109686
-Biological medication for rheuma	Systemic Lupus Erythematosus	168.080794217453
 Biological medication for rheuma	Systemic Sclerosis	24.8094223261214
-Biological medication for rheuma	Type 1 Diabetes	128.970405017911
 Biological medication for rheuma	Ulcerative Colitis	134.021863980497
 Biological medication for rheuma	Inflammation of eyelids	20.1916408569528
 Biological medication for rheuma	Asthma	55.6684458498211
@@ -4980,6 +4986,7 @@ Sjögren's syndrome	Dermatomyositis (Rothwell)	6.73511055378763
 Sjögren's syndrome	Diabetic nephropathy	39.848462605041
 Sjögren's syndrome	Peripheral atherosclerosis	46.1424619868677
 Sjögren's syndrome	Diabetic retinopathy	58.5979747634629
+Sjögren's syndrome	Type 1 diabetes	75.9806177958809
 Sjögren's syndrome	Type 2 diabetes	70.1379703462044
 Sjögren's syndrome	Autoimmune thyroiditis	20.2161065358481
 Sjögren's syndrome	ANCA negative EGPA	33.8794650264564
@@ -5010,9 +5017,10 @@ Sjögren's syndrome	Arthropathic psoriasis	17.6357623987749
 Sjögren's syndrome	Rosacea	27.195813877757
 Sjögren's syndrome	Vitiligo	14.6496052197555
 Sjögren's syndrome	Ankylosing spondylitis	35.5841908506785
-Sjögren's syndrome	Juvenile rheuma	13.5660147896616
 Sjögren's syndrome	Palindromic rheumatism	16.1831707024766
 Sjögren's syndrome	Polymyalgia rheumatica	23.827352499227
+Sjögren's syndrome	Rheumatoid arthritis	28.2913120323118
+Sjögren's syndrome	Systemic lupus erythematosus	5.54511122484416
 Sjögren's syndrome	Wegener granulomatosis	9.94233315019526
 Sjögren's syndrome	Early-onset Myastenia Gravis	10.3711789024165
 Sjögren's syndrome	Late-onset Myastenia Gravis	13.665563119689
@@ -5022,89 +5030,12 @@ Sjögren's syndrome	Glomerulonephritis	20.9637224812345
 Sjögren's syndrome	IgG+ Neuromyelitis Optica	8.59035210335727
 Sjögren's syndrome	Polymyositis (Miller)	8.47459894755454
 Sjögren's syndrome	Polymyositis (Rothwell)	8.2222612512838
-Sjögren's syndrome	Rheumatoid Arthritis	62.3714815557861
 Sjögren's syndrome	Biological medication for rheuma	20.819623109686
 Sjögren's syndrome	Sjögren's syndrome	0
-Sjögren's syndrome	Systemic Lupus Erythematosus	80.4482307020185
 Sjögren's syndrome	Systemic Sclerosis	2.99958145536579
-Sjögren's syndrome	Type 1 Diabetes	141.606225338845
 Sjögren's syndrome	Ulcerative Colitis	199.972986706548
 Sjögren's syndrome	Inflammation of eyelids	43.4608565169718
 Sjögren's syndrome	Asthma	88.4194524308786
-Systemic Lupus Erythematosus	Hyperthyroidism/Thyrotoxicosis	186.641792590425
-Systemic Lupus Erythematosus	Hayfever/Allergic Rhinitis	417.155634504579
-Systemic Lupus Erythematosus	Autoimmune Addison's disease	90.6115081124925
-Systemic Lupus Erythematosus	MPO+ AAV	55.0433539941206
-Systemic Lupus Erythematosus	PR3+ AAV	112.774897581304
-Systemic Lupus Erythematosus	Autoimmune Thyroid disease	318.380473288866
-Systemic Lupus Erythematosus	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	38.0606908250205
-Systemic Lupus Erythematosus	Adult-onset Asthma	429.863764458103
-Systemic Lupus Erythematosus	Childhood-onset Asthma	448.439829010242
-Systemic Lupus Erythematosus	Atopic Dermatitis	288.676676336652
-Systemic Lupus Erythematosus	Crohn's Disease	459.064793109268
-Systemic Lupus Erythematosus	Primary biliary cholangitis	34.6444179384355
-Systemic Lupus Erythematosus	CR(E)ST syndrome	19.6554273761729
-Systemic Lupus Erythematosus	Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	363.47829377222
-Systemic Lupus Erythematosus	Other and unspecified disorders involving the immune mechanism, not elsewhere classified	70.427848019589
-Systemic Lupus Erythematosus	Certain disorders involving the immune mechanism	248.566300840454
-Systemic Lupus Erythematosus	Idiopathic thrombocytopenic purpura	63.0123431018444
-Systemic Lupus Erythematosus	Sarcoidosis	207.715983669261
-Systemic Lupus Erythematosus	Dermatomyositis (Miller)	41.2419348768584
-Systemic Lupus Erythematosus	Dermatomyositis (Rothwell)	63.8331812706281
-Systemic Lupus Erythematosus	Diabetic nephropathy	199.860718092008
-Systemic Lupus Erythematosus	Peripheral atherosclerosis	304.094796074822
-Systemic Lupus Erythematosus	Diabetic retinopathy	330.231829825147
-Systemic Lupus Erythematosus	Type 2 diabetes	406.746973325168
-Systemic Lupus Erythematosus	Autoimmune thyroiditis	52.7158146557735
-Systemic Lupus Erythematosus	ANCA negative EGPA	64.7301462352422
-Systemic Lupus Erythematosus	MPO+ EGPA	33.5103110142085
-Systemic Lupus Erythematosus	Eosinophilic Granulomatosis with Polyangiitis	86.1886764658498
-Systemic Lupus Erythematosus	Eosinophilic Esophagitis	172.261218336848
-Systemic Lupus Erythematosus	Felty syndrome	19.5495163249963
-Systemic Lupus Erythematosus	Diabethic neuropathy	171.98130798248
-Systemic Lupus Erythematosus	Multiple Sclerosis	148.637243614283
-Systemic Lupus Erythematosus	Gout	274.884333701968
-Systemic Lupus Erythematosus	Hypothyroidism (congenital or acquired)	314.754941272433
-Systemic Lupus Erythematosus	Inflammatory Bowel Disease	512.073854223272
-Systemic Lupus Erythematosus	IgA deficiency	110.38673976366
-Systemic Lupus Erythematosus	IIM (Rothwell)	117.576809016272
-Systemic Lupus Erythematosus	Nasal polyp	324.937842027258
-Systemic Lupus Erythematosus	Juvenile Dermatomyositis (Miller)	37.6988554740057
-Systemic Lupus Erythematosus	Juvenile Dermatomyositis (Rothwell)	47.5622739458652
-Systemic Lupus Erythematosus	Juvenile Idiopathic Arthritis	101.077395921944
-Systemic Lupus Erythematosus	Jo1+ Myositis (Rothwell)	28.4594369081646
-Systemic Lupus Erythematosus	Primary sclerosing cholangitis	125.407491945323
-Systemic Lupus Erythematosus	Coeliac disease	226.10452655331
-Systemic Lupus Erythematosus	Erythema nodosum	66.6048513694646
-Systemic Lupus Erythematosus	Lichen planus	211.150501749173
-Systemic Lupus Erythematosus	Lichen sclerosus et atrophicus	144.6947205891
-Systemic Lupus Erythematosus	Localized scleroderma [morphea]	32.0404305213798
-Systemic Lupus Erythematosus	Psoriasis	274.496353631878
-Systemic Lupus Erythematosus	Arthropathic psoriasis	157.640043050971
-Systemic Lupus Erythematosus	Rosacea	148.325374998598
-Systemic Lupus Erythematosus	Vitiligo	32.8190226341136
-Systemic Lupus Erythematosus	Ankylosing spondylitis	181.944618001187
-Systemic Lupus Erythematosus	Juvenile rheuma	60.9922595581253
-Systemic Lupus Erythematosus	Palindromic rheumatism	39.6369270324714
-Systemic Lupus Erythematosus	Polymyalgia rheumatica	163.891086825913
-Systemic Lupus Erythematosus	Wegener granulomatosis	38.3722821423722
-Systemic Lupus Erythematosus	Early-onset Myastenia Gravis	22.8751179840646
-Systemic Lupus Erythematosus	Late-onset Myastenia Gravis	51.1683950452091
-Systemic Lupus Erythematosus	Myastenia Gravis	116.954075939973
-Systemic Lupus Erythematosus	IIM (Miller)	72.4718257831941
-Systemic Lupus Erythematosus	Glomerulonephritis	122.404470152425
-Systemic Lupus Erythematosus	IgG+ Neuromyelitis Optica	13.0644658588201
-Systemic Lupus Erythematosus	Polymyositis (Miller)	34.1354120119205
-Systemic Lupus Erythematosus	Polymyositis (Rothwell)	60.4943276384779
-Systemic Lupus Erythematosus	Rheumatoid Arthritis	313.058040718813
-Systemic Lupus Erythematosus	Biological medication for rheuma	168.080794217453
-Systemic Lupus Erythematosus	Sjögren's syndrome	80.4482307020185
-Systemic Lupus Erythematosus	Systemic Lupus Erythematosus	0
-Systemic Lupus Erythematosus	Systemic Sclerosis	88.4761629655757
-Systemic Lupus Erythematosus	Type 1 Diabetes	343.788312249516
-Systemic Lupus Erythematosus	Ulcerative Colitis	454.014936054744
-Systemic Lupus Erythematosus	Inflammation of eyelids	221.309241356873
-Systemic Lupus Erythematosus	Asthma	416.835599898658
 Systemic Sclerosis	Hyperthyroidism/Thyrotoxicosis	37.6079683013176
 Systemic Sclerosis	Hayfever/Allergic Rhinitis	92.6224974948161
 Systemic Sclerosis	Autoimmune Addison's disease	31.443052010541
@@ -5128,6 +5059,7 @@ Systemic Sclerosis	Dermatomyositis (Rothwell)	6.73878425289437
 Systemic Sclerosis	Diabetic nephropathy	44.5440652750527
 Systemic Sclerosis	Peripheral atherosclerosis	51.6651483432063
 Systemic Sclerosis	Diabetic retinopathy	65.8797100011087
+Systemic Sclerosis	Type 1 diabetes	79.0117769605664
 Systemic Sclerosis	Type 2 diabetes	77.5745102006725
 Systemic Sclerosis	Autoimmune thyroiditis	18.8909916437609
 Systemic Sclerosis	ANCA negative EGPA	35.9013940585008
@@ -5158,9 +5090,10 @@ Systemic Sclerosis	Arthropathic psoriasis	20.6195958573204
 Systemic Sclerosis	Rosacea	30.8519032025085
 Systemic Sclerosis	Vitiligo	15.9057324148424
 Systemic Sclerosis	Ankylosing spondylitis	36.9607193195766
-Systemic Sclerosis	Juvenile rheuma	12.299646906159
 Systemic Sclerosis	Palindromic rheumatism	16.8502814984869
 Systemic Sclerosis	Polymyalgia rheumatica	26.7415892162764
+Systemic Sclerosis	Rheumatoid arthritis	29.9265909944952
+Systemic Sclerosis	Systemic lupus erythematosus	7.49444669953887
 Systemic Sclerosis	Wegener granulomatosis	10.6896620972086
 Systemic Sclerosis	Early-onset Myastenia Gravis	10.4111459342611
 Systemic Sclerosis	Late-onset Myastenia Gravis	15.64762010178
@@ -5170,89 +5103,12 @@ Systemic Sclerosis	Glomerulonephritis	24.9230996956684
 Systemic Sclerosis	IgG+ Neuromyelitis Optica	8.60403026163486
 Systemic Sclerosis	Polymyositis (Miller)	7.89925008229421
 Systemic Sclerosis	Polymyositis (Rothwell)	7.33127450162904
-Systemic Sclerosis	Rheumatoid Arthritis	63.3448408487606
 Systemic Sclerosis	Biological medication for rheuma	24.8094223261214
 Systemic Sclerosis	Sjögren's syndrome	2.99958145536579
-Systemic Sclerosis	Systemic Lupus Erythematosus	88.4761629655757
 Systemic Sclerosis	Systemic Sclerosis	0
-Systemic Sclerosis	Type 1 Diabetes	141.318087000816
 Systemic Sclerosis	Ulcerative Colitis	203.7551214525
 Systemic Sclerosis	Inflammation of eyelids	46.4204653045399
 Systemic Sclerosis	Asthma	94.0503177130731
-Type 1 Diabetes	Hyperthyroidism/Thyrotoxicosis	66.1276259614707
-Type 1 Diabetes	Hayfever/Allergic Rhinitis	504.845522728598
-Type 1 Diabetes	Autoimmune Addison's disease	20.5895557827386
-Type 1 Diabetes	MPO+ AAV	36.8403589265635
-Type 1 Diabetes	PR3+ AAV	74.2889586589107
-Type 1 Diabetes	Autoimmune Thyroid disease	200.176537011967
-Type 1 Diabetes	Anaphylactic shock due to adverse effect of correct drug or medicament properly administered	30.3041898749879
-Type 1 Diabetes	Adult-onset Asthma	503.357304055773
-Type 1 Diabetes	Childhood-onset Asthma	534.307118152774
-Type 1 Diabetes	Atopic Dermatitis	276.146472032279
-Type 1 Diabetes	Crohn's Disease	467.275457349801
-Type 1 Diabetes	Primary biliary cholangitis	35.7081731182303
-Type 1 Diabetes	CR(E)ST syndrome	29.4622605752939
-Type 1 Diabetes	Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism	414.337018737075
-Type 1 Diabetes	Other and unspecified disorders involving the immune mechanism, not elsewhere classified	46.216959211821
-Type 1 Diabetes	Certain disorders involving the immune mechanism	156.724959856537
-Type 1 Diabetes	Idiopathic thrombocytopenic purpura	38.1733525513249
-Type 1 Diabetes	Sarcoidosis	113.69799784555
-Type 1 Diabetes	Dermatomyositis (Miller)	33.8869687986533
-Type 1 Diabetes	Dermatomyositis (Rothwell)	43.4429776171611
-Type 1 Diabetes	Diabetic nephropathy	75.555789784524
-Type 1 Diabetes	Peripheral atherosclerosis	313.585085626055
-Type 1 Diabetes	Diabetic retinopathy	243.211886164435
-Type 1 Diabetes	Type 2 diabetes	484.395833410617
-Type 1 Diabetes	Autoimmune thyroiditis	17.1851377906796
-Type 1 Diabetes	ANCA negative EGPA	46.4091147978371
-Type 1 Diabetes	MPO+ EGPA	21.9763885191441
-Type 1 Diabetes	Eosinophilic Granulomatosis with Polyangiitis	53.4632197416842
-Type 1 Diabetes	Eosinophilic Esophagitis	126.426953685538
-Type 1 Diabetes	Felty syndrome	18.7904261137657
-Type 1 Diabetes	Diabethic neuropathy	64.0058976431743
-Type 1 Diabetes	Multiple Sclerosis	136.324825696799
-Type 1 Diabetes	Gout	244.021315090091
-Type 1 Diabetes	Hypothyroidism (congenital or acquired)	219.190441644312
-Type 1 Diabetes	Inflammatory Bowel Disease	529.675459860154
-Type 1 Diabetes	IgA deficiency	51.1492038094958
-Type 1 Diabetes	IIM (Rothwell)	93.9971509833867
-Type 1 Diabetes	Nasal polyp	231.206747027041
-Type 1 Diabetes	Juvenile Dermatomyositis (Miller)	24.6557852026771
-Type 1 Diabetes	Juvenile Dermatomyositis (Rothwell)	37.9615945049273
-Type 1 Diabetes	Juvenile Idiopathic Arthritis	69.2268238699272
-Type 1 Diabetes	Jo1+ Myositis (Rothwell)	27.7925457502353
-Type 1 Diabetes	Primary sclerosing cholangitis	76.4669067665061
-Type 1 Diabetes	Coeliac disease	153.520960388181
-Type 1 Diabetes	Erythema nodosum	39.7503093056855
-Type 1 Diabetes	Lichen planus	118.309042003693
-Type 1 Diabetes	Lichen sclerosus et atrophicus	83.5510658711793
-Type 1 Diabetes	Localized scleroderma [morphea]	21.5546540774107
-Type 1 Diabetes	Psoriasis	256.368244503759
-Type 1 Diabetes	Arthropathic psoriasis	115.449552577194
-Type 1 Diabetes	Rosacea	103.191469578928
-Type 1 Diabetes	Vitiligo	17.1775702616327
-Type 1 Diabetes	Ankylosing spondylitis	155.006749496324
-Type 1 Diabetes	Juvenile rheuma	33.3616705918601
-Type 1 Diabetes	Palindromic rheumatism	19.5600188556927
-Type 1 Diabetes	Polymyalgia rheumatica	115.971181979775
-Type 1 Diabetes	Wegener granulomatosis	20.1339016385782
-Type 1 Diabetes	Early-onset Myastenia Gravis	19.6797263123027
-Type 1 Diabetes	Late-onset Myastenia Gravis	26.7433007680373
-Type 1 Diabetes	Myastenia Gravis	42.8226697547093
-Type 1 Diabetes	IIM (Miller)	51.0041621224329
-Type 1 Diabetes	Glomerulonephritis	79.8965097437553
-Type 1 Diabetes	IgG+ Neuromyelitis Optica	20.8198066510491
-Type 1 Diabetes	Polymyositis (Miller)	22.6455119901392
-Type 1 Diabetes	Polymyositis (Rothwell)	41.8211977570775
-Type 1 Diabetes	Rheumatoid Arthritis	329.368194111636
-Type 1 Diabetes	Biological medication for rheuma	128.970405017911
-Type 1 Diabetes	Sjögren's syndrome	141.606225338845
-Type 1 Diabetes	Systemic Lupus Erythematosus	343.788312249516
-Type 1 Diabetes	Systemic Sclerosis	141.318087000816
-Type 1 Diabetes	Type 1 Diabetes	0
-Type 1 Diabetes	Ulcerative Colitis	401.830847382582
-Type 1 Diabetes	Inflammation of eyelids	135.554378108852
-Type 1 Diabetes	Asthma	479.001304232736
 Ulcerative Colitis	Hyperthyroidism/Thyrotoxicosis	179.920932649676
 Ulcerative Colitis	Hayfever/Allergic Rhinitis	340.39758452933
 Ulcerative Colitis	Autoimmune Addison's disease	109.546001691722
@@ -5276,6 +5132,7 @@ Ulcerative Colitis	Dermatomyositis (Rothwell)	69.0207758953902
 Ulcerative Colitis	Diabetic nephropathy	180.873253305872
 Ulcerative Colitis	Peripheral atherosclerosis	305.627428604294
 Ulcerative Colitis	Diabetic retinopathy	306.589570839147
+Ulcerative Colitis	Type 1 diabetes	321.51590861646
 Ulcerative Colitis	Type 2 diabetes	396.407244374877
 Ulcerative Colitis	Autoimmune thyroiditis	57.4660155680837
 Ulcerative Colitis	ANCA negative EGPA	58.141392174075
@@ -5306,9 +5163,10 @@ Ulcerative Colitis	Arthropathic psoriasis	151.250415300887
 Ulcerative Colitis	Rosacea	88.2019278548328
 Ulcerative Colitis	Vitiligo	34.0353561570142
 Ulcerative Colitis	Ankylosing spondylitis	91.5757477628794
-Ulcerative Colitis	Juvenile rheuma	40.2229703455175
 Ulcerative Colitis	Palindromic rheumatism	29.4852713365084
 Ulcerative Colitis	Polymyalgia rheumatica	138.575841922394
+Ulcerative Colitis	Rheumatoid arthritis	289.083447326256
+Ulcerative Colitis	Systemic lupus erythematosus	89.3402470554066
 Ulcerative Colitis	Wegener granulomatosis	33.7632570954977
 Ulcerative Colitis	Early-onset Myastenia Gravis	33.6450978019933
 Ulcerative Colitis	Late-onset Myastenia Gravis	53.0308931526605
@@ -5318,12 +5176,9 @@ Ulcerative Colitis	Glomerulonephritis	67.4846775779512
 Ulcerative Colitis	IgG+ Neuromyelitis Optica	27.4304479073884
 Ulcerative Colitis	Polymyositis (Miller)	38.7100151893888
 Ulcerative Colitis	Polymyositis (Rothwell)	56.883296786957
-Ulcerative Colitis	Rheumatoid Arthritis	410.259906929844
 Ulcerative Colitis	Biological medication for rheuma	134.021863980497
 Ulcerative Colitis	Sjögren's syndrome	199.972986706548
-Ulcerative Colitis	Systemic Lupus Erythematosus	454.014936054744
 Ulcerative Colitis	Systemic Sclerosis	203.7551214525
-Ulcerative Colitis	Type 1 Diabetes	401.830847382582
 Ulcerative Colitis	Ulcerative Colitis	0
 Ulcerative Colitis	Inflammation of eyelids	140.64918955184
 Ulcerative Colitis	Asthma	345.616754980226
@@ -5350,6 +5205,7 @@ Inflammation of eyelids	Dermatomyositis (Rothwell)	11.5077517598764
 Inflammation of eyelids	Diabetic nephropathy	15.4446298392152
 Inflammation of eyelids	Peripheral atherosclerosis	11.5202636012306
 Inflammation of eyelids	Diabetic retinopathy	13.0213725645223
+Inflammation of eyelids	Type 1 diabetes	52.3879379928045
 Inflammation of eyelids	Type 2 diabetes	14.3394262571809
 Inflammation of eyelids	Autoimmune thyroiditis	24.4554449833241
 Inflammation of eyelids	ANCA negative EGPA	32.6580891738481
@@ -5380,9 +5236,10 @@ Inflammation of eyelids	Arthropathic psoriasis	12.389157907986
 Inflammation of eyelids	Rosacea	3.60110744832241
 Inflammation of eyelids	Vitiligo	17.2161437242855
 Inflammation of eyelids	Ankylosing spondylitis	11.593720836047
-Inflammation of eyelids	Juvenile rheuma	16.6799269790974
 Inflammation of eyelids	Palindromic rheumatism	11.8878754300868
 Inflammation of eyelids	Polymyalgia rheumatica	8.45755422798392
+Inflammation of eyelids	Rheumatoid arthritis	37.4579547097436
+Inflammation of eyelids	Systemic lupus erythematosus	34.095665323882
 Inflammation of eyelids	Wegener granulomatosis	9.41364140183651
 Inflammation of eyelids	Early-onset Myastenia Gravis	18.2084967851689
 Inflammation of eyelids	Late-onset Myastenia Gravis	17.0524613180527
@@ -5392,12 +5249,9 @@ Inflammation of eyelids	Glomerulonephritis	6.56042338992591
 Inflammation of eyelids	IgG+ Neuromyelitis Optica	14.8459789143747
 Inflammation of eyelids	Polymyositis (Miller)	15.6451985330951
 Inflammation of eyelids	Polymyositis (Rothwell)	15.2672138908798
-Inflammation of eyelids	Rheumatoid Arthritis	96.3570256755004
 Inflammation of eyelids	Biological medication for rheuma	20.1916408569528
 Inflammation of eyelids	Sjögren's syndrome	43.4608565169718
-Inflammation of eyelids	Systemic Lupus Erythematosus	221.309241356873
 Inflammation of eyelids	Systemic Sclerosis	46.4204653045399
-Inflammation of eyelids	Type 1 Diabetes	135.554378108852
 Inflammation of eyelids	Ulcerative Colitis	140.64918955184
 Inflammation of eyelids	Inflammation of eyelids	0
 Inflammation of eyelids	Asthma	33.3655476564056
@@ -5424,6 +5278,7 @@ Asthma	Dermatomyositis (Rothwell)	27.2264435368225
 Asthma	Diabetic nephropathy	46.7636669623138
 Asthma	Peripheral atherosclerosis	55.7288069640085
 Asthma	Diabetic retinopathy	72.6913869101663
+Asthma	Type 1 diabetes	178.638757320501
 Asthma	Type 2 diabetes	128.425723645373
 Asthma	Autoimmune thyroiditis	38.665909855483
 Asthma	ANCA negative EGPA	25.3359475600586
@@ -5454,9 +5309,10 @@ Asthma	Arthropathic psoriasis	34.2243921924447
 Asthma	Rosacea	27.1075692024544
 Asthma	Vitiligo	24.8561257347481
 Asthma	Ankylosing spondylitis	30.2695035419297
-Asthma	Juvenile rheuma	29.5271762085443
 Asthma	Palindromic rheumatism	18.8368434538279
 Asthma	Polymyalgia rheumatica	22.7246156796886
+Asthma	Rheumatoid arthritis	130.253167110965
+Asthma	Systemic lupus erythematosus	52.0156903134507
 Asthma	Wegener granulomatosis	17.8891246292731
 Asthma	Early-onset Myastenia Gravis	28.3909416301527
 Asthma	Late-onset Myastenia Gravis	34.3461678595407
@@ -5466,12 +5322,9 @@ Asthma	Glomerulonephritis	20.3331764225611
 Asthma	IgG+ Neuromyelitis Optica	22.6656358023967
 Asthma	Polymyositis (Miller)	20.9544828784987
 Asthma	Polymyositis (Rothwell)	27.9162792142983
-Asthma	Rheumatoid Arthritis	424.362367670996
 Asthma	Biological medication for rheuma	55.6684458498211
 Asthma	Sjögren's syndrome	88.4194524308786
-Asthma	Systemic Lupus Erythematosus	416.835599898658
 Asthma	Systemic Sclerosis	94.0503177130731
-Asthma	Type 1 Diabetes	479.001304232736
 Asthma	Ulcerative Colitis	345.616754980226
 Asthma	Inflammation of eyelids	33.3655476564056
 Asthma	Asthma	0
