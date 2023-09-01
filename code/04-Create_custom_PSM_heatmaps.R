@@ -374,7 +374,7 @@ make_bold_names <- function(mat, rc_fun, rc_names) {
 
 ## Define experiments and generate PSM plots
 
-# exp="Myo_13PC"
+#  exp="Myo_13PC"
 exp="Myo_7PC"
 # exp="Meta_Myo_8PC"
 input_dir="../data/DPMUnc_results/"
