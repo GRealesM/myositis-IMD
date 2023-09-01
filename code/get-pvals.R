@@ -36,11 +36,11 @@ data=lapply(files, fread)
 
 
 # Import mapped genes 
-mg <- fread("../data/mapped.genes.tsv") %>% unique
+mg <- fread("../data/mapped.genes_v2.tsv") %>% unique
 mg <- mg[,.(SNPID, pid, nearestGene)]
 
 # Import coloc table and add some info to the coloc table, and extract rsids to map
-coloc <- fread("../tables/coloc_results_dfilt.tsv")
+coloc <- fread("../data/coloc_results_dfilt-v3.tsv")
 coloc <- merge(coloc, mg, by="pid") # First on driver SNPs
 setnames(coloc, c("SNPID", "nearestGene"), c("driver.rsid", "driver.nearestgene"))
 coloc <- merge(coloc, mg, by.x="bestsnp", by.y = "pid", all.x = TRUE) # Then on candidate snps. Bear in mind that we only mapped candidate SNPs with H4 > 0.5
