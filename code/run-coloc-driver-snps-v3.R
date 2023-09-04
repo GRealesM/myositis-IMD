@@ -2,7 +2,8 @@
 
 # This script will run the coloc step.
 
-# Changes vs previous versions: We excluded juvenile rheuma, and added palindromic rheumatism and biological medication for rheuma
+# 20230904 - Changes vs previous versions: We replaced some basis traits datasets to avoid overfitting. This changed the selection of IMD 
+# for coloc. Namely, we removed hypothy, MG, ITP and others, and included EOMG, LOMG, SLE, and RA
 
 ## Load packages and required
 library(data.table)
@@ -15,40 +16,36 @@ setDTthreads(15)
 setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
 
 
-dpres <- fread("../data/DPMUnc_res_v1.tsv") 
+dpres <- fread("../data/DPMUnc_res_v3.tsv") 
 dpres[DPMUnc == 1, .(Trait,Label)] 
-#                                        Trait                                   Label
-#  1:            AITD_Saevarsdottir_32581359_1              Autoimmune Thyroid disease
-#  2:   E4_THYROIDITAUTOIM_FinnGen_FinnGenR7_1                  Autoimmune thyroiditis
-#  3: RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1        Biological medication for rheuma
-#  4:                CREST_FinnGen_FinnGenR7_1                        CR(E)ST syndrome
-#  5:                    DMY_Miller_26291516_1                Dermatomyositis (Miller)
-#  6:                        DMY_Rothwell_up_1              Dermatomyositis (Rothwell)
-#  7:                  MYGEO_Renton_25643325_1            Early-onset Myastenia Gravis
-#  8:                FELTY_FinnGen_FinnGenR7_1                          Felty syndrome
-#  9:           20002_1225_PanUKBB_PanUKBBR2_1          Hyperthyroidism/Thyrotoxicosis
-# 10:       HYPOTHYROIDISM_FinnGen_FinnGenR7_1 Hypothyroidism (congenital or acquired)
-# 11:                    MYO_Miller_26291516_1                            IIM (Miller)
-# 12:                        IIM_Rothwell_up_1                          IIM (Rothwell)
-# 13:               D3_ITP_FinnGen_FinnGenR7_1     Idiopathic thrombocytopenic purpura
-# 14:               NMOIGGp_Estrada_29769526_1               IgG+ Neuromyelitis Optica
-# 15:                       JO1M_Rothwell_up_1                Jo1+ Myositis (Rothwell)
-# 16:                    JDM_Miller_26291516_1       Juvenile Dermatomyositis (Miller)
-# 17:                        JDM_Rothwell_up_1     Juvenile Dermatomyositis (Rothwell)
-# 18:                 JIA_LopezIsac_33106285_1           Juvenile Idiopathic Arthritis
-# 19:         M13_JUVERHEU_FinnGen_FinnGenR7_1                         Juvenile rheuma
-# 20:                  MYGLO_Renton_25643325_1             Late-onset Myastenia Gravis
-# 21:                         AAVMPO_Wong_up_1                                MPO+ AAV
-# 22:                      MYG_Chia_35074870_1                        Myastenia Gravis
-# 23:                         AAVPR3_Wong_up_1                                PR3+ AAV
-# 24:      M13_PALINDROMIC_FinnGen_FinnGenR7_1                  Palindromic rheumatism
-# 25:                     PM_Miller_26291516_1                   Polymyositis (Miller)
-# 26:                         PM_Rothwell_up_1                 Polymyositis (Rothwell)
-# 27:         CHIRBIL_PRIM_FinnGen_FinnGenR7_1             Primary biliary cholangitis
-# 28:                        SJOS_Lessard_up_1                      Sjögren's syndrome
-# 29:                 SSC_LopezIsac_31672989_1                      Systemic Sclerosis
-# 30:          M13_WEGENER_FinnGen_FinnGenR7_1                  Wegener granulomatosis
-#                                        Trait                                   Label
+# Note: JDM (R) was allocated to a different cluster by DPMUnc, so it doesn't appear in this list. 
+#                                        Trait                             Label
+#  1: RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1  Biological medication for rheuma
+#  2:                CREST_FinnGen_FinnGenR7_1                  CR(E)ST syndrome
+#  3:                    DMY_Miller_26291516_1          Dermatomyositis (Miller)
+#  4:                        DMY_Rothwell_up_1        Dermatomyositis (Rothwell)
+#  5:                  MYGEO_Renton_25643325_1      Early-onset Myastenia Gravis
+#  6:                FELTY_FinnGen_FinnGenR7_1                    Felty syndrome
+#  7:           20002_1225_PanUKBB_PanUKBBR2_1    Hyperthyroidism/Thyrotoxicosis
+#  8:                    MYO_Miller_26291516_1                      IIM (Miller)
+#  9:                        IIM_Rothwell_up_1                    IIM (Rothwell)
+# 10:               NMOIGGp_Estrada_29769526_1         IgG+ Neuromyelitis Optica
+# 11:                       JO1M_Rothwell_up_1          Jo1+ Myositis (Rothwell)
+# 12:                    JDM_Miller_26291516_1 Juvenile Dermatomyositis (Miller)
+# 13:                 JIA_LopezIsac_33106285_1     Juvenile Idiopathic Arthritis
+# 14:                  MYGLO_Renton_25643325_1       Late-onset Myastenia Gravis
+# 15:                         AAVMPO_Wong_up_1                          MPO+ AAV
+# 16:                         AAVPR3_Wong_up_1                          PR3+ AAV
+# 17:      M13_PALINDROMIC_FinnGen_FinnGenR7_1            Palindromic rheumatism
+# 18:                     PM_Miller_26291516_1             Polymyositis (Miller)
+# 19:                         PM_Rothwell_up_1           Polymyositis (Rothwell)
+# 20:         CHIRBIL_PRIM_FinnGen_FinnGenR7_1       Primary biliary cholangitis
+# 21:           M13_RHEUMA_FinnGen_FinnGenR7_1              Rheumatoid arthritis
+# 22:                        SJOS_Lessard_up_1                Sjögren's syndrome
+# 23:                 SSC_LopezIsac_31672989_1                Systemic Sclerosis
+# 24:              M13_SLE_FinnGen_FinnGenR7_1      Systemic lupus erythematosus
+# 25:          M13_WEGENER_FinnGen_FinnGenR7_1            Wegener granulomatosis
+#                                        Trait                             Label
 
 
 # Take the opportunity to create proper labels
@@ -61,22 +58,24 @@ files = list(   `DM (M)` = "DMY_Miller_26291516_1-hg38.tsv.gz",
                 `IIM (R)` = "IIM_Rothwell_up_1-hg38.tsv.gz",
                 `PM (M)` =   "PM_Miller_26291516_1-hg38.tsv.gz",
                 `PM (R)` = "PM_Rothwell_up_1-hg38.tsv.gz",
-                ITP =  "D3_ITP_FinnGen_FinnGenR7_1-hg38.tsv.gz", 
-                `IgG+ NMO` =  "NMOIGGp_Estrada_29769526_1-hg38.tsv.gz",
-                PBC = "CHIRBIL_PRIM_FinnGen_FinnGenR7_1-hg38.tsv.gz",
+
+                `IgG+ NMO` =  "NMOIGGp_Estrada_29769526_1-hg38.tsv.gz", 
+                PBC = "CHIRBIL_PRIM_FinnGen_FinnGenR7_1-hg38.tsv.gz", # 11
                 JIA = "JIA_LopezIsac_33106285_1-hg38.tsv.gz",
-                `CR(E)ST` = "CREST_FinnGen_FinnGenR7_1-hg38.tsv.gz",
-                MG  = "MYG_Chia_35074870_1-hg38.tsv.gz",
-                Felty =  "FELTY_FinnGen_FinnGenR7_1-hg38.tsv.gz",
+                `CR(E)ST` = "CREST_FinnGen_FinnGenR7_1-hg38.tsv.gz", # 13
+                EOMG = "MYGEO_Renton_25643325_1-hg38.tsv.gz",
+                LOMG = "MYGLO_Renton_25643325_1-hg38.tsv.gz",
+                Felty =  "FELTY_FinnGen_FinnGenR7_1-hg38.tsv.gz", # 16
                 SjS =   "SJOS_Lessard_up_1-hg38.tsv.gz",
                 SSc  = "SSC_LopezIsac_31672989_1-hg38.tsv.gz",
-                GPA = "M13_WEGENER_FinnGen_FinnGenR7_1-hg38.tsv.gz",
+                GPA = "M13_WEGENER_FinnGen_FinnGenR7_1-hg38.tsv.gz", #19
                 `MPO+ AAV` = "AAVMPO_Wong_up_1-hg38.tsv.gz", 
                 `PR3+ AAV` =  "AAVPR3_Wong_up_1-hg38.tsv.gz",
-                HyperThy = "20002_1225_PanUKBB_PanUKBBR2_1-hg38.tsv.gz",
-                HypoThy = "HYPOTHYROIDISM_FinnGen_FinnGenR7_1-hg38.tsv.gz",
-                PR = "M13_PALINDROMIC_FinnGen_FinnGenR7_1-hg38.tsv.gz",
-                BioMedRhe = "RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1-hg38.tsv.gz") %>%
+                HyperThy = "20002_1225_PanUKBB_PanUKBBR2_1-hg38.tsv.gz", #22
+                PR = "M13_PALINDROMIC_FinnGen_FinnGenR7_1-hg38.tsv.gz", #23
+                BioMedRhe = "RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1-hg38.tsv.gz", #24
+                RA = "M13_RHEUMA_FinnGen_FinnGenR7_1-hg38.tsv.gz", # 25 
+                SLE = "M13_SLE_FinnGen_FinnGenR7_1-hg38.tsv.gz") %>% #26
     lapply(.,  function(f) (file.path("~/rds/rds-cew54-basis/02-Processed",f)))
 stopifnot(all(file.exists(unlist(files))))
 
@@ -131,7 +130,7 @@ data2=data2[ order(as.numeric(CHR38),BP38)]
 data2[,x:=cumsum(c(0, pmax(diff(BP38), 0))),by="trait"]
 axisdf <- data2[, .(center=(max(x) + min(x))/2), by = CHR38]
 
-# There are 25 datasets, so instead of plotting everything in the same plot, we'll split it into two
+# There are 26 datasets, so instead of plotting everything in the same plot, we'll split it into three
 traits  <- unique(data2$trait)
 
 mhp1 <- ggplot(data2[ trait %in% traits[1:8]], aes(x=x, y=-log10(fdr), col=factor(as.numeric(CHR38) %% 2))) + 
@@ -161,7 +160,7 @@ mhp2 <- ggplot(data2[ trait %in% traits[9:16]], aes(x=x, y=-log10(fdr), col=fact
                            panel.grid.minor.y = element_blank(),
                            axis.title.x = element_blank() )+
                     facet_grid(trait~., scales="free_y", switch = "y")
-mhp3 <- ggplot(data2[ trait %in% traits[17:25]], aes(x=x, y=-log10(fdr), col=factor(as.numeric(CHR38) %% 2))) + 
+mhp3 <- ggplot(data2[ trait %in% traits[17:26]], aes(x=x, y=-log10(fdr), col=factor(as.numeric(CHR38) %% 2))) + 
                     geom_point() +  
                     scale_x_continuous( label = axisdf$CHR38, breaks= axisdf$center ) + 
                     scale_y_continuous(expand = c(0, 0) ) +
@@ -178,7 +177,7 @@ mhp3 <- ggplot(data2[ trait %in% traits[17:25]], aes(x=x, y=-log10(fdr), col=fac
 
 mhp <- plot_grid(mhp1, mhp2, mhp3, ncol = 3) # This can be improved, some chromosomes don't seem to align properly with their data points.
 
-ggsave("../figures/manhattan_23IMD_v3.png", mhp, height = 8, width = 17, bg = "white")
+ggsave("../figures/manhattan_26IMD_v3.png", mhp, height = 8, width = 17, bg = "white")
 
 
 myos=data2[trait %in% traits[1:9], .(trait, pid, fdr)] # I put myositis datasets at the beginning, so these should be the ones.
@@ -188,87 +187,95 @@ myos[,pairwise_fdr:=1 - (1-fdr.myos) * (1-fdr.other)] # P(H0 for either disease)
 summary(myos$pairwise_fdr)
 myos[ pairwise_fdr < 0.05 ]
 
-#              pid    trait.myos     fdr.myos trait.other    fdr.other pairwise_fdr
-#  1:   10:6064589       IIM (R) 1.799960e-02         JIA 8.090470e-04 1.879409e-02
-#  2:   10:6064589       IIM (R) 1.799960e-02    HyperThy 3.620361e-04 1.835512e-02
-#  3:   10:6064589       IIM (R) 1.799960e-02     HypoThy 2.875370e-04 1.828196e-02
-#  4:   10:6064589       IIM (R) 1.799960e-02   BioMedRhe 8.117894e-03 2.597138e-02
-#  5: 11:118871133       IIM (R) 3.414525e-02         SjS 1.450420e-04 3.428534e-02
-#  6: 11:118871133       IIM (R) 3.414525e-02         SSc 1.299060e-05 3.415780e-02
-#  7:  11:35245397       IIM (R) 1.170098e-02     HypoThy 6.148507e-06 1.170706e-02
-#  8:  11:64329761       IIM (R) 5.992934e-03         JIA 1.908621e-02 2.496476e-02
-#  9:  11:64329761       IIM (R) 5.992934e-03         SjS 2.443384e-02 3.028034e-02
-# 10:  11:64329761       IIM (R) 5.992934e-03     HypoThy 9.713330e-04 6.958446e-03
-# 11:  11:64362250       IIM (R) 8.432189e-03         SjS 3.515450e-03 1.191800e-02
-# 12:  11:64362250       IIM (R) 8.432189e-03         SSc 2.458050e-02 3.280542e-02
-# 13:  11:64362250       IIM (R) 8.432189e-03     HypoThy 8.776556e-03 1.713474e-02
-# 14:  1:113834946       IIM (R) 2.196624e-05         PBC 4.542891e-02 4.544988e-02
-# 15:  1:113834946       IIM (R) 2.196624e-05         JIA 5.734167e-11 2.196630e-05
-# 16:  1:113834946       IIM (R) 2.196624e-05          MG 1.841060e-08 2.198465e-05
-# 17:  1:113834946       IIM (R) 2.196624e-05    MPO+ AAV 3.569593e-04 3.789177e-04
-# 18:  1:113834946       IIM (R) 2.196624e-05    HyperThy 4.349570e-15 2.196624e-05
-# 19:  1:113834946       IIM (R) 2.196624e-05     HypoThy 6.540492e-84 2.196624e-05
-# 20:  1:113834946       IIM (R) 2.196624e-05   BioMedRhe 4.953324e-13 2.196624e-05
-# 21:  1:113834946        PM (M) 6.539977e-03         JIA 5.734167e-11 6.539977e-03
-# 22:  1:113834946        PM (M) 6.539977e-03          MG 1.841060e-08 6.539995e-03
-# 23:  1:113834946        PM (M) 6.539977e-03    MPO+ AAV 3.569593e-04 6.894602e-03
-# 24:  1:113834946        PM (M) 6.539977e-03    HyperThy 4.349570e-15 6.539977e-03
-# 25:  1:113834946        PM (M) 6.539977e-03     HypoThy 6.540492e-84 6.539977e-03
-# 26:  1:113834946        PM (M) 6.539977e-03   BioMedRhe 4.953324e-13 6.539977e-03
-# 27:  1:113834946        PM (R) 8.073321e-05         PBC 4.542891e-02 4.550597e-02
-# 28:  1:113834946        PM (R) 8.073321e-05         JIA 5.734167e-11 8.073327e-05
-# 29:  1:113834946        PM (R) 8.073321e-05          MG 1.841060e-08 8.075162e-05
-# 30:  1:113834946        PM (R) 8.073321e-05    MPO+ AAV 3.569593e-04 4.376637e-04
-# 31:  1:113834946        PM (R) 8.073321e-05    HyperThy 4.349570e-15 8.073321e-05
-# 32:  1:113834946        PM (R) 8.073321e-05     HypoThy 6.540492e-84 8.073321e-05
-# 33:  1:113834946        PM (R) 8.073321e-05   BioMedRhe 4.953324e-13 8.073321e-05
-# 34:  2:190670850        PM (R) 2.299677e-05         JIA 4.701598e-02 4.703789e-02
-# 35:  2:190670850        PM (R) 2.299677e-05         SjS 3.745633e-04 3.975515e-04
-# 36:  2:190670850        PM (R) 2.299677e-05         SSc 3.065160e-06 2.606186e-05
-# 37:  2:190670850        PM (R) 2.299677e-05     HypoThy 1.787724e-02 1.789983e-02
-# 38:  2:191071078       IIM (R) 7.728768e-04         PBC 2.374151e-02 2.449604e-02
-# 39:  2:191071078       IIM (R) 7.728768e-04         JIA 1.188817e-03 1.960775e-03
-# 40:  2:191071078       IIM (R) 7.728768e-04         SjS 2.319724e-10 7.728770e-04
-# 41:  2:191071078       IIM (R) 7.728768e-04         SSc 6.452880e-11 7.728769e-04
-# 42:  2:191071078       IIM (R) 7.728768e-04     HypoThy 2.181396e-17 7.728768e-04
-# 43:   3:28029953       IIM (R) 1.799960e-02         SjS 9.040184e-04 1.888735e-02
-# 44:   3:28029953       IIM (R) 1.799960e-02         SSc 1.214773e-02 2.992867e-02
-# 45:  4:122194347       IIM (R) 3.182470e-02         JIA 1.116514e-02 4.263451e-02
-# 46:  4:122194347       IIM (R) 3.182470e-02    PR3+ AAV 4.777696e-04 3.228726e-02
-# 47:  5:157185077        DM (R) 3.005199e-02    HyperThy 2.674321e-04 3.031138e-02
-# 48:  5:157185077        DM (R) 3.005199e-02     HypoThy 4.411007e-03 3.433044e-02
-# 49:  5:157185077       IIM (R) 1.198567e-02    HyperThy 2.674321e-04 1.224989e-02
-# 50:  5:157185077       IIM (R) 1.198567e-02     HypoThy 4.411007e-03 1.634380e-02
-# 51:  7:128933913       IIM (M) 3.245979e-02         JIA 1.169413e-02 4.377433e-02
-# 52:  7:128933913       IIM (M) 3.245979e-02         SjS 1.394114e-31 3.245979e-02
-# 53:  7:128933913       IIM (M) 3.245979e-02         SSc 1.413720e-06 3.246116e-02
-# 54:  7:128933913       IIM (M) 3.245979e-02     HypoThy 7.132875e-03 3.936114e-02
-# 55:  7:128933913       IIM (R) 4.241146e-03         JIA 1.169413e-02 1.588568e-02
-# 56:  7:128933913       IIM (R) 4.241146e-03         SjS 1.394114e-31 4.241146e-03
-# 57:  7:128933913       IIM (R) 4.241146e-03         SSc 1.413720e-06 4.242554e-03
-# 58:  7:128933913       IIM (R) 4.241146e-03    MPO+ AAV 1.814119e-02 2.230540e-02
-# 59:  7:128933913       IIM (R) 4.241146e-03     HypoThy 7.132875e-03 1.134377e-02
-# 60:  7:128933913       IIM (R) 4.241146e-03   BioMedRhe 3.148800e-02 3.559560e-02
-# 61:  7:128954129 Anti-Jo1+ (R) 4.905755e-02         SjS 8.469175e-32 4.905755e-02
-# 62:  7:128954129 Anti-Jo1+ (R) 4.905755e-02         SSc 1.157436e-17 4.905755e-02
-# 63:  7:128954129 Anti-Jo1+ (R) 4.905755e-02    MPO+ AAV 2.540366e-04 4.929912e-02
-# 64:  7:128954129       IIM (R) 3.022458e-03         JIA 1.467235e-02 1.765046e-02
-# 65:  7:128954129       IIM (R) 3.022458e-03         SjS 8.469175e-32 3.022458e-03
-# 66:  7:128954129       IIM (R) 3.022458e-03         SSc 1.157436e-17 3.022458e-03
-# 67:  7:128954129       IIM (R) 3.022458e-03    MPO+ AAV 2.540366e-04 3.275727e-03
-# 68:  7:128954129       IIM (R) 3.022458e-03     HypoThy 4.651927e-02 4.940113e-02
-# 69:  7:128977412 Anti-Jo1+ (R) 4.905755e-02    MPO+ AAV 2.540366e-04 4.929912e-02
-# 70:  7:128977412       IIM (R) 3.022458e-03         JIA 1.372170e-02 1.670269e-02
-# 71:  7:128977412       IIM (R) 3.022458e-03    MPO+ AAV 2.540366e-04 3.275727e-03
-# 72:   8:11491677       IIM (R) 4.117055e-03         SjS 2.136693e-05 4.138334e-03
-# 73:   8:11491677       IIM (R) 4.117055e-03         SSc 6.452880e-11 4.117055e-03
-#              pid    trait.myos     fdr.myos trait.other    fdr.other pairwise_fdr
+#              pid    trait.myos     fdr.myos trait.other    fdr.other  pairwise_fdr
+#  1:   10:6064589       IIM (R) 1.799960e-02         JIA 8.090470e-04  1.879409e-02
+#  2:   10:6064589       IIM (R) 1.799960e-02    HyperThy 3.620361e-04  1.835512e-02
+#  3:   10:6064589       IIM (R) 1.799960e-02   BioMedRhe 8.117894e-03  2.597138e-02
+#  4:   10:6064589       IIM (R) 1.799960e-02          RA 3.154588e-06  1.800270e-02
+#  5: 11:118871133       IIM (R) 3.414525e-02         SjS 1.450420e-04  3.428534e-02
+#  6: 11:118871133       IIM (R) 3.414525e-02         SSc 1.299060e-05  3.415780e-02
+#  7: 11:118871133       IIM (R) 3.414525e-02          RA 1.027001e-02  4.406459e-02
+#  8:  11:64329761       IIM (R) 5.992934e-03         JIA 1.908621e-02  2.496476e-02
+#  9:  11:64329761       IIM (R) 5.992934e-03         SjS 2.443384e-02  3.028034e-02
+# 10:  11:64362250       IIM (R) 8.432189e-03         SjS 3.515450e-03  1.191800e-02
+# 11:  11:64362250       IIM (R) 8.432189e-03         SSc 2.458050e-02  3.280542e-02
+# 12:  1:113834946       IIM (R) 2.196624e-05         PBC 4.542891e-02  4.544988e-02
+# 13:  1:113834946       IIM (R) 2.196624e-05         JIA 5.734167e-11  2.196630e-05
+# 14:  1:113834946       IIM (R) 2.196624e-05        LOMG 3.320395e-02  3.322519e-02
+# 15:  1:113834946       IIM (R) 2.196624e-05    MPO+ AAV 3.569593e-04  3.789177e-04
+# 16:  1:113834946       IIM (R) 2.196624e-05    HyperThy 4.349570e-15  2.196624e-05
+# 17:  1:113834946       IIM (R) 2.196624e-05   BioMedRhe 4.953324e-13  2.196624e-05
+# 18:  1:113834946       IIM (R) 2.196624e-05          RA 5.062804e-70  2.196624e-05
+# 19:  1:113834946        PM (M) 6.539977e-03         JIA 5.734167e-11  6.539977e-03
+# 20:  1:113834946        PM (M) 6.539977e-03        LOMG 3.320395e-02  3.952678e-02
+# 21:  1:113834946        PM (M) 6.539977e-03    MPO+ AAV 3.569593e-04  6.894602e-03
+# 22:  1:113834946        PM (M) 6.539977e-03    HyperThy 4.349570e-15  6.539977e-03
+# 23:  1:113834946        PM (M) 6.539977e-03   BioMedRhe 4.953324e-13  6.539977e-03
+# 24:  1:113834946        PM (M) 6.539977e-03          RA 5.062804e-70  6.539977e-03
+# 25:  1:113834946        PM (R) 8.073321e-05         PBC 4.542891e-02  4.550597e-02
+# 26:  1:113834946        PM (R) 8.073321e-05         JIA 5.734167e-11  8.073327e-05
+# 27:  1:113834946        PM (R) 8.073321e-05        LOMG 3.320395e-02  3.328200e-02
+# 28:  1:113834946        PM (R) 8.073321e-05    MPO+ AAV 3.569593e-04  4.376637e-04
+# 29:  1:113834946        PM (R) 8.073321e-05    HyperThy 4.349570e-15  8.073321e-05
+# 30:  1:113834946        PM (R) 8.073321e-05   BioMedRhe 4.953324e-13  8.073321e-05
+# 31:  1:113834946        PM (R) 8.073321e-05          RA 5.062804e-70  8.073321e-05
+# 32:  2:190670850        PM (R) 2.299677e-05         JIA 4.701598e-02  4.703789e-02
+# 33:  2:190670850        PM (R) 2.299677e-05         SjS 3.745633e-04  3.975515e-04
+# 34:  2:190670850        PM (R) 2.299677e-05         SSc 3.065160e-06  2.606186e-05
+# 35:  2:191071078       IIM (R) 7.728768e-04         PBC 2.374151e-02  2.449604e-02
+# 36:  2:191071078       IIM (R) 7.728768e-04         JIA 1.188817e-03  1.960775e-03
+# 37:  2:191071078       IIM (R) 7.728768e-04         SjS 2.319724e-10  7.728770e-04
+# 38:  2:191071078       IIM (R) 7.728768e-04         SSc 6.452880e-11  7.728769e-04
+# 39:  2:191071078       IIM (R) 7.728768e-04          RA 4.829483e-06  7.777026e-04
+# 40:  2:191071078       IIM (R) 7.728768e-04         SLE 5.241505e-05  8.252513e-04
+# 41:   3:28029953       IIM (R) 1.799960e-02         SjS 9.040184e-04  1.888735e-02
+# 42:   3:28029953       IIM (R) 1.799960e-02         SSc 1.214773e-02  2.992867e-02
+# 43:  4:122194347       IIM (R) 3.182470e-02         JIA 1.116514e-02  4.263451e-02
+# 44:  4:122194347       IIM (R) 3.182470e-02    PR3+ AAV 4.777696e-04  3.228726e-02
+# 45:  5:157185077        DM (R) 3.005199e-02    HyperThy 2.674321e-04  3.031138e-02
+# 46:  5:157185077       IIM (R) 1.198567e-02    HyperThy 2.674321e-04  1.224989e-02
+# 47:  7:128933913       IIM (M) 3.245979e-02         JIA 1.169413e-02  4.377433e-02
+# 48:  7:128933913       IIM (M) 3.245979e-02         SjS 1.394114e-31  3.245979e-02
+# 49:  7:128933913       IIM (M) 3.245979e-02         SSc 1.413720e-06  3.246116e-02
+# 50:  7:128933913       IIM (M) 3.245979e-02          RA 1.761528e-04  3.263023e-02
+# 51:  7:128933913       IIM (M) 3.245979e-02         SLE 3.850379e-07  3.246016e-02
+# 52:  7:128933913       IIM (R) 4.241146e-03         JIA 1.169413e-02  1.588568e-02
+# 53:  7:128933913       IIM (R) 4.241146e-03         SjS 1.394114e-31  4.241146e-03
+# 54:  7:128933913       IIM (R) 4.241146e-03         SSc 1.413720e-06  4.242554e-03
+# 55:  7:128933913       IIM (R) 4.241146e-03    MPO+ AAV 1.814119e-02  2.230540e-02
+# 56:  7:128933913       IIM (R) 4.241146e-03   BioMedRhe 3.148800e-02  3.559560e-02
+# 57:  7:128933913       IIM (R) 4.241146e-03          RA 1.761528e-04  4.416552e-03
+# 58:  7:128933913       IIM (R) 4.241146e-03         SLE 3.850379e-07  4.241529e-03
+# 59:  7:128954129 Anti-Jo1+ (R) 4.905755e-02         SjS 8.469175e-32  4.905755e-02
+# 60:  7:128954129 Anti-Jo1+ (R) 4.905755e-02         SSc 1.157436e-17  4.905755e-02
+# 61:  7:128954129 Anti-Jo1+ (R) 4.905755e-02    MPO+ AAV 2.540366e-04  4.929912e-02
+# 62:  7:128954129 Anti-Jo1+ (R) 4.905755e-02          RA 1.550458e-05  4.907229e-02
+# 63:  7:128954129 Anti-Jo1+ (R) 4.905755e-02         SLE 2.622553e-08  4.905757e-02
+# 64:  7:128954129       IIM (R) 3.022458e-03         JIA 1.467235e-02  1.765046e-02
+# 65:  7:128954129       IIM (R) 3.022458e-03         SjS 8.469175e-32  3.022458e-03
+# 66:  7:128954129       IIM (R) 3.022458e-03         SSc 1.157436e-17  3.022458e-03
+# 67:  7:128954129       IIM (R) 3.022458e-03    MPO+ AAV 2.540366e-04  3.275727e-03
+# 68:  7:128954129       IIM (R) 3.022458e-03          RA 1.550458e-05  3.037916e-03
+# 69:  7:128954129       IIM (R) 3.022458e-03         SLE 2.622553e-08  3.022484e-03
+# 70:  7:128977412 Anti-Jo1+ (R) 4.905755e-02    MPO+ AAV 2.540366e-04  4.929912e-02
+# 71:  7:128977412 Anti-Jo1+ (R) 4.905755e-02          RA 1.550458e-05  4.907229e-02
+# 72:  7:128977412 Anti-Jo1+ (R) 4.905755e-02         SLE 2.622553e-08  4.905757e-02
+# 73:  7:128977412       IIM (R) 3.022458e-03         JIA 1.372170e-02  1.670269e-02
+# 74:  7:128977412       IIM (R) 3.022458e-03    MPO+ AAV 2.540366e-04  3.275727e-03
+# 75:  7:128977412       IIM (R) 3.022458e-03          RA 1.550458e-05  3.037916e-03
+# 76:  7:128977412       IIM (R) 3.022458e-03         SLE 2.622553e-08  3.022484e-03
+# 77:   8:11491677       IIM (R) 4.117055e-03         SjS 2.136693e-05  4.138334e-03
+# 78:   8:11491677       IIM (R) 4.117055e-03         SSc 6.452880e-11  4.117055e-03
+# 79:   8:11491677       IIM (R) 4.117055e-03          RA 1.511672e-04  4.267600e-03
+# 80:   8:11491677       IIM (R) 4.117055e-03         SLE 6.161174e-05  4.178413e-03
+#              pid    trait.myos     fdr.myos trait.other    fdr.other 
 
+# 80 pairs with pairwise_fdr < 0.05
 
 ################################################################################
 
 myos[ pairwise_fdr < 0.05 , unique(pid)]
-# 15 SNPs, 11 independent genomic region
+# 14 SNPs, 10 independent genomic region
 
 fwrite(myos, "../data/raw_fdr_results_v3.tsv", sep="\t")
 
@@ -283,7 +290,7 @@ myos[, trait_snp:=paste0(trait.other, "_", pid)] # auxiliary variable for trait.
 # all myositis-IMD combinations at a given SNP where at least one myositis-IMD pair with pairwise_fdr < 0.5 exists.
 index_tspairs <- myos[ pairwise_fdr < 0.5 , unique(trait_snp) ]
 length(index_tspairs)
-# 279 unique IMD-indexSNPs with pairwise_fdr < 0.5 pairs
+# 292 unique IMD-indexSNPs with pairwise_fdr < 0.5 pairs
 
 index=myos[ pairwise_fdr < 0.5 | trait_snp %in% index_tspairs ][order(pairwise_fdr)] 
 
@@ -318,29 +325,27 @@ cl.snps  <- ss %>% lapply(., f)  %>% rbindlist()
 withfdr <- merge(cl.snps, index[, .(pid, pairwise_fdr)])
 tokeep <- withfdr[  , .SD[which.min(pairwise_fdr)] , by=cl][, pid] # For each cluster, keep the one with lowest pairwise_fdr
 drop <- withfdr[!pid %in% tokeep, unique(pid)]
-message("The following SNPs were dropped:", paste0(drop, collapse = ", "))
+message("The following SNPs were dropped: ", paste0(drop, collapse = ", "))
 
 nrow(index)
-# 2418
+# 2517
 length(unique(index$pid))
-# 87 SNPs
+# 81 SNPs
 
 # Remove SNPs to drop
 index <- index[!pid %in% drop]
 
 nrow(index)
-# 1728
+# 1817
 length(unique(index$pid))
-# 67
+# 62
 
 ## Next step, bring dense SNP datasets to run coloc
 
-## itp, pbc, crest, felty, wegen, hyperthy, and hypoty are not dense datasets. 
-names(data)[c(10,12,14,16,19,22:25)]= c("ITP.local", "PBC.local", "CREST.local",   "Felty.local", "GPA.local", "HyperThy.local",  "HypoThy.local", "PR.local", "BioMedRhe.local")
+## itp, pbc, crest, felty, wegen, hyperthy, are not dense datasets. 
+names(data)[c(11,13,16,19,22,23,24,25,26)] = c("PBC.local", "CREST.local",  "Felty.local", "GPA.local", "HyperThy.local",  "PR.local", "BioMedRhe.local", "RA.local", "SLE.local")
 
 dir.create("../data/fg_sumstats")
-if(!file.exists("../data/fg_sumstats/finngen_R7_D3_ITP.gz"))
-    system("wget ***REMOVED***finngen_R7_D3_ITP.gz -O ../data/fg_sumstats/finngen_R7_D3_ITP.gz")
 if(!file.exists("../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz"))
     system("wget ***REMOVED***finngen_R7_CHIRBIL_PRIM.gz -O ../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz")
 if(!file.exists("../data/fg_sumstats/finngen_R7_CREST.gz"))
@@ -349,21 +354,25 @@ if(!file.exists("../data/fg_sumstats/finngen_R7_FELTY.gz"))
     system("wget ***REMOVED***finngen_R7_FELTY.gz -O ../data/fg_sumstats/finngen_R7_FELTY.gz")
 if(!file.exists("../data/fg_sumstats/finngen_R7_M13_WEGENER.gz"))
     system("wget ***REMOVED***finngen_R7_M13_WEGENER.gz -O ../data/fg_sumstats/finngen_R7_M13_WEGENER.gz")
-if(!file.exists("../data/fg_sumstats/finngen_R7_AUTOIMMUNE_HYPERTHYROIDISM.gz"))
-    system("wget ***REMOVED***finngen_R7_AUTOIMMUNE_HYPERTHYROIDISM.gz -O ../data/fg_sumstats/finngen_R7_AUTOIMMUNE_HYPERTHYROIDISM.gz")
+
+# Note: this PanUKBB file will need some work to reformat, see below
+if(!file.exists("../data/fg_sumstats/20002_1225_PanUKBB_1-hg38.tsv.gz")){
+    system("wget https://pan-ukb-us-east-1.s3.amazonaws.com/sumstats_flat_files/categorical-20002-both_sexes-1225.tsv.bgz -O ../data/fg_sumstats/20002_1225_PanUKBB_PanUKBBR2_1.bgz")
+    system("Rscript processing_panUKBB.R") # This script will prepare the PanUKBB file to be used by coloc
+}   
+
 if(!file.exists("../data/fg_sumstats/finngen_R7_HYPOTHYROIDISM.gz"))
     system("wget ***REMOVED***finngen_R7_HYPOTHYROIDISM.gz -O ../data/fg_sumstats/finngen_R7_HYPOTHYROIDISM.gz")
 if(!file.exists("../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz"))
     system("wget ***REMOVED***finngen_R7_M13_PALINDROMIC.gz -O ../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz")
 if(!file.exists("../data/fg_sumstats/finngen_R7_RX_RHEUMA_BIOLOGICAL.gz"))
     system("wget ***REMOVED***finngen_R7_RX_RHEUMA_BIOLOGICAL.gz -O ../data/fg_sumstats/finngen_R7_RX_RHEUMA_BIOLOGICAL.gz")
+if(!file.exists("../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz"))
+    system("wget ***REMOVED***finngen_R7_M13_RHEUMA.gz -O ../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz")
+if(!file.exists("../data/fg_sumstats/finngen_R7_M13_SLE.gz"))
+    system("wget ***REMOVED***finngen_R7_M13_SLE.gz -O ../data/fg_sumstats/finngen_R7_M13_SLE.gz")
 
-
-ITP=fread("../data/fg_sumstats/finngen_R7_D3_ITP.gz")
-ITP$pid=paste(ITP[["#chrom"]], ITP$pos,sep=":")
-table(ITP$pid %in% snps$pid38)
-setnames(ITP, c("#chrom","pos"), c("CHR38","BP38"))
-data$ITP=ITP[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
+# Incorporate new files into data
 
 PBC=fread("../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz")
 PBC$pid=paste(PBC[["#chrom"]],PBC$pos,sep=":")
@@ -389,17 +398,10 @@ table(GPA$pid %in% snps$pid38)
 setnames(GPA, c("#chrom","pos"), c("CHR38","BP38"))
 data$GPA=GPA[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
-hyperthy=fread("../data/fg_sumstats/finngen_R7_AUTOIMMUNE_HYPERTHYROIDISM.gz")
-hyperthy$pid=paste(hyperthy[["#chrom"]],hyperthy$pos,sep=":")
+hyperthy=fread("../data/fg_sumstats/20002_1225_PanUKBB_1-hg38.tsv.gz")
+hyperthy[, pid := paste(CHR38,BP38,sep=":")]
 table(hyperthy$pid %in% snps$pid38)
-setnames(hyperthy, c("#chrom","pos"), c("CHR38","BP38"))
-data$HyperThy=hyperthy[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
-
-hypothy=fread("../data/fg_sumstats/finngen_R7_HYPOTHYROIDISM.gz")
-hypothy$pid=paste(hypothy[["#chrom"]],hypothy$pos,sep=":")
-table(hypothy$pid %in% snps$pid38)
-setnames(hypothy, c("#chrom","pos"), c("CHR38","BP38"))
-data$HypoThy=hypothy[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
+data$HyperThy=hyperthy[,.(pid, CHR38, BP38, REF, ALT, BETA, SE, P)]
 
 PR=fread("../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz")
 PR$pid=paste(PR[["#chrom"]],PR$pos,sep=":")
@@ -413,6 +415,17 @@ table(BMR$pid %in% snps$pid38)
 setnames(BMR, c("#chrom","pos"), c("CHR38","BP38"))
 data$BioMedRhe=BMR[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
+RA=fread("../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz")
+RA$pid=paste(RA[["#chrom"]],RA$pos,sep=":")
+table(RA$pid %in% snps$pid38)
+setnames(RA, c("#chrom","pos"), c("CHR38","BP38"))
+data$RA=RA[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
+
+SLE=fread("../data/fg_sumstats/finngen_R7_M13_SLE.gz")
+SLE$pid=paste(SLE[["#chrom"]],SLE$pos,sep=":")
+table(SLE$pid %in% snps$pid38)
+setnames(SLE, c("#chrom","pos"), c("CHR38","BP38"))
+data$SLE=SLE[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
 
 # Now we'll get the sample sizes, using the metadata file
@@ -439,7 +452,9 @@ d2l=function(d, trait) {
     }
 w=1e+6 # large window choice
 # This code will call the best SNP and find their P-values in both the myositis and the IMD dataset, so we don't need to run coloc twice.
-for(i in 1:nrow(index)) {
+# 1:nrow(index)
+for(i in 1:20) {
+    message("Applying coloc on ", index$trait.myos[i], " and ", index$trait.other[i], " at SNP ", index$chr[i], ":", index$bp[i], ".")
     st=index$bp[i]-w
     en=index$bp[i]+w
     chr=index$chr[i]
@@ -481,7 +496,7 @@ index[ H4>.5 , .(trait.myos, trait.other,  fdr.myos, fdr.other, pairwise_fdr, H4
 fwrite(index, "../data/coloc_results_dfilt-v3.tsv", sep="\t") 
 
 # Compared to earlier versions, this v3 should include:
-# * PR and BioMedRhe traits
+# * RA, SLE, EOMG, and LOMG. ITP, MG, and HypoThy removed
 # * Distance-filtered driver SNPs
 # * Original p-values, rather than our calculated ones.
 
@@ -491,7 +506,7 @@ fwrite(index, "../data/coloc_results_dfilt-v3.tsv", sep="\t")
 sessionInfo()
 # R version 4.1.3 (2022-03-10)
 # Platform: x86_64-pc-linux-gnu (64-bit)
-# Running under: Rocky Linux 8.7 (Green Obsidian)
+# Running under: Rocky Linux 8.8 (Green Obsidian)
 
 # Matrix products: default
 # BLAS/LAPACK: /usr/local/software/spack/spack-rhel8-20210927/opt/spack/linux-centos8-icelake/gcc-11.2.0/intel-oneapi-mkl-2021.4.0-s2cksi33smowj5zlqvmew37cufvztdkc/mkl/2021.4.0/lib/intel64/libmkl_gf_lp64.so.1

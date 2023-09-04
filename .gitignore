@@ -10,3 +10,4 @@ latentObservations.csv
 *.err
 *.html
 *.gz
+*.bgz
