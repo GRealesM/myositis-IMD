@@ -16,7 +16,6 @@ module load rhel8/default-icl             # REQUIRED - loads the basic environme
 export I_MPI_PIN_ORDER=scatter # Adjacent domains have minimal sharing of caches/sockets
 JOBID=$SLURM_JOB_ID
 echo -e "JobID: $JOBID"
-# G=$SLURM_ARRAY_TASK_ID ### this is the array variable, you can use it the way you want. In this example I use it to select the gene based on the line number in a file
 
 Rscript --vanilla run-coloc-driver-snps-v3.R
 
