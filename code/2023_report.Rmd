@@ -586,11 +586,11 @@ bh.ph <- pheatmap(bhatta.d,
                 show_colnames = FALSE, 
                 labels_row = make_bold_names(bhatta.d, rownames, papsb))
 
-#ggsave("../figures/Myositis_bhattacharyya_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
+#ggsave("../figures/Myositis_bhattacharyya_heatmap_v3.svg", bh.ph, width = 9, height = 9.5, bg="white")
 
-# Trick: If modifying the text (like font, etc.), sometimes the text is fixed within a box, and adding anything will make it 
+# Trick: If modifying the text (like font, etc.), sometimes the text is fixed within a box, and adding anything will make it
 # squeeze in the box, which is not ideal. TO avoid this behavior, apply the following one-liner below to the file:
-# sed -i 's/ textLength="[^"]*"//' Myositis_bhattacharyya_heatmap.svg
+# sed -i "s/ textLength='[^']*'//" Myositis_bhattacharyya_heatmap_v3.svg
 # This will remove the fixed textLength from the XML.
 
 
