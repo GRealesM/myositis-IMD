@@ -51,7 +51,7 @@ Next we analysed our myositis datasets in the context of meta-analyses and the r
 SNP.manifest <- cupcake::SNP.manifest
 
 # Meta-data table, containing information about the datasets
-m <- fread("../data/Metadata_20230608-v1.tsv")
+m <- fread("../data/Metadata_20230905-v1.tsv")
 m <- m[, .(Trait, First_Author, Reference, Trait_ID_2.0, Trait_long, Trait_class, N0, N1, N, Population, Public)]
 
 # Projection QC table, containing information about the projections and their quality
@@ -119,7 +119,7 @@ qf <- qf[Trait_class == "IMD"] # Interested in IMDs for now
 # Check traits by class. In this case we have only one class
 table(qf$Trait_class)
 # IMD 
-# 524 
+# 521 
 
 
 ########################################
@@ -165,9 +165,6 @@ qmyo <- qmyo[, .(Label, First_Author, Reference, N0, N1, N, FDR.overall )][order
 qmyo
 # fwrite(qmyo, "../tables/ST_Myo_info.tsv", sep="\t")
 
-
-
-
 ####
 
 ## Create significant-only datasets
@@ -175,7 +172,7 @@ qmyo
 # Keep significant datasets only in qs
 qs <- qf[FDR.overall < 0.01]
 nrow(qs) / nrow(qf)
-# 58.6% significant
+# 58.3% significant
 
 # Do the same for ps
 ps <- pf[Trait %in% qs$Trait ]
@@ -190,7 +187,7 @@ tsig <- copy(qf)
 tsig[, sig.overall:=ifelse(FDR.overall < 0.01, "Y", "N")]
 table(tsig$sig.overall)
 #   N   Y 
-# 217 307 
+# 217 304 
 
 # Which myositis datasets didn't make the cut?
 qf[grepl("myositis", Trait_long, ignore.case = TRUE) & !Trait %in% qs$Trait, .(First_Author, Trait_ID_2.0, Trait_long)]
@@ -219,8 +216,8 @@ qs2 <- copy(qs)
 
 # There are a number of duplicated diseases that we can revisit
 # CD
-qs2[grepl("Crohn|Chron", Label)][order(N1, decreasing = TRUE)]
-tr <- c(setdiff(qs2[grepl("Crohn|Chron", Label), Trait], "CD_Liu_26192919_1")) # We select CD Liu, exclude the rest
+qs2[grepl("Crohn|Chron's", Label)][order(N1, decreasing = TRUE)]
+tr <- c(setdiff(qs2[grepl("Crohn|Chron's", Label), Trait], "CD_Liu_26192919_1")) # We select CD Liu, exclude the rest
 
 # UC
 qs2[grepl("colitis|UC |Ulcerative", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
@@ -527,13 +524,14 @@ bh.ph <- pheatmap(bhatta.d,
                 annotation_names_row = FALSE,
                 show_colnames = FALSE,
                 annotation_legend = FALSE,
-                cutree_rows = 15,
+                clustering_method = "average",
+                cutree_rows = 9,
                 treeheight_col=0,
                 fontsize_row=8)
 
 # Call clusters for Bhattacharyya
 tbh <- bh.ph$tree_row
-tbhc <- cutree(tbh, k=15) # manually adjusted to capture visually-selected IMD
+tbhc <- cutree(tbh, k=17) # manually adjusted to capture visually-selected IMD
 bhatta.sel <- names(tbhc[tbhc ==9]) # Myositis cluster is 9
 bhatta.sel
 bht <- data.table(Label = names(tbhc), Bhattacharyya = tbhc)
@@ -652,7 +650,7 @@ p7[, DPMUnc:=factor(DPMUnc, levels = 1:10)]
 p7[grepl("myositis", Label, ignore.case = TRUE), .(Label, DPMUnc)]
 p7[DPMUnc == 1, .(Label)] # Other IMD in the same cluster as myositis
 dpimd <- p7[DPMUnc == 1 & !grepl("myositis|IIM", Label, ignore.case = T), Label] # List non-myositis IMD in the same cluster
-#fwrite(p7, "../data/DPMUnc_res_v1.tsv", sep = "\t")
+# fwrite(p7, "../data/DPMUnc_res_v3.tsv", sep = "\t")
 
 ```
 
@@ -725,12 +723,12 @@ sdiag <- ggplot(clsum, aes(y=y, axis1=DPMUnc,axis2=Bhattacharyya)) + geom_alluvi
                   axis.title.y = element_blank(), panel.grid = element_blank(), 
                  legend.position = "none", axis.text.x = element_text(size = 13))
 sdiag
-# ggsave("../figures/sdiag_Bh_DP.png", sdiag, height = 9, width = 8, bg = "white")
-# ggsave("../figures/sdiag_Bh_DP.svg", sdiag, height = 9, width = 8, bg = "white")
+# ggsave("../figures/sdiag_Bh_DP_v3.png", sdiag, height = 9, width = 8, bg = "white")
+# ggsave("../figures/sdiag_Bh_DP_v3.svg", sdiag, height = 9, width = 8, bg = "white")
 
 # Trick: If modifying the text (like font, etc.), sometimes the text is fixed within a box, and adding anything will make it 
 # squeeze in the box, which is not ideal. TO avoid this behavior, apply the following one-liner below to the file:
-# sed -i 's/ textLength="[^"]*"//' sdiag_Bh_DP.svg
+# sed -i "s/ textLength='[^']*'//" sdiag_Bh_DP_v3.svg
 # This will remove the fixed textLength from the XML.
 
 ```
@@ -841,7 +839,7 @@ And 14 other IMD that were shown to be close to myositis by the methods above or
 
 
 
-![Manhattan plot of driver SNPs FDR across IMDs](../figures/manhattan_23IMD.png){out.width="100%"}
+![Manhattan plot of driver SNPs FDR across IMDs](../figures/manhattan_26IMD_v3.png){out.width="100%"}
 
 
 **Internal note:** In this figure some of the datasets have gaps, which causes chromosomes mismatch. Need to find a way to fix this before sending around.
