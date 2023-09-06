@@ -9,11 +9,13 @@
 
 # Background: This script will prepare the datasets for downstream analyses and prepare some figures.
 
+# This script will
 # * Import projections and metadata files
 # * Apply QC to projections, apply necessary relabelling removing redundant or non-informative datasets, and focus on IMD.
 # * Apply FDR to projections.
 # * Remove redundant datasets for improved visualisation
 # * Create some figures and supplementary tables, and save datasets for downstream analyses
+# * Prepare datasets for DPMUnc
 
 
 ##########################################
@@ -60,7 +62,7 @@ p <- p[179:nrow(p)] # projection table without basis traits
 p[, z:=NULL]
 
 
-###########################################
+##########################################
 
 ## Apply QC
 #
@@ -329,3 +331,128 @@ ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR
 fwrite(aq, "../tables/ST_all_datasets.tsv", sep ="\t")
 fwrite(ap, "../tables/ST_all_projections.tsv", sep ="\t")
 
+##########################################
+
+### Prepare some basic figures
+
+## Figure 1 -- A heatmap of myositis projections
+
+pspm <- ps2[grepl("Miller|Rothwell", Label, ignore.case = TRUE)]
+
+PCorder <- paste0("PC", 1:13)
+hmcol <- rev(colorRampPalette(c("#67001F", "#B2182B", "#D6604D", "#F4A582", "#FDDBC7", "#F7F7F7", "#D1E5F0", "#92C5DE", "#4393C3", "#2166AC", "#053061"))(100))
+Mmp <- acast(pspm[,c("PC", "Label", "Delta")], Label ~ PC) # PC, Trait, and Delta columns only
+Mmp.stars <- acast(pspm[,c("PC","Label","stars")], Label ~ PC)
+Mmp <- Mmp[,PCorder]
+Mmp.stars <- Mmp.stars[,PCorder]
+range <- max(abs(Mmp))
+
+# Create heatmap
+Mphm <- pheatmap(Mmp,  breaks = seq(-range, range, length.out = 100), 
+                 cluster_cols = FALSE, cluster_rows = FALSE, display_numbers = Mmp.stars,
+                 fontsize_row = 8.4, fontsize_number = 11, color = hmcol, 
+                 annotation_names_row = FALSE, annotation_legend = TRUE)
+Mphm
+
+# Save Figure 1
+ggsave("../figures/Myositis_allsources_heatmap.png", Mphm, width = 6, height = 2.5, bg="white")
+ggsave("../figures/Myositis_allsources_heatmap.svg", Mphm, width = 6, height = 2.5, bg="white")
+
+system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_allsources_heatmap.svg") # Trick to make the svg file text be more easily editable
+
+###
+
+## Internal figure -- Heatmap of all 66 projections
+
+# Remove all  datasets without at least one FDR 1% significant PC
+#a1s <- ps2[FDR.PC < 0.05 | grepl("myositis|IIM", Label, ignore.case = TRUE), Trait] %>% unique 
+
+#ps2s <- ps2[Trait %in% a1s]
+
+Map <- acast(ps2[,c("PC", "Label", "Delta")], Label ~ PC) # PC, Trait, and Delta columns only
+Map.stars <- acast(ps2[,c("PC","Label","stars")], Label ~ PC)
+Map <- Map[,PCorder]
+Map.stars <- Map.stars[,PCorder]
+range <- max(abs(Map))
+
+# We have many datasets, so let's highlight myositis
+# From https://github.com/raivokolde/pheatmap/issues/48
+# use this function to make row or column names bold
+# parameters:
+#   mat: the matrix passed to pheatmap
+#   rc_fun: either rownames or colnames
+#   rc_names: vector of names that should appear in boldface
+make_bold_names <- function(mat, rc_fun, rc_names) {
+  bold_names <- rc_fun(mat)
+  ids <- rc_names %>% match(rc_fun(mat))
+  ids %>%
+    purrr::walk(
+      function(i)
+        bold_names[i] <<-
+        bquote(bold(.(rc_fun(mat)[i]))) %>%
+        as.expression()
+    )
+  bold_names
+}
+
+papsb <- grep("myositis|IIM", rownames(Map), value = TRUE, ignore.case = TRUE)
+
+# Create heatmap
+Mahm <- pheatmap(Map,  breaks = seq(-range, range, length.out = 100), 
+                 cluster_cols = FALSE, display_numbers = Map.stars,
+                 fontsize_row = 8.4, fontsize_number = 11, color = hmcol, 
+                 annotation_names_row = FALSE, annotation_legend = TRUE,
+                 labels_row = make_bold_names(Map, rownames, papsb))
+
+Mahm
+ggsave("../figures/Myositis_IMD_heatmap.png", Mahm, width = 8, height = 14, bg="white")
+
+##########################################
+
+
+## Prepare inputs for DPMUnc
+
+# At this point, we prepare the data for DPMUnc using significant PCs for myositis 
+ps2[grepl("myositis|IIM", Label, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, Label, stars)][, .N, by = PC]
+
+dpmunc.ds <- ps2[PC %in% paste0("PC", c(1,2,3,8,9,12,13)), .(PC, Delta, Var.Delta, Label)]
+dpmunc.delta <- reshape(dpmunc.ds[, .(PC, Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
+dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
+
+fwrite(dpmunc.delta, "../data/Myo_7PC_Delta.tsv", sep = "\t")
+fwrite(dpmunc.var, "../data/Myo_7PC_Var.tsv", sep = "\t")
+
+
+
+##########################################
+
+sessionInfo()
+# R version 4.3.1 (2023-06-16)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Pop!_OS 22.04 LTS
+# 
+# Matrix products: default
+# BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
+# LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
+# 
+# locale:
+#   [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C               LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8     LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+# [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                  LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+# 
+# time zone: Europe/London
+# tzcode source: system (glibc)
+# 
+# attached base packages:
+#   [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+#   [1] cupcake_0.1.0.0   reshape2_1.4.4    pheatmap_1.0.12   cowplot_1.1.1     ggplot2_3.4.2     magrittr_2.0.3    data.table_1.14.8
+# 
+# loaded via a namespace (and not attached):
+#   [1] tidyr_1.3.0         utf8_1.2.3          generics_0.1.3      stringi_1.7.12      lattice_0.21-8      digest_0.6.33       evaluate_0.21       grid_4.3.1         
+# [9] RColorBrewer_1.1-3  fastmap_1.1.1       plyr_1.8.8          Matrix_1.6-0        survival_3.5-5      purrr_1.0.1         fansi_1.0.4         scales_1.2.1       
+# [17] snpStats_1.50.0     textshaping_0.3.6   cli_3.6.1           rlang_1.1.1         munsell_0.5.0       splines_4.3.1       withr_2.5.0         yaml_2.3.7         
+# [25] tools_4.3.1         dplyr_1.1.2         colorspace_2.1-0    BiocGenerics_0.46.0 vctrs_0.6.3         R6_2.5.1            lifecycle_1.0.3     zlibbioc_1.46.0    
+# [33] stringr_1.5.0       ragg_1.2.5          pkgconfig_2.0.3     pillar_1.9.0        gtable_0.3.3        glue_1.6.2          Rcpp_1.0.11         systemfonts_1.0.4  
+# [41] xfun_0.39           tibble_3.2.1        tidyselect_1.2.0    rstudioapi_0.15.0   knitr_1.43          htmltools_0.5.5     svglite_2.1.1       rmarkdown_2.23     
+# [49] compiler_4.3.1  
