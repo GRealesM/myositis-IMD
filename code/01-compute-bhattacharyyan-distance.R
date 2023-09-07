@@ -103,3 +103,36 @@ bh.list <- lapply(seq_along(qs$Label), function(i){
 
 bh.list
 fwrite(bh.list, "../data/bh_dist.tsv", sep="\t")
+
+sessionInfo()
+# R version 4.1.3 (2022-03-10)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Rocky Linux 8.8 (Green Obsidian)
+
+# Matrix products: default
+# BLAS/LAPACK: /usr/local/software/spack/spack-rhel8-20210927/opt/spack/linux-centos8-icelake/gcc-11.2.0/intel-oneapi-mkl-2021.4.0-s2cksi33smowj5zlqvmew37cufvztdkc/mkl/2021.4.0/lib/intel64/libmkl_gf_lp64.so.1
+
+# locale:
+#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+#  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+
+# other attached packages:
+# [1] cupcake_0.1.0.0   fpc_2.2-10        magrittr_2.0.3    data.table_1.14.8
+
+# loaded via a namespace (and not attached):
+#  [1] flexmix_2.3-19      cluster_2.1.4       BiocGenerics_0.36.1
+#  [4] splines_4.1.3       zlibbioc_1.36.0     MASS_7.3-58.3      
+#  [7] mclust_6.0.0        lattice_0.20-45     rlang_1.0.6        
+# [10] prabclus_2.3-2      nnet_7.3-18         parallel_4.1.3     
+# [13] grid_4.1.3          cli_3.6.0           modeltools_0.2-23  
+# [16] snpStats_1.40.0     class_7.3-21        survival_3.5-3     
+# [19] Matrix_1.5-3        kernlab_0.9-32      robustbase_0.95-0  
+# [22] compiler_4.1.3      DEoptimR_1.0-11     diptest_0.76-0     
+# [25] stats4_4.1.3        jsonlite_1.8.4 

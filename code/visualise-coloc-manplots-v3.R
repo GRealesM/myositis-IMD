@@ -12,6 +12,8 @@ setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
 #######
 # Recreate data object
 # Load files, as before
+
+# Take the opportunity to create proper labels
 files = list(   `DM (M)` = "DMY_Miller_26291516_1-hg38.tsv.gz",
                 `DM (R)`= "DMY_Rothwell_up_1-hg38.tsv.gz",
                 `JDM (M)` = "JDM_Miller_26291516_1-hg38.tsv.gz",
@@ -21,33 +23,33 @@ files = list(   `DM (M)` = "DMY_Miller_26291516_1-hg38.tsv.gz",
                 `IIM (R)` = "IIM_Rothwell_up_1-hg38.tsv.gz",
                 `PM (M)` =   "PM_Miller_26291516_1-hg38.tsv.gz",
                 `PM (R)` = "PM_Rothwell_up_1-hg38.tsv.gz",
-                ITP =  "D3_ITP_FinnGen_FinnGenR7_1-hg38.tsv.gz", 
-                `IgG+ NMO` =  "NMOIGGp_Estrada_29769526_1-hg38.tsv.gz",
-                PBC = "CHIRBIL_PRIM_FinnGen_FinnGenR7_1-hg38.tsv.gz",
+
+                `IgG+ NMO` =  "NMOIGGp_Estrada_29769526_1-hg38.tsv.gz", 
+                PBC = "CHIRBIL_PRIM_FinnGen_FinnGenR7_1-hg38.tsv.gz", # 11
                 JIA = "JIA_LopezIsac_33106285_1-hg38.tsv.gz",
-                `CR(E)ST` = "CREST_FinnGen_FinnGenR7_1-hg38.tsv.gz",
-                MG  = "MYG_Chia_35074870_1-hg38.tsv.gz",
-                Felty =  "FELTY_FinnGen_FinnGenR7_1-hg38.tsv.gz",
+                `CR(E)ST` = "CREST_FinnGen_FinnGenR7_1-hg38.tsv.gz", # 13
+                EOMG = "MYGEO_Renton_25643325_1-hg38.tsv.gz",
+                LOMG = "MYGLO_Renton_25643325_1-hg38.tsv.gz",
+                Felty =  "FELTY_FinnGen_FinnGenR7_1-hg38.tsv.gz", # 16
                 SjS =   "SJOS_Lessard_up_1-hg38.tsv.gz",
                 SSc  = "SSC_LopezIsac_31672989_1-hg38.tsv.gz",
-                GPA = "M13_WEGENER_FinnGen_FinnGenR7_1-hg38.tsv.gz",
+                GPA = "M13_WEGENER_FinnGen_FinnGenR7_1-hg38.tsv.gz", #19
                 `MPO+ AAV` = "AAVMPO_Wong_up_1-hg38.tsv.gz", 
                 `PR3+ AAV` =  "AAVPR3_Wong_up_1-hg38.tsv.gz",
-                HyperThy = "20002_1225_PanUKBB_PanUKBBR2_1-hg38.tsv.gz",
-                HypoThy = "HYPOTHYROIDISM_FinnGen_FinnGenR7_1-hg38.tsv.gz",
-                PR = "M13_PALINDROMIC_FinnGen_FinnGenR7_1-hg38.tsv.gz",
-                BioMedRhe = "RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1-hg38.tsv.gz") %>%
+                HyperThy = "20002_1225_PanUKBB_PanUKBBR2_1-hg38.tsv.gz", #22
+                PR = "M13_PALINDROMIC_FinnGen_FinnGenR7_1-hg38.tsv.gz", #23
+                BioMedRhe = "RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1-hg38.tsv.gz", #24
+                RA = "M13_RHEUMA_FinnGen_FinnGenR7_1-hg38.tsv.gz", # 25 
+                SLE = "M13_SLE_FinnGen_FinnGenR7_1-hg38.tsv.gz") %>% #26
     lapply(.,  function(f) (file.path("~/rds/rds-cew54-basis/02-Processed",f)))
 stopifnot(all(file.exists(unlist(files))))
 
 data=lapply(files, fread)
 
-## itp, pbc, crest, felty, wegen, hyperthy, and hypoty are not dense datasets. 
-names(data)[c(10,12,14,16,19,22:25)]= c("ITP.local", "PBC.local", "CREST.local",   "Felty.local", "GPA.local", "HyperThy.local",  "HypoThy.local", "PR.local", "BioMedRhe.local")
+## pbc, crest, felty, wegen, hyperthy, PR, bmr, RA, and SLE are not dense datasets. 
+names(data)[c(11,13,16,19,22,23,24,25,26)] = c("PBC.local", "CREST.local",  "Felty.local", "GPA.local", "HyperThy.local",  "PR.local", "BioMedRhe.local", "RA.local", "SLE.local")
 
 dir.create("../data/fg_sumstats")
-if(!file.exists("../data/fg_sumstats/finngen_R7_D3_ITP.gz"))
-    system("wget ***REMOVED***finngen_R7_D3_ITP.gz -O ../data/fg_sumstats/finngen_R7_D3_ITP.gz")
 if(!file.exists("../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz"))
     system("wget ***REMOVED***finngen_R7_CHIRBIL_PRIM.gz -O ../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz")
 if(!file.exists("../data/fg_sumstats/finngen_R7_CREST.gz"))
@@ -56,21 +58,24 @@ if(!file.exists("../data/fg_sumstats/finngen_R7_FELTY.gz"))
     system("wget ***REMOVED***finngen_R7_FELTY.gz -O ../data/fg_sumstats/finngen_R7_FELTY.gz")
 if(!file.exists("../data/fg_sumstats/finngen_R7_M13_WEGENER.gz"))
     system("wget ***REMOVED***finngen_R7_M13_WEGENER.gz -O ../data/fg_sumstats/finngen_R7_M13_WEGENER.gz")
-if(!file.exists("../data/fg_sumstats/finngen_R7_AUTOIMMUNE_HYPERTHYROIDISM.gz"))
-    system("wget ***REMOVED***finngen_R7_AUTOIMMUNE_HYPERTHYROIDISM.gz -O ../data/fg_sumstats/finngen_R7_AUTOIMMUNE_HYPERTHYROIDISM.gz")
+
+# Note: this PanUKBB file will need some work to reformat, see below
+if(!file.exists("../data/fg_sumstats/20002_1225_PanUKBB_1-hg38.tsv.gz")){
+    system("wget https://pan-ukb-us-east-1.s3.amazonaws.com/sumstats_flat_files/categorical-20002-both_sexes-1225.tsv.bgz -O ../data/fg_sumstats/20002_1225_PanUKBB_PanUKBBR2_1.bgz")
+    system("Rscript processing_panUKBB.R") # This script will prepare the PanUKBB file to be used by coloc
+}   
+
 if(!file.exists("../data/fg_sumstats/finngen_R7_HYPOTHYROIDISM.gz"))
     system("wget ***REMOVED***finngen_R7_HYPOTHYROIDISM.gz -O ../data/fg_sumstats/finngen_R7_HYPOTHYROIDISM.gz")
 if(!file.exists("../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz"))
     system("wget ***REMOVED***finngen_R7_M13_PALINDROMIC.gz -O ../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz")
 if(!file.exists("../data/fg_sumstats/finngen_R7_RX_RHEUMA_BIOLOGICAL.gz"))
     system("wget ***REMOVED***finngen_R7_RX_RHEUMA_BIOLOGICAL.gz -O ../data/fg_sumstats/finngen_R7_RX_RHEUMA_BIOLOGICAL.gz")
+if(!file.exists("../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz"))
+    system("wget ***REMOVED***finngen_R7_M13_RHEUMA.gz -O ../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz")
+if(!file.exists("../data/fg_sumstats/finngen_R7_M13_SLE.gz"))
+    system("wget ***REMOVED***finngen_R7_M13_SLE.gz -O ../data/fg_sumstats/finngen_R7_M13_SLE.gz")
 
-
-ITP=fread("../data/fg_sumstats/finngen_R7_D3_ITP.gz")
-ITP$pid=paste(ITP[["#chrom"]], ITP$pos,sep=":")
-table(ITP$pid %in% snps$pid38)
-setnames(ITP, c("#chrom","pos"), c("CHR38","BP38"))
-data$ITP=ITP[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
 PBC=fread("../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz")
 PBC$pid=paste(PBC[["#chrom"]],PBC$pos,sep=":")
@@ -96,17 +101,10 @@ table(GPA$pid %in% snps$pid38)
 setnames(GPA, c("#chrom","pos"), c("CHR38","BP38"))
 data$GPA=GPA[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
-hyperthy=fread("../data/fg_sumstats/finngen_R7_AUTOIMMUNE_HYPERTHYROIDISM.gz")
-hyperthy$pid=paste(hyperthy[["#chrom"]],hyperthy$pos,sep=":")
+hyperthy=fread("../data/fg_sumstats/20002_1225_PanUKBB_1-hg38.tsv.gz")
+hyperthy[, pid := paste(CHR38,BP38,sep=":")]
 table(hyperthy$pid %in% snps$pid38)
-setnames(hyperthy, c("#chrom","pos"), c("CHR38","BP38"))
-data$HyperThy=hyperthy[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
-
-hypothy=fread("../data/fg_sumstats/finngen_R7_HYPOTHYROIDISM.gz")
-hypothy$pid=paste(hypothy[["#chrom"]],hypothy$pos,sep=":")
-table(hypothy$pid %in% snps$pid38)
-setnames(hypothy, c("#chrom","pos"), c("CHR38","BP38"))
-data$HypoThy=hypothy[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
+data$HyperThy=hyperthy[,.(pid, CHR38, BP38, REF, ALT, BETA, SE, P)]
 
 PR=fread("../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz")
 PR$pid=paste(PR[["#chrom"]],PR$pos,sep=":")
@@ -119,6 +117,18 @@ BMR$pid=paste(BMR[["#chrom"]],BMR$pos,sep=":")
 table(BMR$pid %in% snps$pid38)
 setnames(BMR, c("#chrom","pos"), c("CHR38","BP38"))
 data$BioMedRhe=BMR[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
+
+RA=fread("../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz")
+RA$pid=paste(RA[["#chrom"]],RA$pos,sep=":")
+table(RA$pid %in% snps$pid38)
+setnames(RA, c("#chrom","pos"), c("CHR38","BP38"))
+data$RA=RA[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
+
+SLE=fread("../data/fg_sumstats/finngen_R7_M13_SLE.gz")
+SLE$pid=paste(SLE[["#chrom"]],SLE$pos,sep=":")
+table(SLE$pid %in% snps$pid38)
+setnames(SLE, c("#chrom","pos"), c("CHR38","BP38"))
+data$SLE=SLE[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
 
 ###########

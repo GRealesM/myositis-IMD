@@ -453,7 +453,7 @@ d2l=function(d, trait) {
 w=1e+6 # large window choice
 # This code will call the best SNP and find their P-values in both the myositis and the IMD dataset, so we don't need to run coloc twice.
 # 1:nrow(index)
-for(i in 1:20) {
+for(i in 1:nrow(index)) {
     message("Applying coloc on ", index$trait.myos[i], " and ", index$trait.other[i], " at SNP ", index$chr[i], ":", index$bp[i], ".")
     st=index$bp[i]-w
     en=index$bp[i]+w

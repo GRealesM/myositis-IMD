@@ -1,9 +1,11 @@
-#############################
-# Creating PSM and heatmaps #
-#############################
+#########################################
+##                                     ##
+##   CREATING DPMUnc PSM AND HEATMAPS  ##
+##                                     ##
+#########################################
 
-# Date: 21/03/2023
-# Guillermo Reales
+# Author: Guillermo Reales 
+# Date last updated: 2023/03/21
 
 # After checking the trace plots, we'll import the results, remove the first half of the run, get all seeds together and generate the PSM and heatmaps.
 # This is a more interactive script, intended to make publication-ready figures.
@@ -11,6 +13,16 @@
 # Again, we'll use functions written by Kath Nicholls and Chris Wallace, but I'll adapt them to work with my file structure system.
 # As a reminder, all DPMUnc results are in '../results/', with an directory naming system in the form of {exp}_{seed} (eg. PC58_ALL_1).
 # The idea here is to incorporate all seeds in every experiment and generate joint traceplots. See below for function adaptations.
+
+# This script will
+# * Import DPMUnc results from all seeds.
+# * Summarise the results, create a PSM and call clusters.
+# * Make some exploratory heatmaps.
+
+# NOTE: This script is meant to be run at the HPC, where DPMUnc result files are. sbatch is recommended, as a previous version of R may be necessary.
+# This is because the most recent R version in the HPC lacks X11 and png capabilities, so we can't save the figures.
+
+##########################################
 
 
 # Load packages
@@ -166,8 +178,8 @@ psm_plots <- function(exp, burnin, focus_dataset=NULL, update_label=NULL) {
     rownames(bigpsm) = rownames(obsData)
     colnames(bigpsm) = rownames(obsData)
 
-    calls = minbinder(bigpsm, method = "comp") ## calls
     
+    calls = minbinder(bigpsm, method = "comp")
 
     # MClust solution
     print("Calculating mclust solution.")
@@ -370,8 +382,6 @@ make_bold_names <- function(mat, rc_fun, rc_names) {
 
 
 
-
-
 ## Define experiments and generate PSM plots
 
 #  exp="Myo_13PC"
@@ -389,3 +399,38 @@ lapply(exp, function(x){
 
 
 
+sessionInfo()
+# R version 4.0.2 (2020-06-22)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: Rocky Linux 8.8 (Green Obsidian)
+
+# Matrix products: default
+# BLAS:   /usr/local/software/spack/spack-0.11.2/opt/spack/linux-rhel7-x86_64/gcc-5.4.0/r-4.0.2-xyx46xbuw2lmofomvrkwuty5rlez6to6/rlib/R/lib/libRblas.so
+# LAPACK: /usr/local/software/spack/spack-0.11.2/opt/spack/linux-rhel7-x86_64/gcc-5.4.0/r-4.0.2-xyx46xbuw2lmofomvrkwuty5rlez6to6/rlib/R/lib/libRlapack.so
+
+# locale:
+#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+#  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+
+# attached base packages:
+# [1] grid      stats     graphics  grDevices utils     datasets  methods  
+# [8] base     
+
+# other attached packages:
+#  [1] R.cache_0.16.0    pheatmap_1.0.12   mclust_6.0.0      mcclust_1.0.1    
+#  [5] lpSolve_5.6.18    gridExtra_2.3     ggplot2_3.4.1     dplyr_1.1.0      
+#  [9] cluster_2.1.4     magrittr_2.0.3    clue_0.3-64       data.table_1.14.8
+
+# loaded via a namespace (and not attached):
+#  [1] Rcpp_1.0.10        pillar_1.8.1       compiler_4.0.2     RColorBrewer_1.1-3
+#  [5] plyr_1.8.8         R.methodsS3_1.8.2  R.utils_2.12.2     tools_4.0.2       
+#  [9] digest_0.6.31      lifecycle_1.0.3    tibble_3.1.8       gtable_0.3.1      
+# [13] pkgconfig_2.0.3    rlang_1.0.6        cli_3.6.0          withr_2.5.0       
+# [17] systemfonts_1.0.4  generics_0.1.3     vctrs_0.5.2        tidyselect_1.2.0  
+# [21] glue_1.6.2         R6_2.5.1           textshaping_0.3.6  fansi_1.0.4       
+# [25] purrr_1.0.1        farver_2.1.1       scales_1.2.1       colorspace_2.1-0  
+# [29] utf8_1.2.3         munsell_0.5.0      R.oo_1.25.0       

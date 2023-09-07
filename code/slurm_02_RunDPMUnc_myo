@@ -20,7 +20,6 @@ G=$SLURM_ARRAY_TASK_ID ### this is the array variable, you can use it the way yo
 
 # Rscript --vanilla 02-Running_DPMUnc.R Myo_13PC $G
 Rscript --vanilla 02-Running_DPMUnc.R Myo_7PC $G
-# Rscript --vanilla 02-Running_DPMUnc.R Meta_Myo_8PC $G
 
 ## Run using sbatch --array 1-5 slurm_02_RunDPMUnc_myo
 
