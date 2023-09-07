@@ -51,7 +51,7 @@ AAVMPO_Wong_up_1	MPO+ AAV	Wong	doi:10.17863/CAM.51022	6717	609	7326	?	566	PC1 (6
 AAVPR3_Wong_up_1	PR3+ AAV	Wong	doi:10.17863/CAM.51022	6717	1142	7859	?	566	PC9 (3e-05)	2.23512834041992e-07	5.24099059132947e-07	Yes	Yes
 ACGLONEPH_Sakaue_doi1011012020102320213652_1	Acute glomerulonephritis	Sakaue	doi1011012020102320213652	174345	443	174788	East Asian (Japanese)	534	PC4 (4e-01)	0.666645938066121	0.7294792333781	No	No
 AIHEP_Sakaue_doi1011012020102320213652_1	Autoimmune Hepatitis	Sakaue	doi1011012020102320213652	166529	85	166614	East Asian (Japanese)	534	PC9 (7e-01)	0.922609348018277	0.932403502455838	No	No
-AITD_Saevarsdottir_32581359_1	Autoimmune Thyroid disease	Saevarsdottir	32581359	725172	30234	755406	European (Iceland + UK)	552	PC1 (6e-156)	0	0	Yes	Yes
+AITD_Saevarsdottir_32581359_1	Autoimmune Thyroid disease	Saevarsdottir	32581359	725172	30234	755406	European (Iceland + UK)	552	PC1 (6e-156)	0	0	Yes	No
 ALCON_Sakaue_doi1011012020102320213652_1	Allergic conjunctivitis	Sakaue	doi1011012020102320213652	174719	3900	178619	East Asian (Japanese)	534	PC6 (2e-01)	0.278260670299511	0.344927289225436	No	No
 ALLERGIC_CONTACT_DERMA_DRUGS_CONTACT_W_SKIN_FinnGen_FinnGenR7_1	Allergic contact dermatitis due to drugs in contact with skin	FinnGen	FinnGenR7	308706	448	309154	European (Finnish)	562	PC9 (5e-02)	0.688967043554558	0.750453804878649	No	No
 ALLERG_ASTHMA_EXMORE_FinnGen_FinnGenR7_1	Allergic asthma (mode) (more controls excluded)	FinnGen	FinnGenR7	175182	10877	186059	European (Finnish)	562	PC13 (2e-55)	2.74586274004936e-68	1.86718666323356e-67	Yes	No
@@ -160,14 +160,14 @@ E4_DM1REN_FinnGen_FinnGenR7_1	Type 1 diabetes with renal complications	FinnGen	F
 E4_DM1_FinnGen_FinnGenR7_1	Type 1 diabetes	FinnGen	FinnGenR7	255466	8671	264137	European (Finnish)	562	PC1 (2e-59)	6.32927625948927e-187	1.15874442289111e-185	Yes	Yes
 E4_DM1_STRICT_FinnGen_FinnGenR7_1	Type 1 diabetes, strict (exclude DM2)	FinnGen	FinnGenR7	256173	3678	259851	European (Finnish)	562	PC1 (8e-39)	3.60018373784425e-126	3.49732134533441e-125	Yes	No
 E4_GRAVES_OPHT_STRICT_FinnGen_FinnGenR7_1	Graves opthalmopathy, strict	FinnGen	FinnGenR7	308718	436	309154	European (Finnish)	562	PC3 (8e-04)	1.84612661373512e-07	4.39378134068958e-07	Yes	No
-E4_GRAVES_STRICT_FinnGen_FinnGenR7_1	Graves disease, strict definition	FinnGen	FinnGenR7	6691	2311	9002	European (Finnish)	562	PC1 (8e-07)	4.9348571864528e-09	1.24946384082528e-08	Yes	Yes
+E4_GRAVES_STRICT_FinnGen_FinnGenR7_1	Graves disease, strict definition	FinnGen	FinnGenR7	6691	2311	9002	European (Finnish)	562	PC1 (8e-07)	4.9348571864528e-09	1.24946384082528e-08	Yes	No
 E4_HYPERPARA_FinnGen_FinnGenR7_1	Hyperparathyroidism	FinnGen	FinnGenR7	297590	4386	301976	European (Finnish)	562	PC11 (7e-04)	0.0161892134444933	0.0266645868497537	No	No
 E4_HYPOPARA_FinnGen_FinnGenR7_1	Hypoparathyroidism	FinnGen	FinnGenR7	297590	709	298299	European (Finnish)	562	PC10 (2e-02)	0.120564664540261	0.163500798635796	No	No
 E4_HYTHYNAS_FinnGen_FinnGenR7_1	Hypothyroidism,other/unspecified	FinnGen	FinnGenR7	263704	38554	302258	European (Finnish)	562	PC1 (1e-86)	2.75460180943037e-260	8.19494038305535e-259	Yes	No
 E4_HYTHYPOSTINF_FinnGen_FinnGenR7_1	Postinfectious hypothyroidism	FinnGen	FinnGenR7	263704	134	263838	European (Finnish)	562	PC1 (2e-04)	1.23936698146955e-06	2.75672281859582e-06	Yes	No
 E4_HYTHY_AI_STRICT_FinnGen_FinnGenR7_1	Hypothyroidism, strict autoimmune	FinnGen	FinnGenR7	227415	33422	260837	European (Finnish)	562	PC1 (7e-87)	1.22623266799606e-306	4.1691910711866e-305	Yes	Yes
 E4_HYTHY_AI_STRICT_PURCH_FinnGen_FinnGenR7_1	Hypothyroidism, strict autoimmune, 3 medication purchases required	FinnGen	FinnGenR7	271027	33059	304086	European (Finnish)	562	PC1 (8e-82)	2.37545396504524e-251	6.28175604089741e-250	Yes	No
-E4_THYROIDITAUTOIM_FinnGen_FinnGenR7_1	Autoimmune thyroiditis	FinnGen	FinnGenR7	263704	366	264070	European (Finnish)	562	PC1 (1e-07)	5.62665490765888e-17	1.8096538757065e-16	Yes	Yes
+E4_THYROIDITAUTOIM_FinnGen_FinnGenR7_1	Autoimmune thyroiditis	FinnGen	FinnGenR7	263704	366	264070	European (Finnish)	562	PC1 (1e-07)	5.62665490765888e-17	1.8096538757065e-16	Yes	No
 E4_THYROIDITNAS_FinnGen_FinnGenR7_1	Thyroiditis, unspecified	FinnGen	FinnGenR7	263704	330	264034	European (Finnish)	562	PC13 (2e-02)	0.105470433716647	0.145098053321168	No	No
 E4_THYROIDITSUBAC_FinnGen_FinnGenR7_1	Subacute thyroiditis	FinnGen	FinnGenR7	263704	598	264302	European (Finnish)	562	PC3 (1e-02)	0.302832374922841	0.369546227213854	No	No
 EGPAANCAn_Lyons_31719529_1	ANCA negative EGPA	Lyons	31719529	6688	352	7040	European	566	PC13 (3e-17)	1.44939471086705e-18	4.72542385186792e-18	Yes	Yes
@@ -361,7 +361,7 @@ RHEUMA_SEROPOS_WIDE_FinnGen_FinnGenR7_1	Seropositive rheumatoid arthritis, wide	
 RHEU_ARTHRITIS_OTH_FinnGen_FinnGenR7_1	Other arthritis	FinnGen	FinnGenR7	238484	8217	246701	European (Finnish)	562	PC3 (5e-08)	1.95158754736919e-21	6.68313433487579e-21	Yes	No
 RX_CROHN_1STLINE_FinnGen_FinnGenR7_1	First line medication for Crohns disease	FinnGen	FinnGenR7	249599	59555	309154	European (Finnish)	562	PC13 (2e-79)	6.7486907648654e-130	7.13861512016873e-129	Yes	No
 RX_CROHN_2NDLINE_FinnGen_FinnGenR7_1	Second line medication for Crohns disease	FinnGen	FinnGenR7	293353	15801	309154	European (Finnish)	562	PC3 (6e-49)	3.84442647539109e-136	4.15897045974127e-135	Yes	No
-RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1	Biological medication for rheuma	FinnGen	FinnGenR7	306015	3139	309154	European (Finnish)	562	PC3 (2e-17)	2.43933419693529e-37	1.10583150261066e-36	Yes	Yes
+RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1	Biological medication for rheuma	FinnGen	FinnGenR7	306015	3139	309154	European (Finnish)	562	PC3 (2e-17)	2.43933419693529e-37	1.10583150261066e-36	Yes	No
 SARC_Sakaue_doi1011012020102320213652_1	Sarcoidosis	Sakaue	doi1011012020102320213652	177667	220	177887	East Asian (Japanese)	534	PC6 (4e-01)	0.90354261279738	0.915077199343729	No	No
 SJOS_Lessard_up_1	Sjögren's syndrome	Khatri	35896530	17481	3232	20713	European	553	PC2 (5e-29)	2.06060915126866e-53	1.19615848293156e-52	Yes	Yes
 SJOS_Sakaue_doi1011012020102320213652_1	Sjögren's syndrome	Sakaue	doi1011012020102320213652	175599	303	175902	East Asian (Japanese)	534	PC7 (4e-01)	0.567016767202516	0.643389760210311	No	No

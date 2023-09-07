@@ -5,7 +5,6 @@ Trait	nSNP	overall_p	mscomp	First_Author	Reference	Trait_ID_2.0	Trait_long	Trait
 AAD_Eriksson_33574239_1	541	2.3127387823675e-35	PC1 (1e-15)	Eriksson	33574239	AAD	Autoimmune Addison's disease	IMD	4097	1223	5320	European (Finnish + Norwegian)	Y	Autoimmune Addison's disease	1.03855062302541e-34
 AAVMPO_Wong_up_1	566	4.10274938841573e-14	PC1 (6e-09)	Wong	doi:10.17863/CAM.51022	AAVMPO	MPO+ AAV	IMD	6717	609	7326	?	N	MPO+ AAV	1.21298677570552e-13
 AAVPR3_Wong_up_1	566	2.23512834041992e-07	PC9 (3e-05)	Wong	doi:10.17863/CAM.51022	AAVPR3	PR3+ AAV	IMD	6717	1142	7859	?	N	PR3+ AAV	5.24099059132947e-07
-AITD_Saevarsdottir_32581359_1	552	0	PC1 (6e-156)	Saevarsdottir	32581359	AITD	Autoimmune Thyroid disease	IMD	725172	30234	755406	European (Iceland + UK)	Y	Autoimmune Thyroid disease	0
 ASTAO_Ferreira_30929738_1	565	5.79817431066696e-155	PC13 (4e-131)	Ferreira	30929738	ASTAO	Adult-onset Asthma	IMD	300671	26582	327253	European	Y	Adult-onset Asthma	8.11744403493374e-154
 ASTCO_Ferreira_30929738_1	565	0	PC13 (6e-228)	Ferreira	30929738	ASTCO	Childhood-onset Asthma	IMD	300671	13962	314633	European	Y	Childhood-onset Asthma	0
 ATD_Paternoster_26482879_1	566	3.27041393693192e-24	PC13 (4e-15)	Paternoster	26482879	ATD	Atopic Dermatitis	IMD	95464	21399	116863	Trans-ethnic	Y	Atopic Dermatitis	1.17933108634818e-23
@@ -16,9 +15,7 @@ D3_SARCOIDOSIS_FinnGen_FinnGenR7_1	562	1.19205905979568e-11	PC3 (9e-09)	FinnGen	
 DMY_Miller_26291516_1	564	0.000178261886875691	PC1 (2e-04)	Miller	26291516	DMY	Dermatomyositis	IMD	4724	705	5429	European	N	Dermatomyositis (Miller)	0.000343533028958822
 DMY_Rothwell_up_1	479	5.68078820289897e-06	PC1 (2e-04)	Rothwell	36580032	DMY	Dermatomyositis	IMD	3268	817	4085	European	N	Dermatomyositis (Rothwell)	1.20180230425774e-05
 E4_DM1_FinnGen_FinnGenR7_1	562	6.32927625948927e-187	PC1 (2e-59)	FinnGen	FinnGenR7	E4_DM1	Type 1 diabetes (FinnGen)	IMD	255466	8671	264137	European (Finnish)	Y	Type 1 diabetes	1.15874442289111e-185
-E4_GRAVES_STRICT_FinnGen_FinnGenR7_1	562	4.9348571864528e-09	PC1 (8e-07)	FinnGen	FinnGenR7	E4_GRAVES_STRICT	Graves disease, strict definition (FinnGen)	IMD	6691	2311	9002	European (Finnish)	Y	Graves disease, strict definition	1.24946384082528e-08
 E4_HYTHY_AI_STRICT_FinnGen_FinnGenR7_1	562	1.22623266799606e-306	PC1 (7e-87)	FinnGen	FinnGenR7	E4_HYTHY_AI_STRICT	Hypothyroidism, strict autoimmune (FinnGen)	IMD	227415	33422	260837	European (Finnish)	Y	Hypothyroidism, strict autoimmune	4.1691910711866e-305
-E4_THYROIDITAUTOIM_FinnGen_FinnGenR7_1	562	5.62665490765888e-17	PC1 (1e-07)	FinnGen	FinnGenR7	E4_THYROIDITAUTOIM	Autoimmune thyroiditis (FinnGen)	IMD	263704	366	264070	European (Finnish)	Y	Autoimmune thyroiditis	1.8096538757065e-16
 EGPAANCAn_Lyons_31719529_1	566	1.44939471086705e-18	PC13 (3e-17)	Lyons	31719529	EGPAANCAn	ANCA negative EGPA	IMD	6688	352	7040	European	Y	ANCA negative EGPA	4.72542385186792e-18
 EGPAMPO_Lyons_31719529_1	566	1.36908082128368e-05	PC13 (2e-06)	Lyons	31719529	EGPAMPO	MPO+ EGPA	IMD	6688	159	6847	European	Y	MPO+ EGPA	2.83340204752623e-05
 EGPA_Lyons_31719529_1	566	8.67660267572517e-24	PC13 (3e-20)	Lyons	31719529	EGPA	Eosinophilic Granulomatosis with Polyangiitis	IMD	6688	534	7222	European	Y	Eosinophilic Granulomatosis with Polyangiitis	3.10531043131217e-23
@@ -60,7 +57,6 @@ N14_GLOMER_NEPHRITIS_FinnGen_FinnGenR7_1	562	0.000811007615869287	PC3 (2e-03)	Fi
 NMOIGGp_Estrada_29769526_1	564	0.00199659380706983	PC1 (5e-03)	Estrada	29769526	NMOIGGp	IgG+ Neuromyelitis Optica	IMD	1244	132	1376	European	Y	IgG+ Neuromyelitis Optica	0.0035863345364726
 PM_Miller_26291516_1	564	2.96797551351487e-07	PC13 (6e-05)	Miller	26291516	PM	Polymyositis	IMD	4724	533	5257	European	N	Polymyositis (Miller)	6.92527619820136e-07
 PM_Rothwell_up_1	479	2.04578078462164e-11	PC3 (9e-06)	Rothwell	36580032	PM	Polymyositis	IMD	3612	903	4515	European	N	Polymyositis (Rothwell)	5.56452373417086e-11
-RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1	562	2.43933419693529e-37	PC3 (2e-17)	FinnGen	FinnGenR7	RX_RHEUMA_BIOLOGICAL	Biological medication for rheuma (FinnGen)	IMD	306015	3139	309154	European (Finnish)	Y	Biological medication for rheuma	1.10583150261066e-36
 SJOS_Lessard_up_1	553	2.06060915126866e-53	PC2 (5e-29)	Khatri	35896530	SJOS	Sjögren's syndrome	IMD	17481	3232	20713	European	Y	Sjögren's syndrome	1.19615848293156e-52
 SSC_LopezIsac_31672989_1	561	7.49308177776997e-61	PC2 (2e-30)	LopezIsac	31672989	SSC	Systemic Sclerosis	IMD	18333	9846	28179	European	Y	Systemic Sclerosis	4.75560923495801e-60
 ph371.3_PanUKBB_PanUKBBR2_1	566	0.000380926097145954	PC3 (2e-04)	PanUKBB	PanUKBBR2	ph371.3	Inflammation of eyelids (UKBB)	IMD	417645	2854	420499	Trans-ethnic (CSA,EUR)	Y	Inflammation of eyelids	0.000716683091863534

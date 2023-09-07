@@ -5,7 +5,7 @@
 #########################################
 
 # Author: Guillermo Reales 
-# Date last updated: 2023/09/06
+# Date last updated: 2023/09/07
 
 # Background: This script will prepare the datasets for downstream analyses and prepare some figures.
 
@@ -240,21 +240,16 @@ qs2[grepl("COPD|chronic obstructive", Label, ignore.case = TRUE)][order(N1, decr
 tr <- c(tr, setdiff(qs2[grepl("COPD|chronic obstructive", Label, ignore.case = TRUE), Trait], "J10_COPD"))
 
 # Hypothyroidism
-qs2[grepl("Hypothyroidism", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("Hypothyroidism", Label, ignore.case = TRUE), Trait], c("E4_HYTHY_AI_STRICT_FinnGen_FinnGenR7_1"))) # Take strict definition
+qs2[grepl("Hypothyroidism|thyroiditis|thyroid disease", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
+tr <- c(tr, setdiff(qs2[grepl("Hypothyroidism|thyroiditis|thyroid disease", Label, ignore.case = TRUE), Trait], c("E4_HYTHY_AI_STRICT_FinnGen_FinnGenR7_1"))) # Take strict definition
 
 # Hyperthyroidism
 qs2[grepl("hyperthyroidism|graves", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("hyperthyroidism|graves", Label, ignore.case = TRUE), Trait], c("20002_1225_PanUKBB_PanUKBBR2_1","E4_GRAVES_STRICT_FinnGen_FinnGenR7_1"))) # UKBB has larger sample size. Take FinnGen Graves' too
-
-# Thyroiditis
-qs2[grepl("thyroiditis", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
-tr <- c(tr, setdiff(qs2[grepl("thyroiditis", Label, ignore.case = TRUE) , Trait], c("E4_THYROIDITAUTOIM_FinnGen_FinnGenR7_1"))) # Choose, Autoimmune thyroiditis, even if it has smaller sample size than general thyroiditis, since we want to capture the immune component
+tr <- c(tr, setdiff(qs2[grepl("hyperthyroidism|graves", Label, ignore.case = TRUE), Trait], "20002_1225_PanUKBB_PanUKBBR2_1")) # UKBB has larger sample size. 
 
 # Psoriasis
 qs2[grepl("Psoria", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("Psoria", Label, ignore.case = TRUE), Trait], c("L12_PSORIASIS_FinnGen_FinnGenR7_1", "L12_PSORI_ARTHRO_FinnGen_FinnGenR7_1")))
-
 
 # Rhinitis
 qs2[grepl("rhinitis|allerg", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
@@ -292,13 +287,15 @@ tr <- c(tr, setdiff(qs2[grepl("rosacea", Label, ignore.case = TRUE) , Trait], c(
 qs2[grepl("addison", Label, ignore.case = TRUE)][order(N1, decreasing = TRUE)]
 tr <- c(tr, setdiff(qs2[grepl("addison", Label, ignore.case = TRUE) , Trait], c("AAD_Eriksson_33574239_1")))
 
-# We'll also remove all myositis from FinnGen, as they're not informative
-tr <- c(tr, "DERMATOPOLY_FG_FinnGen_FinnGenR7_1", "M13_MYOSITIS_FinnGen_FinnGenR7_1", "M13_POLYMYO_FinnGen_FinnGenR7_1", "M13_DERMATOPOLY_FinnGen_FinnGenR7_1")
+# We'll also remove all myositis from FinnGen, as they're not informative. Also biomedrhe, as we already have rheuma
+tr <- c(tr, "DERMATOPOLY_FG_FinnGen_FinnGenR7_1", "M13_MYOSITIS_FinnGen_FinnGenR7_1", "M13_POLYMYO_FinnGen_FinnGenR7_1", "M13_DERMATOPOLY_FinnGen_FinnGenR7_1", "RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR7_1")
 
 
 qs2 <- qs2[!Trait %in% tr] # First pass
 length(unique(qs2$Label))
-# 66  
+# 62  
+
+qs2[, .(Trait, Label, N0, N1, N, FDR.overall)][order(Label)]
 
 # Check for duplicates, if there are still
 dp <- qs2[duplicated(Label), unique(Label)]
@@ -363,10 +360,6 @@ Mphm
 
 ## Internal figure -- Heatmap of all 66 projections
 
-# Remove all  datasets without at least one FDR 1% significant PC
-#a1s <- ps2[FDR.PC < 0.05 | grepl("myositis|IIM", Label, ignore.case = TRUE), Trait] %>% unique 
-
-#ps2s <- ps2[Trait %in% a1s]
 
 Map <- acast(ps2[,c("PC", "Label", "Delta")], Label ~ PC) # PC, Trait, and Delta columns only
 Map.stars <- acast(ps2[,c("PC","Label","stars")], Label ~ PC)
@@ -482,13 +475,11 @@ sessionInfo()
 #   [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-#   [1] cupcake_0.1.0.0   reshape2_1.4.4    pheatmap_1.0.12   cowplot_1.1.1     ggplot2_3.4.2     magrittr_2.0.3    data.table_1.14.8
+#   [1] cupcake_0.1.0.0   reshape2_1.4.4    pheatmap_1.0.12   cowplot_1.1.1     ggplot2_3.4.3     magrittr_2.0.3    data.table_1.14.8
 # 
 # loaded via a namespace (and not attached):
-#   [1] tidyr_1.3.0         utf8_1.2.3          generics_0.1.3      stringi_1.7.12      lattice_0.21-8      digest_0.6.33       evaluate_0.21       grid_4.3.1         
-# [9] RColorBrewer_1.1-3  fastmap_1.1.1       plyr_1.8.8          Matrix_1.6-0        survival_3.5-5      purrr_1.0.1         fansi_1.0.4         scales_1.2.1       
-# [17] snpStats_1.50.0     textshaping_0.3.6   cli_3.6.1           rlang_1.1.1         munsell_0.5.0       splines_4.3.1       withr_2.5.0         yaml_2.3.7         
-# [25] tools_4.3.1         dplyr_1.1.2         colorspace_2.1-0    BiocGenerics_0.46.0 vctrs_0.6.3         R6_2.5.1            lifecycle_1.0.3     zlibbioc_1.46.0    
-# [33] stringr_1.5.0       ragg_1.2.5          pkgconfig_2.0.3     pillar_1.9.0        gtable_0.3.3        glue_1.6.2          Rcpp_1.0.11         systemfonts_1.0.4  
-# [41] xfun_0.39           tibble_3.2.1        tidyselect_1.2.0    rstudioapi_0.15.0   knitr_1.43          htmltools_0.5.5     svglite_2.1.1       rmarkdown_2.23     
-# [49] compiler_4.3.1  
+#   [1] Matrix_1.6-0        gtable_0.3.4        dplyr_1.1.3         compiler_4.3.1      tidyselect_1.2.0    Rcpp_1.0.11         stringr_1.5.0       splines_4.3.1      
+# [9] scales_1.2.1        lattice_0.21-8      R6_2.5.1            plyr_1.8.8          labeling_0.4.3      generics_0.1.3      BiocGenerics_0.46.0 tibble_3.2.1       
+# [17] snpStats_1.50.0     munsell_0.5.0       pillar_1.9.0        RColorBrewer_1.1-3  rlang_1.1.1         utf8_1.2.3          stringi_1.7.12      cli_3.6.1          
+# [25] withr_2.5.0         zlibbioc_1.46.0     grid_4.3.1          rstudioapi_0.15.0   lifecycle_1.0.3     vctrs_0.6.3         glue_1.6.2          farver_2.1.1       
+# [33] survival_3.5-5      fansi_1.0.4         colorspace_2.1-0    purrr_1.0.2         tools_4.3.1         pkgconfig_2.0.3  

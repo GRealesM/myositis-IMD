@@ -1,74 +1,67 @@
 Label	Bhattacharyya
 Adult-onset Asthma	1
-Anaphylactic shock due to adverse effect of  [...]	2
-ANCA negative EGPA	3
-Ankylosing spondylitis	4
-Arthropathic psoriasis	5
+ANCA negative EGPA	2
+Ankylosing spondylitis	3
+Arthropathic psoriasis	3
 Asthma	1
 Atopic Dermatitis	1
-Autoimmune Addison's disease	6
-Autoimmune Thyroid disease	7
-Autoimmune thyroiditis	6
-Biological medication for rheuma	2
-Certain disorders involving the immune mechanism	5
-Childhood-onset Asthma	8
-Coeliac disease	5
-CR(E)ST syndrome	9
-Crohn's Disease	10
-Dermatomyositis (Miller)	9
-Dermatomyositis (Rothwell)	9
-Diabethic neuropathy	7
-Diabetic nephropathy	7
-Diabetic retinopathy	5
-Diseases of the blood and blood-forming orga [...]	5
-Early-onset Myastenia Gravis	9
+Autoimmune Addison's disease	4
+Autoimmune Thyroid disease	4
+Autoimmune thyroiditis	4
+Biological medication for rheuma	3
+Childhood-onset Asthma	5
+Coeliac disease	3
+CR(E)ST syndrome	6
+Crohn disease	7
+Dermatomyositis (Miller)	6
+Dermatomyositis (Rothwell)	6
+Early-onset Myastenia Gravis	6
+Emphysema/Chronic Bronchitis	3
 Eosinophilic Esophagitis	1
-Eosinophilic Granulomatosis with Polyangiitis	3
-Erythema nodosum	2
-Felty syndrome	9
-Glomerulonephritis	2
-Gout	5
+Eosinophilic Granulomatosis with Polyangiitis	2
+Erythema nodosum	3
+Felty syndrome	6
+Glomerulonephritis	3
+Gout	3
+Graves disease, strict definition	4
 Hayfever/Allergic Rhinitis	1
-Hyperthyroidism/Thyrotoxicosis	7
-Hypothyroidism (congenital or acquired)	7
-Idiopathic thrombocytopenic purpura	2
-IgA deficiency	7
-IgG+ Neuromyelitis Optica	9
-IIM (Miller)	9
-IIM (Rothwell)	9
-Inflammation of eyelids	4
-Inflammatory Bowel Disease	11
-Jo1+ Myositis (Rothwell)	9
-Juvenile Dermatomyositis (Miller)	9
-Juvenile Dermatomyositis (Rothwell)	9
-Juvenile Idiopathic Arthritis	9
-Late-onset Myastenia Gravis	7
-Lichen planus	5
-Lichen sclerosus et atrophicus	5
-Localized scleroderma [morphea]	2
-MPO+ AAV	9
-MPO+ EGPA	3
-Multiple Sclerosis	12
-Myastenia Gravis	7
-Nasal polyp	3
-Other and unspecified disorders involving th [...]	2
-Palindromic rheumatism	7
-Peripheral atherosclerosis	13
-Polymyalgia rheumatica	5
-Polymyositis (Miller)	9
-Polymyositis (Rothwell)	9
-PR3+ AAV	2
-Primary biliary cholangitis	9
-Primary sclerosing cholangitis	2
-Psoriasis	5
-Rheumatoid Arthritis	14
-Rosacea	4
-Sarcoidosis	5
-Sjögren's syndrome	9
-Systemic Lupus Erythematosus	15
-Systemic Sclerosis	9
-Type 1 Diabetes	6
-Type 2 diabetes	13
-Ulcerative Colitis	11
-Vitiligo	6
-Wegener granulomatosis	2
+Hyperthyroidism/Thyrotoxicosis	4
+Hypothyroidism, strict autoimmune	8
+Idiopathic thrombocytopenic purpura	3
+IgA deficiency	4
+IgG+ Neuromyelitis Optica	6
+IIM (Miller)	6
+IIM (Rothwell)	6
+Inflammation of eyelids	3
+Inflammatory bowel disease	7
+Jo1+ Myositis (Rothwell)	6
+Juvenile Dermatomyositis (Miller)	6
+Juvenile Dermatomyositis (Rothwell)	6
+Juvenile Idiopathic Arthritis	6
+Late-onset Myastenia Gravis	4
+Lichen planus	3
+Lichen sclerosus et atrophicus	3
+Localized scleroderma [morphea]	6
+MPO+ AAV	6
+MPO+ EGPA	2
+Multiple Sclerosis	9
+Myastenia Gravis	4
+Nasal polyp	2
+Palindromic rheumatism	4
+Polymyalgia rheumatica	3
+Polymyositis (Miller)	6
+Polymyositis (Rothwell)	6
+PR3+ AAV	3
+Primary biliary cholangitis	6
+Primary sclerosing cholangitis	3
+Psoriasis	3
+Rheumatoid arthritis	6
+Rosacea	3
+Sarcoidosis	3
+Sjögren's syndrome	6
+Systemic lupus erythematosus	6
+Systemic Sclerosis	6
+Type 1 diabetes	4
+Ulcerative colitis	7
+Vitiligo	4
+Wegener granulomatosis	6
