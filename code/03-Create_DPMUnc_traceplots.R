@@ -1,15 +1,24 @@
-#######################
-# Creating traceplots #
-#######################
+#########################################
+##                                     ##
+##    CREATING DPMUnc TRACEPLOTS       ##
+##                                     ##
+#########################################
 
-# Date: 24/08/2022
-# Guillermo Reales
+# Author: Guillermo Reales 
+# Date last updated: 2022/08/24
 
 # Once we've run DPMUnc we need to safety check our runs. Traceplots are a good tool for that.
 
 # We'll use functions written by Kath Nicholls and Chris Wallace, but I'll adapt them to work with my file structure system.
 # As a reminder, all DPMUnc results are in '../results/', with an directory naming system in the form of {exp}_{seed} (eg. PC58_ALL_1).
 # The idea here is to incorporate all seeds in every experiment and generate joint traceplots. See below for function adaptations.
+
+# This script will
+# * Create traceplots from DPMUnc results to check convergence.
+
+# NOTE: This script is meant to be run at the HPC, where DPMUnc trace files are
+
+##########################################
 
 # Load packages
 library(dplyr)
@@ -136,8 +145,8 @@ quantile_traceplots_dataset <- function(exp, block_size=100) {
 
 # Define experiments and generate traceplots
 
- exp="Myo_13PC"
-#exp="Myo_7PC"
+#exp="Myo_13PC"
+exp="Myo_7PC"
 # exp="Meta_Myo_8PC"
 input_dir= "../data/DPMUnc_results/"
 lapply(exp, quantile_traceplots_dataset)

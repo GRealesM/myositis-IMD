@@ -19,7 +19,7 @@ echo -e "JobID: $JOBID"
 # G=$SLURM_ARRAY_TASK_ID ### this is the array variable, you can use it the way you want. In this example I use it to select the gene based on the line number in a file
 
 module load r-4.0.2-gcc-5.4.0-xyx46xb  # Latest R version doesn't have X11 capabilities, so we need to fall back to an earlier version
-Rscript --vanilla 04-Create_custom_PSM_heatmaps.R
+Rscript --vanilla 04-Create_DPMUnc_PSM_heatmaps.R
 module unload r-4.0.2-gcc-5.4.0-xyx46xb
 
 
