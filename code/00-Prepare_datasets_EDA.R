@@ -108,7 +108,7 @@ qf <- qf[Trait_class == "IMD"] # Interested in IMDs for now
 # Check traits by class. In this case we have only one class
 table(qf$Trait_class)
 # IMD 
-# 479
+# 476
 
 
 ### (2) Prepare proper labels for selected datasets
@@ -296,7 +296,6 @@ tr <- c(tr, setdiff(qs2[grepl("addison", Label, ignore.case = TRUE) , Trait], c(
 tr <- c(tr, "DERMATOPOLY_FG_FinnGen_FinnGenR7_1", "M13_MYOSITIS_FinnGen_FinnGenR7_1", "M13_POLYMYO_FinnGen_FinnGenR7_1", "M13_DERMATOPOLY_FinnGen_FinnGenR7_1")
 
 
-
 qs2 <- qs2[!Trait %in% tr] # First pass
 length(unique(qs2$Label))
 # 66  
@@ -312,8 +311,8 @@ ps2 <- ps[Trait %in% ttk2]
 
 ps2[, PC:=factor(PC, levels = paste0("PC", 1:13))]
 
-fwrite(ps2, "../data/ps2.tsv", sep="\t")
-fwrite(qs2, "../data/qs2.tsv", sep="\t")
+# fwrite(ps2, "../data/ps2.tsv", sep="\t")
+# fwrite(qs2, "../data/qs2.tsv", sep="\t")
 
 # Prepare supplementary tables for ALL datasets and projections
 
@@ -328,8 +327,8 @@ ap[, sig.overall:=ifelse(Trait %in% qs$Trait, "Yes", "No")][, in.selection:=ifel
 aq <- aq[,.(Trait, Label, First_Author, Reference, N0, N1,N, Population, nSNP, mscomp, overall_p, FDR.overall, sig.overall, in.selection)]
 ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR.PC, stars, sig.overall, in.selection)]
 
-fwrite(aq, "../tables/ST_all_datasets.tsv", sep ="\t")
-fwrite(ap, "../tables/ST_all_projections.tsv", sep ="\t")
+# fwrite(aq, "../tables/ST_all_datasets.tsv", sep ="\t")
+# fwrite(ap, "../tables/ST_all_projections.tsv", sep ="\t")
 
 ##########################################
 
@@ -355,10 +354,10 @@ Mphm <- pheatmap(Mmp,  breaks = seq(-range, range, length.out = 100),
 Mphm
 
 # Save Figure 1
-ggsave("../figures/Myositis_allsources_heatmap.png", Mphm, width = 6, height = 2.5, bg="white")
-ggsave("../figures/Myositis_allsources_heatmap.svg", Mphm, width = 6, height = 2.5, bg="white")
-
-system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_allsources_heatmap.svg") # Trick to make the svg file text be more easily editable
+# ggsave("../figures/Myositis_allsources_heatmap.png", Mphm, width = 6, height = 2.5, bg="white")
+# ggsave("../figures/Myositis_allsources_heatmap.svg", Mphm, width = 6, height = 2.5, bg="white")
+# 
+# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_allsources_heatmap.svg") # Trick to make the svg file text be more easily editable
 
 ###
 
@@ -405,7 +404,32 @@ Mahm <- pheatmap(Map,  breaks = seq(-range, range, length.out = 100),
                  labels_row = make_bold_names(Map, rownames, papsb))
 
 Mahm
-ggsave("../figures/Myositis_IMD_heatmap.png", Mahm, width = 8, height = 14, bg="white")
+# ggsave("../figures/Myositis_IMD_heatmap.png", Mahm, width = 8, height = 14, bg="white")
+
+
+### 
+
+## Internal figure -- Delta plot of all myositis datasets across all 7 PCs
+
+myoc <- c(`PM (R)` = "#CF000F", `PM (M)` = "#CF000F", `PM (FG)` = "#CF000F", `DM (R)` = "#2E8856", `DM (M)` = "#2E8856", `IIM (R)` = "#1460AA", `IIM (M)` = "#1460AA", `JDM (M)` = "#B8860B", `JDM (R)` = "#B8860B", `IBM (R)` = "#E65722", `Anti-Jo1+ (R)` ="#1C2833", `DPM (FG)` = "#053061")
+
+pmyo <- pf[(First_Author %in% c("Miller", "Rothwell") ) & PC %in% paste0("PC", c(1:3, 8:9, 12:13))][, PC:=factor(PC, levels = paste0("PC", c(1:3, 8:9, 12:13)))]
+# | Trait_ID_2.0 %in% c("M13_DERMATOPOLY", "M13_POLYMYO")
+pmyo[, Label:=gsub("Inclusion Body Myositis", "IBM", Label)][, Label:=gsub("Juvenile Dermatomyositis", "JDM", Label)][, Label:=gsub("Dermatomyositis", "DM", Label)][, Label:=gsub("Polymyositis", "PM", Label)][, Label:=gsub("Jo1\\+ Myositis", "Anti-Jo1+", Label)][, Label:=gsub("Miller", "M", Label)][, Label:=gsub("Rothwell", "R", Label)][, Label:=gsub("FinnGen", "FG", Label)][, Label:=gsub("Dermatopolymyositis", "DPM", Label)]
+pmyo[, ci:=sqrt(Var.Delta) * 1.96]
+
+dpm <- ggplot(pmyo, aes(x = Delta, y = Label, xmin=Delta-ci, xmax=Delta+ci, colour = Label))+
+  geom_pointrange()+
+  geom_vline(xintercept = 0, col="red", lty=2)+
+  scale_colour_manual(values = myoc)+
+  xlab("Delta")+
+  facet_grid(PC~.,  scales = "free", space = "free", switch = "y")+
+  theme_cowplot(11)+
+  theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank())
+dpm
+
+#ggsave("../figures/deltaplot_myo.png", dpm, height = 10, width = 6, bg = "white")
+
 
 ##########################################
 
@@ -419,9 +443,21 @@ dpmunc.ds <- ps2[PC %in% paste0("PC", c(1,2,3,8,9,12,13)), .(PC, Delta, Var.Delt
 dpmunc.delta <- reshape(dpmunc.ds[, .(PC, Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
 dpmunc.var   <- reshape(dpmunc.ds[, .(PC, Var.Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
 
-fwrite(dpmunc.delta, "../data/Myo_7PC_Delta.tsv", sep = "\t")
-fwrite(dpmunc.var, "../data/Myo_7PC_Var.tsv", sep = "\t")
+# Save
+# fwrite(dpmunc.delta, "../data/Myo_7PC_Delta.tsv", sep = "\t")
+# fwrite(dpmunc.var, "../data/Myo_7PC_Var.tsv", sep = "\t")
 
+
+## Additionaly, we'll make a secondary selection, using all 13 PCs
+
+
+dpmunc.13.ds <- ps2[, .(PC, Delta, Var.Delta, Label)]
+dpmunc.13.delta <- reshape(dpmunc.13.ds[, .(PC, Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
+dpmunc.13.var   <- reshape(dpmunc.13.ds[, .(PC, Var.Delta, Label)], idvar="Label", timevar = "PC", direction = "wide")
+
+# Save
+# fwrite(dpmunc.13.delta, "../data/Myo_13PC_Delta.tsv", sep = "\t")
+# fwrite(dpmunc.13.var, "../data/Myo_13PC_Var.tsv", sep = "\t")
 
 
 ##########################################
