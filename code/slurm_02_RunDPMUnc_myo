@@ -12,14 +12,17 @@ shopt -s nullglob
 module purge                # Removes all modules still loaded
 #module load default-impi    # REQUIRED - loads the basic environment
 module load rhel8/default-icl             # REQUIRED - loads the basic environment
-module load r
+#module load r
 export I_MPI_PIN_ORDER=scatter # Adjacent domains have minimal sharing of caches/sockets
 JOBID=$SLURM_JOB_ID
 echo -e "JobID: $JOBID"
 G=$SLURM_ARRAY_TASK_ID ### this is the array variable, you can use it the way you want. In this example I use it to select the gene based on the line number in a file
 
-# Rscript --vanilla 02-Running_DPMUnc.R Myo_13PC $G
+# 7 PCs
 Rscript --vanilla 02-Running_DPMUnc.R Myo_7PC $G
+# Extra -- all 13 PCs
+Rscript --vanilla 02-Running_DPMUnc.R Myo_13PC $G
+
 
 ## Run using sbatch --array 1-5 slurm_02_RunDPMUnc_myo
 

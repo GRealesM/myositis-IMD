@@ -24,6 +24,7 @@
 
 ##########################################
 
+setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
 
 # Load packages
 library(data.table)
@@ -143,6 +144,7 @@ adjust_labels_B_to_match_A <- function(calls_A, calls_B) {
 # This function is modified to remove the hclust annotation and make fonts a bit larger.
 psm_plots <- function(exp, burnin, focus_dataset=NULL, update_label=NULL) {
 
+    message("Working on ", exp, "...")
     message("Loading data...")
     datasets = dir(input_dir)[grepl(exp, dir(input_dir))] # Little adaptation to original function. From experiment name we retrieve all directories for different seeds.
     datasets = paste0(input_dir, datasets)
@@ -384,9 +386,8 @@ make_bold_names <- function(mat, rc_fun, rc_names) {
 
 ## Define experiments and generate PSM plots
 
-#  exp="Myo_13PC"
-exp="Myo_7PC"
-# exp="Meta_Myo_8PC"
+exp=c("Myo_7PC","Myo_13PC")
+
 input_dir="../data/DPMUnc_results/"
 outdir="../figures/"
 
@@ -400,13 +401,12 @@ lapply(exp, function(x){
 
 
 sessionInfo()
-# R version 4.0.2 (2020-06-22)
-# Platform: x86_64-pc-linux-gnu (64-bit)
+# R version 4.3.1 (2023-06-16)
+# Platform: x86_64-redhat-linux-gnu (64-bit)
 # Running under: Rocky Linux 8.8 (Green Obsidian)
 
 # Matrix products: default
-# BLAS:   /usr/local/software/spack/spack-0.11.2/opt/spack/linux-rhel7-x86_64/gcc-5.4.0/r-4.0.2-xyx46xbuw2lmofomvrkwuty5rlez6to6/rlib/R/lib/libRblas.so
-# LAPACK: /usr/local/software/spack/spack-0.11.2/opt/spack/linux-rhel7-x86_64/gcc-5.4.0/r-4.0.2-xyx46xbuw2lmofomvrkwuty5rlez6to6/rlib/R/lib/libRlapack.so
+# BLAS/LAPACK: /usr/lib64/libopenblaso-r0.3.15.so;  LAPACK version 3.9.0
 
 # locale:
 #  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
@@ -416,21 +416,23 @@ sessionInfo()
 #  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
 # [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
 
+# time zone: GB
+# tzcode source: system (glibc)
+
 # attached base packages:
 # [1] grid      stats     graphics  grDevices utils     datasets  methods  
 # [8] base     
 
 # other attached packages:
 #  [1] R.cache_0.16.0    pheatmap_1.0.12   mclust_6.0.0      mcclust_1.0.1    
-#  [5] lpSolve_5.6.18    gridExtra_2.3     ggplot2_3.4.1     dplyr_1.1.0      
+#  [5] lpSolve_5.6.18    gridExtra_2.3     ggplot2_3.4.3     dplyr_1.1.3      
 #  [9] cluster_2.1.4     magrittr_2.0.3    clue_0.3-64       data.table_1.14.8
 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.10        pillar_1.8.1       compiler_4.0.2     RColorBrewer_1.1-3
-#  [5] plyr_1.8.8         R.methodsS3_1.8.2  R.utils_2.12.2     tools_4.0.2       
-#  [9] digest_0.6.31      lifecycle_1.0.3    tibble_3.1.8       gtable_0.3.1      
-# [13] pkgconfig_2.0.3    rlang_1.0.6        cli_3.6.0          withr_2.5.0       
-# [17] systemfonts_1.0.4  generics_0.1.3     vctrs_0.5.2        tidyselect_1.2.0  
-# [21] glue_1.6.2         R6_2.5.1           textshaping_0.3.6  fansi_1.0.4       
-# [25] purrr_1.0.1        farver_2.1.1       scales_1.2.1       colorspace_2.1-0  
-# [29] utf8_1.2.3         munsell_0.5.0      R.oo_1.25.0       
+#  [1] vctrs_0.6.3        cli_3.6.1          rlang_1.1.1        generics_0.1.3    
+#  [5] jsonlite_1.8.7     glue_1.6.2         colorspace_2.1-0   scales_1.2.1      
+#  [9] fansi_1.0.4        munsell_0.5.0      tibble_3.2.1       lifecycle_1.0.3   
+# [13] compiler_4.3.1     RColorBrewer_1.1-3 pkgconfig_2.0.3    R.oo_1.25.0       
+# [17] digest_0.6.33      R.utils_2.12.2     R6_2.5.1           tidyselect_1.2.0  
+# [21] utf8_1.2.3         pillar_1.9.0       R.methodsS3_1.8.2  tools_4.3.1       
+# [25] withr_2.5.0        gtable_0.3.4      
