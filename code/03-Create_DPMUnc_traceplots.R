@@ -20,6 +20,8 @@
 
 ##########################################
 
+setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
+
 # Load packages
 library(dplyr)
 library(ggplot2)
@@ -106,6 +108,7 @@ quantile_traceplot <- function(label, quantiled) {
 
 quantile_traceplots_dataset <- function(exp, block_size=100) {
 
+  message("Working on ", exp, "...")
   datasets = dir(input_dir)[grepl(exp, dir(input_dir))] # Little adaptation to original function. From experiment name we retrieve all directories for different seeds.
   datasets = paste0(input_dir, datasets)
 
@@ -145,9 +148,43 @@ quantile_traceplots_dataset <- function(exp, block_size=100) {
 
 # Define experiments and generate traceplots
 
-#exp="Myo_13PC"
-exp="Myo_7PC"
-# exp="Meta_Myo_8PC"
+
+exp=c("Myo_7PC", "Myo_13PC")
+
 input_dir= "../data/DPMUnc_results/"
 lapply(exp, quantile_traceplots_dataset)
 
+sessionInfo()
+# R version 4.3.1 (2023-06-16)
+# Platform: x86_64-redhat-linux-gnu (64-bit)
+# Running under: Rocky Linux 8.8 (Green Obsidian)
+
+# Matrix products: default
+# BLAS/LAPACK: /usr/lib64/libopenblaso-r0.3.15.so;  LAPACK version 3.9.0
+
+# locale:
+#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+#  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+
+# time zone: GB
+# tzcode source: system (glibc)
+
+# attached base packages:
+# [1] grid      stats     graphics  grDevices utils     datasets  methods  
+# [8] base     
+
+# other attached packages:
+# [1] gridExtra_2.3 ggplot2_3.4.3 dplyr_1.1.3  
+
+# loaded via a namespace (and not attached):
+#  [1] crayon_1.5.2     vctrs_0.6.3      cli_3.6.1        rlang_1.1.1     
+#  [5] purrr_1.0.2      generics_0.1.3   jsonlite_1.8.7   glue_1.6.2      
+#  [9] labeling_0.4.3   colorspace_2.1-0 scales_1.2.1     fansi_1.0.4     
+# [13] munsell_0.5.0    tibble_3.2.1     lifecycle_1.0.3  compiler_4.3.1  
+# [17] pkgconfig_2.0.3  tidyr_1.3.0      farver_2.1.1     R6_2.5.1        
+# [21] tidyselect_1.2.0 utf8_1.2.3       pillar_1.9.0     magrittr_2.0.3  
+# [25] tools_4.3.1      withr_2.5.0      gtable_0.3.4    

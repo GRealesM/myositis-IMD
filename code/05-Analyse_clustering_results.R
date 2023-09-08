@@ -20,11 +20,18 @@
 
 # Load required packages
 library(data.table)
+library(magrittr)
 library(stringr)
 library(reshape2)
 library(pheatmap)
 library(ggplot2)
 library(ggalluvial)
+
+# For PSM plot only
+library(R.cache)
+library(mcclust)
+library(clue)
+
 
 # Load helper function
 
@@ -57,7 +64,7 @@ bhd[, T1:=str_trunc(T1, 50, ellipsis = " [...]")][, T2:=str_trunc(T2, 50, ellips
 # Call clusters in Bhattacharyya
 
 # We keep the initial matrices for make_bold_names(), since I don't have the time to adapt it now
-bh.cl <- acast(bhd, T1~T2, value.var = "bhat.dist") %>% as.dist %>% hclust(., method = "average") # Cluster by raw
+bh.cl <- acast(bhd, T1~T2, value.var = "bhat.dist") %>% as.dist %>% hclust(., method = "complete") # Cluster by raw
 bhatta.d <-  acast(bhd, T1~T2, value.var = "logbhat") # Show log
 
 
@@ -75,7 +82,7 @@ bh.ph <- pheatmap(bhatta.d,
 
 tbh <- bh.ph$tree_row
 tbhc <- cutree(tbh, k=9) # manually adjusted to capture visually-selected IMD
-bhatta.sel <- names(tbhc[tbhc ==6]) # Myositis cluster is 9
+bhatta.sel <- names(tbhc[tbhc ==5]) # Myositis cluster is 9
 bhatta.sel
 bht <- data.table(Label = names(tbhc), Bhattacharyya = tbhc)
 
@@ -147,17 +154,12 @@ bh.ph <- pheatmap(bhatta.d,
                   labels_row = make_bold_names(bhatta.d, rownames, myob))
 
 # Save
-# ggsave("../figures/Myositis_bhattacharyya_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
-# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_bhattacharyya_heatmap.svg") # Trick to make the svg file text be more easily editable
+# ggsave("../figures/Myositis_7PCs_BHDP_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
+# ggsave("../figures/Myositis_7PCs_BHDP_heatmap.png", bh.ph, width = 9, height = 9.5, bg="white")
+# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_7PCs_BHDP_heatmap.svg") # Trick to make the svg file text be more easily editable
 
 # Note: This figure will be edited to add a rectangle highlighting the Bhatta myositis group.
 
-
-#########################################
-
-### Prepare joint heatmap with DPMUnc PSM and both DPMUnc and Bhatta annotations
-
-## To do on HPC
 
 ########################################
 
@@ -182,12 +184,173 @@ sdiag <- ggplot(clsum, aes(y=y, axis1=DPMUnc,axis2=Bhattacharyya)) + geom_alluvi
         legend.position = "none", axis.text.x = element_text(size = 13))
 sdiag
 # Save
-# ggsave("../figures/sdiag_Bh_DP.png", sdiag, height = 9, width = 8, bg = "white")
-# ggsave("../figures/sdiag_Bh_DP.svg", sdiag, height = 9, width = 8, bg = "white")
-# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/sdiag_Bh_DP.svg")
+# ggsave("../figures/Myositis_7PCs_sdiag_BHDP.png", sdiag, height = 9, width = 8, bg = "white")
+# ggsave("../figures/Myositis_7PCs_sdiag_BHDP.svg", sdiag, height = 9, width = 8, bg = "white")
+# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_7PCs_sdiag_BHDP.svg")
 
 
+#########################################
+
+### Prepare joint heatmap with DPMUnc PSM and both DPMUnc and Bhatta annotations
+
+## To do on HPC. This bit will be a bit longer.
+
+# Some helper functions
+# NOTE: next function was in scripts/utils.R. Modified from original to remove burnin
+calc_psms <- function(datasets, burnin) {  
+    allocs=lapply(paste0(datasets, "/clusterAllocations.csv"), fread) ## read the allocations
+    # This line is essential for some reason
+    allocs %<>% lapply(., function(x) as.matrix(x[1:nrow(x),]))
+    message("Removing burnin.")
+    allocs %<>% lapply(., function(x) x[-c(1:burnin),]) # Remove burnin at this stage
+
+    bigalloc = do.call(rbind, allocs)    
+    bigpsm=calc_psm(bigalloc,burn=0) ## make a psm, don't discard any burn in because already discarded
+    psms = lapply(allocs, function(x) calc_psm(x, burn=0))
+    return(list(bigpsm=bigpsm, psms=psms))
+}
+
+raw_calc_psm=function(x,burn=0.5) {
+  n=nrow(x)
+  if(burn>0)
+    x=x[ (burn*n) : n, , drop=FALSE]
+  if(any(is.na(x)))
+    x=x[ apply(!is.na(x),1,all), ]
+  unq=unique(as.vector(x))
+  ## print(unq)
+  m=matrix(0,ncol(x),ncol(x))
+  for(k in unq) {
+    xk=matrix(as.numeric(x==k),nrow(x),ncol(x))
+    ## m=m + t(xk) %*% xk
+    m=m + crossprod(xk)
+  }
+  psm=m/nrow(x)
+  psm
+}
+
+calc_psm <- addMemoization(raw_calc_psm)
+
+make_bold_names <- function(mat, rc_fun, rc_names) {
+  bold_names <- rc_fun(mat)
+  ids <- rc_names %>% match(rc_fun(mat))
+  ids %>%
+    purrr::walk(
+      function(i)
+        bold_names[i] <<-
+        bquote(bold(.(rc_fun(mat)[i]))) %>%
+        as.expression()
+    )
+  bold_names
+}
 
 
+# Process. This is just adapted from the PSM 
+
+exp="Myo_7PC"
+burnin = 250000
+input_dir="../data/DPMUnc_results/"
+
+    datasets = dir(input_dir)[grepl(exp, dir(input_dir))] # Little adaptation to original function. From experiment name we retrieve all directories for different seeds.
+    datasets = paste0(input_dir, datasets)
+
+    obsData = read.table(paste0("../data/", exp, "_Delta.tsv"),
+                         header=1, row.names=1, quote="", sep="\t")
+    obsVars = read.table(paste0("../data/", exp, "_Var.tsv"),
+                         header=1, row.names=1, quote="", sep="\t")
+
+    # bht = fread("../data/bhattacharyya_clustering.tsv") # already loaded
+    
+    
+    # Some names are too long for display -- and won't match bhattacharyya, which are truncated already
+    rownames(obsData) = stringr::str_trunc(rownames(obsData), 50, ellipsis = " [...]")
 
 
+    message("Preparing PSMs.")
+    result = calc_psms(datasets, burnin)
+    bigpsm = result$bigpsm
+    psms = result$psms
+
+    print(isSymmetric(bigpsm))
+    print(max(bigpsm))
+    print(min(bigpsm))
+    print(diag(bigpsm))
+    rownames(bigpsm) = rownames(obsData)
+    colnames(bigpsm) = rownames(obsData)
+
+    # Call clusters
+    calls = minbinder(as.dist(1 - bigpsm), method = "comp") ## calls
+    hclust.comp <- hclust(as.dist(1 - bigpsm), method = "complete")
+    
+    # Prepare annotations
+    ann <- data.table(Label = names(calls$cl), DPMUnc = calls$cl)
+    ann <- merge(ann, bht, by = "Label")
+    
+    ann <- data.frame(ann[, 2:3], row.names = ann$Label)
+    dpcol <- palette1[1:max(ann$DPMUnc)]
+    names(dpcol)  <- as.character(1:max(ann$DPMUnc))
+    bhcol <- palette[1:max(ann$Bhattacharyya)]
+    names(bhcol)  <- as.character(1:max(ann$Bhattacharyya))
+
+    annotations <- list(ann = ann, colors = list(DPMUnc = dpcol, Bhattacharyya = bhcol))
+    
+    message("Creating PSM heatmap.")
+    psm_heatmap = pheatmap(bigpsm,
+                           show_rownames = TRUE,
+                           show_colnames = FALSE,
+                           cluster_rows = hclust.comp,
+                           cluster_cols = hclust.comp,
+                           annotation_names_row = FALSE,
+                           annotation_legend = FALSE,
+                           treeheight_col=0,
+                           fontsize_row=8,
+                           annotation_row = annotations$ann,
+                           annotation_col = annotations$ann,
+                           color=colorRampPalette((RColorBrewer::brewer.pal(n = 7,
+                                                    name = "Blues")))(100),
+                           annotation_colors = annotations$colors,
+                           labels_row = make_bold_names(bigpsm, rownames, myob))
+
+# Save
+# ggsave("../figures/Myositis_7PCs_DPBH_heatmap.svg", psm_heatmap, width = 9, height = 9.5, bg="white")
+# ggsave("../figures/Myositis_7PCs_DPBH_heatmap.png", psm_heatmap, width = 9, height = 9.5, bg="white")
+# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_7PCs_DPBH_heatmap.svg") # Trick to make the svg file text be more easily editable
+
+
+sessionInfo()
+# R version 4.3.1 (2023-06-16)
+# Platform: x86_64-redhat-linux-gnu (64-bit)
+# Running under: Rocky Linux 8.8 (Green Obsidian)
+
+# Matrix products: default
+# BLAS/LAPACK: /usr/lib64/libopenblaso-r0.3.15.so;  LAPACK version 3.9.0
+
+# locale:
+#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+#  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+
+# time zone: GB
+# tzcode source: system (glibc)
+
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+
+# other attached packages:
+#  [1] magrittr_2.0.3    clue_0.3-64       mcclust_1.0.1     lpSolve_5.6.18   
+#  [5] R.cache_0.16.0    ggalluvial_0.12.5 reshape2_1.4.4    ggplot2_3.4.3    
+#  [9] pheatmap_1.0.12   stringr_1.5.0     data.table_1.14.8
+
+# loaded via a namespace (and not attached):
+#  [1] gtable_0.3.4       dplyr_1.1.3        compiler_4.3.1     tidyselect_1.2.0  
+#  [5] Rcpp_1.0.11        cluster_2.1.4      tidyr_1.3.0        systemfonts_1.0.4 
+#  [9] scales_1.2.1       R6_2.5.1           plyr_1.8.8         labeling_0.4.3    
+# [13] generics_0.1.3     tibble_3.2.1       munsell_0.5.0      svglite_2.1.1     
+# [17] pillar_1.9.0       RColorBrewer_1.1-3 R.utils_2.12.2     rlang_1.1.1       
+# [21] utf8_1.2.3         stringi_1.7.12     cli_3.6.1          withr_2.5.0       
+# [25] digest_0.6.33      grid_4.3.1         lifecycle_1.0.3    R.oo_1.25.0       
+# [29] R.methodsS3_1.8.2  vctrs_0.6.3        glue_1.6.2         farver_2.1.1      
+# [33] fansi_1.0.4        colorspace_2.1-0   purrr_1.0.2        tools_4.3.1       
+# [37] pkgconfig_2.0.3   

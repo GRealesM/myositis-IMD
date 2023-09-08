@@ -38,8 +38,6 @@ library(cupcake)
 ps <- fread("../data/ps2.tsv")
 qs <- fread("../data/qs2.tsv")
 
-# Key features
-pcs <- paste0("PC", c(1,2,3,8,9,12,13))
 
 # Since files are in hg38 and the basis is in hg19, we use a dirty fix to liftover back to hg19 (easier to do at this stage than in the previous one, due to the huge size of files).
 build_dict <- fread(paste0(bpath, "Manifest_build_translator.tsv"))
@@ -48,69 +46,84 @@ build_dict <- build_dict[,c("pid38", "pid")]
 
 fs <- paste0(qs$Trait, "-ft.tsv")
 
-covar.m <- lapply(fs, function(x){
-
-        fss <- fread(paste0(bpath, "reduced_datasets/", x))
-        # Some checks
-        fss <- unique(fss)
-        fss[fss == ""] <- NA # Some missing data might pass as empty string. This will fix that	
-        fss <- na.omit(fss, cols = c("pid38", "BETA", "SE", "P"))
-        dups <- fss$pid38[duplicated(fss$pid38)]
-
-        if(length(dups) > 0){
-            dupmessage= "This file has duplicated pids. I removed them prior to projection. You might want to check it."
-            message(dupmessage)
-            fss <- fss[!pid38 %in% dups] # Remove all duplicated instances, to be safe
-        }
-        fss <- merge(fss, build_dict)
-
-        pids <- fss$pid
-        seb <- fss$SE
-
-        v <- seb * shrinkage[pids] * rot.pca[pids,]
-        var.proj  <- t(v) %*% LD[pids,pids] %*% v
-
-        var.proj <- var.proj[pcs, pcs]
-        var.proj
-})
+compute_bhatta <- function(pcs){
 
 
-bh.list <- lapply(seq_along(qs$Label), function(i){
+        covar.m <- lapply(fs, function(x){
 
-                dd <- data.table(T1 = qs$Label[i], T2 = qs$Label) # Create a data.table to store combinations
+                fss <- fread(paste0(bpath, "reduced_datasets/", x))
+                # Some checks
+                fss <- unique(fss)
+                fss[fss == ""] <- NA # Some missing data might pass as empty string. This will fix that	
+                fss <- na.omit(fss, cols = c("pid38", "BETA", "SE", "P"))
+                dups <- fss$pid38[duplicated(fss$pid38)]
 
-                # Data for focus trait (ie. T1)
-                rr1  <- ps[ Label == qs$Label[i] & PC %in% pcs, Delta]
-                names(rr1) <- ps[ Label == qs$Label[i] & PC %in% pcs, PC]
+                if(length(dups) > 0){
+                    dupmessage= "This file has duplicated pids. I removed them prior to projection. You might want to check it."
+                    message(dupmessage)
+                    fss <- fss[!pid38 %in% dups] # Remove all duplicated instances, to be safe
+                }
+                fss <- merge(fss, build_dict)
 
-                cv1 <- as.matrix(covar.m[[i]])
-                stopifnot(row.names(cv1) == names(rr1))
+                pids <- fss$pid
+                seb <- fss$SE
 
-                # Then, take each trait in turn, extract necessary data, and compute the Bhattacharyya distance
-                bhd <- sapply(seq_along(qs$Label), function(x){
-                        rr2 <- ps[ Label == qs$Label[x] & PC %in% pcs, Delta]
-                        names(rr2) <- ps[ Label == qs$Label[x] & PC %in% pcs, PC] 
-                        cv2 <- as.matrix(covar.m[[x]])
-                        stopifnot(row.names(cv1) == names(rr2))
-                        bd <- bhattacharyya.dist(mu1 = rr1, mu2 = rr2, Sigma1 = cv1, Sigma2 = cv2 )
-                        bd
-                    } )
+                v <- seb * shrinkage[pids] * rot.pca[pids,]
+                var.proj  <- t(v) %*% LD[pids,pids] %*% v
 
-                dd[, bhat.dist:=bhd]
-                dd
-})  %>% rbindlist
+                var.proj <- var.proj[pcs, pcs]
+                var.proj
+        })
 
 
-bh.list
-fwrite(bh.list, "../data/bh_dist.tsv", sep="\t")
+        bh.list <- lapply(seq_along(qs$Label), function(i){
+
+                        dd <- data.table(T1 = qs$Label[i], T2 = qs$Label) # Create a data.table to store combinations
+
+                        # Data for focus trait (ie. T1)
+                        rr1  <- ps[ Label == qs$Label[i] & PC %in% pcs, Delta]
+                        names(rr1) <- ps[ Label == qs$Label[i] & PC %in% pcs, PC]
+
+                        cv1 <- as.matrix(covar.m[[i]])
+                        stopifnot(row.names(cv1) == names(rr1))
+
+                        # Then, take each trait in turn, extract necessary data, and compute the Bhattacharyya distance
+                        bhd <- sapply(seq_along(qs$Label), function(x){
+                                rr2 <- ps[ Label == qs$Label[x] & PC %in% pcs, Delta]
+                                names(rr2) <- ps[ Label == qs$Label[x] & PC %in% pcs, PC] 
+                                cv2 <- as.matrix(covar.m[[x]])
+                                stopifnot(row.names(cv1) == names(rr2))
+                                bd <- bhattacharyya.dist(mu1 = rr1, mu2 = rr2, Sigma1 = cv1, Sigma2 = cv2 )
+                                bd
+                            } )
+
+                        dd[, bhat.dist:=bhd]
+                        dd
+        })  %>% rbindlist
+
+        bh.list
+
+}
+
+
+# Apply function to both sets
+# Main (7 PCs)
+bh7 <- compute_bhatta(pcs = paste0("PC", c(1,2,3,8,9,12,13)))
+
+# Alternative (13 PCs)
+bh13 <- compute_bhatta(pcs = paste0("PC", c(1:13)))
+
+# Save
+fwrite(bh7, "../data/bh_dist.tsv", sep="\t")
+fwrite(bh13, "../data/bh13_dist.tsv", sep="\t")
 
 sessionInfo()
-# R version 4.1.3 (2022-03-10)
-# Platform: x86_64-pc-linux-gnu (64-bit)
+# R version 4.3.1 (2023-06-16)
+# Platform: x86_64-redhat-linux-gnu (64-bit)
 # Running under: Rocky Linux 8.8 (Green Obsidian)
 
 # Matrix products: default
-# BLAS/LAPACK: /usr/local/software/spack/spack-rhel8-20210927/opt/spack/linux-centos8-icelake/gcc-11.2.0/intel-oneapi-mkl-2021.4.0-s2cksi33smowj5zlqvmew37cufvztdkc/mkl/2021.4.0/lib/intel64/libmkl_gf_lp64.so.1
+# BLAS/LAPACK: /usr/lib64/libopenblaso-r0.3.15.so;  LAPACK version 3.9.0
 
 # locale:
 #  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
@@ -120,6 +133,9 @@ sessionInfo()
 #  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
 # [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
 
+# time zone: GB
+# tzcode source: system (glibc)
+
 # attached base packages:
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 
@@ -127,12 +143,12 @@ sessionInfo()
 # [1] cupcake_0.1.0.0   fpc_2.2-10        magrittr_2.0.3    data.table_1.14.8
 
 # loaded via a namespace (and not attached):
-#  [1] flexmix_2.3-19      cluster_2.1.4       BiocGenerics_0.36.1
-#  [4] splines_4.1.3       zlibbioc_1.36.0     MASS_7.3-58.3      
-#  [7] mclust_6.0.0        lattice_0.20-45     rlang_1.0.6        
-# [10] prabclus_2.3-2      nnet_7.3-18         parallel_4.1.3     
-# [13] grid_4.1.3          cli_3.6.0           modeltools_0.2-23  
-# [16] snpStats_1.40.0     class_7.3-21        survival_3.5-3     
-# [19] Matrix_1.5-3        kernlab_0.9-32      robustbase_0.95-0  
-# [22] compiler_4.1.3      DEoptimR_1.0-11     diptest_0.76-0     
-# [25] stats4_4.1.3        jsonlite_1.8.4 
+#  [1] zlibbioc_1.46.0     Matrix_1.5-4.1      DEoptimR_1.1-2     
+#  [4] lattice_0.21-8      flexmix_2.3-19      diptest_0.76-0     
+#  [7] nnet_7.3-19         splines_4.3.1       remotes_2.4.2.1    
+# [10] mclust_6.0.0        modeltools_0.2-23   parallel_4.3.1     
+# [13] BiocGenerics_0.46.0 stats4_4.3.1        grid_4.3.1         
+# [16] robustbase_0.99-0   class_7.3-22        compiler_4.3.1     
+# [19] kernlab_0.9-32      prabclus_2.3-2      tools_4.3.1        
+# [22] cluster_2.1.4       snpStats_1.50.0     survival_3.5-5     
+# [25] BiocManager_1.30.22 MASS_7.3-60     
