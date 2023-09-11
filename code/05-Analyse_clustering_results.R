@@ -334,6 +334,15 @@ stcd <- rbind(stcd1, stcd2)
     
 #################################################
 
+# Save DPMUnc/Bhatta results as well
+
+dpbh.res <- merge( qs[,.(Trait, Label, First_Author, Reference, N0, N1, N)], rescl, by.y = "rn", by.x = "Label")
+
+# Save
+# fwrite(dpbh.res, "../tables/ST_DPMUnc_BH_res.tsv", sep="\t")
+
+
+
 sessionInfo()
 # R version 4.3.1 (2023-06-16)
 # Platform: x86_64-redhat-linux-gnu (64-bit)

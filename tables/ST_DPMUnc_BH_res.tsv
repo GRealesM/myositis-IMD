@@ -1,0 +1,63 @@
+Label	Trait	First_Author	Reference	N0	N1	N	Bhattacharyya	DPMUnc
+ANCA negative EGPA	EGPAANCAn_Lyons_31719529_1	Lyons	31719529	6688	352	7040	2	5
+Adult-onset Asthma	ASTAO_Ferreira_30929738_1	Ferreira	30929738	300671	26582	327253	1	3
+Ankylosing spondylitis	M13_ANKYLOSPON_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	227388	2252	229640	3	1
+Arthropathic psoriasis	L12_PSORI_ARTHRO_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	299128	2571	301699	3	1
+Asthma	ph495_PanUKBB_PanUKBBR2_1	PanUKBB	PanUKBBR2	398413	33000	431413	1	3
+Atopic Dermatitis	ATD_Paternoster_26482879_1	Paternoster	26482879	95464	21399	116863	1	3
+Autoimmune Addison's disease	AAD_Eriksson_33574239_1	Eriksson	33574239	4097	1223	5320	4	4
+CR(E)ST syndrome	CREST_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	308875	279	309154	5	2
+Childhood-onset Asthma	ASTCO_Ferreira_30929738_1	Ferreira	30929738	300671	13962	314633	2	3
+Coeliac disease	K11_COELIAC_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	296917	2953	299870	3	1
+Crohn disease	K11_CROHN_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	296008	3147	299155	6	7
+Dermatomyositis (Miller)	DMY_Miller_26291516_1	Miller	26291516	4724	705	5429	5	2
+Dermatomyositis (Rothwell)	DMY_Rothwell_up_1	Rothwell	36580032	3268	817	4085	5	2
+Early-onset Myastenia Gravis	MYGEO_Renton_25643325_1	Renton	25643325	1977	235	2212	5	2
+Emphysema/Chronic Bronchitis	20002_1113_PanUKBB_PanUKBBR2_1	PanUKBB	PanUKBBR2	423411	5911	429322	3	1
+Eosinophilic Esophagitis	EOE_Chang_34506852_1	Chang	34506852	13634	1930	15564	1	3
+Eosinophilic Granulomatosis with Polyangiitis	EGPA_Lyons_31719529_1	Lyons	31719529	6688	534	7222	2	5
+Erythema nodosum	L12_ERYTHEMANODOSUM_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	299491	645	300136	3	1
+Felty syndrome	FELTY_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	301860	123	301983	5	2
+Glomerulonephritis	N14_GLOMER_NEPHRITIS_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	307853	1301	309154	3	1
+Gout	GOUT_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	284844	6031	290875	3	1
+Hayfever/Allergic Rhinitis	20002_1387_PanUKBB_PanUKBBR2_1	PanUKBB	PanUKBBR2	416137	25091	441228	1	3
+Hyperthyroidism/Thyrotoxicosis	20002_1225_PanUKBB_PanUKBBR2_1	PanUKBB	PanUKBBR2	432615	3331	435946	7	2
+Hypothyroidism, strict autoimmune	E4_HYTHY_AI_STRICT_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	227415	33422	260837	7	2
+IIM (Miller)	MYO_Miller_26291516_1	Miller	26291516	4724	1711	6435	5	2
+IIM (Rothwell)	IIM_Rothwell_up_1	Rothwell	36580032	10260	2565	12825	5	2
+Idiopathic thrombocytopenic purpura	D3_ITP_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	304806	605	305411	3	1
+IgA deficiency	IGAD_Bronson_27723758_1	Bronson	27723758	4852	1635	6487	4	4
+IgG+ Neuromyelitis Optica	NMOIGGp_Estrada_29769526_1	Estrada	29769526	1244	132	1376	5	2
+Inflammation of eyelids	ph371.3_PanUKBB_PanUKBBR2_1	PanUKBB	PanUKBBR2	417645	2854	420499	3	1
+Inflammatory bowel disease	K11_IBD_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	300450	8704	309154	6	7
+Jo1+ Myositis (Rothwell)	JO1M_Rothwell_up_1	Rothwell	36580032	1244	310	1554	5	2
+Juvenile Dermatomyositis (Miller)	JDM_Miller_26291516_1	Miller	26291516	4724	473	5197	5	2
+Juvenile Dermatomyositis (Rothwell)	JDM_Rothwell_up_1	Rothwell	36580032	2032	508	2540	5	2
+Juvenile Idiopathic Arthritis	JIA_LopezIsac_33106285_1	LopezIsac	33106285	9196	3305	12501	5	2
+Late-onset Myastenia Gravis	MYGLO_Renton_25643325_1	Renton	25643325	1977	737	2714	7	2
+Lichen planus	L12_LICHENPLANUS_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	299128	2766	301894	3	1
+Lichen sclerosus et atrophicus	L12_LICHENSCLERATROPH_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	291889	1577	293466	3	1
+Localized scleroderma [morphea]	L12_LOCALSCLERODERMA_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	291889	265	292154	7	1
+MPO+ AAV	AAVMPO_Wong_up_1	Wong	doi:10.17863/CAM.51022	6717	609	7326	5	2
+MPO+ EGPA	EGPAMPO_Lyons_31719529_1	Lyons	31719529	6688	159	6847	2	5
+Multiple Sclerosis	G6_MS_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	306615	1676	308291	8	6
+Myastenia Gravis	MYG_Chia_35074870_1	Chia	35074870	36370	1873	38243	7	2
+Nasal polyp	J10_NASALPOLYP_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	234924	4865	239789	2	3
+PR3+ AAV	AAVPR3_Wong_up_1	Wong	doi:10.17863/CAM.51022	6717	1142	7859	3	1
+Palindromic rheumatism	M13_PALINDROMIC_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	202617	225	202842	7	2
+Polymyalgia rheumatica	M13_POLYMYALGIA_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	300162	2535	302697	3	1
+Polymyositis (Miller)	PM_Miller_26291516_1	Miller	26291516	4724	533	5257	5	2
+Polymyositis (Rothwell)	PM_Rothwell_up_1	Rothwell	36580032	3612	903	4515	5	2
+Primary biliary cholangitis	CHIRBIL_PRIM_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	232612	433	233045	5	2
+Primary sclerosing cholangitis	K11_CHOLANGI_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	273442	1231	274673	3	1
+Psoriasis	L12_PSORIASIS_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	299128	6995	306123	3	1
+Rheumatoid arthritis	M13_RHEUMA_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	202617	9855	212472	9	2
+Rosacea	L12_ROSACEA_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	297544	1877	299421	3	1
+Sarcoidosis	D3_SARCOIDOSIS_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	304494	3103	307597	3	1
+Sjögren's syndrome	SJOS_Lessard_up_1	Khatri	35896530	17481	3232	20713	5	2
+Systemic Sclerosis	SSC_LopezIsac_31672989_1	LopezIsac	31672989	18333	9846	28179	5	2
+Systemic lupus erythematosus	M13_SLE_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	300162	835	300997	5	2
+Type 1 diabetes	E4_DM1_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	255466	8671	264137	4	4
+Ulcerative colitis	K11_ULCER_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	296008	6607	302615	6	7
+Vitiligo	L12_VITILIGO_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	291889	191	292080	4	4
+Wegener granulomatosis	M13_WEGENER_FinnGen_FinnGenR7_1	FinnGen	FinnGenR7	300162	350	300512	7	2
