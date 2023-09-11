@@ -87,7 +87,7 @@ bhatta.sel
 bht <- data.table(Label = names(tbhc), Bhattacharyya = tbhc)
 
 # Save bhattacharyya clustering
-fwrite(bht, "../data/bhattacharyya_clustering.tsv", sep="\t")
+# fwrite(bht, "../data/bhattacharyya_clustering.tsv", sep="\t")
 
 # Load DPMUnc clustering results
 
@@ -250,71 +250,89 @@ exp="Myo_7PC"
 burnin = 250000
 input_dir="../data/DPMUnc_results/"
 
-    datasets = dir(input_dir)[grepl(exp, dir(input_dir))] # Little adaptation to original function. From experiment name we retrieve all directories for different seeds.
-    datasets = paste0(input_dir, datasets)
+datasets = dir(input_dir)[grepl(exp, dir(input_dir))] # Little adaptation to original function. From experiment name we retrieve all directories for different seeds.
+datasets = paste0(input_dir, datasets)
 
-    obsData = read.table(paste0("../data/", exp, "_Delta.tsv"),
-                         header=1, row.names=1, quote="", sep="\t")
-    obsVars = read.table(paste0("../data/", exp, "_Var.tsv"),
-                         header=1, row.names=1, quote="", sep="\t")
+obsData = read.table(paste0("../data/", exp, "_Delta.tsv"),
+                     header=1, row.names=1, quote="", sep="\t")
+obsVars = read.table(paste0("../data/", exp, "_Var.tsv"),
+                     header=1, row.names=1, quote="", sep="\t")
 
-    # bht = fread("../data/bhattacharyya_clustering.tsv") # already loaded
-    
-    
-    # Some names are too long for display -- and won't match bhattacharyya, which are truncated already
-    rownames(obsData) = stringr::str_trunc(rownames(obsData), 50, ellipsis = " [...]")
+# bht = fread("../data/bhattacharyya_clustering.tsv") # already loaded
 
 
-    message("Preparing PSMs.")
-    result = calc_psms(datasets, burnin)
-    bigpsm = result$bigpsm
-    psms = result$psms
+# Some names are too long for display -- and won't match bhattacharyya, which are truncated already
+rownames(obsData) = stringr::str_trunc(rownames(obsData), 50, ellipsis = " [...]")
 
-    print(isSymmetric(bigpsm))
-    print(max(bigpsm))
-    print(min(bigpsm))
-    print(diag(bigpsm))
-    rownames(bigpsm) = rownames(obsData)
-    colnames(bigpsm) = rownames(obsData)
 
-    # Call clusters
-    calls = minbinder(as.dist(1 - bigpsm), method = "comp") ## calls
-    hclust.comp <- hclust(as.dist(1 - bigpsm), method = "complete")
-    
-    # Prepare annotations
-    ann <- data.table(Label = names(calls$cl), DPMUnc = calls$cl)
-    ann <- merge(ann, bht, by = "Label")
-    
-    ann <- data.frame(ann[, 2:3], row.names = ann$Label)
-    dpcol <- palette1[1:max(ann$DPMUnc)]
-    names(dpcol)  <- as.character(1:max(ann$DPMUnc))
-    bhcol <- palette[1:max(ann$Bhattacharyya)]
-    names(bhcol)  <- as.character(1:max(ann$Bhattacharyya))
+message("Preparing PSMs.")
+result = calc_psms(datasets, burnin)
+bigpsm = result$bigpsm
+psms = result$psms
 
-    annotations <- list(ann = ann, colors = list(DPMUnc = dpcol, Bhattacharyya = bhcol))
-    
-    message("Creating PSM heatmap.")
-    psm_heatmap = pheatmap(bigpsm,
-                           show_rownames = TRUE,
-                           show_colnames = FALSE,
-                           cluster_rows = hclust.comp,
-                           cluster_cols = hclust.comp,
-                           annotation_names_row = FALSE,
-                           annotation_legend = FALSE,
-                           treeheight_col=0,
-                           fontsize_row=8,
-                           annotation_row = annotations$ann,
-                           annotation_col = annotations$ann,
-                           color=colorRampPalette((RColorBrewer::brewer.pal(n = 7,
-                                                    name = "Blues")))(100),
-                           annotation_colors = annotations$colors,
-                           labels_row = make_bold_names(bigpsm, rownames, myob))
+print(isSymmetric(bigpsm))
+print(max(bigpsm))
+print(min(bigpsm))
+print(diag(bigpsm))
+rownames(bigpsm) = rownames(obsData)
+colnames(bigpsm) = rownames(obsData)
+
+# Call clusters
+calls = minbinder(as.dist(1 - bigpsm), method = "comp") ## calls
+hclust.comp <- hclust(as.dist(1 - bigpsm), method = "complete")
+
+# Prepare annotations
+ann <- data.table(Label = names(calls$cl), DPMUnc = calls$cl)
+ann <- merge(ann, bht, by = "Label")
+
+ann <- data.frame(ann[, 2:3], row.names = ann$Label)
+dpcol <- palette1[1:max(ann$DPMUnc)]
+names(dpcol)  <- as.character(1:max(ann$DPMUnc))
+bhcol <- palette[1:max(ann$Bhattacharyya)]
+names(bhcol)  <- as.character(1:max(ann$Bhattacharyya))
+
+annotations <- list(ann = ann, colors = list(DPMUnc = dpcol, Bhattacharyya = bhcol))
+
+message("Creating PSM heatmap.")
+psm_heatmap = pheatmap(bigpsm,
+                       show_rownames = TRUE,
+                       show_colnames = FALSE,
+                       cluster_rows = hclust.comp,
+                       cluster_cols = hclust.comp,
+                       annotation_names_row = FALSE,
+                       annotation_legend = FALSE,
+                       treeheight_col=0,
+                       fontsize_row=8,
+                       annotation_row = annotations$ann,
+                       annotation_col = annotations$ann,
+                       color=colorRampPalette((RColorBrewer::brewer.pal(n = 7,
+                                                name = "Blues")))(100),
+                       annotation_colors = annotations$colors,
+                       labels_row = make_bold_names(bigpsm, rownames, myob))
 
 # Save
 # ggsave("../figures/Myositis_7PCs_DPBH_heatmap.svg", psm_heatmap, width = 9, height = 9.5, bg="white")
 # ggsave("../figures/Myositis_7PCs_DPBH_heatmap.png", psm_heatmap, width = 9, height = 9.5, bg="white")
 # system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_7PCs_DPBH_heatmap.svg") # Trick to make the svg file text be more easily editable
 
+
+#################################################
+
+### Create a Supplementary table including the diseases included in coloc
+
+qs <- fread("../data/qs2.tsv")
+
+selres <- rescl[DPMUnc == 2 & Bhattacharyya %in% c(5,7,9)] # 26 diseases -- 9 myositis + 17 IMD
+stcd1 <- qs[Label %in% selres$rn & grepl("Miller|Rothwell", First_Author), .(Trait, Label, First_Author, Reference, N0, N1, N)][order(Label)]
+stcd1[, coloc_Label:=c("DM (M)", "DM (R)", "IIM (M)", "IIM (R)", "Anti-Jo1+ (R)", "JDM (M)", "JDM (R)", "PM (M)", "PM (R)")]
+stcd2 <- qs[Label %in% selres$rn & !grepl("Miller|Rothwell", First_Author), .(Trait, Label, First_Author, Reference, N0, N1, N)][order(Label)]
+stcd2[, coloc_Label:=c("CR(E)ST", "Early-MG", "Felty", "HyperThy", "HypoThy", "IgG+ NMO", "JIA", "Late-MG", "MPO+ AAV", "MG", "PR", "PBC", "RA", "SjS", "SSc", "SLE", "GPA")]
+stcd <- rbind(stcd1, stcd2)
+
+# Save
+#fwrite(stcd, "../tables/ST_coloc_diseases.tsv", sep = "\t")
+    
+#################################################
 
 sessionInfo()
 # R version 4.3.1 (2023-06-16)
