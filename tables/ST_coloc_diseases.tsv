@@ -1,30 +1,27 @@
-Label	First_Author	Reference	Bhattacharyya	DPMUnc	coloc	fig.label
-Autoimmune Thyroid disease	Saevarsdottir	32581359	No	Yes	No	
-Autoimmune thyroiditis	FinnGen	FinnGenR7	No	Yes	No	
-Biological medication for rheuma	FinnGen	FinnGenR7	No	Yes	Yes	BioMedRhe
-CR(E)ST syndrome	FinnGen	FinnGenR7	Yes	Yes	Yes	CR(E)ST
-Dermatomyositis (Miller)	Miller	26291516	Yes	Yes	Yes	
-Dermatomyositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
-Early-onset Myastenia Gravis	Renton	25643325	Yes	Yes	No	
-Felty syndrome	FinnGen	FinnGenR7	Yes	Yes	Yes	Felty
-Hyperthyroidism/Thyrotoxicosis	PanUKBB	PanUKBBR2	No	Yes	Yes	HyperThy
-Hypothyroidism (congenital or acquired)	FinnGen	FinnGenR7	No	Yes	Yes	HypoThy
-IIM (Miller)	Miller	26291516	Yes	Yes	Yes	
-IIM (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
-Idiopathic thrombocytopenic purpura	FinnGen	FinnGenR7	No	Yes	Yes	ITP
-IgG+ Neuromyelitis Optica	Estrada	29769526	Yes	Yes	Yes	IgG+ NMO
-Jo1+ Myositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
-Juvenile Dermatomyositis (Miller)	Miller	26291516	Yes	Yes	Yes	
-Juvenile Dermatomyositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
-Juvenile Idiopathic Arthritis	LopezIsac	33106285	Yes	Yes	Yes	JIA
-Late-onset Myastenia Gravis	Renton	25643325	No	Yes	No	
-MPO+ AAV	Wong	doi:10.17863/CAM.51022	Yes	Yes	Yes	MPO+ AAV
-Myastenia Gravis	Chia	35074870	No	Yes	Yes	MG
-PR3+ AAV	Wong	doi:10.17863/CAM.51022	No	Yes	Yes	PR3+ AAV
-Palindromic rheumatism	FinnGen	FinnGenR7	No	Yes	Yes	PR
-Polymyositis (Miller)	Miller	26291516	Yes	Yes	Yes	
-Polymyositis (Rothwell)	Rothwell	36580032	Yes	Yes	Yes	
-Primary biliary cholangitis	FinnGen	FinnGenR7	Yes	Yes	Yes	PBC
-Sjögren's syndrome	Khatri	35896530	Yes	Yes	Yes	SjS
-Systemic Sclerosis	LopezIsac	31672989	Yes	Yes	Yes	SSc
-Wegener granulomatosis	FinnGen	FinnGenR7	No	Yes	Yes	GPA
+Trait	Label	First_Author	Reference	N0	N1	N	coloc_Label
+DMY_Miller_26291516_1	Dermatomyositis (Miller)	Miller	26291516	4724	705	5429	DM (M)
+DMY_Rothwell_up_1	Dermatomyositis (Rothwell)	Rothwell	36580032	3268	817	4085	DM (R)
+MYO_Miller_26291516_1	IIM (Miller)	Miller	26291516	4724	1711	6435	IIM (M)
+IIM_Rothwell_up_1	IIM (Rothwell)	Rothwell	36580032	10260	2565	12825	IIM (R)
+JO1M_Rothwell_up_1	Jo1+ Myositis (Rothwell)	Rothwell	36580032	1244	310	1554	Anti-Jo1+ (R)
+JDM_Miller_26291516_1	Juvenile Dermatomyositis (Miller)	Miller	26291516	4724	473	5197	JDM (M)
+JDM_Rothwell_up_1	Juvenile Dermatomyositis (Rothwell)	Rothwell	36580032	2032	508	2540	JDM (R)
+PM_Miller_26291516_1	Polymyositis (Miller)	Miller	26291516	4724	533	5257	PM (M)
+PM_Rothwell_up_1	Polymyositis (Rothwell)	Rothwell	36580032	3612	903	4515	PM (R)
+CREST_FinnGen_FinnGenR7_1	CR(E)ST syndrome	FinnGen	FinnGenR7	308875	279	309154	CR(E)ST
+MYGEO_Renton_25643325_1	Early-onset Myastenia Gravis	Renton	25643325	1977	235	2212	Early-MG
+FELTY_FinnGen_FinnGenR7_1	Felty syndrome	FinnGen	FinnGenR7	301860	123	301983	Felty
+20002_1225_PanUKBB_PanUKBBR2_1	Hyperthyroidism/Thyrotoxicosis	PanUKBB	PanUKBBR2	432615	3331	435946	HyperThy
+E4_HYTHY_AI_STRICT_FinnGen_FinnGenR7_1	Hypothyroidism, strict autoimmune	FinnGen	FinnGenR7	227415	33422	260837	HypoThy
+NMOIGGp_Estrada_29769526_1	IgG+ Neuromyelitis Optica	Estrada	29769526	1244	132	1376	IgG+ NMO
+JIA_LopezIsac_33106285_1	Juvenile Idiopathic Arthritis	LopezIsac	33106285	9196	3305	12501	JIA
+MYGLO_Renton_25643325_1	Late-onset Myastenia Gravis	Renton	25643325	1977	737	2714	Late-MG
+AAVMPO_Wong_up_1	MPO+ AAV	Wong	doi:10.17863/CAM.51022	6717	609	7326	MPO+ AAV
+MYG_Chia_35074870_1	Myastenia Gravis	Chia	35074870	36370	1873	38243	MG
+M13_PALINDROMIC_FinnGen_FinnGenR7_1	Palindromic rheumatism	FinnGen	FinnGenR7	202617	225	202842	PR
+CHIRBIL_PRIM_FinnGen_FinnGenR7_1	Primary biliary cholangitis	FinnGen	FinnGenR7	232612	433	233045	PBC
+M13_RHEUMA_FinnGen_FinnGenR7_1	Rheumatoid arthritis	FinnGen	FinnGenR7	202617	9855	212472	RA
+SJOS_Lessard_up_1	Sjögren's syndrome	Khatri	35896530	17481	3232	20713	SjS
+SSC_LopezIsac_31672989_1	Systemic Sclerosis	LopezIsac	31672989	18333	9846	28179	SSc
+M13_SLE_FinnGen_FinnGenR7_1	Systemic lupus erythematosus	FinnGen	FinnGenR7	300162	835	300997	SLE
+M13_WEGENER_FinnGen_FinnGenR7_1	Wegener granulomatosis	FinnGen	FinnGenR7	300162	350	300512	GPA
