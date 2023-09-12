@@ -421,3 +421,45 @@ ggsave("../figures/coloc_chr12_2.png", plots$`12:112468611`, height = 6, width =
 
 ##########################################
 
+sessionInfo()
+# R version 4.3.1 (2023-06-16)
+# Platform: x86_64-redhat-linux-gnu (64-bit)
+# Running under: Rocky Linux 8.8 (Green Obsidian)
+
+# Matrix products: default
+# BLAS/LAPACK: /usr/lib64/libopenblaso-r0.3.15.so;  LAPACK version 3.9.0
+
+# locale:
+#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+#  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+
+# time zone: GB
+# tzcode source: system (glibc)
+
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+
+# other attached packages:
+# [1] cowplot_1.1.1      ggplot2_3.4.3      annotSnpStats_0.99 snpStats_1.50.0   
+# [5] Matrix_1.5-4.1     survival_3.5-5     coloc_5.2.2        magrittr_2.0.3    
+# [9] data.table_1.14.8 
+
+# loaded via a namespace (and not attached):
+#  [1] gtable_0.3.4        jsonlite_1.8.7      dplyr_1.1.3        
+#  [4] compiler_4.3.1      crayon_1.5.2        tidyselect_1.2.0   
+#  [7] Rcpp_1.0.11         gridExtra_2.3       tidyr_1.3.0        
+# [10] susieR_0.12.35      splines_4.3.1       scales_1.2.1       
+# [13] lattice_0.21-8      R6_2.5.1            plyr_1.8.8         
+# [16] labeling_0.4.3      generics_0.1.3      mixsqp_0.3-48      
+# [19] BiocGenerics_0.46.0 viridis_0.6.4       tibble_3.2.1       
+# [22] munsell_0.5.0       pillar_1.9.0        rlang_1.1.1        
+# [25] utf8_1.2.3          reshape_0.8.9       viridisLite_0.4.2  
+# [28] cli_3.6.1           withr_2.5.0         zlibbioc_1.46.0    
+# [31] grid_4.3.1          irlba_2.3.5.1       lifecycle_1.0.3    
+# [34] vctrs_0.6.3         glue_1.6.2          farver_2.1.1       
+# [37] fansi_1.0.4         colorspace_2.1-0    purrr_1.0.2        
+# [40] tools_4.3.1         matrixStats_1.0.0   pkgconfig_2.0.3 
