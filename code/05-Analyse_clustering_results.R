@@ -326,7 +326,7 @@ selres <- rescl[DPMUnc == 2 & Bhattacharyya %in% c(5,7,9)] # 26 diseases -- 9 my
 stcd1 <- qs[Label %in% selres$rn & grepl("Miller|Rothwell", First_Author), .(Trait, Label, First_Author, Reference, N0, N1, N)][order(Label)]
 stcd1[, coloc_Label:=c("DM (M)", "DM (R)", "IIM (M)", "IIM (R)", "Anti-Jo1+ (R)", "JDM (M)", "JDM (R)", "PM (M)", "PM (R)")]
 stcd2 <- qs[Label %in% selres$rn & !grepl("Miller|Rothwell", First_Author), .(Trait, Label, First_Author, Reference, N0, N1, N)][order(Label)]
-stcd2[, coloc_Label:=c("CR(E)ST", "Early-MG", "Felty", "HyperThy", "HypoThy", "IgG+ NMO", "JIA", "Late-MG", "MPO+ AAV", "MG", "PR", "PBC", "RA", "SjS", "SSc", "SLE", "GPA")]
+stcd2[, coloc_Label:=c("CR(E)ST", "EOMG", "Felty", "HyperThy", "HypoThy", "IgG+ NMO", "JIA", "LOMG", "MPO+ AAV", "MG", "PR", "PBC", "RA", "SjS", "SSc", "SLE", "GPA")]
 stcd <- rbind(stcd1, stcd2)
 
 # Save
