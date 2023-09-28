@@ -335,6 +335,8 @@ ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR
 
 pspm <- ps2[grepl("Miller|Rothwell", Label, ignore.case = TRUE)]
 
+pspm[, Label:=gsub("Miller", "M", Label)][, Label:=gsub("Rothwell", "R", Label)][, Label:=gsub("Juvenile Dermatomyositis", "JDM", Label)][, Label:=gsub("Dermatomyositis", "DM", Label)][, Label:=gsub("Polymyositis", "PM", Label)][, Label:=gsub("Inclusion body myositis", "IBM", Label, ignore.case = T)][, Label:=gsub("Jo1\\+ Myositis", "Anti-Jo1+", Label, ignore.case = T)]
+
 PCorder <- paste0("PC", 1:13)
 hmcol <- rev(colorRampPalette(c("#67001F", "#B2182B", "#D6604D", "#F4A582", "#FDDBC7", "#F7F7F7", "#D1E5F0", "#92C5DE", "#4393C3", "#2166AC", "#053061"))(100))
 Mmp <- acast(pspm[,c("PC", "Label", "Delta")], Label ~ PC) # PC, Trait, and Delta columns only
@@ -351,8 +353,8 @@ Mphm <- pheatmap(Mmp,  breaks = seq(-range, range, length.out = 100),
 Mphm
 
 # Save Figure 1
-# ggsave("../figures/Myositis_allsources_heatmap.png", Mphm, width = 6, height = 2.5, bg="white")
-# ggsave("../figures/Myositis_allsources_heatmap.svg", Mphm, width = 6, height = 2.5, bg="white")
+# ggsave("../figures/Myositis_allsources_heatmap.png", Mphm, width = 4.5, height = 2.5, bg="white")
+# ggsave("../figures/Myositis_allsources_heatmap.svg", Mphm, width = 4.5, height = 2.5, bg="white")
 # 
 # system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_allsources_heatmap.svg") # Trick to make the svg file text be more easily editable
 
