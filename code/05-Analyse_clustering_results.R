@@ -330,7 +330,7 @@ stcd2[, coloc_Label:=c("CR(E)ST", "Early-MG", "Felty", "HyperThy", "HypoThy", "I
 stcd <- rbind(stcd1, stcd2)
 
 # Save
-#fwrite(stcd, "../tables/ST_coloc_diseases.tsv", sep = "\t")
+# fwrite(stcd, "../tables/ST_coloc_diseases.tsv", sep = "\t")
     
 #################################################
 
