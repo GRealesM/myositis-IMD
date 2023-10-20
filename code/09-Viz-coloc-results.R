@@ -67,6 +67,11 @@ coloc[H4 > 0.5 & pbest.myos.region > 5e-8, bestsnp.novel:="Yes"][is.na(bestsnp.n
 keypids <- coloc[ H4 > 0.5, unique(pid)]
 
 sumc <- coloc[pid %in% keypids, .(dlabel, trait.myos,  trait.other, H4)]
+
+# Remove IMD without sig coloc results
+nocoloc <- setdiff(sumc[ H4 < 0.5, unique(trait.other)] , sumc[ H4 > 0.5, unique(trait.other)]) 
+sumc <- sumc[!trait.other %in% nocoloc]
+
 sumc <- sumc %>% tidyr::complete(dlabel, trait.myos, trait.other ) %>% as.data.table()
 sumc[, dlabel:=factor(dlabel, levels = rev(unique(dlabel)))]
 sumc[, trait.other:=factor(trait.other, levels = rev(unique(trait.other)))]
@@ -135,7 +140,7 @@ gp3 <-  ggplot(sumc[ grepl(pattern = "IIM|Jo1", trait.myos) ], aes(x =  trait.ot
               labs(fill = "PP")
 
 gp <- plot_grid(gp1, gp2, gp3, nrow = 3, rel_heights = c(0.75,0.75,1.4))
-ggsave("../figures/driverSNP_H4.png", gp, height =7 , width = 8, bg="white")
+ggsave("../figures/driverSNP_H4_rnocoloc.png", gp, height =7 , width = 7, bg="white")
 
 ###############################
 
