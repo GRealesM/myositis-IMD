@@ -275,12 +275,12 @@ ggsave("../figures/driverSNP_H3.png", gp.h3, height =7 , width = 8, bg="white")
 files = list(   `DM (M)` = "DMY_Miller_26291516_1-hg38.tsv.gz",
                 `DM (R)` = "DMY_Rothwell_up_1-hg38.tsv.gz",
                 `JDM (M)` = "JDM_Miller_26291516_1-hg38.tsv.gz",
-                `DM (R)` = "JDM_Rothwell_up_1-hg38.tsv.gz",
-                `Anti-Jo1+ (M)` = "JO1M_Rothwell_up_1-hg38.tsv.gz",
+                `JDM (R)` = "JDM_Rothwell_up_1-hg38.tsv.gz",
+                `Anti-Jo1+ (R)` = "JO1M_Rothwell_up_1-hg38.tsv.gz",
                 `IIM (M)` = "MYO_Miller_26291516_1-hg38.tsv.gz",
                 `IIM (R)` = "IIM_Rothwell_up_1-hg38.tsv.gz",
                 `PM (M)` =   "PM_Miller_26291516_1-hg38.tsv.gz",
-                `PM (M)` = "PM_Rothwell_up_1-hg38.tsv.gz") %>%
+                `PM (R)` = "PM_Rothwell_up_1-hg38.tsv.gz") %>%
     lapply(.,  function(f) (file.path("~/rds/rds-cew54-basis/02-Processed",f)))
 
 
@@ -306,6 +306,7 @@ c3 <- merge(c2, mg.top[, .(SNPID, P, study)], by.x=c("trait.myos", "bestsnp.rsid
 cts <- c3[H4 > 0.5, .(pid, driver.rsid, bestsnp.rsid, bestsnp.nearestgene, P, trait.myos, trait.other, pairwise_fdr, H4, novel.hit)][order(bestsnp.nearestgene, bestsnp.rsid)]
 cts <- cts[ bestsnp.rsid != "rs3184504"] #  Remove this SNP because it had pairwise_fdr > 0.5
 names(cts) <- c("pid", "Driver SNP", "Top candidate SNP", "OTG candidate gene", "Top SNP P-value", "Myositis", "IMD", "Pairwise FDR", "H4", "Novel")
+
 fwrite(cts, "../tables/MT_coloc_results.tsv", sep = "\t")
 
 
