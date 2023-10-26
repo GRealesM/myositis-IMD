@@ -303,7 +303,7 @@ mg.top <- merge(mg.top, d2[,.(pid, P, study)], by = "pid")
 
 c3 <- merge(c2, mg.top[, .(SNPID, P, study)], by.x=c("trait.myos", "bestsnp.rsid"), by.y=c("study", "SNPID"))
 
-cts <- c3[H4 > 0.5, .(pid, driver.rsid, bestsnp.rsid, bestsnp.nearestgene, P, trait.myos, trait.other, pairwise_fdr, H4, novel.hit)][order(bestsnp.nearestgene, bestsnp.rsid)]
+cts <- c3[H4 > 0.5, .(pid, driver.rsid, bestsnp.rsid, bestsnp.nearestgene, P, trait.myos, trait.other, pairwise_fdr, H4, novel.hit)][order(bestsnp.nearestgene, bestsnp.rsid, trait.myos, trait.other)]
 cts <- cts[ bestsnp.rsid != "rs3184504"] #  Remove this SNP because it had pairwise_fdr > 0.5
 names(cts) <- c("pid", "Driver SNP", "Top candidate SNP", "OTG candidate gene", "Top SNP P-value", "Myositis", "IMD", "Pairwise FDR", "H4", "Novel")
 
