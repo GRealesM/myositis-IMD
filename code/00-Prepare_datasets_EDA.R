@@ -353,8 +353,8 @@ Mphm <- pheatmap(Mmp,  breaks = seq(-range, range, length.out = 100),
 Mphm
 
 # Save Figure 1
-# ggsave("../figures/Myositis_allsources_heatmap.png", Mphm, width = 4.5, height = 2.5, bg="white")
-# ggsave("../figures/Myositis_allsources_heatmap.svg", Mphm, width = 4.5, height = 2.5, bg="white")
+# ggsave("../figures/Fig1_Myositis_allsources_heatmap.png", Mphm, width = 4.5, height = 2.5, bg="white")
+# ggsave("../figures/Fig1_Myositis_allsources_heatmap.svg", Mphm, width = 4.5, height = 2.5, bg="white")
 # 
 # system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_allsources_heatmap.svg") # Trick to make the svg file text be more easily editable
 
@@ -404,9 +404,9 @@ Mahm
 
 ### 
 
-## Internal figure -- Delta plot of all myositis datasets across all 7 PCs
+## Figure SXX -- Delta plot of all myositis datasets across all 7 PCs
 
-myoc <- c(`PM (R)` = "#CF000F", `PM (M)` = "#CF000F", `PM (FG)` = "#CF000F", `DM (R)` = "#2E8856", `DM (M)` = "#2E8856", `IIM (R)` = "#1460AA", `IIM (M)` = "#1460AA", `JDM (M)` = "#B8860B", `JDM (R)` = "#B8860B", `IBM (R)` = "#E65722", `Anti-Jo1+ (R)` ="#1C2833", `DPM (FG)` = "#053061")
+myoc <- c(`PM (R)` = "#CF000F", `PM (M)` = "#CF000F", `DM (R)` = "#2E8856", `DM (M)` = "#2E8856", `IIM (R)` = "#1460AA", `IIM (M)` = "#1460AA", `JDM (M)` = "#B8860B", `JDM (R)` = "#B8860B", `IBM (R)` = "#E65722", `Anti-Jo1+ (R)` ="#1C2833")
 
 pmyo <- pf[(First_Author %in% c("Miller", "Rothwell") ) & PC %in% paste0("PC", c(1:3, 8:9, 12:13))][, PC:=factor(PC, levels = paste0("PC", c(1:3, 8:9, 12:13)))]
 # | Trait_ID_2.0 %in% c("M13_DERMATOPOLY", "M13_POLYMYO")
@@ -415,7 +415,7 @@ pmyo[, ci:=sqrt(Var.Delta) * 1.96]
 
 dpm <- ggplot(pmyo, aes(x = Delta, y = Label, xmin=Delta-ci, xmax=Delta+ci, colour = Label))+
   geom_pointrange()+
-  geom_vline(xintercept = 0, col="red", lty=2)+
+  geom_vline(xintercept = 0, col="red", lty=2)+ 
   scale_colour_manual(values = myoc)+
   xlab("Delta")+
   facet_grid(PC~.,  scales = "free", space = "free", switch = "y")+
@@ -423,7 +423,45 @@ dpm <- ggplot(pmyo, aes(x = Delta, y = Label, xmin=Delta-ci, xmax=Delta+ci, colo
   theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank())
 dpm
 
-#ggsave("../figures/deltaplot_myo.png", dpm, height = 10, width = 6, bg = "white")
+#ggsave("../figures/FigSXX_deltaplot_myo.png", dpm, height = 10, width = 6, bg = "white")
+
+
+###
+
+# Figure SXX - Myositis + IMD across the 7 key PCs
+
+dpdf <- ps2[ PC %in% paste0("PC", c(1:3, 8:9, 12:13)) & stars == "●"]
+dpdf[, Label:=gsub("Miller", "M", Label)][, Label:=gsub("Rothwell", "R", Label)]
+dpdf[, Label:=gsub("Juvenile Dermatomyositis", "JDM", Label)][, Label:=gsub("Dermatomyositis", "DM", Label)]
+dpdf[, Label:=gsub("Polymyositis", "PM", Label)][, Label:=gsub("Jo1\\+ Myositis", "Anti-Jo1+", Label)]
+dpdf[, colours:=ifelse(First_Author %in% c("Miller", "Rothwell"), "#CF000F", "#1460AA")]
+dpdf[, ci:=sqrt(Var.Delta) * 1.96]
+
+PCs <- paste0("PC", c(1:3, 8:9, 12:13))
+
+kdp <- lapply(setNames(PCs, PCs), function(x){
+       
+        dt <- dpdf[PC==x][order(Delta, decreasing = TRUE),]
+        dpm <- ggplot(dt, aes(x = Delta, y = reorder(Label, -Delta), xmin=Delta-ci, xmax=Delta+ci, colour = colours))+
+          geom_pointrange()+
+          geom_vline(xintercept = 0, col="red", lty=2)+ 
+          scale_colour_manual(values = c("#CF000F" = "#CF000F", "#1460AA" =  "#1460AA"))+
+          xlab("Delta")+
+          ylab("Traits")+
+          ggtitle(x)+
+          theme_cowplot(11)+
+          theme(axis.text.y = element_text(colour = dt$colours), legend.position = "none")
+        dpm
+})
+
+# ggsave("../figures/FigSXX_deltaplots_PC1.png", kdp$PC1, bg = "white", height =5, width = 5)
+# ggsave("../figures/FigSXX_deltaplots_PC2.png", kdp$PC2, bg = "white", height =4, width = 5)
+# ggsave("../figures/FigSXX_deltaplots_PC3.png", kdp$PC3, bg = "white", height =6, width = 5)
+# ggsave("../figures/FigSXX_deltaplots_PC8.png", kdp$PC8, bg = "white", height =4, width = 5)
+# ggsave("../figures/FigSXX_deltaplots_PC9.png", kdp$PC9, bg = "white", height =3, width = 5)
+# ggsave("../figures/FigSXX_deltaplots_PC12.png", kdp$PC12, bg = "white", height =5, width = 5)
+# ggsave("../figures/FigSXX_deltaplots_PC13.png", kdp$PC13, bg = "white", height =5, width = 5)
+
 
 
 ##########################################
