@@ -56,42 +56,45 @@ c2 <- c2[pid %in% keypids]
 
 c2[, .(driver.rsid, driver.nearestgene)] %>% unique # 11 SNPs
 
+## This SNP had pairwise FDR > 0.5 for the only H4 > 0.5 SNP, so we'll remove it
+# rs991817 - MYL2 (SH2B3)
+# c2[ driver.rsid == "rs991817", driver.nearestgene:="SH2B3"] # Just this
+c2[ driver.rsid == "rs991817" & H4 > 0.5 ] #  Remove this SNP because it had pairwise_fdr > 0.5
+c2 <- c2[ driver.rsid != "rs991817"]
+
 # 1. rs7073236 - IL2RA
 c2[ driver.rsid == "rs7073236", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs706778", "IL2RA")] # No changes needed, let's just update empty slots to use bestsnp
 
-# 2. rs991817 - MYL2 (SH2B3)
-c2[ driver.rsid == "rs991817", driver.nearestgene:="SH2B3"] # Just this
-
-# 3. rs11066320 - RPL6.
+# 2. rs11066320 - RPL6.
 c2[ driver.rsid == "rs11066320", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs597808", "SH2B3")]
 
-# 4. rs2476601 - RSBN1 (PTPN22)
+# 3. rs2476601 - RSBN1 (PTPN22)
 c2[ driver.rsid == "rs2476601", driver.nearestgene:= "PTPN22"]
 c2[ driver.rsid == "rs2476601", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs2476601", "PTPN22")]
 
-# 5. rs1160542 - AFF3
+# 4. rs1160542 - AFF3
 c2[ driver.rsid == "rs1160542", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs11692867","AFF3")]
 
-# 6. rs2286896 - NAB1 (STAT4)
+# 5. rs2286896 - NAB1 (STAT4)
 c2[ driver.rsid == "rs2286896", driver.nearestgene:= "STAT4"]
 c2[ driver.rsid == "rs2286896", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs3821236", "STAT4")]
 
-# 7.  rs669607 - CMC1 (EOMES)
+# 6.  rs669607 - CMC1 (EOMES)
 c2[ driver.rsid == "rs669607", driver.nearestgene:= "EOMES"]
 c2[ driver.rsid == "rs669607", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs819991", "EOMES")]
 
-# 8. rs394378 - GARIN3 (ITK)
-c2[ driver.rsid == "rs394378", driver.nearestgene:= "ITK"]
-c2[ driver.rsid == "rs394378", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs163315", "ITK")]
+# 7. rs394378 - GARIN3 (ITK)
+c2[ driver.rsid == "rs394378", driver.nearestgene:= "ITK/HAVCR2"]
+c2[ driver.rsid == "rs394378", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs163315", "ITK/HAVCR2")]
 
-# 9. rs1855025 - CCR6
+# 8. rs1855025 - CCR6
 c2[ driver.rsid == "rs1855025", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs1571878", "CCR6")] # Update empty slots to use bestsnp
 
-# 10. rs10488631 - IRF5
+# 9. rs10488631 - IRF5
 c2[ driver.rsid == "rs10488631", driver.nearestgene:= "IRF5/TNPO3"]
 c2[ driver.rsid == "rs10488631", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs13236009", "IRF5/TNPO3")]
 
-# 11. rs13277113 - BLK
+# 10. rs13277113 - BLK
 c2[ driver.rsid == "rs13277113", c("bestsnp.rsid", "bestsnp.nearestgene"):= list("rs2736340", "BLK")] # Update selected SNP
 
 # Add gene/ driver SNP label
@@ -304,8 +307,7 @@ mg.top <- merge(mg.top, d2[,.(pid, P, study)], by = "pid")
 c3 <- merge(c2, mg.top[, .(SNPID, P, study)], by.x=c("trait.myos", "bestsnp.rsid"), by.y=c("study", "SNPID"))
 
 cts <- c3[H4 > 0.5, .(pid, driver.rsid, bestsnp.rsid, bestsnp.nearestgene, P, trait.myos, trait.other, pairwise_fdr, H4, novel.hit)][order(bestsnp.nearestgene, bestsnp.rsid, trait.myos, trait.other)]
-cts <- cts[ bestsnp.rsid != "rs3184504"] #  Remove this SNP because it had pairwise_fdr > 0.5
-names(cts) <- c("pid", "Driver SNP", "Top candidate SNP", "OTG candidate gene", "Top SNP P-value", "Myositis", "IMD", "Pairwise FDR", "H4", "Novel")
+names(cts) <- c("pid", "Driver SNP", "Top candidate SNP", "Open Targets candidate gene", "Top SNP P-value", "Myositis", "IMD", "Pairwise FDR", "H4", "Novel")
 
 fwrite(cts, "../tables/MT_coloc_results.tsv", sep = "\t")
 
