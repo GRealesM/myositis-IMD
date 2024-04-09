@@ -12,3 +12,6 @@ latentObservations.csv
 *.gz
 *.bgz
 code/.#04-Create_custom_PSM_heatmaps.R
+# Ignore old stuff and things we didn't use in the final version
+code/2022/
+code/not_used/
