@@ -33,10 +33,10 @@ setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
 
 ## Load key files
 
-coloc <- fread("../data/coloc_results.tsv")
+coloc <- fread("../data/coloc_results-v2.tsv")
 
 # Import mapped genes 
-mg <- fread("../data/mapped.genes.tsv") %>% unique
+mg <- fread("../data/mapped.genes-v2.tsv") %>% unique
 mg <- mg[,.(SNPID, pid, nearestGene)]
 
 

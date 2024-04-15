@@ -5,7 +5,7 @@
 #########################################
 
 # Author: Guillermo Reales 
-# Date last updated: 2023/09/12
+# Date last updated: 2024/04/15
 
 # Background: After finishing coloc, we'll need to extract the chromosomes, rsids, alleles, etc. from the relevant driver and bestsnps.
 # Then we'll use 08-Mapping-genes.py on the generated file to extract the names of the nearest genes.
@@ -23,7 +23,7 @@ setDTthreads(15)
 library(magrittr)
 
 # Load data
-cc <- fread("../data/coloc_results.tsv")
+cc <- fread("../data/coloc_results-v2.tsv")
 
 snps <- c(cc[ H4 > 0.5, unique(pid)],cc[ H4 > 0.5, unique(bestsnp)]) %>% unique
 
@@ -44,25 +44,21 @@ names(mm)[2:4] <- c("CHR", "BP", "SNP")
 
 
 # Save
-fwrite(mm, "../data/snp.to.map.tsv", sep="\t")
+fwrite(mm, "../data/snp.to.map-v2.tsv", sep="\t")
 
 #########################################
 
 sessionInfo()
-# R version 4.3.1 (2023-06-16)
+# R version 4.3.3 (2024-02-29)
 # Platform: x86_64-redhat-linux-gnu (64-bit)
-# Running under: Rocky Linux 8.8 (Green Obsidian)
+# Running under: Rocky Linux 8.9 (Green Obsidian)
 
 # Matrix products: default
 # BLAS/LAPACK: /usr/lib64/libopenblaso-r0.3.15.so;  LAPACK version 3.9.0
 
 # locale:
-#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
-#  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
-#  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
-#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
-#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-# [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C               LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8     LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                  LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
 
 # time zone: GB
 # tzcode source: system (glibc)
@@ -71,8 +67,7 @@ sessionInfo()
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 # other attached packages:
-# [1] magrittr_2.0.3    data.table_1.14.8
+# [1] magrittr_2.0.3    data.table_1.15.2
 
 # loaded via a namespace (and not attached):
-# [1] compiler_4.3.1    cli_3.6.1         R.methodsS3_1.8.2 jsonlite_1.8.7   
-# [5] R.utils_2.12.2    rlang_1.1.1       R.oo_1.25.0 
+# [1] compiler_4.3.3    cli_3.6.2         tools_4.3.3       R.methodsS3_1.8.2 jsonlite_1.8.8    R.utils_2.12.3    rlang_1.1.3       R.oo_1.26.0 

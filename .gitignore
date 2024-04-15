@@ -15,3 +15,5 @@ code/.#04-Create_custom_PSM_heatmaps.R
 # Ignore old stuff and things we didn't use in the final version
 code/2022/
 code/not_used/
+# Ignore pre-processing, where we omit unauthorised files
+code/00a-Prefilter_projections.R

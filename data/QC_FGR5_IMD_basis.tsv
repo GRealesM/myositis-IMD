@@ -1,0 +1,6 @@
+Trait	nSNP	overall_p	mscomp	First_Author	Reference	Trait_ID_2.0	Trait_long	Trait_class	N0	N1	N	Population	Public	Label
+E4_HYPERPARA_FinnGen_FinnGenR5_1	561	0.277943091979323	PC11 (5e-02)	FinnGen	FinnGenR5	E4_HYPERPARA	Hyperparathyroidism (FinnGen)	IMD	211123	2928	214051	European (Finnish)	Y	Hyperparathyroidism
+GOUT_FinnGen_FinnGenR5_1	561	0.00451526455224845	PC8 (1e-04)	FinnGen	FinnGenR5	GOUT	Gout	IMD	203546	3576	207122	European (Finnish)	Y	Gout
+J10_COPD_FinnGen_FinnGenR5_1	561	2.92389682217874e-05	PC13 (9e-09)	FinnGen	FinnGenR5	J10_COPD	COPD (FinnGen)	IMD	186723	6915	193638	European (Finnish)	Y	COPD
+M13_ANKYLOSPON_FinnGen_FinnGenR5_1	561	1.3181775750153e-05	PC1 (3e-04)	FinnGen	FinnGenR5	M13_ANKYLOSPON	Ankylosing spondylitis (FinnGen)	IMD	164682	1462	166144	European (Finnish)	Y	Ankylosing spondylitis
+RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1	561	3.85319562461747e-19	PC3 (5e-09)	FinnGen	FinnGenR5	RX_RHEUMA_BIOLOGICAL	Biological medication for rheuma (FinnGen)	IMD	216990	1802	218792	European (Finnish)	Y	Biological medication for rheuma
