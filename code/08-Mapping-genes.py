@@ -128,7 +128,7 @@ query annotateLeadSnp($inputVariantId: String!){
 
 base_url = "https://api.genetics.opentargets.org/graphql"
 
-daf = pd.read_csv('../data/snp.to.map.tsv', delimiter = '\t')
+daf = pd.read_csv('../data/snp.to.map-v2.tsv', delimiter = '\t')
 
 # daf.rename(columns = {'SNPID': 'SNP'}, inplace = True)
 
@@ -157,7 +157,7 @@ for index, row in daf.iterrows():
 
     result_dict[row.SNP] = {'variantInfo' : variant_response_data, 'indexVariantsAndStudiesForTagVariant': index_variants_and_studies_response_data, 'genesForVariant': genes_for_variant_response_data}
 
-with open('../data/mapped.genes.tsv', 'w') as f:
+with open('../data/mapped.genes-v2.tsv', 'w') as f:
     json.dump(result_dict, f)
 
 d = []
@@ -176,4 +176,4 @@ meta_daf = pd.DataFrame(d)
 
 meta_daf = meta_daf.merge(right = daf, how = 'right', left_on = 'SNPID', right_on = 'SNP')
 
-meta_daf.to_csv('../data/mapped.genes.tsv', sep = '\t', index = False)
+meta_daf.to_csv('../data/mapped.genes-v2.tsv', sep = '\t', index = False)

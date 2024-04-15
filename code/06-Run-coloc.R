@@ -103,7 +103,7 @@ snps=fread("~/rds/rds-cew54-basis/03-Bases/IMD_basis/Manifest_build_translator.t
 snps[, pid38:=paste(CHR38, BP38, sep=":")][, pid19:=paste(CHR19, BP19, sep=":")]
 snps <- merge(snps, man, by="pid38")
 
-data=lapply(files, fread)
+data=lapply(files, fread, tmpdir = "tmp/")
 
 
 aligner=function(d) {
@@ -130,7 +130,7 @@ all(rownames(rot) == snps$pid19) # Check the SNPs are in the same order -- they 
 snps <- snps[order(pid19)]
 all(rownames(rot) == snps$pid19) # now they are
 rownames(rot) <- snps$pid38
-snps.use=snps$pid38[ rowSums(rot)>0 ] # This works because SNPs are in the same order, even though they belong to different builds.
+snps.use=snps$pid38[ rowSums(rot != 0)>0 ] # This works because SNPs are in the same order, even though they belong to different builds.
 rot.use <- rot[snps.use,]
 pcs.use <- colnames(rot.use)
 # Note which SNPs are driver for each 
@@ -407,54 +407,54 @@ if(!file.exists("../data/fg_sumstats/finngen_R7_M13_WEGENER.gz"))
 # Incorporate new files into data
 
 
-crest=fread("../data/fg_sumstats/finngen_R7_CREST.gz")
+crest=fread("../data/fg_sumstats/finngen_R7_CREST.gz", tmpdir = "tmp/")
 crest$pid=paste(crest[["#chrom"]],crest$pos,sep=":")
 table(crest$pid %in% snps$pid38)
 setnames(crest, c("#chrom","pos"), c("CHR38","BP38"))
 data$`CR(E)ST`=crest[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
-Felty=fread("../data/fg_sumstats/finngen_R7_FELTY.gz")
+Felty=fread("../data/fg_sumstats/finngen_R7_FELTY.gz", tmpdir = "tmp/")
 Felty$pid=paste(Felty[["#chrom"]],Felty$pos,sep=":")
 table(Felty$pid %in% snps$pid38)
 setnames(Felty, c("#chrom","pos"), c("CHR38","BP38"))
 data$Felty=Felty[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
-hyperthy=fread("../data/fg_sumstats/20002_1225_PanUKBB_1-hg38.tsv.gz")
+hyperthy=fread("../data/fg_sumstats/20002_1225_PanUKBB_1-hg38.tsv.gz", tmpdir = "tmp/")
 hyperthy[, pid := paste(CHR38,BP38,sep=":")]
 table(hyperthy$pid %in% snps$pid38)
 data$HyperThy=hyperthy[,.(pid, CHR38, BP38, REF, ALT, BETA, SE, P)]
 
-hypothy=fread("../data/fg_sumstats/finngen_R7_E4_HYTHY_AI_STRICT.gz")
+hypothy=fread("../data/fg_sumstats/finngen_R7_E4_HYTHY_AI_STRICT.gz", tmpdir = "tmp/")
 hypothy$pid=paste(hypothy[["#chrom"]],hypothy$pos,sep=":")
 table(hypothy$pid %in% snps$pid38)
 setnames(hypothy, c("#chrom","pos"), c("CHR38","BP38"))
 data$HypoThy=hypothy[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
-PR=fread("../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz")
+PR=fread("../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz", tmpdir = "tmp/")
 PR$pid=paste(PR[["#chrom"]],PR$pos,sep=":")
 table(PR$pid %in% snps$pid38)
 setnames(PR, c("#chrom","pos"), c("CHR38","BP38"))
 data$PR=PR[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
-PBC=fread("../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz")
+PBC=fread("../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz", tmpdir = "tmp/")
 PBC$pid=paste(PBC[["#chrom"]],PBC$pos,sep=":")
 table(PBC$pid %in% snps$pid38)
 setnames(PBC, c("#chrom","pos"), c("CHR38","BP38"))
 data$PBC=PBC[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
-RA=fread("../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz")
+RA=fread("../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz", tmpdir = "tmp/")
 RA$pid=paste(RA[["#chrom"]],RA$pos,sep=":")
 table(RA$pid %in% snps$pid38)
 setnames(RA, c("#chrom","pos"), c("CHR38","BP38"))
 data$RA=RA[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
-SLE=fread("../data/fg_sumstats/finngen_R7_M13_SLE.gz")
+SLE=fread("../data/fg_sumstats/finngen_R7_M13_SLE.gz", tmpdir = "tmp/")
 SLE$pid=paste(SLE[["#chrom"]],SLE$pos,sep=":")
 table(SLE$pid %in% snps$pid38)
 setnames(SLE, c("#chrom","pos"), c("CHR38","BP38"))
 data$SLE=SLE[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
-GPA=fread("../data/fg_sumstats/finngen_R7_M13_WEGENER.gz")
+GPA=fread("../data/fg_sumstats/finngen_R7_M13_WEGENER.gz", tmpdir = "tmp/")
 GPA$pid=paste(GPA[["#chrom"]],GPA$pos,sep=":")
 table(GPA$pid %in% snps$pid38)
 setnames(GPA, c("#chrom","pos"), c("CHR38","BP38"))
@@ -528,7 +528,7 @@ index <- merge(index, p.myos, by=c("pid", "trait.myos"), all.x=TRUE)
 index[ H4>.5 , .(trait.myos, trait.other,  fdr.myos, fdr.other, pairwise_fdr, H4, pid, bestsnp, bestsnp.pp, pdriver.myos)]
 
 # Save results
-fwrite(index, "../data/coloc_results.tsv", sep="\t") 
+fwrite(index, "../data/coloc_results-v2.tsv", sep="\t") 
 
 
 ###########

@@ -5,13 +5,11 @@
 #########################################
 
 # Author: Guillermo Reales 
-# Date last updated: 2023/09/07
+# Date last updated: 2023/04/10
 
 # Background: This script will prepare the datasets for downstream analyses and prepare some figures.
 
 # This script will
-# * Import projections and metadata files
-# * Apply QC to projections, apply necessary relabelling removing redundant or non-informative datasets, and focus on IMD.
 # * Apply FDR to projections.
 # * Remove redundant datasets for improved visualisation
 # * Create some figures and supplementary tables, and save datasets for downstream analyses
@@ -20,7 +18,7 @@
 
 ##########################################
 
-
+setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
 
 ## Load required packages
 
@@ -34,101 +32,10 @@ library(cupcake)
 
 ## Load datasets
 
-# Internal NOTE: Before publication, consider doing a previous steps to prepare projection datasets including authorised
-# datasets only, in case we need to publish the original projections before QC. This would involve removing PAPS and other
-# private datasets, and maybe updating the References in the fields in the original q table (and maybe in the Metadata too?).
+pf <- fread("../data/pf.tsv")
+qf <- fread("../data/qf.tsv")
 
-# We'll need the SNP manifest. This file contains the 566 SNPs in the features 
-SNP.manifest <- cupcake::SNP.manifest
-
-# Meta-data table, containing information about the datasets
-m <- fread("../data/Metadata_20230906-v1.tsv")
-m <- m[, .(Trait, First_Author, Reference, Trait_ID_2.0, Trait_long, Trait_class, N0, N1, N, Population, Public)]
-
-# Projection QC table, containing information about the projections and their quality
-q <- fread("../data/QC_IMD_basis_20230503-v1.tsv")
-q <- merge(q, m, by="Trait") # Get metadata together
-
-# Take the chance now to update some references in the q table
-q[ First_Author == "Rothwell", Reference:="36580032"]
-q[ First_Author == "Lessard", c("First_Author", "Reference"):=list("Khatri", "35896530")][ First_Author == "Wong", Reference:="doi:10.17863/CAM.51022"]
-
-
-# Projection table
-p <- fread("../data/Projection_IMD_basis_20230503-v1.tsv")
-p[, Var.Delta:=as.numeric(Var.Delta)]
-b <- p[1:169] # Basis traits
-p <- p[179:nrow(p)] # projection table without basis traits
-p[, z:=NULL]
-
-
-##########################################
-
-## Apply QC
-#
-# (1) Remove projections with low SNP match, Immunochip (ex. Rothwell), unauthorised (PAPS) and Neale. Keep IMD only
-# (2) Prepare proper labels for selected datasets
-# (3) Apply FDR procedure and remove datasets with FDR overall > 1%
-# (4) Remove redundant datasets for visualisation and further analyses
-
-
-### (1) Remove projections with low SNP match, Immunochip (ex. Rothwell), unauthorised (PAPS) and Neale. Keep IMD only.
-
-
-# Remove datasets with missing overall p-values
-summary(q)
-q[is.na(q$overall_p)] 
-# MDD_Wray_2, Major depression disorder, that failed to project by low SNP match.
-# T2D_Gaulton 
-q <- q[!is.na(q$overall_p)] 
-
-
-# Remove datasets with <80% SNP match. This will include datasets using targeted arrays only (ie. ImmunoChip).
-# Check SNP match
-c(lessthan95 = nrow(q[q$nSNP < nrow(SNP.manifest)*.95,]), lessthan80 = nrow(q[q$nSNP < nrow(SNP.manifest)*.8,]), lessthan50 = nrow(q[q$nSNP < nrow(SNP.manifest)*.5,]))
-c(lessthan95 = nrow(q[q$nSNP < nrow(SNP.manifest)*.95,])/nrow(q), lessthan80 = nrow(q[q$nSNP < nrow(SNP.manifest)*.8,])/nrow(q), lessthan50 = nrow(q[q$nSNP < nrow(SNP.manifest)*.5,])/nrow(q))
-# 4% of datasets (248) have <80% SNP match
-
-qf <- q[nSNP >= max(nSNP) * 0.8 ]
-
-
-# Prepare list of datasets to remove, even prior to FDR
-
-fbd <- c("PAPS_Casares_up_1") # Private. Cannot use
-uninf <- c("D3_BLOOD_FinnGen_FinnGenR7_1", "D3_IMMUNEMECHANISMNAS_FinnGen_FinnGenR7_1", "ASTE_Ferreira_29083406_1", "RHEC_Ferreira_29083406_1",  "AUTOIMMUNE_FinnGen_FinnGenR7_1","AUTOIMMUNE_NONTHYROID_FinnGen_FinnGenR7_1", "AUTOIMMUNE_NONTHYROID_STRICT_FinnGen_FinnGenR7_1", "D3_IMMUNEMECHANISM_FinnGen_FinnGenR7_1", "ANAPH_SHOCK_ADVER_EFFECT_CORRE_DRUG_MEDICAM_PROPE_ADMINISTE_FinnGen_FinnGenR7_1") # Declared uninformative,  or not case-control
-basis.datasets <- c("CD_DeLange_28067908_1", "PSC_Ji_27992413_1", "UC_DeLange_28067908_1", "SLE_Bentham_26502338_1", "PBC_Cordell_26394269_1", "IGAN_Kiryluk_25305756_1", "CEL_Dubois_20190752_1", "MS_IMSGC_21833088_1", "AST_Demenais_29273806_1", "VIT_Jin_27723757_1", "RA_Okada_24390342_1", "LADA_Cousminer_30254083_1", "T1D_Cooper_doi101101120022_1") # Traits used to train the basis, and thus overfitted
-neale <- q[First_Author == "Neale", Trait] # Remove Neale, as we have PanUKBB
-excl <- c(fbd, uninf, basis.datasets, neale)
-
-qf <- qf[!Trait %in% excl]
-
-# Keep IMD traits only
-qf <- qf[Trait_class == "IMD"] # Interested in IMDs for now
-
-# Check traits by class. In this case we have only one class
-table(qf$Trait_class)
-# IMD 
-# 476
-
-
-### (2) Prepare proper labels for selected datasets
-
-qf[,Label:=Trait_long] %>% .[!grepl("myositis", Trait_long, ignore.case = TRUE), Label:=gsub(" \\(UKBB\\)", "", Label)] %>% .[!grepl("myositis", Trait_long, ignore.case = TRUE) , Label:=gsub(" \\(FinnGen\\)", "", Label)] %>% .[, Label:=gsub(" \\(FG\\)", "", Label)] # Remove UKBB/FinnGen stuff save for myositis datasets
-# Relabel some Myositis datasets -- this is the place to modify the labels
-qf[ First_Author == "Rothwell", Label:=gsub("Idiopathic Inflammatory Myopathies \\(IIM, Myositis\\)", "IIM", Label)]
-qf[ First_Author == "Miller", Label:=gsub("Myositis", "IIM", Label, fixed = TRUE)]
-qf[ First_Author %in% c("Rothwell", "Miller"), Label:=paste0(Label, " (", First_Author, ")")]
-# Rename PBC and PSC
-qf[grepl("sclerosing", Label), Label:= "Primary sclerosing cholangitis"]
-qf[grepl("chirrosis", Label), Label:= "Primary biliary cholangitis"]
-qf[grepl("MS-disease", Label), Label:="Multiple Sclerosis"] # Fix weird FinnGen MS label
-
-# Create a filtered projection table with new labels too. This will keep selected datasets only
-
-pf <- merge(p, qf[,c("First_Author","Trait", "Trait_ID_2.0", "Trait_long","Trait_class", "Population", "Label")], by = "Trait")
-
-
-### (3) Apply FDR procedure and remove datasets with FDR overall > 1%
+### (1) Apply FDR procedure and remove datasets with FDR overall > 1%
 
 # Apply 1% FDR correction to overall p for all remaining datasets
 qf[, FDR.overall := p.adjust(overall_p, method = "BH"), by="Trait_class"] # Only IMD, so trait class shouldn't matter
@@ -188,7 +95,7 @@ ps[grepl("myositis", Trait_long, ignore.case = TRUE) & FDR.PC < 0.01, .(PC, Firs
 # We have some significant Myositis for PC1, 2, 3, 8, 9, 12, and 13
 
 
-### (4) Remove redundant datasets for visualisation and further analyses
+### (2) Remove redundant datasets for visualisation and further analyses
 
 # Let's try to remove redundant datasets in a less manual way
 qs2 <- copy(qs)
