@@ -30,6 +30,7 @@ library(IMDtools)
 library(cupcake)
 library(annotSnpStats)
 library(fpc)
+library(coloc)
 
 setDTthreads(20)
 setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
@@ -460,7 +461,7 @@ tv1.10[, .(pid38, P.focus, P.val)]
 # COPD (R10_J10_COPD, Cases = 20066, Controls = 338303)
 v2.10 <- d10[[2]][ pid38 %in% pw.snps[[3]]]
 setnames(v2.10, "pval", "P")
-tv2.10 <- merge(t2[, .(pid38, P)], v3.10[, .(pid38, P)], suffixes=c(".focus",".val"), by = "pid38")
+tv2.10 <- merge(t2[, .(pid38, P)], v2.10[, .(pid38, P)], suffixes=c(".focus",".val"), by = "pid38")
 tv2.10[, .(pid38, P.focus, P.val)]
 
 #          pid38   P.focus       P.val
@@ -483,115 +484,213 @@ tv3.10[, .(pid38, P.focus, P.val)]
 # 4: 1:113834946 3.640e-11 3.94912e-21
 
 
+#######################################
+###   Run coloc in pairwise pairs   ###
+#######################################
+
+pfc <- copy(pw.fdr.sig) %>% rbindlist
+pfc <- pfc[, .(pid38, IMD.focus, IMD.other, pairwise_fdr)]
+pfc[, c("CHR38", "BP38"):=tstrsplit(pid38, split = ":", fixed = TRUE)][, c("CHR38", "BP38"):=list(as.numeric(CHR38), as.numeric(BP38))]
+pfc <- pfc[order(IMD.focus, CHR38, BP38)]
+#           pid38                                IMD.focus                            IMD.other pairwise_fdr CHR38      BP38
+#          <char>                                   <char>                               <char>        <num> <num>     <num>
+#  1: 5:132435113             J10_COPD_FinnGen_FinnGenR5_1          K11_IBD_FinnGen_FinnGenR7_1 4.978316e-02     5 132435113
+#  2: 5:132448701             J10_COPD_FinnGen_FinnGenR5_1          K11_IBD_FinnGen_FinnGenR7_1 4.978316e-02     5 132448701
+#  3: 5:132461230             J10_COPD_FinnGen_FinnGenR5_1          K11_IBD_FinnGen_FinnGenR7_1 3.891900e-02     5 132461230
+#  4: 5:132461230             J10_COPD_FinnGen_FinnGenR5_1        K11_ULCER_FinnGen_FinnGenR7_1 3.919840e-02     5 132461230
+#  5: 5:132461230             J10_COPD_FinnGen_FinnGenR5_1 L12_PSORI_ARTHRO_FinnGen_FinnGenR7_1 4.405671e-02     5 132461230
+#  6: 1:113834946 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1       M13_RHEUMA_FinnGen_FinnGenR7_1 1.777463e-08     1 113834946
+#  7: 1:113834946 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1       20002_1225_PanUKBB_PanUKBBR2_1 1.777464e-08     1 113834946
+#  8: 1:113834946 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1                     AAVMPO_Wong_up_1 6.705413e-04     1 113834946
+#  9:  10:6064303 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1       M13_RHEUMA_FinnGen_FinnGenR7_1 2.069803e-03    10   6064303
+# 10:  10:6064303 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1       20002_1225_PanUKBB_PanUKBBR2_1 2.446605e-03    10   6064303
+# 11:  10:6064589 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1       M13_RHEUMA_FinnGen_FinnGenR7_1 2.069803e-03    10   6064589
+# 12:  10:6064589 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1       20002_1225_PanUKBB_PanUKBBR2_1 2.462998e-03    10   6064589
+# 13:  10:6066476 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1       M13_RHEUMA_FinnGen_FinnGenR7_1 2.609654e-04    10   6066476
+# 14:  10:6066476 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1       20002_1225_PanUKBB_PanUKBBR2_1 5.598710e-03    10   6066476
+# 15:  10:6066476 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1                     AAVMPO_Wong_up_1 2.394969e-02    10   6066476
+# 16: 1:197642552              ph696.4_PanUKBB_PanUKBBR2_1        K11_CROHN_FinnGen_FinnGenR7_1 2.618519e-02     1 197642552
+# 17: 1:197642552              ph696.4_PanUKBB_PanUKBBR2_1 L12_LICHENPLANUS_FinnGen_FinnGenR7_1 4.418516e-02     1 197642552
+# 18: 1:197662011              ph696.4_PanUKBB_PanUKBBR2_1        K11_CROHN_FinnGen_FinnGenR7_1 2.618519e-02     1 197662011
+# 19: 1:197662011              ph696.4_PanUKBB_PanUKBBR2_1 L12_LICHENPLANUS_FinnGen_FinnGenR7_1 4.418516e-02     1 197662011
+# 20: 2:162254026              ph696.4_PanUKBB_PanUKBBR2_1           E4_DM1_FinnGen_FinnGenR7_1 5.555605e-04     2 162254026
+# 21: 2:162254026              ph696.4_PanUKBB_PanUKBBR2_1        K11_CROHN_FinnGen_FinnGenR7_1 2.409490e-03     2 162254026
+# 22: 2:162254026              ph696.4_PanUKBB_PanUKBBR2_1 L12_PSORI_ARTHRO_FinnGen_FinnGenR7_1 3.821361e-03     2 162254026
+# 23: 2:162254026              ph696.4_PanUKBB_PanUKBBR2_1 L12_LICHENPLANUS_FinnGen_FinnGenR7_1 1.124813e-02     2 162254026
+# 24: 5:159412209              ph696.4_PanUKBB_PanUKBBR2_1 L12_PSORI_ARTHRO_FinnGen_FinnGenR7_1 3.038197e-04     5 159412209
+# 25: 5:159412209              ph696.4_PanUKBB_PanUKBBR2_1        K11_CROHN_FinnGen_FinnGenR7_1 1.202625e-02     5 159412209
+# 26: 6:159044945              ph696.4_PanUKBB_PanUKBBR2_1      K11_COELIAC_FinnGen_FinnGenR7_1 5.602305e-03     6 159044945
+# 27: 6:159044945              ph696.4_PanUKBB_PanUKBBR2_1           E4_DM1_FinnGen_FinnGenR7_1 1.645586e-02     6 159044945
+# 28: 6:159044945              ph696.4_PanUKBB_PanUKBBR2_1   D3_SARCOIDOSIS_FinnGen_FinnGenR7_1 4.026911e-02     6 159044945
+# 29: 19:10467167              ph696.4_PanUKBB_PanUKBBR2_1 L12_PSORI_ARTHRO_FinnGen_FinnGenR7_1 3.038197e-04    19  10467167
+# 30: 19:10467167              ph696.4_PanUKBB_PanUKBBR2_1             JIA_LopezIsac_33106285_1 5.810514e-03    19  10467167
+#           pid38                                IMD.focus                            IMD.other pairwise_fdr CHR38      BP38
+
+# Some of these may be redundant signals. We'll check which SNPs are in close proximity and keep the ones with lower pairwise FDR
+pfc[, BP38[1] - BP38[3]] # 5:132435113
+pfc[, BP38[2] - BP38[3]] # 5:132448701
+# These two SNPs are very close to 5:132461230, we'll remove them
+pfc[, BP38[9] - BP38[13]] # 10:6064303
+pfc[, BP38[11] - BP38[13]] # 10:6064589
+
+# 1:197642552 and 1:197642552 are very close. They have similar pairwise FDR. 
+pfc[, BP38[16] - BP38[18]] # 1:197642552
+redall$ph696.4_PanUKBB_PanUKBBR2_1[ BP38 %in% c(pfc$BP38[16], pfc$BP38[18]), .(pid38, P2 = 2 * pnorm( -abs(BETA)/SE ))]
+# 1:197642552 has slightly lower P-value (7.4e-4) in psoriasis
+redall$K11_CROHN_FinnGen_FinnGenR7_1[ BP38 %in% c(pfc$BP38[16], pfc$BP38[18])]
+# 1:197662011 has slightly lower P-value in Chron's
+redall$L12_LICHENPLANUS_FinnGen_FinnGenR7_1[ BP38 %in% c(pfc$BP38[16], pfc$BP38[18])]
+# Virtually same P-value
+# We'll arbitrarily keep 1:197642552
+# Remove unwanted SNPs
+pfc <- pfc[ -c(1,2, 9:12, 16:17 )]
+
+iof <- c( unique(pfc$IMD.focus),unique(pfc$IMD.other))
+
+# Load dense-SNP data
+ffc <- lapply(iof, function(x){
+		if(grepl("FinnGenR5", x)){
+			fn <- gsub("_FinnGen_FinnGenR5_1", "", x)
+			if(!file.exists(paste0("../data/fg_sumstats/finngen_R5_", fn,".gz"))) system(paste0("wget https://storage.googleapis.com/finngen-public-data-r5/summary_stats/finngen_R5_", fn, ".gz -O ../data/fg_sumstats/finngen_R5_",fn,".gz"))
+			y = fread(paste0("../data/fg_sumstats/finngen_R5_", fn,".gz"), tmpdir = "tmp")
+			y[ , pid38:=paste(`#chrom`, pos, sep = ":")]
+			y <- y[, .(`#chrom`, pos, ref, alt, beta, sebeta, pval)]
+			setnames(y, c("#chrom", "pos", "ref", "alt", "beta", "sebeta", "pval"), c("CHR38", "BP38", "REF", "ALT", "BETA", "SE", "P"))
+		}else if(grepl("FinnGenR7", x)){
+			fn <- gsub("_FinnGen_FinnGenR7_1", "", x)
+			if(!file.exists(paste0("../data/fg_sumstats/finngen_R7_", fn,".gz"))) system(paste0("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_", fn, ".gz -O ../data/fg_sumstats/finngen_R7_",fn,".gz"))
+			y = fread(paste0("../data/fg_sumstats/finngen_R7_", fn,".gz"), tmpdir = "tmp")
+			y[ , pid38:=paste(`#chrom`, pos, sep = ":")]
+			y <- y[, .(`#chrom`, pos, ref, alt, beta, sebeta, pval)]
+			setnames(y, c("#chrom", "pos", "ref", "alt", "beta", "sebeta", "pval"), c("CHR38", "BP38", "REF", "ALT", "BETA", "SE", "P"))
+		} else if(grepl("PanUKBBR2", x)){
+			if(!file.exists(paste0("../data/fg_sumstats/",x,"-hg38.tsv.gz"))){
+				# PanUKBB requires a bit more processing
+				# Transform into .gz so we can import it in fread
+				mf <- fread("../data/Metadata_20230906-v1.tsv")
+				url <- mf[Trait == x, URL]
+				system(paste0("wget  ", url, " -O ../data/fg_sumstats/", x, ".bgz"))
+				system(paste0("zcat ../data/fg_sumstats/",x,".bgz > ../data/fg_sumstats/",x,".tsv ; gzip ../data/fg_sumstats/", x, ".tsv"))
+				f <- fread(paste0("../data/fg_sumstats/",x, ".tsv.gz"), tmpdir = "tmp")
+				f <- f[, .(chr, pos, ref, alt, beta_meta, se_meta, neglog10_pval_meta)]
+				names(f) <- c("CHR", "BP", "REF", "ALT", "BETA", "SE", "P")
+				f <- f[complete.cases(f)]
+				f[, P:=10^-P] # P-values are stored as -log10(P), so we'll revert them -- even though we'll likely don't need the P-values
+
+				# Save it
+				fwrite(f, paste0("../data/fg_sumstats/",x,"-hr.tsv.gz"), sep = "\t")
+
+				# Pipeline it 
+				system(paste0("cd ../data/fg_sumstats/; ~/rds/rds-cew54-basis/GWAS_tools/01-Pipeline/pipeline_v5.3.2_beta.sh -f ", x,"-hr.tsv.gz"))
+				unlink(paste0("../data/fg_sumstats/", x, ".bgz"))
+				unlink(paste0("../data/fg_sumstats/", x, ".tsv.gz"))
+				unlink(paste0("../data/fg_sumstats/", x, "-hr.tsv.gz"))
+			}
+				y <- fread(paste0("../data/fg_sumstats/",x,"-hg38.tsv.gz"), tmpdir = "tmp")
+		} else{
+			y = fread(paste0("~/rds/rds-cew54-basis/02-Processed/", x, "-hg38.tsv.gz"), tmpdir = "tmp")
+			y <- y[, .(CHR38, BP38, REF, ALT, BETA, SE, P)]
+		}
+
+})
+names(ffc) <- iof
+
+mf <- fread("../data/Metadata_20230906-v1.tsv")
+mf <- mf[Trait %in% iof, .(Trait, N0, N1)]
+n1=mf$N1
+names(n1) <- mf$Trait
+n0=mf$N0
+names(n0) <- mf$Trait
+
+# Prepare data for coloc
+d2l=function(d, trait, chr, st, en) {
+	df <- d[CHR38==chr & BP38>st & BP38<en & !is.na(SE) & !is.na(BETA)]
+	df[, pid:=paste(CHR38, BP38, sep = ":")]
+	df <- df[!duplicated(pid)]
+    list(snp=df$pid,
+         beta=df$BETA,
+         varbeta=df$SE^2,
+         p=df$P, # Not necessary for coloc, but we'll use p-values to call novelty
+         type="cc",
+         s=n1[trait]/(n1[trait]+n0[trait]))
+    }
+w=1e+6 # large window choice
+
+index = pfc # Let's rebrand pfc as index
+# This code will call the best SNP and find their P-values in both the myositis and the IMD dataset, so we don't need to run coloc twice.
+# 1:nrow(index)
+for(i in 1:nrow(index)) {
+    message("Applying coloc on ", index$IMD.focus[i], " and ", index$IMD.other[i], " at SNP ", index$CHR38[i], ":", index$BP38[i], ".")
+    st=index$BP38[i]-w
+    en=index$BP38[i]+w
+    chr=index$CHR38[i]
+    d1=d2l( ffc[[ index$IMD.focus[i]]], trait=index$IMD.focus[[i]], chr = chr, st = st, en = en)
+    d2=d2l( ffc[[ index$IMD.other[i]]], trait=index$IMD.other[[i]], chr = chr, st = st, en = en)
+    
+    result=coloc.abf(d1,d2, p12 = 5e-6) # Note: we modified the prior to be more conservative
+    index[i ,c("nsnps","H0","H1","H2","H3","H4"):=as.list(result$summary)]
+    best=result$results$snp[ which.max(result$results$SNP.PP.H4) ]
+    w1=which(d1$snp==best)
+    w2=which(d2$snp==best)
+    index[i ,c("bestsnp","bestsnp.pp","pbest.focus","pbest.other", "pbest.focus.region", "pbest.other.region"):=
+                 list(best, max(result$results$SNP.PP.H4),
+                      d1$p[w1],
+                      d2$p[w2],
+                      min(d1$p),
+                      min(d2$p))]
+}
+index[, .(pid38, IMD.focus, IMD.other, H3, H4, bestsnp)]
+
+# Save it 
+fwrite(index, "../data/coloc_val_results.tsv", sep = "\t")
+
+# index <- fread("../data/coloc_val_results.tsv")
+
+##################################
+# Compare to previous validation #
+##################################
+
+# Create unified validation files
+vv1 <- merge(tv1, tv1.10[ ,.(pid38, P.val.R10 = P.val)])
+vv1[, IMD.focus:="ph696.4_PanUKBB_PanUKBBR2_1"]
+vv2 <- merge(tv2, tv2.10[ ,.(pid38, P.val.R10 = P.val)])
+vv2[, IMD.focus:="J10_COPD_FinnGen_FinnGenR5_1"]
+vv3 <- merge(tv3, tv3.10[ ,.(pid38, P.val.R10 = P.val)])
+vv3[, IMD.focus:="RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1"]
+vv <- rbindlist(list(vv1,vv2,vv3), fill = TRUE)
+vv[, SNPID:=NULL]
+vv[, b.val:=ifelse(P.focus > P.val, "g", "b")][, b.val.10:=ifelse(P.focus > P.val.R10, "g", "b")]
+vv
+#           pid38      P.focus        P.val   P.val.R10                                IMD.focus  b.val b.val.10
+#          <char>        <num>        <num>       <num>                                   <char> <char>   <char>
+#  1: 19:10467167 6.529498e-07 2.087094e-04 1.74201e-03              ph696.4_PanUKBB_PanUKBBR2_1      b        b
+#  2: 1:197642552 7.541812e-04 5.449465e-01 9.16579e-06              ph696.4_PanUKBB_PanUKBBR2_1      b        g
+#  3: 1:197662011 8.388510e-04 5.895143e-01 7.84784e-06              ph696.4_PanUKBB_PanUKBBR2_1      b        g
+#  4: 2:162254026 8.845999e-06 2.370537e-08 1.60081e-06              ph696.4_PanUKBB_PanUKBBR2_1      g        g
+#  5: 5:159412209 5.314136e-07 3.367099e-04 1.86939e-17              ph696.4_PanUKBB_PanUKBBR2_1      b        g
+#  6: 6:159044945 1.189902e-04 2.851924e-01 3.13437e-02              ph696.4_PanUKBB_PanUKBBR2_1      b        b
+#  7: 5:132435113 3.623000e-04 4.580470e-05 1.88969e-06             J10_COPD_FinnGen_FinnGenR5_1      g        g
+#  8: 5:132448701 4.056000e-04 5.245780e-05 2.38144e-06             J10_COPD_FinnGen_FinnGenR5_1      g        g
+#  9: 5:132461230 1.080000e-04 4.184370e-08 7.59889e-06             J10_COPD_FinnGen_FinnGenR5_1      g        g
+# 10:  10:6064303 1.719000e-05 1.579940e-04 1.22360e-04 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1      b        b
+# 11:  10:6064589 1.743000e-05 1.604280e-04 1.22823e-04 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1      b        b
+# 12:  10:6066476 3.849000e-07 9.567310e-06 2.83949e-04 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1      b        b
+# 13: 1:113834946 3.640000e-11 1.957940e-15 3.94912e-21 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1      g        g
+# Note that for coloc we removed some SNPs and kept others. This didn't have an effect in validation behavior, because 
+# both removed and included had the same behaviour.
+# We kept 1:197662011 and removed 1:197642552. Both were bad for Tsoi validation, but good for R10 validation.
+# We kept 5:132461230 and removed 5:132435113 and 5:132448701. All three are good.
+# We kept 10:6066476 and removed 10:6064303 and 10:6064589. All three were bad.
 
 
+tindex <- merge(index, vv, by=c("pid38", "IMD.focus"))
+tindex[, .(pid38, IMD.focus, IMD.other, H4, P.focus, P.val, P.val.R10, b.val, b.val.10)]
+fwrite(tindex, "../data/coloc_val_results.tsv", sep = "\t")
 
+ss <- copy(tindex)
+ss <- ss[, .(IMD.focus, maxH4 = max(H4), P.focus, b.val, b.val.10), by = pid38]  %>% unique
+ss[, coloc.sig:=ifelse(maxH4 > 0.5, "y", "n")]
+table(ss$b.val, ss$coloc.sig)
+table(ss$b.val.10, ss$coloc.sig)
 
-# qf2 <- qf[Trait %in% toi]
-# pf2 <- pf[Trait %in% toi]
-
-# qf2[grepl("FinnGenR5", Trait), Label:=paste0(Label, " (R5)")][grepl("FinnGenR7", Trait), Label:=paste0(Label, " (R7)")]
-# pf2[grepl("FinnGenR5", Trait), Label:=paste0(Label, " (R5)")][grepl("FinnGenR7", Trait), Label:=paste0(Label, " (R7)")]
-
-# qf2 <- qf2[order(Label)]
-# pf2 <- pf2[order(Label, PC)]
-
-# qs <- qf2[FDR.overall < 0.01]
-# ps <- pf2[Trait %in% qs$Trait]
-
-
-# # We'll now extract the significant PCs and their associated driver SNPs for each "training" trait (ie. R5 + Psoriasis)
-# ttid <- qs[grepl("FinnGenR5|ph696.4", Trait), Trait]
-
-# # Rotation matrix is in hg19, but SNPs are in hg38. We'll need to translate
-# man=fread("~/rds/rds-cew54-basis/03-Bases/IMD_basis/SNP.manifest.38.tsv")
-# snps=fread("~/rds/rds-cew54-basis/03-Bases/IMD_basis/Manifest_build_translator.tsv")
-# snps[, pid38:=paste(CHR38, BP38, sep=":")][, pid19:=paste(CHR19, BP19, sep=":")]
-# snps <- merge(snps, man, by="pid38")
-
-# # Update SNPs in rotation matrix
-# rot=cupcake::rot.pca
-# all(rownames(rot) == snps$pid19) # Check the SNPs are in the same order -- they aren't, let's reorder them to match
-# snps <- snps[order(pid19)]
-# all(rownames(rot) == snps$pid19) # now they are
-# rownames(rot) <- snps$pid38
-
-# # Sig PCs
-# sigpcs <- lapply(ttid, function(i){
-# 	    p.i <- ps[ Trait == i & FDR.PC < 0.01, PC]
-# 		p.i
-# })
-# names(sigpcs) <- ttid
-
-# # Sig driver SNPs
-# sigdriver <- lapply(sigpcs, function(i){
-# 		if(length(i) == 1){
-# 			rpc <- rot[, i]
-# 			snps.use <- names(rpc[ rpc != 0])
-# 		} else{
-# 			rpc <- rot[, i]
-# 			snps.use <- rownames(rpc[rowSums(rpc != 0) > 0, ])
-# 		}
-		
-# })
-# ttil <- qs[Trait %in% ttid, Label] %>% gsub(" \\(R5\\)", "", .)
-# names(sigdriver) <- ttil
-
-# sigdriver <- rbindlist(lapply(seq_along(sigdriver), function(i) {
-#   data.table(IMD = names(sigdriver)[i], pid = sigdriver[[i]])
-# }))
-
-
-# # Load all datasets
-# dsn <- c(qs$Trait, "PSO_Tsoi_23143594_1")
-# dsp <- paste0("~/rds/rds-cew54-basis/02-Processed/", dsn, "-hg38.tsv.gz")
-
-# data <- lapply(dsp, fread)
-
-# aligner=function(d) {
-#     d[,pid:=paste(CHR38,BP38,sep=":")]
-#     ## table(d$pid %in% snps$pid38)
-#     d=d[pid %in% snps$pid38]
-#     message("snps found: ",nrow(d), " / ",nrow(snps))
-#     geno=toupper(paste(d$REF,d$ALT,sep="/"))
-#     cl=g.class(geno, snps$alleles[ match(d$pid, snps$pid38) ])
-#     print(table(cl))
-#     d[ cl %in% c("rev","revcomp"), BETA:=-BETA]
-#     d=d[ (cl!="impossible") ]
-#     d
-# }
-
-# data=lapply(data, aligner)
-# names(data) <- dsn
-# for(nm in dsn) 
-#     data[[nm]]$Trait=nm
-
-# imdv <- rep(ttil, each = 2)
-# for(i in 1:10)
-# 	data[[i]]$IMD=imdv[i]
-
-# data <- rbindlist(data, fill = TRUE)
-# data <- data[, .(CHR38,BP38, pid, SNPID, REF, ALT, BETA, SE, P, Trait, IMD)]
-
-# data <- merge(data, sigdriver)
-# data[,P2:=2 * pnorm( -abs(BETA)/SE )]
-# data2[,fdr:=p.adjust(P2, method="BH"), by="trait"]
-
-
-
-
-
-# p <- fread("../tables/ST_all_projections.tsv")
-# q <- fread("../tables/ST_all_datasets.tsv")
-
-# q[grepl("Ankylosing", Label) & sig.overall == "Yes" ] #
-# # Ankylosing (N1 = 495 and 2252, respectively)
-# # c("ph715.2_PanUKBB_PanUKBBR2_1","M13_ANKYLOSPON_FinnGen_FinnGenR7_1")
-# # Bio Med for rheuma (No R5!)
-# # COPD (FinnGen only, smaller COPD are a subtype)
-# # Gout (Only FinnGen is sig overall. There are smaller Gout (PanUKBB, Koettgen), but not sig overall)
-# # Hyperparathyroidism (Only R7, and not significant overall)
-# # Psoriasis (N1 = 2981 and 6995, respectively). Tsoi was ImmunoChip and was therefore not included
-# # c("ph696.4_PanUKBB_PanUKBBR2_1", "L12_PSORIASIS_FinnGen_FinnGenR7_1")
-
-# q[sig.overall == "Yes"][ order(Label, N1)]
+tindex[pid38 == "10:6066476"]

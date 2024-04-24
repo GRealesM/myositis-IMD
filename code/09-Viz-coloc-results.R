@@ -14,10 +14,8 @@
 # * Generate manhattan plots of the key regions.
 # * Create H4 and H3 panels.
 # * Extract coloc information for main table
-
-
+      
 ##########################################
-
 
 ## Load packages and required
 library(data.table)

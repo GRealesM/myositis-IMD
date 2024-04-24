@@ -1,6 +1,35 @@
 Trait	nSNP	overall_p	mscomp	First_Author	Reference	Trait_ID_2.0	Trait_long	Trait_class	N0	N1	N	Population	Public	Label
+ALLERG_RHINITIS_FinnGen_FinnGenR5_1	561	7.80760626838555e-23	PC13 (5e-21)	FinnGen	FinnGenR5	ALLERG_RHINITIS	Allergic rhinitis (FinnGen)	IMD	212387	5527	217914	European (Finnish)	Y	Allergic rhinitis
+CHILDHOOD_ALLERGY_FinnGen_FinnGenR5_1	561	6.94084990921645e-11	PC13 (4e-09)	FinnGen	FinnGenR5	CHILDHOOD_ALLERGY	Childhood allergy (age < 16) (FinnGen)	IMD	216044	2748	218792	European (Finnish)	Y	Childhood allergy (age < 16)
+D3_AGRANULOCYTOSIS_FinnGen_FinnGenR5_1	561	0.0407420415985038	PC5 (9e-03)	FinnGen	FinnGenR5	D3_AGRANULOCYTOSIS	Agranulocytosis (FinnGen)	IMD	215755	1527	217282	European (Finnish)	Y	Agranulocytosis
+D3_SARCOIDOSIS_FinnGen_FinnGenR5_1	561	1.64266933191568e-08	PC3 (4e-06)	FinnGen	FinnGenR5	D3_SARCOIDOSIS	Sarcoidosis (FinnGen)	IMD	215712	2046	217758	European (Finnish)	Y	Sarcoidosis
 E4_HYPERPARA_FinnGen_FinnGenR5_1	561	0.277943091979323	PC11 (5e-02)	FinnGen	FinnGenR5	E4_HYPERPARA	Hyperparathyroidism (FinnGen)	IMD	211123	2928	214051	European (Finnish)	Y	Hyperparathyroidism
-GOUT_FinnGen_FinnGenR5_1	561	0.00451526455224845	PC8 (1e-04)	FinnGen	FinnGenR5	GOUT	Gout	IMD	203546	3576	207122	European (Finnish)	Y	Gout
+E4_HYTHY_AI_STRICT_FinnGen_FinnGenR5_1	561	3.22110494920372e-184	PC1 (3e-68)	FinnGen	FinnGenR5	E4_HYTHY_AI_STRICT	Hypothyroidism, strict autoimmune (FinnGen)	IMD	175475	22997	198472	European (Finnish)	Y	Hypothyroidism, strict autoimmune
+GLOMER_NEPHRITIS_FinnGen_FinnGenR5_1	561	0.00613468372182751	PC8 (1e-03)	FinnGen	FinnGenR5	GLOMER_NEPHRITIS	Glomerulonephritis (FinnGen)	IMD	214179	4613	218792	European (Finnish)	Y	Glomerulonephritis
+H7_ALLERGICCONJUNCTIVITIS_FinnGen_FinnGenR5_1	561	3.47343751783411e-15	PC13 (1e-12)	FinnGen	FinnGenR5	H7_ALLERGICCONJUNCTIVITIS	Allergic conjunctivitis (FinnGen)	IMD	208959	9833	218792	European (Finnish)	Y	Allergic conjunctivitis
 J10_COPD_FinnGen_FinnGenR5_1	561	2.92389682217874e-05	PC13 (9e-09)	FinnGen	FinnGenR5	J10_COPD	COPD (FinnGen)	IMD	186723	6915	193638	European (Finnish)	Y	COPD
+J10_NASALPOLYP_FinnGen_FinnGenR5_1	561	1.10575031616146e-35	PC13 (5e-25)	FinnGen	FinnGenR5	J10_NASALPOLYP	Nasal polyp (FinnGen)	IMD	167849	3236	171085	European (Finnish)	Y	Nasal polyp
+K11_ENERCOLNONINF_FinnGen_FinnGenR5_1	561	1.98123048600052e-89	PC3 (2e-38)	FinnGen	FinnGenR5	K11_ENERCOLNONINF	Noninfective enteritis and colitis (FinnGen)	IMD	210300	8492	218792	European (Finnish)	Y	Noninfective enteritis and colitis
+K11_IBS_FinnGen_FinnGenR5_1	561	0.463873733995815	PC3 (2e-02)	FinnGen	FinnGenR5	K11_IBS	Irritable bowel syndrome (FinnGen)	IMD	182423	4605	187028	European (Finnish)	Y	Irritable bowel syndrome
+L12_ALLERGICCONTACT_FinnGen_FinnGenR5_1	561	6.34155760479114e-05	PC13 (7e-07)	FinnGen	FinnGenR5	L12_ALLERGICCONTACT	Alergic contact dermatitis (FinnGen)	IMD	198740	2204	200944	European (Finnish)	Y	Alergic contact dermatitis
+L12_ATOPIC_FinnGen_FinnGenR5_1	561	1.82014302313881e-25	PC13 (2e-15)	FinnGen	FinnGenR5	L12_ATOPIC	Atopic dermatitis (FinnGen)	IMD	198740	7024	205764	European (Finnish)	Y	Atopic dermatitis
+L12_DERMATITISECZEMA_FinnGen_FinnGenR5_1	561	5.83691463271437e-23	PC13 (2e-17)	FinnGen	FinnGenR5	L12_DERMATITISECZEMA	Dermatitis and eczema (FinnGen)	IMD	198740	20052	218792	European (Finnish)	Y	Dermatitis and eczema
+L12_LICHENPLANUS_FinnGen_FinnGenR5_1	561	1.47314617383417e-12	PC2 (1e-04)	FinnGen	FinnGenR5	L12_LICHENPLANUS	Lichen planus (FinnGen)	IMD	212242	1865	214107	European (Finnish)	Y	Lichen planus
+L12_LICHENSCLERATROPH_FinnGen_FinnGenR5_1	561	0.000120474661018398	PC3 (1e-03)	FinnGen	FinnGenR5	L12_LICHENSCLERATROPH	Lichen sclerosus et atrophicus (FinnGen)	IMD	207482	1021	208503	European (Finnish)	Y	Lichen sclerosus et atrophicus
+L12_PSORIASIS_FinnGen_FinnGenR5_1	561	2.52328173303203e-07	PC5 (3e-05)	FinnGen	FinnGenR5	L12_PSORIASIS	Psoriasis (FinnGen)	IMD	212242	4510	216752	European (Finnish)	Y	Psoriasis
+L12_PSORI_ARTHRO_FinnGen_FinnGenR5_1	561	0.00256412142261584	PC3 (5e-03)	FinnGen	FinnGenR5	L12_PSORI_ARTHRO	Arthropathic psoriasis (FinnGen)	IMD	212242	1637	213879	European (Finnish)	Y	Arthropathic psoriasis
+L12_ROSACEA_FinnGen_FinnGenR5_1	561	0.0113705646155516	PC3 (1e-03)	FinnGen	FinnGenR5	L12_ROSACEA	Rosacea (FinnGen)	IMD	211139	1195	212334	European (Finnish)	Y	Rosacea
+L12_SEBORRHOEIC_FinnGen_FinnGenR5_1	561	0.0378582060604718	PC5 (2e-03)	FinnGen	FinnGenR5	L12_SEBORRHOEIC	Seborrhoeic dermatitis (FinnGen)	IMD	198740	1253	199993	European (Finnish)	Y	Seborrhoeic dermatitis
+L12_URTICA_ALLERG_FinnGen_FinnGenR5_1	561	0.730654391176514	PC8 (1e-01)	FinnGen	FinnGenR5	L12_URTICA_ALLERG	Allergic urticaria (FinnGen)	IMD	212464	1169	213633	European (Finnish)	Y	Allergic urticaria
 M13_ANKYLOSPON_FinnGen_FinnGenR5_1	561	1.3181775750153e-05	PC1 (3e-04)	FinnGen	FinnGenR5	M13_ANKYLOSPON	Ankylosing spondylitis (FinnGen)	IMD	164682	1462	166144	European (Finnish)	Y	Ankylosing spondylitis
+M13_GOUT_FinnGen_FinnGenR5_1	561	0.00721619962419246	PC8 (2e-04)	FinnGen	FinnGenR5	M13_GOUT	Gout (FinnGen)	IMD	147221	3576	150797	European (Finnish)	Y	Gout
+M13_POLYMYALGIA_FinnGen_FinnGenR5_1	561	0.00302473850748529	PC1 (4e-04)	FinnGen	FinnGenR5	M13_POLYMYALGIA	Polymyalgia rheumatica (FinnGen)	IMD	213145	1523	214668	European (Finnish)	Y	Polymyalgia rheumatica
+M13_SJOGREN_FinnGen_FinnGenR5_1	561	3.67385098603505e-13	PC2 (1e-07)	FinnGen	FinnGenR5	M13_SJOGREN	Sicca syndrome [Sjogren] (FinnGen)	IMD	213145	1290	214435	European (Finnish)	Y	Sicca syndrome [Sjogren]
+N14_FEMALEGENINF_FinnGen_FinnGenR5_1	561	0.202083992001216	PC1 (5e-03)	FinnGen	FinnGenR5	N14_FEMALEGENINF	Inflammatory diseases of female pelvic organs (FinnGen)	IMD	111858	11721	123579	European (Finnish)	Y	Inflammatory diseases of female pelvic organs
+N14_INFCERVIX_FinnGen_FinnGenR5_1	561	0.753274903431545	PC8 (5e-02)	FinnGen	FinnGenR5	N14_INFCERVIX	Inflammatory disease of cervix uteri (FinnGen)	IMD	111858	1093	112951	European (Finnish)	Y	Inflammatory disease of cervix uteri
+N14_INFLUTH_FinnGen_FinnGenR5_1	561	0.473932947445085	PC2 (7e-02)	FinnGen	FinnGenR5	N14_INFLUTH	Inflammatory disease of uterus (FinnGen)	IMD	111858	2177	114035	European (Finnish)	Y	Inflammatory disease of uterus
+POLLENALLERG_FinnGen_FinnGenR5_1	561	3.07568611927236e-09	PC13 (2e-11)	FinnGen	FinnGenR5	POLLENALLERG	Pollen allergy (FinnGen)	IMD	214464	2972	217436	European (Finnish)	Y	Pollen allergy
+RHEU_ARTHRITIS_OTH_FinnGen_FinnGenR5_1	561	2.49529379358114e-08	PC3 (2e-05)	FinnGen	FinnGenR5	RHEU_ARTHRITIS_OTH	Other arthritis (FG) (FinnGen)	IMD	172834	5109	177943	European (Finnish)	Y	Other arthritis (FG)
 RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1	561	3.85319562461747e-19	PC3 (5e-09)	FinnGen	FinnGenR5	RX_RHEUMA_BIOLOGICAL	Biological medication for rheuma (FinnGen)	IMD	216990	1802	218792	European (Finnish)	Y	Biological medication for rheuma
+SPONDYLOARTHRITIS_FinnGen_FinnGenR5_1	561	5.89990436510862e-05	PC1 (6e-04)	FinnGen	FinnGenR5	SPONDYLOARTHRITIS	Spondyloarthritis (FinnGen)	IMD	198544	3037	201581	European (Finnish)	Y	Spondyloarthritis
+STILL_ADULT_FinnGen_FinnGenR5_1	561	2.67586867309208e-41	PC1 (4e-13)	FinnGen	FinnGenR5	STILL_ADULT	Adult-onset Still disease (FinnGen)	IMD	198544	3403	201947	European (Finnish)	Y	Adult-onset Still disease

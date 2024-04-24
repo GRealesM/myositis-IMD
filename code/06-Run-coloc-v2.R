@@ -208,127 +208,32 @@ myos=merge(myos, not, by=c("pid"), suffixes=c(".myos",".other"), allow.cartesian
 myos[,pairwise_fdr:=1 - (1-fdr.myos) * (1-fdr.other)] # P(H0 for either disease) = 1 - P(H1 for PAPS & other | p1, p2). Small means high prob of sharing
 summary(myos$pairwise_fdr)
 myos[ pairwise_fdr < 0.05 ]
-            #  pid    trait.myos     fdr.myos trait.other     fdr.other  pairwise_fdr
-#  1:   10:6064589       IIM (R) 1.799960e-02    HyperThy  3.620361e-04  1.835512e-02
-#  2:   10:6064589       IIM (R) 1.799960e-02     HypoThy  7.761615e-11  1.799960e-02
-#  3:   10:6064589       IIM (R) 1.799960e-02         JIA  8.090470e-04  1.879409e-02
-#  4:   10:6064589       IIM (R) 1.799960e-02          RA  3.154588e-06  1.800270e-02
-#  5: 11:118871133       IIM (R) 3.414525e-02          RA  1.027001e-02  4.406459e-02
-#  6: 11:118871133       IIM (R) 3.414525e-02         SjS  1.450420e-04  3.428534e-02
-#  7: 11:118871133       IIM (R) 3.414525e-02         SSc  1.299060e-05  3.415780e-02
-#  8:  11:35245397       IIM (R) 1.170098e-02     HypoThy  3.678372e-08  1.170102e-02
-#  9:  11:64329761       IIM (R) 5.992934e-03     HypoThy  1.463309e-03  7.447474e-03
-# 10:  11:64329761       IIM (R) 5.992934e-03         JIA  1.908621e-02  2.496476e-02
-# 11:  11:64329761       IIM (R) 5.992934e-03         SjS  2.443384e-02  3.028034e-02
-# 12:  11:64362250       IIM (R) 8.432189e-03     HypoThy  6.226375e-03  1.460606e-02
-# 13:  11:64362250       IIM (R) 8.432189e-03         SjS  3.515450e-03  1.191800e-02
-# 14:  11:64362250       IIM (R) 8.432189e-03         SSc  2.458050e-02  3.280542e-02
-# 15:  1:113834946       IIM (R) 2.196624e-05    HyperThy  4.349570e-15  2.196624e-05
-# 16:  1:113834946       IIM (R) 2.196624e-05     HypoThy 1.673117e-150  2.196624e-05
-# 17:  1:113834946       IIM (R) 2.196624e-05         JIA  5.734167e-11  2.196630e-05
-# 18:  1:113834946       IIM (R) 2.196624e-05        LOMG  3.320395e-02  3.322519e-02
-# 19:  1:113834946       IIM (R) 2.196624e-05    MPO+ AAV  3.569593e-04  3.789177e-04
-# 20:  1:113834946       IIM (R) 2.196624e-05          MG  1.841060e-08  2.198465e-05
-# 21:  1:113834946       IIM (R) 2.196624e-05         PBC  4.542891e-02  4.544988e-02
-# 22:  1:113834946       IIM (R) 2.196624e-05          RA  5.062804e-70  2.196624e-05
-# 23:  1:113834946        PM (M) 6.539977e-03    HyperThy  4.349570e-15  6.539977e-03
-# 24:  1:113834946        PM (M) 6.539977e-03     HypoThy 1.673117e-150  6.539977e-03
-# 25:  1:113834946        PM (M) 6.539977e-03         JIA  5.734167e-11  6.539977e-03
-# 26:  1:113834946        PM (M) 6.539977e-03        LOMG  3.320395e-02  3.952678e-02
-# 27:  1:113834946        PM (M) 6.539977e-03    MPO+ AAV  3.569593e-04  6.894602e-03
-# 28:  1:113834946        PM (M) 6.539977e-03          MG  1.841060e-08  6.539995e-03
-# 29:  1:113834946        PM (M) 6.539977e-03          RA  5.062804e-70  6.539977e-03
-# 30:  1:113834946        PM (R) 8.073321e-05    HyperThy  4.349570e-15  8.073321e-05
-# 31:  1:113834946        PM (R) 8.073321e-05     HypoThy 1.673117e-150  8.073321e-05
-# 32:  1:113834946        PM (R) 8.073321e-05         JIA  5.734167e-11  8.073327e-05
-# 33:  1:113834946        PM (R) 8.073321e-05        LOMG  3.320395e-02  3.328200e-02
-# 34:  1:113834946        PM (R) 8.073321e-05    MPO+ AAV  3.569593e-04  4.376637e-04
-# 35:  1:113834946        PM (R) 8.073321e-05          MG  1.841060e-08  8.075162e-05
-# 36:  1:113834946        PM (R) 8.073321e-05         PBC  4.542891e-02  4.550597e-02
-# 37:  1:113834946        PM (R) 8.073321e-05          RA  5.062804e-70  8.073321e-05
-# 38:  2:190670850        PM (R) 2.299677e-05     HypoThy  5.675172e-05  7.974718e-05
-# 39:  2:190670850        PM (R) 2.299677e-05         JIA  4.701598e-02  4.703789e-02
-# 40:  2:190670850        PM (R) 2.299677e-05         SjS  3.745633e-04  3.975515e-04
-# 41:  2:190670850        PM (R) 2.299677e-05         SSc  3.065160e-06  2.606186e-05
-# 42:  2:191071078       IIM (R) 7.728768e-04     HypoThy  1.486883e-29  7.728768e-04
-# 43:  2:191071078       IIM (R) 7.728768e-04         JIA  1.188817e-03  1.960775e-03
-# 44:  2:191071078       IIM (R) 7.728768e-04         PBC  2.374151e-02  2.449604e-02
-# 45:  2:191071078       IIM (R) 7.728768e-04          RA  4.829483e-06  7.777026e-04
-# 46:  2:191071078       IIM (R) 7.728768e-04         SjS  2.319724e-10  7.728770e-04
-# 47:  2:191071078       IIM (R) 7.728768e-04         SSc  6.452880e-11  7.728769e-04
-# 48:  2:191071078       IIM (R) 7.728768e-04         SLE  5.241505e-05  8.252513e-04
-# 49:   3:28029953       IIM (R) 1.799960e-02         SjS  9.040184e-04  1.888735e-02
-# 50:   3:28029953       IIM (R) 1.799960e-02         SSc  1.214773e-02  2.992867e-02
-# 51:  4:122194347       IIM (R) 3.182470e-02         JIA  1.116514e-02  4.263451e-02
-# 52:  5:157185077        DM (R) 3.005199e-02    HyperThy  2.674321e-04  3.031138e-02
-# 53:  5:157185077        DM (R) 3.005199e-02     HypoThy  8.791512e-05  3.013726e-02
-# 54:  5:157185077       IIM (R) 1.198567e-02    HyperThy  2.674321e-04  1.224989e-02
-# 55:  5:157185077       IIM (R) 1.198567e-02     HypoThy  8.791512e-05  1.207253e-02
-# 56:  7:128933913       IIM (M) 3.245979e-02     HypoThy  4.927293e-05  3.250747e-02
-# 57:  7:128933913       IIM (M) 3.245979e-02         JIA  1.169413e-02  4.377433e-02
-# 58:  7:128933913       IIM (M) 3.245979e-02          RA  1.761528e-04  3.263023e-02
-# 59:  7:128933913       IIM (M) 3.245979e-02         SjS  1.394114e-31  3.245979e-02
-# 60:  7:128933913       IIM (M) 3.245979e-02         SSc  1.413720e-06  3.246116e-02
-# 61:  7:128933913       IIM (M) 3.245979e-02         SLE  3.850379e-07  3.246016e-02
-# 62:  7:128933913       IIM (R) 4.241146e-03     HypoThy  4.927293e-05  4.290210e-03
-# 63:  7:128933913       IIM (R) 4.241146e-03         JIA  1.169413e-02  1.588568e-02
-# 64:  7:128933913       IIM (R) 4.241146e-03    MPO+ AAV  1.814119e-02  2.230540e-02
-# 65:  7:128933913       IIM (R) 4.241146e-03          RA  1.761528e-04  4.416552e-03
-# 66:  7:128933913       IIM (R) 4.241146e-03         SjS  1.394114e-31  4.241146e-03
-# 67:  7:128933913       IIM (R) 4.241146e-03         SSc  1.413720e-06  4.242554e-03
-# 68:  7:128933913       IIM (R) 4.241146e-03         SLE  3.850379e-07  4.241529e-03
-# 69:  7:128954129 Anti-Jo1+ (R) 4.905755e-02     HypoThy  3.412365e-05  4.909000e-02
-# 70:  7:128954129 Anti-Jo1+ (R) 4.905755e-02    MPO+ AAV  2.540366e-04  4.929912e-02
-# 71:  7:128954129 Anti-Jo1+ (R) 4.905755e-02          RA  1.550458e-05  4.907229e-02
-# 72:  7:128954129 Anti-Jo1+ (R) 4.905755e-02         SjS  8.469175e-32  4.905755e-02
-# 73:  7:128954129 Anti-Jo1+ (R) 4.905755e-02         SSc  1.157436e-17  4.905755e-02
-# 74:  7:128954129 Anti-Jo1+ (R) 4.905755e-02         SLE  2.622553e-08  4.905757e-02
-# 75:  7:128954129       IIM (R) 3.022458e-03     HypoThy  3.412365e-05  3.056478e-03
-# 76:  7:128954129       IIM (R) 3.022458e-03         JIA  1.467235e-02  1.765046e-02
-# 77:  7:128954129       IIM (R) 3.022458e-03    MPO+ AAV  2.540366e-04  3.275727e-03
-# 78:  7:128954129       IIM (R) 3.022458e-03          RA  1.550458e-05  3.037916e-03
-# 79:  7:128954129       IIM (R) 3.022458e-03         SjS  8.469175e-32  3.022458e-03
-# 80:  7:128954129       IIM (R) 3.022458e-03         SSc  1.157436e-17  3.022458e-03
-# 81:  7:128954129       IIM (R) 3.022458e-03         SLE  2.622553e-08  3.022484e-03
-# 82:  7:128977412 Anti-Jo1+ (R) 4.905755e-02     HypoThy  3.619864e-05  4.909197e-02
-# 83:  7:128977412 Anti-Jo1+ (R) 4.905755e-02    MPO+ AAV  2.540366e-04  4.929912e-02
-# 84:  7:128977412 Anti-Jo1+ (R) 4.905755e-02          RA  1.550458e-05  4.907229e-02
-# 85:  7:128977412 Anti-Jo1+ (R) 4.905755e-02         SLE  2.622553e-08  4.905757e-02
-# 86:  7:128977412       IIM (R) 3.022458e-03     HypoThy  3.619864e-05  3.058547e-03
-# 87:  7:128977412       IIM (R) 3.022458e-03         JIA  1.372170e-02  1.670269e-02
-# 88:  7:128977412       IIM (R) 3.022458e-03    MPO+ AAV  2.540366e-04  3.275727e-03
-# 89:  7:128977412       IIM (R) 3.022458e-03          RA  1.550458e-05  3.037916e-03
-# 90:  7:128977412       IIM (R) 3.022458e-03         SLE  2.622553e-08  3.022484e-03
-# 91:   8:11491677       IIM (R) 4.117055e-03          RA  1.511672e-04  4.267600e-03
-# 92:   8:11491677       IIM (R) 4.117055e-03         SjS  2.136693e-05  4.138334e-03
-# 93:   8:11491677       IIM (R) 4.117055e-03         SSc  6.452880e-11  4.117055e-03
-# 94:   8:11491677       IIM (R) 4.117055e-03         SLE  6.161174e-05  4.178413e-03
-#              
+#              pid trait.myos    fdr.myos trait.other    fdr.other pairwise_fdr
+#           <char>     <char>       <num>      <char>        <num>        <num>
+#   1:  10:6064303    IIM (R) 0.022563360    HyperThy 3.623032e-04  0.022917489
+#   2:  10:6064303    IIM (R) 0.022563360     HypoThy 4.583642e-11  0.022563360
+#   3:  10:6064303    IIM (R) 0.022563360         JIA 7.159483e-04  0.023263154
+#   4:  10:6064303    IIM (R) 0.022563360          RA 2.822467e-06  0.022566119
+#   5:  10:6064589    IIM (R) 0.022563360    HyperThy 3.837692e-04  0.022938470
+#  ---                                                                         
+# 108: 7:128977412    IIM (R) 0.003918517         SLE 5.162179e-08  0.003918568
+# 109:  8:11491677    IIM (R) 0.004448022          RA 1.681830e-04  0.004615457
+# 110:  8:11491677    IIM (R) 0.004448022         SjS 3.363790e-05  0.004481510
+# 111:  8:11491677    IIM (R) 0.004448022         SSc 9.515893e-11  0.004448022
+# 112:  8:11491677    IIM (R) 0.004448022         SLE 1.010627e-04  0.004548635
 
-
-# 94 pairs with pairwise_fdr < 0.05
+# 112 pairs with pairwise_fdr < 0.05
 
 ################################################################################
 
 myos[ pairwise_fdr < 0.05 , unique(pid)]
-# 15 unique SNPs
+# 23 unique SNPs
 
 fwrite(myos, "../data/raw_fdr_results.tsv", sep="\t")
 
-# Next, to increase our chances of discovery, we'll relax our pairwise_fdr limits to 0.5.
+# We'll simply consider pairs with pairwise FDR < 0.5
 
-# We want to ensure that we can compare index SNPs and trait.other, even if they're not pairwise_fdr < 0.5 for all myositis,
-# so we'll select those SNPs with at pairwise_fdr < 0.5 and then coloc those for all combinations.
-myos[, trait_snp:=paste0(trait.other, "_", pid)] # auxiliary variable for trait.other and index_snp pairs
-
-# This way, in index_tspairs, we'll capture IMD-SNP pairs that have at least one pairwise_fdr with a myositis trait.
-# Then, by selecting those IMD-SNP combinations in index_tspairs in index, we'll capture
-# all myositis-IMD combinations at a given SNP where at least one myositis-IMD pair with pairwise_fdr < 0.5 exists.
-index_tspairs <- myos[ pairwise_fdr < 0.5 , unique(trait_snp) ]
-length(index_tspairs)
-# 318 unique IMD-indexSNPs with pairwise_fdr < 0.5 pairs
-
-index=myos[ pairwise_fdr < 0.5 | trait_snp %in% index_tspairs ][order(pairwise_fdr)] 
+index=myos[ pairwise_fdr < 0.05 ][order(pairwise_fdr)] 
 
 index[ , c("chr","bp"):=tstrsplit(pid,":")  %>% lapply(., as.numeric) ]
 
@@ -364,17 +269,17 @@ drop <- withfdr[!pid %in% tokeep, unique(pid)]
 message("The following SNPs were dropped: ", paste0(drop, collapse = ", "))
 
 nrow(index)
-# 2740
+# 112
 length(unique(index$pid))
-# 90 SNPs
+# 23 SNPs
 
 # Remove SNPs to drop
 index <- index[!pid %in% drop]
 
 nrow(index)
-# 1964
+# 61
 length(unique(index$pid))
-# 67
+# 13
 
 ## Next step, bring dense SNP datasets to run coloc
 
@@ -389,7 +294,7 @@ if(!file.exists("../data/fg_sumstats/finngen_R7_FELTY.gz"))
     system("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_FELTY.gz -O ../data/fg_sumstats/finngen_R7_FELTY.gz")
 
 # Note: this PanUKBB file will need some work to reformat, see below
-if(!file.exists("../data/fg_sumstats/20002_1225_PanUKBB_1-hg38.tsv.gz")){
+if(!file.exists("../data/fg_sumstats/20002_1225_PanUKBB_PanUKBBR2_1-hg38.tsv.gz")){
     system("wget https://pan-ukb-us-east-1.s3.amazonaws.com/sumstats_flat_files/categorical-20002-both_sexes-1225.tsv.bgz -O ../data/fg_sumstats/20002_1225_PanUKBB_PanUKBBR2_1.bgz")
     system("Rscript processing_panUKBB.R") # This script will prepare the PanUKBB file to be used by coloc
 }   
@@ -421,7 +326,7 @@ table(Felty$pid %in% snps$pid38)
 setnames(Felty, c("#chrom","pos"), c("CHR38","BP38"))
 data$Felty=Felty[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
 
-hyperthy=fread("../data/fg_sumstats/20002_1225_PanUKBB_1-hg38.tsv.gz", tmpdir = "tmp/")
+hyperthy=fread("../data/fg_sumstats/20002_1225_PanUKBB_PanUKBBR2_1-hg38.tsv.gz", tmpdir = "tmp/")
 hyperthy[, pid := paste(CHR38,BP38,sep=":")]
 table(hyperthy$pid %in% snps$pid38)
 data$HyperThy=hyperthy[,.(pid, CHR38, BP38, REF, ALT, BETA, SE, P)]
@@ -461,8 +366,6 @@ GPA$pid=paste(GPA[["#chrom"]],GPA$pos,sep=":")
 table(GPA$pid %in% snps$pid38)
 setnames(GPA, c("#chrom","pos"), c("CHR38","BP38"))
 data$GPA=GPA[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval)]
-
-
 
 
 # Now we'll get the sample sizes, using the metadata file
@@ -530,7 +433,7 @@ index <- merge(index, p.myos, by=c("pid", "trait.myos"), all.x=TRUE)
 index[ H4>.5 , .(trait.myos, trait.other,  fdr.myos, fdr.other, pairwise_fdr, H4, pid, bestsnp, bestsnp.pp, pdriver.myos)]
 
 # Save results
-fwrite(index, "../data/coloc_results-v2.tsv", sep="\t") 
+fwrite(index, "../data/coloc_results-v3.tsv", sep="\t") 
 
 
 ####
@@ -538,65 +441,59 @@ fwrite(index, "../data/coloc_results-v2.tsv", sep="\t")
 ####
 
 ccs <- fread("../data/coloc_results.tsv")  %>% .[ H4 > 0.5]
-ccs2 <- fread("../data/coloc_results-v2.tsv") %>% .[ H4 > 0.5]
+ccs2 <- fread("../data/coloc_results-v3.tsv") %>% .[ H4 > 0.5]
 
 comp <- paste(ccs$pid, ccs$trait.myos, ccs$trait.other, sep = "_")
 comp2 <- paste(ccs2$pid, ccs2$trait.myos, ccs2$trait.other, sep = "_")
 
 comp %in% comp2 %>% table
-# FALSE  TRUE 
-#     5    47 
-# 5 lost (9.6%)
+# FALSE   TRUE 
+#     15    37 
+# 15 lost (28.8%)
 comp2 %in% comp %>% table
 # FALSE  TRUE 
-#    12    47 
-# 12 new (up 23%)
+#    5    37 
+# 5 new 
 
 cs <- unique(ccs$pid)
 cs2 <- unique(ccs2$pid)
 
 cs %in% cs2 %>% table
 # FALSE  TRUE 
-#     3     8 
-# 3 lost in new 
+#     6     5 
+# 6 lost in new 
 cs[!cs %in% cs2]
-# "10:6064589"   "12:110972733" "12:112468611"
+# "10:6064589"   "12:110972733" "12:112468611" "2:100215693"  "2:190670850"  "6:167124106"
 # 10:6064589 corresponds to rs7073236, associated with IL2RA in the main table
 # 12:110972733 corresponds to rs991817. We excluded it from the final main table, as its FDR was 0.65.
 # 12:112468611 corresponds to rs11066320, associated with SH2B3 in the main table. A novel finding, but weak. 
+# 2:100215693 
+# 2:190670850
+# 6:167124106
 cs2 %in% cs %>% table
 # FALSE  TRUE 
-#     7     8 
-# 7 new hits!
+#     3     5 
+# 3 new hits!
 cs2[!cs2 %in% cs]
-# "10:6064303"   "12:111634620" "16:85943896"  "17:39895095"  "19:10467167"  "22:21585386"  "2:198029415"
-# 10:6064303 is rs7072793. Close to IL2RA. Coloc with RA, but associated with T1D in OpenTargets
-# 12:111634620 is rs11065987. Close to ATXN2. Coloc with HypoThy and JIA (pwFDR 0.08!), associated with ALDH2 and SH2B3 in OTG.
-# 16:85943896 is rs7202472. Close to IRF8. Coloc with HypoThy (pwFDR 0.9!), associated with monocyte counts and SLE in OTG.
-# 17:39895095 is rs8067378. Close to GSDMB. Coloc with SSc (pwFDR 0.32!), associated with neutrophil count and asthma in OTG.
-# 19:10467167 is rs1051738, a missense variant of PDE4A. Coloc with JIA and RA (pwFDR ~ 0.25). Associated with IBD in OTG.
-# 22:21585386 is rs5754217, an intron variant of UBE2L3. Coloc with SSc. Associated with some blood traits in OTG.
-# 2:198029415 is rs10196612, an intron variant of PLCL1. Coloc with SjS. Associated with hay fever/rhinitis in OTG.
-
+# "10:6064303" "22:21585386"  "2:198029415"
+# 10:6064303 is rs7072793. Close to IL2RA. Coloc with RA (H4 = 0.57, pwFDR = 0.02), but associated with T1D in OpenTargets.
+# 22:21585386 is rs5754217, an intron variant of UBE2L3. Coloc with SSc (H4 = 0.82, pwFDR = 0.005). Associated with some blood traits in OTG.
+# 2:198029415 is rs10196612, an intron variant of PLCL1. Coloc with SjS (H4 = 0.64, pwFDR = 0.004). Associated with hay fever/rhinitis in OTG.
 
 ###########
 
 
 sessionInfo()
-# R version 4.3.1 (2023-06-16)
+# R version 4.3.3 (2024-02-29)
 # Platform: x86_64-redhat-linux-gnu (64-bit)
-# Running under: Rocky Linux 8.8 (Green Obsidian)
+# Running under: Rocky Linux 8.9 (Green Obsidian)
 
 # Matrix products: default
 # BLAS/LAPACK: /usr/lib64/libopenblaso-r0.3.15.so;  LAPACK version 3.9.0
 
 # locale:
-#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
-#  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
-#  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
-#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
-#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-# [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C               LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8     LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                  LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
 
 # time zone: GB
 # tzcode source: system (glibc)
@@ -605,23 +502,13 @@ sessionInfo()
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 # other attached packages:
-# [1] cowplot_1.1.1      ggplot2_3.4.3      annotSnpStats_0.99 snpStats_1.50.0   
-# [5] Matrix_1.5-4.1     survival_3.5-5     coloc_5.2.2        magrittr_2.0.3    
-# [9] data.table_1.14.8 
+# [1] cowplot_1.1.3      ggplot2_3.5.0      annotSnpStats_0.99 snpStats_1.52.0    Matrix_1.6-5       survival_3.5-8     coloc_5.2.3        magrittr_2.0.3    
+# [9] data.table_1.15.4 
 
 # loaded via a namespace (and not attached):
-#  [1] gtable_0.3.4        dplyr_1.1.3         compiler_4.3.1     
-#  [4] crayon_1.5.2        tidyselect_1.2.0    Rcpp_1.0.11        
-#  [7] cupcake_0.1.0.0     gridExtra_2.3       susieR_0.12.35     
-# [10] splines_4.3.1       scales_1.2.1        lattice_0.21-8     
-# [13] R6_2.5.1            plyr_1.8.8          labeling_0.4.3     
-# [16] generics_0.1.3      mixsqp_0.3-48       BiocGenerics_0.46.0
-# [19] viridis_0.6.4       tibble_3.2.1        munsell_0.5.0      
-# [22] pillar_1.9.0        R.utils_2.12.2      rlang_1.1.1        
-# [25] utf8_1.2.3          reshape_0.8.9       viridisLite_0.4.2  
-# [28] cli_3.6.1           withr_2.5.0         zlibbioc_1.46.0    
-# [31] grid_4.3.1          irlba_2.3.5.1       lifecycle_1.0.3    
-# [34] R.oo_1.25.0         R.methodsS3_1.8.2   vctrs_0.6.3        
-# [37] glue_1.6.2          farver_2.1.1        fansi_1.0.4        
-# [40] colorspace_2.1-0    tools_4.3.1         matrixStats_1.0.0  
-# [43] pkgconfig_2.0.3    
+#  [1] viridis_0.6.5       utf8_1.2.4          generics_0.1.3      lattice_0.22-6      grid_4.3.3          R.oo_1.26.0         plyr_1.8.9          jsonlite_1.8.8     
+#  [9] R.utils_2.12.3      reshape_0.8.9       mixsqp_0.3-54       gridExtra_2.3       fansi_1.0.6         viridisLite_0.4.2   scales_1.3.0        textshaping_0.3.7  
+# [17] cli_3.6.2           rlang_1.1.3         crayon_1.5.2        R.methodsS3_1.8.2   munsell_0.5.1       splines_4.3.3       susieR_0.12.35      withr_3.0.0        
+# [25] tools_4.3.3         dplyr_1.1.4         colorspace_2.1-0    BiocGenerics_0.48.1 vctrs_0.6.5         R6_2.5.1            matrixStats_1.3.0   lifecycle_1.0.4    
+# [33] zlibbioc_1.48.0     ragg_1.3.0          irlba_2.3.5.1       pkgconfig_2.0.3     pillar_1.9.0        gtable_0.3.4        glue_1.7.0          Rcpp_1.0.12        
+# [41] systemfonts_1.0.6   tibble_3.2.1        tidyselect_1.2.1    farver_2.1.1        labeling_0.4.3      compiler_4.3.3      cupcake_0.1.0.0  
