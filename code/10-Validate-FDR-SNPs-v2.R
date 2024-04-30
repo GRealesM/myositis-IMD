@@ -987,6 +987,7 @@ fwrite(sxt, "../tables/ST7_validation_R5_results.tsv", sep ="\t")
 
 #################################################
 
+# Figure 4 - P-value comparison in focus and validation datasets, selected by pwFDR, pwFDR + coloc, and empirical
 
 ssv <- copy(tindex)
 ssv <- ssv[, .(maxH4 = max(H4), b.val, P.focus, P.val), by = c("pid38", "IMD.focus")]  %>% unique
@@ -1064,7 +1065,7 @@ sp3z <- ggplot(wR10, aes(x = -log10(P.focus), y = -log10(P.val)))+
 sp <- plot_grid(sp1, sp1z, sp2, sp2z, sp3, sp3z, nrow = 3)
 sp
 
-ggsave("../figures/FigSXX_validation_SNPs_P_plot.png", sp, bg = "white", height = 8, width = 7)
+ggsave("../figures/Fig4_validation_SNPs_P_plot.png", sp, bg = "white", height = 8, width = 7)
 
 # Now the same but for our validation snps
 

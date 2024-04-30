@@ -137,7 +137,7 @@ names(bhcol)  <- as.character(1:max(ann$Bhattacharyya))
 annotations <- list(ann = ann, colors = list( Bhattacharyya = bhcol,DPMUnc = dpcol))
 myob <- grep("myositis|IIM", rownames(bhatta.d), value = TRUE, ignore.case = TRUE)
 
-# Make heatmap with Bhatta contents and Bhata/DPMUnc clustering annotations
+# Figure S10 - Heatmap with Bhatta contents and Bhata/DPMUnc clustering annotations
 
 bh.ph <- pheatmap(bhatta.d,
                   cluster_cols = bh.cl, 
@@ -154,9 +154,9 @@ bh.ph <- pheatmap(bhatta.d,
                   labels_row = make_bold_names(bhatta.d, rownames, myob))
 
 # Save
-# ggsave("../figures/Myositis_7PCs_BHDP_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
-# ggsave("../figures/Myositis_7PCs_BHDP_heatmap.png", bh.ph, width = 9, height = 9.5, bg="white")
-# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_7PCs_BHDP_heatmap.svg") # Trick to make the svg file text be more easily editable
+# ggsave("../figures/FigS10_Myositis_7PCs_BHDP_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
+# ggsave("../figures/FigS10_Myositis_7PCs_BHDP_heatmap.png", bh.ph, width = 9, height = 9.5, bg="white")
+# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/FigS10_Myositis_7PCs_BHDP_heatmap.svg") # Trick to make the svg file text be more easily editable
 
 # Note: This figure will be edited to add a rectangle highlighting the Bhatta myositis group.
 
@@ -171,6 +171,7 @@ clsum=rescl[,.(y=.N),by=c("DPMUnc","Bhattacharyya")]
 
 
 # Figure 2 -- Plot Relationship between disease clusterings
+
 sdiag <- ggplot(clsum, aes(y=y, axis1=DPMUnc,axis2=Bhattacharyya)) + geom_alluvium(aes(fill=factor(DPMUnc))) +
   geom_stratum(width = 1/5,  fill="white", color = "black") +
   #geom_label(stat = "stratum", aes(label = after_stat(stratum))) +
@@ -244,6 +245,7 @@ make_bold_names <- function(mat, rc_fun, rc_names) {
   bold_names
 }
 
+# Figure S11 - Heatmap with DPMUnc contents and Bhata/DPMUnc clustering annotations
 
 # Process. This is just adapted from the PSM 
 
@@ -312,9 +314,9 @@ psm_heatmap = pheatmap(bigpsm,
                        labels_row = make_bold_names(bigpsm, rownames, myob))
 
 # Save
-# ggsave("../figures/Myositis_7PCs_DPBH_heatmap.svg", psm_heatmap, width = 9, height = 9.5, bg="white")
-# ggsave("../figures/Myositis_7PCs_DPBH_heatmap.png", psm_heatmap, width = 9, height = 9.5, bg="white")
-# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_7PCs_DPBH_heatmap.svg") # Trick to make the svg file text be more easily editable
+# ggsave("../figures/FigS11_Myositis_7PCs_DPBH_heatmap.svg", psm_heatmap, width = 9, height = 9.5, bg="white")
+# ggsave("../figures/FigS11_Myositis_7PCs_DPBH_heatmap.png", psm_heatmap, width = 9, height = 9.5, bg="white")
+# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/FigS11_Myositis_7PCs_DPBH_heatmap.svg") # Trick to make the svg file text be more easily editable
 
 
 #################################################
