@@ -23,7 +23,7 @@ setDTthreads(15)
 library(magrittr)
 
 # Load data
-cc <- fread("../data/coloc_results-v2.tsv")
+cc <- fread("../data/coloc_results-v3.tsv")
 
 snps <- c(cc[ H4 > 0.5, unique(pid)],cc[ H4 > 0.5, unique(bestsnp)]) %>% unique
 
@@ -44,7 +44,7 @@ names(mm)[2:4] <- c("CHR", "BP", "SNP")
 
 
 # Save
-fwrite(mm, "../data/snp.to.map-v2.tsv", sep="\t")
+fwrite(mm, "../data/snp.to.map-v3.tsv", sep="\t")
 
 #########################################
 
@@ -67,7 +67,7 @@ sessionInfo()
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 # other attached packages:
-# [1] magrittr_2.0.3    data.table_1.15.2
+# [1] magrittr_2.0.3    data.table_1.15.4
 
 # loaded via a namespace (and not attached):
-# [1] compiler_4.3.3    cli_3.6.2         tools_4.3.3       R.methodsS3_1.8.2 jsonlite_1.8.8    R.utils_2.12.3    rlang_1.1.3       R.oo_1.26.0 
+# [1] compiler_4.3.3    cli_3.6.2         tools_4.3.3       R.methodsS3_1.8.2 jsonlite_1.8.8    R.utils_2.12.3    rlang_1.1.3       R.oo_1.26.0    

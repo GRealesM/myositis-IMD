@@ -5,7 +5,7 @@
 #########################################
 
 # Author: Guillermo Reales 
-# Date last updated: 2023/09/11
+# Date last updated: 2024/04/25
 
 # Background: After running DPMUnc and computing the Bhattacharyya distance, we selected a reduced number of IMD to run coloc on. Then we'll run the
 # pairwise FDR procedure to select SNPs and run coloc for myositis-IMD pairs at selected SNPs.
