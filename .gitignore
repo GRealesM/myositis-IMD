@@ -24,3 +24,7 @@ figures/202110_Oct21/
 figures/202111_Nov21/
 figures/202201_Jan22/
 figures/202202_Feb22/
+
+# Ignore unused tables and old stuff
+tables/2022/
+tables/old/
