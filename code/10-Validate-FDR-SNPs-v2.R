@@ -950,7 +950,7 @@ r10n[, IMD.focus:=paste0(phenocode,"_FinnGen_FinnGenR5_1")]
 mimd <- merge(mimd, r10n)
 mimd <- mimd[, .(phenocode, phenotype, sig.PCs, sig.snps,N1.R5, num_cases)]
 setnames(mimd, c("sig.PCs", "sig.snps", "num_cases"), c("sig.PC.R5", "gwsig.SNP.R5", "N1.R10"))
-fwrite(mimd, "../tables/ST_validation_R5_info.tsv", sep ="\t")
+fwrite(mimd, "../tables/ST6_validation_R5_info.tsv", sep ="\t")
 
 # Let's collect the numbers
 
@@ -982,7 +982,7 @@ sxt <- data.table(validation = c("pwFDR + coloc (0.5)",
 							  sum(ssr10$bad))
 							  )
 
-fwrite(sxt, "../tables/ST_validation_R5_results.tsv", sep ="\t")
+fwrite(sxt, "../tables/ST7_validation_R5_results.tsv", sep ="\t")
 
 
 #################################################

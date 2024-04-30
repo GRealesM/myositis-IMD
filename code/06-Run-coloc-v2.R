@@ -33,7 +33,7 @@ library(ggplot2)
 library(cowplot)
 setDTthreads(15)
 
-dpres <- fread("../tables/ST_coloc_diseases.tsv")
+dpres <- fread("../tables/ST4_coloc_diseases.tsv")
 
 dpres[,.(Trait, Label, coloc_Label)] 
 #                                      Trait                               Label    coloc_Label

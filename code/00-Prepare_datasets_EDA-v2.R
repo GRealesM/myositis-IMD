@@ -53,7 +53,7 @@ pf[, FDR.PC:=p.adjust(P, method = "BH"), by = c("PC", "Trait_class")][, stars:=i
 qmyo <- qf[ First_Author %in% c("Miller", "Rothwell")]
 qmyo <- qmyo[, .(Label, First_Author, Reference, N0, N1, N, FDR.overall )][order(First_Author, Label)]
 qmyo
-# fwrite(qmyo, "../tables/ST_Myo_info.tsv", sep="\t")
+# fwrite(qmyo, "../tables/ST1_Myo_info.tsv", sep="\t")
 
 #############################
 
@@ -218,9 +218,8 @@ ps2[, PC:=factor(PC, levels = paste0("PC", 1:13))]
 # fwrite(ps2, "../data/ps2.tsv", sep="\t")
 # fwrite(qs2, "../data/qs2.tsv", sep="\t")
 
-# Prepare supplementary tables for ALL datasets and projections
 
-# Save filtered datasets - not sure if we'll show these
+# Save filtered datasets (Supplementary Table 2 and 3)
 
 aq <- copy(qf)
 ap <- copy(pf)
@@ -231,8 +230,8 @@ ap[, sig.overall:=ifelse(Trait %in% qs$Trait, "Yes", "No")][, in.selection:=ifel
 aq <- aq[,.(Trait, Label, First_Author, Reference, N0, N1,N, Population, nSNP, mscomp, overall_p, FDR.overall, sig.overall, in.selection)]
 ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR.PC, stars, sig.overall, in.selection)]
 
-# fwrite(aq, "../tables/ST_all_datasets.tsv", sep ="\t")
-# fwrite(ap, "../tables/ST_all_projections.tsv", sep ="\t")
+# fwrite(aq, "../tables/ST2_all_datasets.tsv", sep ="\t")
+# fwrite(ap, "../tables/ST3_all_projections.tsv", sep ="\t")
 
 ##########################################
 
@@ -264,6 +263,7 @@ Mphm
 # ggsave("../figures/Fig1_Myositis_allsources_heatmap.svg", Mphm, width = 4.5, height = 2.5, bg="white")
 # 
 # system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_allsources_heatmap.svg") # Trick to make the svg file text be more easily editable
+# Note: Figure 1 was manually edited in Inkscape to add sample sizes of each myositis dataset.
 
 ###
 
