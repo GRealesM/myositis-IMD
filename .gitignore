@@ -17,3 +17,10 @@ code/2022/
 code/not_used/
 # Ignore pre-processing, where we omit unauthorised files
 code/00a-Prefilter_projections.R
+
+# Ignore unused figures and old stuff
+figures/not_used/
+figures/202110_Oct21/
+figures/202111_Nov21/
+figures/202201_Jan22/
+figures/202202_Feb22/
