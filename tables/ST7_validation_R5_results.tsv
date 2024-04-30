@@ -1,6 +1,6 @@
-validation	FPR
-pwFDR + coloc (0.5)	0.0919540229885057
-pwFDR + coloc (0.8)	0.0476190476190476
-coloc (0.5)	0.152476197083643
-coloc (0.8)	0.073115489615778
-Empirical	0.153333333333333
+Validation method	FPR	Validating SNPs	Non-validating SNPs
+pwFDR + coloc (0.5)	0.0919540229885057	79	8
+pwFDR + coloc (0.8)	0.0476190476190476	60	3
+coloc (0.5)	0.152476197083643		
+coloc (0.8)	0.073115489615778		
+Empirical	0.153333333333333	127	23

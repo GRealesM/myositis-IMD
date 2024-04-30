@@ -943,7 +943,8 @@ m <- fread("../data/Metadata_20230906-v1.tsv")
 
 # Summary table of the validation datasets
 mimd <- m[Trait %in% unique(index$IMD.focus), .(IMD.focus = Trait, N1.R5 = N1)][order(IMD.focus)]
-mimd <- merge(mimd, nsig.snps)
+mimd <- merge(mimd, nsig.snps, all.x = TRUE)
+mimd[is.na(sig.snps), sig.snps:=0]
 mimd <- merge(mimd, sigpcs.dt)
 r10n <- r10man[phenocode %in% gsub("_FinnGen_FinnGenR5_1", "", mimd$IMD.focus), .(phenocode, num_cases, phenotype)]
 r10n[, IMD.focus:=paste0(phenocode,"_FinnGen_FinnGenR5_1")]
@@ -957,9 +958,7 @@ fwrite(mimd, "../tables/ST6_validation_R5_info.tsv", sep ="\t")
 # For this bit, you can scroll up and run the relevant bits of code to generate the relevant objects, 
 # which are quick to create from the saved files we loaded right above.
 
-
-
-sxt <- data.table(validation = c("pwFDR + coloc (0.5)",
+sxt <- data.table(`Validation method`= c("pwFDR + coloc (0.5)",
 						  "pwFDR + coloc (0.8)", 
 						  "coloc (0.5)", 
 						  "coloc (0.8)", 
