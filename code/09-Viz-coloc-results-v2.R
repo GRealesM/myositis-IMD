@@ -40,11 +40,27 @@ mg <- mg[,.(SNPID, pid, nearestGene)]
 
 # Add some info to the coloc table, and extract rsids to map
 
-coloc <- merge(coloc, mg, by="pid") # First on driver SNPs
+coloc <- merge(coloc, mg, by="pid", all.x = TRUE) # First on driver SNPs
 setnames(coloc, c("SNPID", "nearestGene"), c("driver.rsid", "driver.nearestgene"))
 coloc <- merge(coloc, mg, by.x="bestsnp", by.y = "pid", all.x = TRUE) # Then on candidate snps. Bear in mind that we only mapped candidate SNPs with H4 > 0.5
 setnames(coloc, c("SNPID", "nearestGene"), c("bestsnp.rsid", "bestsnp.nearestgene"))
 
+# Prepare Supplementary table 5
+st5 <- copy(coloc)
+st5 <- st5[, .(pid,  chr, bp, driver.rsid, driver.nearestgene, 
+                  trait.myos, trait.other, pdriver.myos, fdr.myos, fdr.other, 
+                  pairwise_fdr, nsnps, driver, H0, H1, 
+                  H2, H3, H4, bestsnp, bestsnp.rsid, 
+                  bestsnp.nearestgene, bestsnp.pp, pbest.myos, pbest.other, pbest.myos.region, 
+                  pbest.other.region)]
+names(st5) <- c("Driver SNP coordinates","Chromosome","Base pair","Driver SNP rsid", "Driver SNP nearest gene (OpenTargets Genetics)", 
+"Myositis trait", "IMD","Driver SNP P-value (Myositis dataset)", "Myositis FDR","IMD FDR",
+"Pairwise FDR", "N SNPs in region","Features driven by driver SNP","H0","H1",
+"H2","H3","H4","Candidate SNP coordinates","Candidate SNP rsid", 
+"Candidate SNP nearest gene (OpenTargets Genetics)","Candidate SNP PP", "Candidate SNP P-value (Myositis dataset)","Candidate SNP P-value (IMD dataset)","Lowest P-value in the region (Myositis dataset)",
+"Lowest P-value in the region (IMD dataset)")
+
+# fwrite(st5, "../tables/ST5_full_coloc_results.tsv", sep ="\t")
 
 # Fix labellings according to what we know
 # To get a reference
@@ -125,92 +141,93 @@ sumc[, ec:=NULL]
 
 # Attempt of new figure
 
-gp1 <- ggplot(sumc[ trait.myos == "DM (R)" ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
-              geom_tile( color = "black", lwd = 0.2, linetype = 1) +
-              scale_fill_gradient(limits = c(0,1), na.value = "white")+
-              geom_tile(aes( colour = flag), lwd=1, linetype = 1, data = sumc[trait.myos == "DM (R)" & H4 > 0.25]) + # Little trick to keep tiles in place
-              scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
-              theme_minimal() +
-              theme(panel.grid.major = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.x = element_blank(),
-                    legend.position = "none",
-                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
-                    )+
-              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
-              labs(fill = "PP")
+# gp1 <- ggplot(sumc[ trait.myos == "DM (R)" ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
+#               geom_tile( color = "black", lwd = 0.2, linetype = 1) +
+#               scale_fill_gradient(limits = c(0,1), na.value = "white")+
+#               geom_tile(aes( colour = flag), lwd=1, linetype = 1, data = sumc[trait.myos == "DM (R)" & H4 > 0.25]) + # Little trick to keep tiles in place
+#               scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_blank(),
+#                     legend.position = "none",
+#                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+#                     )+
+#               facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+#               labs(fill = "PP")
 
-gp2 <- ggplot(sumc[ trait.myos == "PM (M)" ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
-              geom_tile( color = "black", lwd = 0.2, linetype = 1) +
-              scale_fill_gradient(limits = c(0,1), na.value = "white")+
-              geom_tile(aes( colour = flag), lwd=1, linetype = 1, data = sumc[trait.myos == "PM (M)" & H4 > 0.25]) + # Little trick to keep tiles in place
-              scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
-              theme_minimal() +
-              theme(panel.grid.major = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.x = element_blank(),
-                    legend.position = "none",
-                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
-                    )+
-              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
-              labs(fill = "PP")
+# gp2 <- ggplot(sumc[ trait.myos == "PM (M)" ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
+#               geom_tile( color = "black", lwd = 0.2, linetype = 1) +
+#               scale_fill_gradient(limits = c(0,1), na.value = "white")+
+#               geom_tile(aes( colour = flag), lwd=1, linetype = 1, data = sumc[trait.myos == "PM (M)" & H4 > 0.25]) + # Little trick to keep tiles in place
+#               scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_blank(),
+#                     legend.position = "none",
+#                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+#                     )+
+#               facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+#               labs(fill = "PP")
 
-gp3 <- ggplot(sumc[ trait.myos == "PM (R)" ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
-              geom_tile( color = "black", lwd = 0.2, linetype = 1) +
-              scale_fill_gradient(limits = c(0,1), na.value = "white")+
-              geom_tile(aes( colour = flag), lwd=1, linetype = 1, data = sumc[trait.myos == "PM (R)" & H4 > 0.25]) + # Little trick to keep tiles in place
-              scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
-              theme_minimal() +
-              theme(panel.grid.major = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.x = element_blank(),
-                    legend.position = "none",
-                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
-                    )+
-              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
-              labs(fill = "PP")
-gp4 <- ggplot(sumc[ trait.myos == "IIM (M)" ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
-              geom_tile( color = "black", lwd = 0.2, linetype = 1) +
-              scale_fill_gradient(limits = c(0,1), na.value = "white")+
-              geom_tile(aes( colour = flag), lwd=1, linetype = 1, data = sumc[trait.myos == "IIM (M)" & H4 > 0.25]) + # Little trick to keep tiles in place
-              scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
-              theme_minimal() +
-              theme(panel.grid.major = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.x = element_blank(),
-                    legend.position = "none",
-                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
-                    )+
-              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
-              labs(fill = "PP")
+# gp3 <- ggplot(sumc[ trait.myos == "PM (R)" ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
+#               geom_tile( color = "black", lwd = 0.2, linetype = 1) +
+#               scale_fill_gradient(limits = c(0,1), na.value = "white")+
+#               geom_tile(aes( colour = flag), lwd=1, linetype = 1, data = sumc[trait.myos == "PM (R)" & H4 > 0.25]) + # Little trick to keep tiles in place
+#               scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_blank(),
+#                     legend.position = "none",
+#                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+#                     )+
+#               facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+#               labs(fill = "PP")
+# gp4 <- ggplot(sumc[ trait.myos == "IIM (M)" ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
+#               geom_tile( color = "black", lwd = 0.2, linetype = 1) +
+#               scale_fill_gradient(limits = c(0,1), na.value = "white")+
+#               geom_tile(aes( colour = flag), lwd=1, linetype = 1, data = sumc[trait.myos == "IIM (M)" & H4 > 0.25]) + # Little trick to keep tiles in place
+#               scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_blank(),
+#                     legend.position = "none",
+#                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+#                     )+
+#               facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+#               labs(fill = "PP")
 
-gp5 <- ggplot(sumc[ trait.myos == "IIM (R)" ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
-              geom_tile( color = "black",
-                        lwd = 0.2,
-                        linetype = 1) +
-              scale_fill_gradient(limits = c(0,1), na.value = "white")+
-              geom_tile(aes( colour = flag),
-                          lwd=1, linetype = 1, data = sumc[trait.myos == "IIM (R)" & H4 > .5]) +
-              scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
-              #scale_x_discrete(position = "top")+
-              theme_minimal() +
-              theme(panel.grid.major = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5, size = 11),
-                    legend.position = "bottom",
-                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
-                    )+
-              guides(fill = guide_colorbar(title.vjust = 0.8))+
-              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
-              labs(fill = "PP")
+# gp5 <- ggplot(sumc[ trait.myos == "IIM (R)" ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H4)) +
+#               geom_tile( color = "black",
+#                         lwd = 0.2,
+#                         linetype = 1) +
+#               scale_fill_gradient(limits = c(0,1), na.value = "white")+
+#               geom_tile(aes( colour = flag),
+#                           lwd=1, linetype = 1, data = sumc[trait.myos == "IIM (R)" & H4 > .5]) +
+#               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
+#               #scale_x_discrete(position = "top")+
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5, size = 11),
+#                     legend.position = "bottom",
+#                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+#                     )+
+#               guides(fill = guide_colorbar(title.vjust = 0.8))+
+#               facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+#               labs(fill = "PP")
 
-gp <- plot_grid(gp1, gp2, gp3, gp4, gp5, nrow = 5, rel_heights = c(0.13, 0.09, 0.09, 0.09, 0.6), align = "v")
+# gp <- plot_grid(gp1, gp2, gp3, gp4, gp5, nrow = 5, rel_heights = c(0.13, 0.09, 0.09, 0.09, 0.6), align = "v")
 
-ggsave("../figures/Figure3_driverSNP_H4_rnocoloc-v2.png", gp, height =5.8 , width = 4.5, bg="white")
+# ggsave("../figures/Figure3_driverSNP_H4_rnocoloc-v2.png", gp, height =5.8 , width = 4.5, bg="white")
 
-# Let's try an alternative, suggested by Chris
-sumc[, dlabelm := paste0(dlabel," - ", trait.myos)]
-gp.alt <- ggplot(sumc, aes(x =  trait.other, y = dlabelm, colour=flag, fill = H4)) +
+# Figure 3 - Coloc panel
+
+sumc[, dlabelm := factor(paste0(dlabel," - ", trait.myos))]
+gp.alt <- ggplot(sumc, aes(x =  trait.other, y = forcats::fct_rev(dlabelm), colour=flag, fill = H4)) +
               geom_tile( color = "black", lwd = 0.2, linetype = 1) +
               scale_fill_gradient(limits = c(0,1), na.value = "white")+
               geom_tile(aes( colour = flag),
@@ -228,7 +245,10 @@ gp.alt <- ggplot(sumc, aes(x =  trait.other, y = dlabelm, colour=flag, fill = H4
               #facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
               labs(fill = "PP")
 gp.alt
-ggsave("../figures/Figure3alt_driverSNP_H4_rnocoloc-v2.png", gp.alt, height =4.5 , width = 4.5, bg="white")
+# ggsave("../figures/Fig3alt_driverSNP_H4_rnocoloc-v2.svg", gp.alt, height =5.5 , width = 5.5, bg="white")
+# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Fig3alt_driverSNP_H4_rnocoloc-v2.svg") # Trick to make the svg file text be more easily editable
+# Note: Figure 3 was manually edited in Inkscape to add sample sizes of each myositis dataset.
+
 
 ###############################
 

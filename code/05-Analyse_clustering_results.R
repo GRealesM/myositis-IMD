@@ -1,6 +1,6 @@
 #########################################
 ##                                     ##
-##    ANALYSING CLUSTERING RESULTS    ##
+##    ANALYSING CLUSTERING RESULTS     ##
 ##                                     ##
 #########################################
 
@@ -170,7 +170,7 @@ rescl <- ann %>% data.table(keep.rownames = TRUE)
 clsum=rescl[,.(y=.N),by=c("DPMUnc","Bhattacharyya")]
 
 
-# Plot Relationship between disease clusterings
+# Figure 2 -- Plot Relationship between disease clusterings
 sdiag <- ggplot(clsum, aes(y=y, axis1=DPMUnc,axis2=Bhattacharyya)) + geom_alluvium(aes(fill=factor(DPMUnc))) +
   geom_stratum(width = 1/5,  fill="white", color = "black") +
   #geom_label(stat = "stratum", aes(label = after_stat(stratum))) +
@@ -184,9 +184,10 @@ sdiag <- ggplot(clsum, aes(y=y, axis1=DPMUnc,axis2=Bhattacharyya)) + geom_alluvi
         legend.position = "none", axis.text.x = element_text(size = 13))
 sdiag
 # Save
-# ggsave("../figures/Myositis_7PCs_sdiag_BHDP.png", sdiag, height = 9, width = 8, bg = "white")
-# ggsave("../figures/Myositis_7PCs_sdiag_BHDP.svg", sdiag, height = 9, width = 8, bg = "white")
-# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Myositis_7PCs_sdiag_BHDP.svg")
+# ggsave("../figures/Fig2_Myositis_7PCs_sdiag_BHDP.png", sdiag, height = 9, width = 8, bg = "white")
+# ggsave("../figures/Fig2_Myositis_7PCs_sdiag_BHDP.svg", sdiag, height = 9, width = 8, bg = "white")
+# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Fig2_Myositis_7PCs_sdiag_BHDP.svg") # Easier to edit in Inkscape.
+# Note: Final Figure 2 was manually edited in Inkscape to modify font sizes and highlight diseases involved.  
 
 
 #########################################
@@ -318,7 +319,7 @@ psm_heatmap = pheatmap(bigpsm,
 
 #################################################
 
-### Create a Supplementary table including the diseases included in coloc
+### Create a Supplementary table 4, including the diseases included in coloc
 
 qs <- fread("../data/qs2.tsv")
 
@@ -330,7 +331,7 @@ stcd2[, coloc_Label:=c("CR(E)ST", "EOMG", "Felty", "HyperThy", "HypoThy", "IgG+ 
 stcd <- rbind(stcd1, stcd2)
 
 # Save
-# fwrite(stcd, "../tables/ST_coloc_diseases.tsv", sep = "\t")
+# fwrite(stcd, "../tables/ST4_coloc_diseases.tsv", sep = "\t")
     
 #################################################
 
@@ -339,7 +340,7 @@ stcd <- rbind(stcd1, stcd2)
 dpbh.res <- merge( qs[,.(Trait, Label, First_Author, Reference, N0, N1, N)], rescl, by.y = "rn", by.x = "Label")
 
 # Save
-# fwrite(dpbh.res, "../tables/ST_DPMUnc_BH_res.tsv", sep="\t")
+# fwrite(dpbh.res, "../tables/DPMUnc_BH_res.tsv", sep="\t")
 
 
 
