@@ -5,10 +5,12 @@
 #########################################
 
 # Author: Guillermo Reales 
-# Date last updated: 2024/04/09
+# Date last updated: 2024/04/26
 
 # Background: We wanted to validate our method to narrow down SNPs. To do so, we will select pairs of IMD from large GWAS and similarly sized as IIM GWASs.
 # This script will
+#
+# 1. Validation via pairwiseFDR and coloc
 # * Project selected R5 IMD
 # * Apply FDR together with filtered projections
 # * Select FDR significant R5/pso and check which PCs they're significant for
@@ -16,7 +18,10 @@
 # * Select genetically close IMD to each of the R5/pso traits
 # * Apply pairwise FDR and to find significant SNPs in the R5/pso traits
 # * Check which SNPs replicate in the validation datasets (ie. R10)
-
+# * Run coloc in pairwise pairs
+# 2. Validation via coloc
+# 3. Validation via genome-wide threshold only.
+# 4. Summary tables and plots.
 
 ##########################################
 
@@ -29,10 +34,47 @@ library(cupcake)
 library(annotSnpStats)
 library(fpc)
 library(coloc)
+library(ggplot2)
+library(cowplot)
 
 setDTthreads(20)
 setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
 bpath <- "/home/gr440/rds/rds-cew54-basis/03-Bases/IMD_basis/"
+# FinnGen Manifest requires registation to be shared, so DELETE after.
+url10man <- "https://storage.googleapis.com/finngen-public-data-r10/summary_stats/R10_manifest.tsv"
+
+
+#############################################################################
+
+## Helper functions
+
+repzeros <- function(data){
+		for (j in seq_len(ncol(data)))
+    	set(data,which(is.na(data[[j]])),j,0)
+}
+
+# This function will compute the distances, call clusters and select clusters with more than one SNP
+f=function(d) {
+	if(nrow(d)==1){
+		d[, cl:=paste0("chr", unique(CHR38), ".1")]
+		return(d)
+	} # This is another fix. We don't want to remove unique SNPs
+	dist <- as.dist(abs(outer(d$BP38, d$BP38, "-")))
+	dc <- hclust(dist)
+	calls <- cutree(dc, h = 1e+6)
+	d[, cl:=calls]
+	# d <- d[, if(.N > 1) .SD, by = cl]
+	# if(nrow(d) == 0)
+	# 	return(NULL)
+	d[, cl:=paste0("chr", unique(CHR38), ".", cl)]
+	return(d)
+}
+
+###########################################################################
+
+###############################################
+
+# 1. Validation via pairwiseFDR and coloc
 
 ###############################################
 
@@ -238,6 +280,10 @@ qf[Trait %in% trp & FDR.overall < 0.01, .(Trait, Trait_long, N0, N1, FDR.overall
 # Only 23/34
 ttid <- qf[Trait %in% trp & FDR.overall < 0.01, Trait] # List of focus IMD
 
+#############################################################################
+# Select FDR significant R5/pso and check which PCs they're significant for #
+#############################################################################
+
 
 ## Check which PC is significant for each focus IMD
 sigpcs <- lapply(ttid, function(i){
@@ -251,6 +297,8 @@ sigpcs$L12_PSORI_ARTHRO_FinnGen_FinnGenR5_1  <- NULL
 ttid <- ttid[ttid != "L12_PSORI_ARTHRO_FinnGen_FinnGenR5_1"]
 # 22/34 now
 
+sigpcs.dt <- data.table(IMD.focus = names(sigpcs), sig.PCs = lapply(sigpcs, paste, collapse=", ") %>% unlist)
+fwrite(sigpcs.dt, "../data/R5_sig_PCs.tsv", sep="\t")
 
 ######################################################################################################################
 ### Compute pairwise Bhattacharyya distance for each R5/pso trait with the set of selected IMD used with myositis  ###
@@ -334,6 +382,11 @@ compute_bhatta <- function(tt){
 }
 
 bhdist <- lapply(ttid, compute_bhatta)
+
+################################################################
+# Select genetically close IMD to each of the R5/pso traits    #
+################################################################
+
 bhsel <- lapply(bhdist, function(x){
 		x  <- x[1:17] # Take the closest 17 IMD, as we did with Myositis
 }) 
@@ -345,9 +398,9 @@ unique(bhsel$T2)
 bhsel[T2 %in% tnv]
 
 
-###########################################################################
+#######################################################################
 ## Apply pairwise FDR and to find significant SNPs in the R5 traits ###
-###########################################################################
+#######################################################################
 
 # We have the significant PCs and the list of genetically close IMDs.
 # Now we'll extract the driver SNPs for each of these PCs
@@ -441,10 +494,11 @@ pw.snps <- lapply(pw.fdr.sig, function(x){
 			y
 })
 
+#####################################################################
+# Check which SNPs replicate in the validation datasets (ie. R10)   #
+#####################################################################
 
 # Now for the validation datasets! We'll use FinnGen R10 datasets for validation
-# FinnGen Manifest requires registation to be shared, so DELETE after.
-url10man <- "https://storage.googleapis.com/finngen-public-data-r10/summary_stats/R10_manifest.tsv"
 
 r10man <- fread(url10man)
 fid <- gsub("_FinnGen_FinnGenR5_1", "", ttid)
@@ -543,6 +597,7 @@ valp %<>% rbindlist
 # Remove SNPs impossible to validate
 valp[is.na(P.val)] # Only 1 SNP
 valp <- valp[!is.na(P.val)]
+valp[, c("CHR38", "BP38"):=tstrsplit(pid38, split = ":", fixed = TRUE)][, c("CHR38", "BP38"):=list(as.numeric(CHR38), as.numeric(BP38))]
 
 valp[, b.val:=ifelse(P.focus > P.val, "good", "bad")]
 
@@ -567,19 +622,13 @@ table(v2$IMD.focus, v2$b.val)
 #   RX_RHEUMA_BIOLOGICAL_FinnGen_FinnGenR5_1        3    1
 #   SPONDYLOARTHRITIS_FinnGen_FinnGenR5_1           2    0
 
-fwrite(valp, "../data/R5R10_validation.tsv", sep = "\t")
+# fwrite(valp, "../data/R5R10_validation.tsv", sep = "\t")
 valp <- fread("../data/R5R10_validation.tsv")
 
 v3 <- v2[, .(count = .N), by=c("IMD.focus", "b.val")] %>% dcast(. , IMD.focus ~ b.val, value.var = "count")
 
 # Replace NA by zeros in both columns
-repzeros <- function(data){
-		for (j in seq_len(ncol(data)))
-    	set(data,which(is.na(data[[j]])),j,0)
-}
 repzeros(v3)
-
-
 v3[, pbad:=bad/(good+bad)]
 sum(v3$bad)/(sum(v3$good)+sum(v3$bad))
 # 0.119 (11.9%) are bad.
@@ -589,7 +638,7 @@ sum(v3$bad)/(sum(v3$good)+sum(v3$bad))
 ###   Run coloc in pairwise pairs   ###
 #######################################
 
-valp[, c("CHR38", "BP38"):=tstrsplit(pid38, split = ":", fixed = TRUE)][, c("CHR38", "BP38"):=list(as.numeric(CHR38), as.numeric(BP38))]
+
 pfc <- valp[, .(pid38, CHR38, BP38, IMD.focus, IMD.other, pairwise_fdr)][order(IMD.focus, CHR38, BP38)]
 
 # In the next step, we'll remove SNPs in close proximity, if any
@@ -599,22 +648,6 @@ cl.snps <- lapply(pfl, function(x){
 	y <- x[,.(pid38, CHR38,BP38)]  %>% unique
 
 	ss <- split(y[, .(pid38, CHR38, BP38)], y[,.(CHR38)]) # split by chr
-	# This function will compute the distances, call clusters and select clusters with more than one SNP
-	f=function(d) {
-		if(nrow(d)==1){
-			d[, cl:=paste0("chr", unique(CHR38), ".1")]
-			return(d)
-		} # This is another fix. We don't want to remove unique SNPs
-		dist <- as.dist(abs(outer(d$BP38, d$BP38, "-")))
-		dc <- hclust(dist)
-		calls <- cutree(dc, h = 1e+6)
-		d[, cl:=calls]
-		# d <- d[, if(.N > 1) .SD, by = cl]
-		# if(nrow(d) == 0)
-		# 	return(NULL)
-		d[, cl:=paste0("chr", unique(CHR38), ".", cl)]
-		return(d)
-	}
 	cl.snp  <- ss %>% lapply(., f)  %>% rbindlist(., use.names = TRUE)
 	cl.snp
 })
@@ -730,15 +763,12 @@ for(i in 1:nrow(index)) {
 }
 index[, .(pid38, IMD.focus, IMD.other, H3, H4, bestsnp)]
 
-# Save it 
-fwrite(index, "../data/coloc_valR10_results.tsv", sep = "\t")
+# Save coloc results
+# fwrite(index, "../data/coloc_valR10_results.tsv", sep = "\t")
 
-# index <- fread("../data/coloc_val_results.tsv")
+index <- fread("../data/coloc_valR10_results.tsv")
 
-##################################
-# Compare to previous validation #
-##################################
-
+# Compare to previous validation
 tindex <- merge(index, unique(valp[,.(pid38, IMD.focus, P.focus, P.val, b.val)]))
 
 ss <- copy(tindex)
@@ -799,5 +829,278 @@ ss08
 ss08[,sum(FP)/(sum(FP) + sum(TP))]
 # 0.04761905
 
+###############################################
 
-length(unique(tindex$pid38))
+# 2. Validation via coloc
+
+###############################################
+
+# A couple more things. Let's compare myositis coloc and validation's false discovery rate using 1 - H4
+
+cc <- fread("../data/coloc_results-v3.tsv")
+
+vh <- ss[ maxH4 > 0.5]
+mh <- cc[ H4 > 0.5][, .(maxH4 = max(H4), pid, trait.myos), by = c("pid", "trait.myos")]  %>% unique
+
+vh[, mean(1 - maxH4)]
+# [1] 0.1524762
+mh[, mean(1 - maxH4)]
+# [1] 0.2230366
+
+# What about H4 > 0.8 threshold?
+
+vh[ maxH4 > 0.8, mean(1 - maxH4)]
+# [1] 0.07311549
+mh[ maxH4 > 0.8, mean(1 - maxH4)]
+# [1] 0.1023415
+
+###############################################
+
+# 3. Validation via genome-wide threshold only.
+
+###############################################
+
+# Lastly, we'd like to investigate the proportion of lead SNPs in the R5 datasets that have smaller p-values in the R10 set.
+# This would give an estimated fpr for the gw sig threshold calculated by the same manner
+
+# To avoid having to re-run a lot of code, we can recreate the file list from tindex
+ttid  <- unique(tindex$IMD.focus) %>% .[order(.)]
+val.l <- gsub("R5", "R10", ttid)
+fn <- gsub("_FinnGen_FinnGenR5_1", "", ttid) # R5 have slightly different naming system
+lapply(fn, function(i){	file.exists(paste0("../data/fg_sumstats/finngen_R5_", i, ".gz"))}) %>% unlist
+lapply(val.l, function(i){ file.exists(paste0("../data/fg_sumstats/", i, "-hg38.tsv.gz"))}) %>% unlist
+
+lead.R5 <- lapply(fn, function(x){
+		# Load and change names, just as before
+		message("Working on ", x)
+		y <- fread(paste0("../data/fg_sumstats/finngen_R5_", x, ".gz"), tmpdir = "tmp/") %>% .[ pval < 5e-8]
+		if(nrow(y) == 0){ message(x, " doesn't have any gw-sig SNPs."); return(NULL)}
+		y <- y[, .(`#chrom`, pos, ref, alt, beta, sebeta, pval)]
+		setnames(y, c("#chrom", "pos", "ref", "alt", "beta", "sebeta", "pval"), c("CHR38", "BP38", "REF", "ALT", "BETA", "SE", "P"))
+		y[ , pid38:=paste(CHR38, BP38, sep = ":")]
+		# As before, split and assign clusters
+		ss <- split(y[, .(pid38, CHR38, BP38)], y[,.(CHR38)]) # split by chr
+		cl.snp  <- ss %>% lapply(., f)  %>% rbindlist(., use.names = TRUE)
+		y <- merge(y, cl.snp[,.(pid38,cl)], by = "pid38")
+		y <- y[, .SD[which.min(P)] , by=cl ]
+		# Lastly, remove MHC, as we don't use it in our method
+		mhc.pids <- y[as.numeric(CHR38) == 6 & BP38 > 20e6 & BP38 < 40e6, pid38]
+		if(length(mhc.pids) > 0) y <- y[!pid38 %in% mhc.pids]
+		if(nrow(y) == 0){ message(x, " doesn't have SNPs after MHC filtering."); return(NULL)}
+		y
+})
+names(lead.R5) <- ttid
+nsig.snps <- lapply(lead.R5, nrow)
+nsig.snps <- data.table(IMD.focus = names(unlist(nsig.snps)), sig.snps = unlist(nsig.snps))
+fwrite(nsig.snps, "../data/R5_sig_snps.tsv", sep = "\t")
+
+wR10 <- lapply(seq_along(ttid), function(x){
+		pn <- ttid[[x]]
+		message("Working on ", pn)
+		pf <- lead.R5[[pn]]
+		if(is.null(pf)){ message("No SNPs to validate in ", pn); return(NULL)}
+		pf <- pf[, .(pid38, CHR38, BP38, REF, ALT, P, cl)]
+		vn <- val.l[x]
+		message("Using ", vn, " as a validation dataset")
+		vf <- fread(paste0("../data/fg_sumstats/", vn, "-hg38.tsv.gz"), tmpdir = "tmp/")
+		vf <- vf[, .(`#chrom`, pos, ref, alt, beta, sebeta, pval)]
+		setnames(vf, c("#chrom", "pos", "ref", "alt", "pval"), c("CHR38", "BP38", "REF", "ALT", "P"))
+		vf[ , pid38:=paste(CHR38, BP38, sep = ":")]
+		vf <- vf[pid38 %in% pf$pid38]
+		ff <- merge(pf, vf[, .(pid38, REF, ALT, P)], by=c("pid38", "REF", "ALT"), suffixes=c(".focus",".val"), all.x = TRUE)
+		ff[, IMD.focus := pn]
+}) %>% rbindlist
+wR10[, b.val:=ifelse(P.focus > P.val, "good", "bad")][, CHR38:=as.numeric(CHR38)]
+wR10 <- wR10[!is.na(b.val)] # Remove SNPs that couldn't be validated
+wR10 <- wR10[order(IMD.focus, CHR38, BP38 )]
+# Save wR10
+fwrite(wR10, "../data/R5R10_gwsig_validation.tsv", sep = "\t")
+# Load it, if you want to save the previous step
+wR10 <- fread("../data/R5R10_gwsig_validation.tsv")
+
+ssr10 <- dcast(wR10[, .(pid38, IMD.focus, b.val)], IMD.focus ~ b.val)
+sum(ssr10$bad)/(sum(ssr10$bad)+sum(ssr10$good))
+# [1] 0.1533333
+
+###############################################
+
+# 4. Summary tables and plots.
+
+###############################################
+
+# To make the following tables, we can load results we've been saving throughout our process.
+
+valp <- fread("../data/R5R10_validation.tsv")
+index <- fread("../data/coloc_valR10_results.tsv")
+tindex <- merge(index, unique(valp[,.(pid38, IMD.focus, P.focus, P.val, b.val)]))
+cc <- fread("../data/coloc_results-v3.tsv")
+wR10 <- fread("../data/R5R10_gwsig_validation.tsv")
+nsig.snps <- fread("../data/R5_sig_snps.tsv")
+sigpcs.dt <- fread("../data/R5_sig_PCs.tsv")
+r10man <- fread(url10man)
+m <- fread("../data/Metadata_20230906-v1.tsv")
+
+
+# Summary table of the validation datasets
+mimd <- m[Trait %in% unique(index$IMD.focus), .(IMD.focus = Trait, N1.R5 = N1)][order(IMD.focus)]
+mimd <- merge(mimd, nsig.snps)
+mimd <- merge(mimd, sigpcs.dt)
+r10n <- r10man[phenocode %in% gsub("_FinnGen_FinnGenR5_1", "", mimd$IMD.focus), .(phenocode, num_cases, phenotype)]
+r10n[, IMD.focus:=paste0(phenocode,"_FinnGen_FinnGenR5_1")]
+mimd <- merge(mimd, r10n)
+mimd <- mimd[, .(phenocode, phenotype, sig.PCs, sig.snps,N1.R5, num_cases)]
+setnames(mimd, c("sig.PCs", "sig.snps", "num_cases"), c("sig.PC.R5", "gwsig.SNP.R5", "N1.R10"))
+fwrite(mimd, "../tables/ST_validation_R5_info.tsv", sep ="\t")
+
+# Let's collect the numbers
+
+# For this bit, you can scroll up and run the relevant bits of code to generate the relevant objects, 
+# which are quick to create from the saved files we loaded right above.
+
+
+
+sxt <- data.table(validation = c("pwFDR + coloc (0.5)",
+						  "pwFDR + coloc (0.8)", 
+						  "coloc (0.5)", 
+						  "coloc (0.8)", 
+						  "Empirical"), 						  
+		  FPR = c(ss05[,sum(FP)/(sum(FP) + sum(TP))],
+		  		  ss08[,sum(FP)/(sum(FP) + sum(TP))],
+				  vh[, mean(1 - maxH4)],
+				  vh[ maxH4 > 0.8, mean(1 - maxH4)],
+				  sum(ssr10$bad)/(sum(ssr10$bad)+sum(ssr10$good))),
+		`Validating SNPs` = c(ss05[,sum(TP)], 
+							  ss08[,sum(TP)],
+							  NA,
+							  NA,
+							  sum(ssr10$good)),
+							  
+		`Non-validating SNPs` = c(ss05[,sum(FP)], 
+							  ss08[,sum(FP)],
+							  NA,
+							  NA,
+							  sum(ssr10$bad))
+							  )
+
+fwrite(sxt, "../tables/ST_validation_R5_results.tsv", sep ="\t")
+
+
+#################################################
+
+
+ssv <- copy(tindex)
+ssv <- ssv[, .(maxH4 = max(H4), b.val, P.focus, P.val), by = c("pid38", "IMD.focus")]  %>% unique
+ssv <- ssv[maxH4 > 0.5]
+
+sp1 <- ggplot(ssv, aes(x = -log10(P.focus), y = -log10(P.val)))+
+			geom_point()+
+			# xlab("-log10(P) FinnGen R5")+
+			ylab(bquote(-log[10](P)~R10))+
+			annotate("text", x = 95, y = 95, colour = "darkgreen", size = 7, label = "79\n\n8")+
+			geom_abline( colour = "red")+
+			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
+			ggtitle("pwFDR + coloc (0.5)")+
+			theme_cowplot()+
+			theme(axis.title.x = element_blank())
+
+sp1z <- ggplot(ssv, aes(x = -log10(P.focus), y = -log10(P.val)))+
+			geom_point()+
+			xlim(c(0,25))+
+			ylim(c(0,50))+
+			# xlab("-log10(P) FinnGen R5")+
+			# ylab("-log10(P) FinnGen R10")+
+			geom_abline( colour = "red")+
+			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
+			ggtitle("zoomed in")+
+			theme_cowplot()+
+			theme(axis.title.x = element_blank(),
+				axis.title.y = element_blank())
+
+sp2 <- ggplot(ssv[ maxH4 > 0.8], aes(x = -log10(P.focus), y = -log10(P.val)))+
+			geom_point()+
+			annotate("text", x = 95, y = 95, colour = "darkgreen", size = 7, label = "60\n\n3")+
+			ylab(bquote(-log[10](P)~R10))+
+			geom_abline( colour = "red")+
+			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
+			ggtitle("pwFDR + coloc (0.8)")+
+			theme_cowplot()+
+			theme(axis.title.x = element_blank())
+
+sp2z <- ggplot(ssv[ maxH4 > 0.8], aes(x = -log10(P.focus), y = -log10(P.val)))+
+			geom_point()+
+			xlim(c(0,25))+
+			ylim(c(0,50))+
+			# xlab("-log10(P) FinnGen R5")+
+			# ylab("-log10(P) FinnGen R10")+
+			geom_abline( colour = "red")+
+			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
+			ggtitle("zoomed in")+
+			theme_cowplot()+
+			theme(axis.title.x = element_blank(),
+				axis.title.y = element_blank())
+
+sp3 <- ggplot(wR10, aes(x = -log10(P.focus), y = -log10(P.val)))+
+			geom_point()+
+			annotate("text", x = 95, y = 95, colour = "darkgreen", size = 7, label = "127\n\n23")+
+			xlab(bquote(-log[10](P)~R5))+
+			ylab(bquote(-log[10](P)~R10))+
+			ggtitle("Empirical")+
+			geom_abline( colour = "red")+
+			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
+			theme_cowplot()
+
+sp3z <- ggplot(wR10, aes(x = -log10(P.focus), y = -log10(P.val)))+
+			geom_point()+
+			xlim(c(0,25))+
+			ylim(c(0,50))+
+			xlab(bquote(-log[10](P)~R5))+
+			# ylab("-log10(P) FinnGen R10")+
+			ggtitle("zoomed in")+
+			geom_abline( colour = "red")+
+			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
+			theme_cowplot()+
+			theme(axis.title.y = element_blank())
+
+sp <- plot_grid(sp1, sp1z, sp2, sp2z, sp3, sp3z, nrow = 3)
+sp
+
+ggsave("../figures/FigSXX_validation_SNPs_P_plot.png", sp, bg = "white", height = 8, width = 7)
+
+# Now the same but for our validation snps
+
+
+
+
+
+
+
+sessionInfo()
+# R version 4.3.3 (2024-02-29)
+# Platform: x86_64-redhat-linux-gnu (64-bit)
+# Running under: Rocky Linux 8.9 (Green Obsidian)
+
+# Matrix products: default
+# BLAS/LAPACK: /usr/lib64/libopenblaso-r0.3.15.so;  LAPACK version 3.9.0
+
+# locale:
+#  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C               LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8     LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+#  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                  LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
+
+# time zone: GB
+# tzcode source: system (glibc)
+
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+
+# other attached packages:
+#  [1] coloc_5.2.3        fpc_2.2-11         annotSnpStats_0.99 snpStats_1.52.0    Matrix_1.6-5       survival_3.5-8     cupcake_0.1.0.0    IMDtools_1.0.0    
+#  [9] magrittr_2.0.3     data.table_1.15.4 
+
+# loaded via a namespace (and not attached):
+#  [1] viridis_0.6.5       utf8_1.2.4          generics_0.1.3      class_7.3-22        robustbase_0.99-2   lattice_0.22-6      grid_4.3.3          R.oo_1.26.0        
+#  [9] plyr_1.8.9          jsonlite_1.8.8      R.utils_2.12.3      nnet_7.3-19         reshape_0.8.9       mclust_6.1          gridExtra_2.3       mixsqp_0.3-54      
+# [17] fansi_1.0.6         kernlab_0.9-32      viridisLite_0.4.2   scales_1.3.0        modeltools_0.2-23   cli_3.6.2           rlang_1.1.3         crayon_1.5.2       
+# [25] R.methodsS3_1.8.2   munsell_0.5.1       splines_4.3.3       susieR_0.12.35      tools_4.3.3         flexmix_2.3-19      parallel_4.3.3      dplyr_1.1.4        
+# [33] colorspace_2.1-0    ggplot2_3.5.0       BiocGenerics_0.48.1 vctrs_0.6.5         R6_2.5.1            matrixStats_1.3.0   stats4_4.3.3        lifecycle_1.0.4    
+# [41] zlibbioc_1.48.0     MASS_7.3-60.0.1     irlba_2.3.5.1       cluster_2.1.6       pkgconfig_2.0.3     pillar_1.9.0        gtable_0.3.4        glue_1.7.0         
+# [49] Rcpp_1.0.12         DEoptimR_1.1-3      tibble_3.2.1        tidyselect_1.2.1    prabclus_2.3-3      compiler_4.3.3      diptest_0.77-1     
