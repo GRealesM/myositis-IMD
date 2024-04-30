@@ -227,7 +227,7 @@ sumc[, ec:=NULL]
 # Figure 3 - Coloc panel
 
 sumc[, dlabelm := factor(paste0(dlabel," - ", trait.myos))]
-gp.alt <- ggplot(sumc, aes(x =  trait.other, y = forcats::fct_rev(dlabelm), colour=flag, fill = H4)) +
+gp.alt <- ggplot(sumc, aes(x =  trait.other, y = trait.myos, colour=flag, fill = H4)) +
               geom_tile( color = "black", lwd = 0.2, linetype = 1) +
               scale_fill_gradient(limits = c(0,1), na.value = "white")+
               geom_tile(aes( colour = flag),
@@ -239,12 +239,20 @@ gp.alt <- ggplot(sumc, aes(x =  trait.other, y = forcats::fct_rev(dlabelm), colo
                     axis.title = element_blank(),
                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5, size = 11),
                     legend.position = "bottom",
-                    plot.margin = unit(c(0.1, 0.2, 0, 0.3), "cm")
+                    plot.margin = unit(c(0.1, 0.2, 0, 0.3), "cm"),
+                    strip.text.y.left = element_text(hjust = 1, angle = 0)
                     )+
+              facet_grid(forcats::fct_rev(dlabel)~., scales = "free_y", space = "free_y", switch = "y")+
+              scale_y_discrete(position = "right")+
               guides(fill = guide_colorbar(title.vjust = 0.8))+
               #facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
-              labs(fill = "PP")
+              labs(fill = "PP H4")
+
+            #   forcats::fct_rev(dlabel)
+
+            #   ,scales="free_y", switch = "y"
 gp.alt
+ggsave("../figures/Fig3alt_driverSNP_H4_rnocoloc-v2.png", gp.alt, height =5.3 , width = 5.3, bg="white")
 # ggsave("../figures/Fig3alt_driverSNP_H4_rnocoloc-v2.svg", gp.alt, height =5.5 , width = 5.5, bg="white")
 # system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Fig3alt_driverSNP_H4_rnocoloc-v2.svg") # Trick to make the svg file text be more easily editable
 # Note: Figure 3 was manually edited in Inkscape to add sample sizes of each myositis dataset.
