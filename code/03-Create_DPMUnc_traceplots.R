@@ -127,7 +127,8 @@ quantile_traceplots_dataset <- function(exp, block_size=100) {
                    top = textGrob(paste0("Median traceplot - ", exp),gp=gpar(fontsize=20,font=3)),
                    ncol=4,
                    widths=c(2,2,2,1))
-  ggsave(paste0("../figures/DPMUnc_", exp, "_trace_medians.png"), g, width=12, height=7, units="in") # Outputs to '../plots/'
+  ## Figure S1 - Median traceplots
+  ggsave(paste0("../figures/FigS1_DPMUnc_", exp, "_trace_medians.png"), g, width=12, height=7, units="in") # Outputs to '../plots/'
 
   g_alpha = quantile_traceplot("alpha", quant_alpha)
   g_K = quantile_traceplot("K", quant_K)
@@ -140,7 +141,8 @@ quantile_traceplots_dataset <- function(exp, block_size=100) {
                    top = textGrob(paste0("Quantile traceplot - ", exp),gp=gpar(fontsize=20,font=3)),
                    ncol=4,
                    widths=c(2,2,2,1))
-  ggsave(paste0("../figures/DPMUnc_", exp, "_trace_quantiles.png"), g, width=12, height=7, units="in") # One plot per experiment, and we don't need one directory for each experiment.
+  ## Figure S2 - Quantile traceplots
+  ggsave(paste0("../figures/FigS2_DPMUnc_", exp, "_trace_quantiles.png"), g, width=12, height=7, units="in") # One plot per experiment, and we don't need one directory for each experiment.
 
   return(g)
 }

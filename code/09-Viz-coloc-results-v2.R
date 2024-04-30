@@ -245,17 +245,15 @@ gp.alt <- ggplot(sumc, aes(x =  trait.other, y = trait.myos, colour=flag, fill =
               facet_grid(forcats::fct_rev(dlabel)~., scales = "free_y", space = "free_y", switch = "y")+
               scale_y_discrete(position = "right")+
               guides(fill = guide_colorbar(title.vjust = 0.8))+
-              #facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+
               labs(fill = "PP H4")
 
             #   forcats::fct_rev(dlabel)
 
             #   ,scales="free_y", switch = "y"
 gp.alt
-ggsave("../figures/Fig3alt_driverSNP_H4_rnocoloc-v2.png", gp.alt, height =5.3 , width = 5.3, bg="white")
-# ggsave("../figures/Fig3alt_driverSNP_H4_rnocoloc-v2.svg", gp.alt, height =5.5 , width = 5.5, bg="white")
-# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/Fig3alt_driverSNP_H4_rnocoloc-v2.svg") # Trick to make the svg file text be more easily editable
-# Note: Figure 3 was manually edited in Inkscape to add sample sizes of each myositis dataset.
+ggsave("../figures/Fig3_driverSNP_H4_rnocoloc-v2.png", gp.alt, height =5.3 , width = 5.3, bg="white")
+
 
 
 ###############################
@@ -277,97 +275,94 @@ sumc.h3[, ec:=paste0(trait.myos, "/", dlabel)]
 sumc.h3 <- sumc.h3[!ec %in% rtr.h3$empty]
 sumc.h3[, ec:=NULL]
 
+# Figure S13 - H3 panel
 
-# Let's try an alternative, suggested by Chris
-sumc.h3[, dlabelm := paste0(dlabel," - ", trait.myos)]
-gp.h3.alt <- ggplot(sumc.h3, aes(x =  trait.other, y = dlabelm, colour=flag, fill = H3)) +
+gp.h3.alt <- ggplot(sumc.h3, aes(x =  trait.other, y = trait.myos, colour=flag, fill = H3)) +
               geom_tile( color = "black", lwd = 0.2, linetype = 1) +
+              geom_tile(aes( colour = flag),
+                          lwd=1, linetype = 1, data = sumc.h3[H3 > 0.49]) +
+              scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
               scale_fill_gradient(limits = c(0,1), na.value = "white")+
-            #   geom_tile(aes( colour = flag),
-            #               lwd=1, linetype = 1, data = sumc.h3[H3 > 0.45]) +
-            #   scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
               theme_minimal() +
               theme(panel.grid.major = element_blank(),
                     axis.title = element_blank(),
                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5, size = 11),
                     legend.position = "bottom",
-                    plot.margin = unit(c(0.1, 0.2, 0, 0.3), "cm")
+                    plot.margin = unit(c(0.1, 0.2, 0, 0.3), "cm"),
+                    strip.text.y.left = element_text(hjust = 1, angle = 0)
                     )+
               guides(fill = guide_colorbar(title.vjust = 0.8))+
-              #facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+              facet_grid(forcats::fct_rev(dlabel)~., scales = "free_y", space = "free_y", switch = "y")+
+              scale_y_discrete(position = "right")+
               labs(fill = "PP H3")
 gp.h3.alt
-ggsave("../figures/FigureSXXalt_driverSNP_H3.png", gp.h3.alt, height =4.5 , width = 4.5, bg="white")
+ggsave("../figures/FigureS13_driverSNP_H3.png", gp.h3.alt, height =5.3 , width = 5.3, bg="white")
 
 
-gp1.h3 <-  ggplot(sumc.h3[ grepl(pattern = "^DM|JDM \\(M\\)", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
-              geom_tile( color = "black",
-                        lwd = 0.2,
-                        linetype = 1) +
-              scale_fill_gradient(limits = c(0,1), na.value = "white")+
-              geom_tile(aes( colour = flag),
-                          lwd=1, linetype = 1, data = sumc.h3[grepl(pattern = "^DM|JDM \\(M\\)", trait.myos) & H3 > 0.25]) + # Little trick to keep tiles in place
-              scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
+# gp1.h3 <-  ggplot(sumc.h3[ grepl(pattern = "^DM|JDM \\(M\\)", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
+#               geom_tile( color = "black",
+#                         lwd = 0.2,
+#                         linetype = 1) +
+#               scale_fill_gradient(limits = c(0,1), na.value = "white")+
+#               geom_tile(aes( colour = flag),
+#                           lwd=1, linetype = 1, data = sumc.h3[grepl(pattern = "^DM|JDM \\(M\\)", trait.myos) & H3 > 0.25]) + # Little trick to keep tiles in place
+#               scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
               
-              #scale_x_discrete(position = "top")+
-              theme_minimal() +
-              theme(panel.grid.major = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.x = element_blank(),
-                    legend.position = "none",
-                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
-                    )+
-              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
-              labs(fill = "PP")
+#               #scale_x_discrete(position = "top")+
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_blank(),
+#                     legend.position = "none",
+#                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+#                     )+
+#               facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+#               labs(fill = "PP")
 
-gp2.h3 <-  ggplot(sumc.h3[ grepl(pattern = "PM|JDM \\(R\\)", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
-              geom_tile( color = "black",
-                        lwd = 0.2,
-                        linetype = 1) +
-              scale_fill_gradient(limits = c(0,1), na.value = "white")+
-              geom_tile(aes( colour = flag),
-                          lwd=1, linetype = 1, data = sumc.h3[grepl(pattern = "PM|JDM \\(R\\)", trait.myos) & H3 > 0.25]) + # Little trick to keep tiles in place
-              scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
+# gp2.h3 <-  ggplot(sumc.h3[ grepl(pattern = "PM|JDM \\(R\\)", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
+#               geom_tile( color = "black",
+#                         lwd = 0.2,
+#                         linetype = 1) +
+#               scale_fill_gradient(limits = c(0,1), na.value = "white")+
+#               geom_tile(aes( colour = flag),
+#                           lwd=1, linetype = 1, data = sumc.h3[grepl(pattern = "PM|JDM \\(R\\)", trait.myos) & H3 > 0.25]) + # Little trick to keep tiles in place
+#               scale_colour_manual(values=c(High="green",Med="yellow", Low ="#FFFFFF00"), guide=guide_none()) + # And make rectangles under 0.5 transparent
               
-              #scale_x_discrete(position = "top")+
-              theme_minimal() +
-              theme(panel.grid.major = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.x = element_blank(),
-                    legend.position = "none",
-                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
-                    )+
-              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
-              labs(fill = "PP")
+#               #scale_x_discrete(position = "top")+
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_blank(),
+#                     legend.position = "none",
+#                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+#                     )+
+#               facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+#               labs(fill = "PP")
 
-gp3.h3 <-  ggplot(sumc.h3[ grepl(pattern = "IIM|Jo1", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
-              geom_tile( color = "black",
-                        lwd = 0.2,
-                        linetype = 1) +
-              scale_fill_gradient(limits = c(0,1), na.value = "white")+
-              geom_tile(aes( colour = flag),
-                          lwd=1, linetype = 1, data = sumc.h3[grepl(pattern = "IIM|Jo1", trait.myos) & H3 > .25]) +
-              scale_colour_manual(values=c(High="green",Med="yellow",Low ="#FFFFFF00"), guide=guide_none()) +
-              #scale_x_discrete(position = "top")+
-              theme_minimal() +
-              theme(panel.grid.major = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5, size = 11),
-                    legend.position = "bottom",
-                    plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
-                    )+
-              guides(fill = guide_colorbar(title.vjust = 0.8))+
-              facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
-              labs(fill = "PP")
+# gp3.h3 <-  ggplot(sumc.h3[ grepl(pattern = "IIM|Jo1", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
+#               geom_tile( color = "black",
+#                         lwd = 0.2,
+#                         linetype = 1) +
+#               scale_fill_gradient(limits = c(0,1), na.value = "white")+
+#               geom_tile(aes( colour = flag),
+#                           lwd=1, linetype = 1, data = sumc.h3[grepl(pattern = "IIM|Jo1", trait.myos) & H3 > .25]) +
+#               scale_colour_manual(values=c(High="green",Med="yellow",Low ="#FFFFFF00"), guide=guide_none()) +
+#               #scale_x_discrete(position = "top")+
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5, size = 11),
+#                     legend.position = "bottom",
+#                     plot.margin = unit(c(0, 0.2, 0, 0.3), "cm")
+#                     )+
+#               guides(fill = guide_colorbar(title.vjust = 0.8))+
+#               facet_grid(cols = vars(trait.myos), scales = "free", space = "free",switch = "y")+
+#               labs(fill = "PP")
 
-gp.h3 <- plot_grid(gp1.h3, gp2.h3, gp3.h3, nrow = 3, rel_heights = c(0.75,0.75,1.4))
+# gp.h3 <- plot_grid(gp1.h3, gp2.h3, gp3.h3, nrow = 3, rel_heights = c(0.75,0.75,1.4))
 
-# Save
-ggsave("../figures/driverSNP_H3.png", gp.h3, height =7 , width = 8, bg="white")
-
-
-
-
+# # Save
+# ggsave("../figures/driverSNP_H3.png", gp.h3, height =7 , width = 8, bg="white")
 
 
 ###############################
