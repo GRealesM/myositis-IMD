@@ -252,7 +252,7 @@ gp.alt <- ggplot(sumc, aes(x =  trait.other, y = trait.myos, colour=flag, fill =
 
             #   ,scales="free_y", switch = "y"
 gp.alt
-ggsave("../figures/Fig3_driverSNP_H4_rnocoloc-v2.png", gp.alt, height =5.3 , width = 5.3, bg="white")
+ggsave("../figures/Fig3_driverSNP_H4_rnocoloc-v2.png", gp.alt, height =5.2 , width = 4.9, bg="white")
 
 
 
