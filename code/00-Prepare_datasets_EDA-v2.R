@@ -233,9 +233,38 @@ ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR
 # fwrite(aq, "../tables/ST2_all_datasets.tsv", sep ="\t")
 # fwrite(ap, "../tables/ST3_all_projections.tsv", sep ="\t")
 
-##########################################
+###########################################
 
-### Prepare some basic figures
+# Extra figure to explore the relationship between N1 and FDR.overall, to help responding to a referee's question.
+
+# qf <- fread("../data/qf.tsv")  %>% [, FDR.overall := p.adjust(overall_p, method = "BH"), by="Trait_class"]
+
+qrf <- copy(qf)
+
+# Update myositis trait_class to distinguish by colour
+qrf[First_Author %in% c("Miller", "Rothwell"), Trait_class := "IIM"]
+qrf[, nlogFDR:=-log10(FDR.overall)] # Compute -log10(FDR)
+
+qrp1 <- ggplot(qrf, aes(x = N1, y = nlogFDR, colour = Trait_class))+
+              geom_point(data = qrf[Trait_class == "IMD"], alpha = 0.5)+
+              geom_point(data = qrf[Trait_class == "IIM"])+
+              scale_color_manual(values = c(IMD = "deepskyblue3", IIM = "#8a1c1c"))+
+              geom_hline(yintercept = -log10(0.01), colour = "red", lty = 2)+
+              theme_cowplot()+
+              xlab("N cases")+
+              ylab(bquote(-log[10](FDR.overall)))+
+              xlim(c(0, 10000))+
+              ylim(c(0, 100))+
+              theme(legend.position = "none")
+
+qrp1
+
+# ggsave("../figures/RQ_N1_FDR.png", qrp1, bg = "white")
+# then uncomment the lims and run fig again
+# ggsave("../figures/RQ_N1_FDR_zoom.png", qrp1, bg = "white")
+
+
+##########################################
 
 ## Figure 1 -- A heatmap of myositis projections
 
