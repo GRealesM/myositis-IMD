@@ -111,11 +111,11 @@ compute_bhatta <- function(pcs){
 bh7 <- compute_bhatta(pcs = paste0("PC", c(1,2,3,8,9,12,13)))
 
 # Alternative (13 PCs)
-bh13 <- compute_bhatta(pcs = paste0("PC", c(1:13)))
+# bh13 <- compute_bhatta(pcs = paste0("PC", c(1:13)))
 
 # Save
 fwrite(bh7, "../data/bh_dist.tsv", sep="\t")
-fwrite(bh13, "../data/bh13_dist.tsv", sep="\t")
+# fwrite(bh13, "../data/bh13_dist.tsv", sep="\t")
 
 sessionInfo()
 # R version 4.3.1 (2023-06-16)

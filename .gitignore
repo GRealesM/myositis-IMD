@@ -28,3 +28,6 @@ figures/202202_Feb22/
 # Ignore unused tables and old stuff
 tables/2022/
 tables/old/
+
+# Ignore not used datasets
+data/not_used/

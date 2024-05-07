@@ -237,7 +237,7 @@ ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR
 
 # Extra figure to explore the relationship between N1 and FDR.overall, to help responding to a referee's question.
 
-# qf <- fread("../data/qf.tsv")  %>% [, FDR.overall := p.adjust(overall_p, method = "BH"), by="Trait_class"]
+# qf <- fread("../data/qf.tsv")  %>% .[, FDR.overall := p.adjust(overall_p, method = "BH"), by="Trait_class"]
 
 qrf <- copy(qf)
 

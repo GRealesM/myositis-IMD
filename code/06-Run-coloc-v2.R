@@ -369,7 +369,7 @@ data$GPA=GPA[,.(pid, CHR38, BP38, REF=ref, ALT=alt, BETA=beta, SE=sebeta, P=pval
 
 
 # Now we'll get the sample sizes, using the metadata file
-md  <- fread("../data/Metadata_20230503-v1.tsv")
+md  <- fread("../data/Metadata_20230906-v1.tsv")
 fd <- data.table(File_ID = files, name = names(files))
 fd[, File_ID:=gsub("~/rds/rds-cew54-basis/02-Processed/", "", File_ID, fixed = TRUE)]
 fd <- merge(fd, md[,.(File_ID, N0, N1)], by="File_ID")
