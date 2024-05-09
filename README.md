@@ -6,8 +6,6 @@ This is the GitHub repo for the code used in the manuscript, currently under rev
 
 **Last updated:** 2024/05/09
 
-
-
 This repo contains the following sections, which are self-explanatory:
 
 * Code
