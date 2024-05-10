@@ -259,6 +259,8 @@ qrp1 <- ggplot(qrf, aes(x = N1, y = nlogFDR, colour = Trait_class))+
 
 qrp1
 
+qrf[ N1 > 2500 & FDR.overall >= 0.01, .(Label, N0, N1, N, FDR.overall, Population)][order(N1)]
+
 # ggsave("../figures/RQ_N1_FDR.png", qrp1, bg = "white")
 # then uncomment the lims and run fig again
 # ggsave("../figures/RQ_N1_FDR_zoom.png", qrp1, bg = "white")

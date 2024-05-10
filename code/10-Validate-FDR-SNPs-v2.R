@@ -960,24 +960,24 @@ fwrite(mimd, "../tables/ST6_validation_R5_info.tsv", sep ="\t")
 
 sxt <- data.table(`Validation method`= c("pwFDR + coloc (0.5)",
 						  "pwFDR + coloc (0.8)", 
-						  "coloc (0.5)", 
-						  "coloc (0.8)", 
+						#   "coloc (0.5)", 
+						#   "coloc (0.8)", 
 						  "Empirical"), 						  
 		  FPR = c(ss05[,sum(FP)/(sum(FP) + sum(TP))],
 		  		  ss08[,sum(FP)/(sum(FP) + sum(TP))],
-				  vh[, mean(1 - maxH4)],
-				  vh[ maxH4 > 0.8, mean(1 - maxH4)],
+				#   vh[, mean(1 - maxH4)],
+				#   vh[ maxH4 > 0.8, mean(1 - maxH4)],
 				  sum(ssr10$bad)/(sum(ssr10$bad)+sum(ssr10$good))),
 		`Validating SNPs` = c(ss05[,sum(TP)], 
 							  ss08[,sum(TP)],
-							  NA,
-							  NA,
+							#   NA,
+							#   NA,
 							  sum(ssr10$good)),
 							  
 		`Non-validating SNPs` = c(ss05[,sum(FP)], 
 							  ss08[,sum(FP)],
-							  NA,
-							  NA,
+							#   NA,
+							#   NA,
 							  sum(ssr10$bad))
 							  )
 
