@@ -962,7 +962,7 @@ sxt <- data.table(`Validation method`= c("pwFDR + coloc (0.5)",
 						  "pwFDR + coloc (0.8)", 
 						#   "coloc (0.5)", 
 						#   "coloc (0.8)", 
-						  "Empirical"), 						  
+						  "Genome-wide significant"), 						  
 		  FPR = c(ss05[,sum(FP)/(sum(FP) + sum(TP))],
 		  		  ss08[,sum(FP)/(sum(FP) + sum(TP))],
 				#   vh[, mean(1 - maxH4)],
@@ -1000,7 +1000,7 @@ sp1 <- ggplot(ssv, aes(x = -log10(P.focus), y = -log10(P.val)))+
 			geom_abline( colour = "red")+
 			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
 			ggtitle("pwFDR + coloc (0.5)")+
-			theme_cowplot()+
+			theme_cowplot(font_size = 12)+
 			theme(axis.title.x = element_blank())
 
 sp1z <- ggplot(ssv, aes(x = -log10(P.focus), y = -log10(P.val)))+
@@ -1012,7 +1012,7 @@ sp1z <- ggplot(ssv, aes(x = -log10(P.focus), y = -log10(P.val)))+
 			geom_abline( colour = "red")+
 			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
 			ggtitle("zoomed in")+
-			theme_cowplot()+
+			theme_cowplot(font_size = 12)+
 			theme(axis.title.x = element_blank(),
 				axis.title.y = element_blank())
 
@@ -1023,7 +1023,7 @@ sp2 <- ggplot(ssv[ maxH4 > 0.8], aes(x = -log10(P.focus), y = -log10(P.val)))+
 			geom_abline( colour = "red")+
 			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
 			ggtitle("pwFDR + coloc (0.8)")+
-			theme_cowplot()+
+			theme_cowplot(font_size = 12)+
 			theme(axis.title.x = element_blank())
 
 sp2z <- ggplot(ssv[ maxH4 > 0.8], aes(x = -log10(P.focus), y = -log10(P.val)))+
@@ -1035,7 +1035,7 @@ sp2z <- ggplot(ssv[ maxH4 > 0.8], aes(x = -log10(P.focus), y = -log10(P.val)))+
 			geom_abline( colour = "red")+
 			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
 			ggtitle("zoomed in")+
-			theme_cowplot()+
+			theme_cowplot(font_size = 12)+
 			theme(axis.title.x = element_blank(),
 				axis.title.y = element_blank())
 
@@ -1044,10 +1044,10 @@ sp3 <- ggplot(wR10, aes(x = -log10(P.focus), y = -log10(P.val)))+
 			annotate("text", x = 95, y = 95, colour = "darkgreen", size = 7, label = "127\n\n23")+
 			xlab(bquote(-log[10](P)~R5))+
 			ylab(bquote(-log[10](P)~R10))+
-			ggtitle("Empirical")+
+			ggtitle("Genome-wide significant")+
 			geom_abline( colour = "red")+
 			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
-			theme_cowplot()
+			theme_cowplot(font_size = 12)
 
 sp3z <- ggplot(wR10, aes(x = -log10(P.focus), y = -log10(P.val)))+
 			geom_point()+
@@ -1058,20 +1058,13 @@ sp3z <- ggplot(wR10, aes(x = -log10(P.focus), y = -log10(P.val)))+
 			ggtitle("zoomed in")+
 			geom_abline( colour = "red")+
 			geom_vline(xintercept = -log10(5e-8), colour = "blue")+
-			theme_cowplot()+
+			theme_cowplot(font_size = 12)+
 			theme(axis.title.y = element_blank())
 
 sp <- plot_grid(sp1, sp1z, sp2, sp2z, sp3, sp3z, nrow = 3)
 sp
 
 ggsave("../figures/Fig4_validation_SNPs_P_plot.png", sp, bg = "white", height = 8, width = 7)
-
-# Now the same but for our validation snps
-
-
-
-
-
 
 
 sessionInfo()
