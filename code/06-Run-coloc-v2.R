@@ -33,6 +33,8 @@ library(ggplot2)
 library(cowplot)
 setDTthreads(15)
 
+fg7url <- "https://storage.googleapis.com/finngen-public-data-r7/summary_stats/"
+
 dpres <- fread("../tables/ST4_coloc_diseases.tsv")
 
 dpres[,.(Trait, Label, coloc_Label)] 
@@ -289,9 +291,9 @@ names(data)[c(10, 12:14, 20:22, 25:26)] = c("CR(E)ST.local", "Felty.local","Hype
 dir.create("../data/fg_sumstats")
 
 if(!file.exists("../data/fg_sumstats/finngen_R7_CREST.gz"))
-    system("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_CREST.gz -O ../data/fg_sumstats/finngen_R7_CREST.gz")
+    system(paste0("wget ", fg7url, "finngen_R7_CREST.gz -O ../data/fg_sumstats/finngen_R7_CREST.gz"))
 if(!file.exists("../data/fg_sumstats/finngen_R7_FELTY.gz"))
-    system("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_FELTY.gz -O ../data/fg_sumstats/finngen_R7_FELTY.gz")
+    system(paste0("wget ", fg7url, "finngen_R7_FELTY.gz -O ../data/fg_sumstats/finngen_R7_FELTY.gz"))
 
 # Note: this PanUKBB file will need some work to reformat, see below
 if(!file.exists("../data/fg_sumstats/20002_1225_PanUKBB_PanUKBBR2_1-hg38.tsv.gz")){
@@ -299,17 +301,17 @@ if(!file.exists("../data/fg_sumstats/20002_1225_PanUKBB_PanUKBBR2_1-hg38.tsv.gz"
     system("Rscript processing_panUKBB.R") # This script will prepare the PanUKBB file to be used by coloc
 }   
 if(!file.exists("../data/fg_sumstats/finngen_R7_E4_HYTHY_AI_STRICT.gz"))
-    system("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_E4_HYTHY_AI_STRICT.gz -O ../data/fg_sumstats/finngen_R7_E4_HYTHY_AI_STRICT.gz")
+    system(paste0("wget ", fg7url, "finngen_R7_E4_HYTHY_AI_STRICT.gz -O ../data/fg_sumstats/finngen_R7_E4_HYTHY_AI_STRICT.gz"))
 if(!file.exists("../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz"))
-    system("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_M13_PALINDROMIC.gz -O ../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz")
+    system(paste0("wget ", fg7url, "finngen_R7_M13_PALINDROMIC.gz -O ../data/fg_sumstats/finngen_R7_M13_PALINDROMIC.gz"))
 if(!file.exists("../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz"))
-    system("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_CHIRBIL_PRIM.gz -O ../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz")
+    system(paste0("wget ", fg7url, "finngen_R7_CHIRBIL_PRIM.gz -O ../data/fg_sumstats/finngen_R7_CHIRBIL_PRIM.gz"))
 if(!file.exists("../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz"))
-    system("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_M13_RHEUMA.gz -O ../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz")
+    system(paste0("wget ", fg7url, "finngen_R7_M13_RHEUMA.gz -O ../data/fg_sumstats/finngen_R7_M13_RHEUMA.gz"))
 if(!file.exists("../data/fg_sumstats/finngen_R7_M13_SLE.gz"))
-    system("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_M13_SLE.gz -O ../data/fg_sumstats/finngen_R7_M13_SLE.gz")
+    system(paste0("wget ", fg7url, "finngen_R7_M13_SLE.gz -O ../data/fg_sumstats/finngen_R7_M13_SLE.gz"))
 if(!file.exists("../data/fg_sumstats/finngen_R7_M13_WEGENER.gz"))
-    system("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_M13_WEGENER.gz -O ../data/fg_sumstats/finngen_R7_M13_WEGENER.gz")
+    system(paste0("wget ", fg7url, "finngen_R7_M13_WEGENER.gz -O ../data/fg_sumstats/finngen_R7_M13_WEGENER.gz"))
 
 
 # Incorporate new files into data
