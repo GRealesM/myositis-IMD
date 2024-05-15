@@ -35,6 +35,7 @@ setDTthreads(15)
 
 fg7url <- "***REMOVED***"
 
+
 dpres <- fread("../tables/ST4_coloc_diseases.tsv")
 
 dpres[,.(Trait, Label, coloc_Label)] 

@@ -56,6 +56,7 @@ data <- lapply(tf, function(x){
         message("Working on ", x, ".")
         if(grepl("FinnGenR7", x)){
 			fn <- gsub("_FinnGen_FinnGenR7_1", "", x)
+			# NOTE: FinnGen link for R7 was removed. Please register with FinnGen to get the appropriate link.
 			if(!file.exists(paste0("../data/fg_sumstats/finngen_R7_", fn,".gz"))) system(paste0("wget ***REMOVED***finngen_R7_", fn, ".gz -O ../data/fg_sumstats/finngen_R7_",fn,".gz"))
 			y = fread(paste0("../data/fg_sumstats/finngen_R7_", fn,".gz"), tmpdir = "tmp")
 			y[ , pid38:=paste(`#chrom`, pos, sep = ":")]
