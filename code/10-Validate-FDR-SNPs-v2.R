@@ -40,9 +40,8 @@ library(cowplot)
 setDTthreads(20)
 setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
 bpath <- "/home/gr440/rds/rds-cew54-basis/03-Bases/IMD_basis/"
-# FinnGen Manifest requires registation to be shared, so DELETE after.
-url10man <- "https://storage.googleapis.com/finngen-public-data-r10/summary_stats/R10_manifest.tsv"
-
+# FinnGen Manifest requires registation to be shared, so URL was removed.
+url10man <- "***REMOVED***"
 
 #############################################################################
 
@@ -673,14 +672,22 @@ ffc <- lapply(iof, function(x){
 		message("Working on ", x, ".")
 		if(grepl("FinnGenR5", x)){
 			fn <- gsub("_FinnGen_FinnGenR5_1", "", x)
+<<<<<<< HEAD
 			if(!file.exists(paste0("../data/fg_sumstats/finngen_R5_", fn,".gz"))) system(paste0("wget https://storage.googleapis.com/finngen-public-data-r5/summary_stats/finngen_R5_", fn, ".gz -O ../data/fg_sumstats/finngen_R5_",fn,".gz"))
+=======
+			if(!file.exists(paste0("../data/fg_sumstats/finngen_R5_", fn,".gz"))) system(paste0("wget ***REMOVED***finngen_R5_", fn, ".gz -O ../data/fg_sumstats/finngen_R5_",fn,".gz"))
+>>>>>>> 5b47a41b14c403b5820b3afba339863f77b3c3fa
 			y = fread(paste0("../data/fg_sumstats/finngen_R5_", fn,".gz"), tmpdir = "tmp")
 			y[ , pid38:=paste(`#chrom`, pos, sep = ":")]
 			y <- y[, .(`#chrom`, pos, ref, alt, beta, sebeta, pval)]
 			setnames(y, c("#chrom", "pos", "ref", "alt", "beta", "sebeta", "pval"), c("CHR38", "BP38", "REF", "ALT", "BETA", "SE", "P"))
 		}else if(grepl("FinnGenR7", x)){
 			fn <- gsub("_FinnGen_FinnGenR7_1", "", x)
+<<<<<<< HEAD
 			if(!file.exists(paste0("../data/fg_sumstats/finngen_R7_", fn,".gz"))) system(paste0("wget https://storage.googleapis.com/finngen-public-data-r7/summary_stats/finngen_R7_", fn, ".gz -O ../data/fg_sumstats/finngen_R7_",fn,".gz"))
+=======
+			if(!file.exists(paste0("../data/fg_sumstats/finngen_R7_", fn,".gz"))) system(paste0("wget ***REMOVED***finngen_R7_", fn, ".gz -O ../data/fg_sumstats/finngen_R7_",fn,".gz"))
+>>>>>>> 5b47a41b14c403b5820b3afba339863f77b3c3fa
 			y = fread(paste0("../data/fg_sumstats/finngen_R7_", fn,".gz"), tmpdir = "tmp")
 			y[ , pid38:=paste(`#chrom`, pos, sep = ":")]
 			y <- y[, .(`#chrom`, pos, ref, alt, beta, sebeta, pval)]

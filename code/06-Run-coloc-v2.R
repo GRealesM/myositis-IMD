@@ -33,7 +33,8 @@ library(ggplot2)
 library(cowplot)
 setDTthreads(15)
 
-fg7url <- "https://storage.googleapis.com/finngen-public-data-r7/summary_stats/"
+fg7url <- "***REMOVED***"
+
 
 dpres <- fread("../tables/ST4_coloc_diseases.tsv")
 
