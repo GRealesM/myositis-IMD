@@ -1066,6 +1066,10 @@ sp
 
 ggsave("../figures/Fig4_validation_SNPs_P_plot.png", sp, bg = "white", height = 8, width = 7)
 
+# Journal REQUIRES TIFF format. Dear journal, be better!
+tiff("../figures/Fig4_validation_SNPs_P_plot.tiff", units="in", width=7, height=8, res=300)
+sp
+dev.off()
 
 sessionInfo()
 # R version 4.3.3 (2024-02-29)

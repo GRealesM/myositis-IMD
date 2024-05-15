@@ -254,6 +254,10 @@ gp.alt <- ggplot(sumc, aes(x =  trait.other, y = trait.myos, colour=flag, fill =
 gp.alt
 ggsave("../figures/Fig3_driverSNP_H4_rnocoloc-v2.png", gp.alt, height =5.2 , width = 4.9, bg="white")
 
+# Journal REQUIRES TIFF format. Dear journal, be better!
+tiff("../figures/Fig3_driverSNP_H4_rnocoloc-v2.tiff", units="in", width=4.9, height=5.2, res=300)
+gp.alt
+dev.off()
 
 
 ###############################
