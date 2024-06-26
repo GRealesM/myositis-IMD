@@ -37,6 +37,8 @@ library(coloc)
 library(ggplot2)
 library(cowplot)
 
+
+
 setDTthreads(20)
 setwd("/home/gr440/rds/rds-cew54-basis/Projects/myositis-IMD/code")
 bpath <- "/home/gr440/rds/rds-cew54-basis/03-Bases/IMD_basis/"
@@ -1069,6 +1071,32 @@ ggsave("../figures/Fig4_validation_SNPs_P_plot.png", sp, bg = "white", height = 
 tiff("../figures/Fig4_validation_SNPs_P_plot.tiff", units="in", width=7, height=8, res=300)
 sp
 dev.off()
+
+
+# Reviewer asked about the % of SNPs identified by our method that were insignificant in R5 but significant in R10,
+# rather than simply get bigger or smaller.
+
+nrow(ssv[ P.focus > 5e-8 & P.val < 5e-8]) / nrow(ssv)
+# 0.3678161
+
+# And for H4 > 0.8
+nrow(ssv[ maxH4 > 0.8 & P.focus > 5e-8 & P.val < 5e-8]) / nrow(ssv)
+# 0.2873563
+
+# And how about potential false positives (ie. sig in R5, nonsig in R10)
+nrow(ssv[ P.focus < 5e-8 & P.val > 5e-8]) / nrow(ssv)
+# 0
+
+# And how many of them are not significant for either release?
+nrow(ssv[ P.focus > 5e-8 & P.val > 5e-8]) / nrow(ssv)
+# 0.3563218
+
+nrow(ssv[ P.focus > 5e-8 & P.val > 5e-8 & P.focus > P.val]) / nrow(ssv)
+# 0.2643678
+
+nrow(ssv[ P.focus > 5e-8 & P.val > 5e-8 & P.focus > P.val]) / nrow(ssv[ P.focus > 5e-8 & P.val > 5e-8])
+# 0.7419355
+
 
 sessionInfo()
 # R version 4.3.3 (2024-02-29)

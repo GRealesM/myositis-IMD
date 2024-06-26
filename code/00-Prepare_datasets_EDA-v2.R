@@ -235,6 +235,8 @@ ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR
 
 ###########################################
 
+# Figure S3
+
 # Extra figure to explore the relationship between N1 and FDR.overall, to help responding to a referee's question.
 
 # qf <- fread("../data/qf.tsv")  %>% .[, FDR.overall := p.adjust(overall_p, method = "BH"), by="Trait_class"]
@@ -253,17 +255,28 @@ qrp1 <- ggplot(qrf, aes(x = N1, y = nlogFDR, colour = Trait_class))+
               theme_cowplot()+
               xlab("N cases")+
               ylab(bquote(-log[10](FDR.overall)))+
+              theme(legend.position = "none")
+
+qrp2 <- ggplot(qrf, aes(x = N1, y = nlogFDR, colour = Trait_class))+
+              geom_point(data = qrf[Trait_class == "IMD"], alpha = 0.5)+
+              geom_point(data = qrf[Trait_class == "IIM"])+
+              scale_color_manual(values = c(IMD = "deepskyblue3", IIM = "#8a1c1c"))+
+              geom_hline(yintercept = -log10(0.01), colour = "red", lty = 2)+
+              theme_cowplot()+
+              xlab("N cases")+
+              ylab(bquote(-log[10](FDR.overall)))+
               xlim(c(0, 10000))+
               ylim(c(0, 100))+
               theme(legend.position = "none")
 
-qrp1
+qrp <- plot_grid(qrp1, qrp2, ncol = 1, labels = "AUTO")
+qrp
+
 
 qrf[ N1 > 2500 & FDR.overall >= 0.01, .(Label, N0, N1, N, FDR.overall, Population)][order(N1)]
 
-# ggsave("../figures/RQ_N1_FDR.png", qrp1, bg = "white")
-# then uncomment the lims and run fig again
-# ggsave("../figures/RQ_N1_FDR_zoom.png", qrp1, bg = "white")
+# ggsave("../figures/FigS3_N1_FDR.png", qrp, width = 7, height = 7,bg = "white")
+
 
 
 ##########################################
@@ -392,13 +405,13 @@ kdp <- lapply(setNames(PCs, PCs), function(x){
         dpm
 })
 
-# ggsave("../figures/FigS3_deltaplots_PC1.png", kdp$PC1, bg = "white", height =5, width = 5)
-# ggsave("../figures/FigS4_deltaplots_PC2.png", kdp$PC2, bg = "white", height =4, width = 5)
-# ggsave("../figures/FigS5_deltaplots_PC3.png", kdp$PC3, bg = "white", height =6, width = 5)
-# ggsave("../figures/FigS6_deltaplots_PC8.png", kdp$PC8, bg = "white", height =4, width = 5)
-# ggsave("../figures/FigS7_deltaplots_PC9.png", kdp$PC9, bg = "white", height =3, width = 5)
-# ggsave("../figures/FigS8_deltaplots_PC12.png", kdp$PC12, bg = "white", height =5, width = 5)
-# ggsave("../figures/FigS9_deltaplots_PC13.png", kdp$PC13, bg = "white", height =5, width = 5)
+# ggsave("../figures/FigS4_deltaplots_PC1.png", kdp$PC1, bg = "white", height =5, width = 5)
+# ggsave("../figures/FigS5_deltaplots_PC2.png", kdp$PC2, bg = "white", height =4, width = 5)
+# ggsave("../figures/FigS6_deltaplots_PC3.png", kdp$PC3, bg = "white", height =6, width = 5)
+# ggsave("../figures/FigS7_deltaplots_PC8.png", kdp$PC8, bg = "white", height =4, width = 5)
+# ggsave("../figures/FigS8_deltaplots_PC9.png", kdp$PC9, bg = "white", height =3, width = 5)
+# ggsave("../figures/FigS9_deltaplots_PC12.png", kdp$PC12, bg = "white", height =5, width = 5)
+# ggsave("../figures/FigS10_deltaplots_PC13.png", kdp$PC13, bg = "white", height =5, width = 5)
 
 
 

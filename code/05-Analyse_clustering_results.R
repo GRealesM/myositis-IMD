@@ -137,7 +137,7 @@ names(bhcol)  <- as.character(1:max(ann$Bhattacharyya))
 annotations <- list(ann = ann, colors = list( Bhattacharyya = bhcol,DPMUnc = dpcol))
 myob <- grep("myositis|IIM", rownames(bhatta.d), value = TRUE, ignore.case = TRUE)
 
-# Figure S10 - Heatmap with Bhatta contents and Bhata/DPMUnc clustering annotations
+# Figure S11 - Heatmap with Bhatta contents and Bhata/DPMUnc clustering annotations
 
 bh.ph <- pheatmap(bhatta.d,
                   cluster_cols = bh.cl, 
@@ -154,9 +154,9 @@ bh.ph <- pheatmap(bhatta.d,
                   labels_row = make_bold_names(bhatta.d, rownames, myob))
 
 # Save
-# ggsave("../figures/FigS10_Myositis_7PCs_BHDP_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
-# ggsave("../figures/FigS10_Myositis_7PCs_BHDP_heatmap.png", bh.ph, width = 9, height = 9.5, bg="white")
-# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/FigS10_Myositis_7PCs_BHDP_heatmap.svg") # Trick to make the svg file text be more easily editable
+# ggsave("../figures/FigS11_Myositis_7PCs_BHDP_heatmap.svg", bh.ph, width = 9, height = 9.5, bg="white")
+# ggsave("../figures/FigS11_Myositis_7PCs_BHDP_heatmap.png", bh.ph, width = 9, height = 9.5, bg="white")
+# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/FigS11_Myositis_7PCs_BHDP_heatmap.svg") # Trick to make the svg file text be more easily editable
 
 # Note: This figure will be edited to add a rectangle highlighting the Bhatta myositis group.
 
@@ -314,9 +314,9 @@ psm_heatmap = pheatmap(bigpsm,
                        labels_row = make_bold_names(bigpsm, rownames, myob))
 
 # Save
-# ggsave("../figures/FigS11_Myositis_7PCs_DPBH_heatmap.svg", psm_heatmap, width = 9, height = 9.5, bg="white")
-# ggsave("../figures/FigS11_Myositis_7PCs_DPBH_heatmap.png", psm_heatmap, width = 9, height = 9.5, bg="white")
-# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/FigS11_Myositis_7PCs_DPBH_heatmap.svg") # Trick to make the svg file text be more easily editable
+# ggsave("../figures/FigS12_Myositis_7PCs_DPBH_heatmap.svg", psm_heatmap, width = 9, height = 9.5, bg="white")
+# ggsave("../figures/FigS12_Myositis_7PCs_DPBH_heatmap.png", psm_heatmap, width = 9, height = 9.5, bg="white")
+# system("sed -i \"s/ textLength=\'[^\']*\'//\" ../figures/FigS12_Myositis_7PCs_DPBH_heatmap.svg") # Trick to make the svg file text be more easily editable
 
 
 #################################################

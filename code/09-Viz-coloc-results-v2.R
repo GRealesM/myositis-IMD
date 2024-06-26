@@ -262,45 +262,50 @@ dev.off()
 
 ###############################
 
+# We didn't use this figure in the end
 
-# Prepare H3 panel
 
-sumc.h3 <- c2[pid %in% keypids, .(dlabel, trait.myos,  trait.other, H3)]
-sumc.h3 <- sumc.h3 %>% tidyr::complete(dlabel, trait.myos, trait.other ) %>% as.data.table()
-sumc.h3[, dlabel:=factor(dlabel, levels = rev(unique(dlabel)))]
-sumc.h3[, trait.other:=factor(trait.other, levels = rev(unique(trait.other)))]
-sumc.h3[,flag:=ifelse(H3>.8, "High", ifelse(H3>.5, "Med", "Low"))]
-sumc.h3 <- sumc.h3[, .(dlabel, trait.myos, trait.other, H3, flag)]
+# # Prepare H3 panel
 
-# Remove empty rows
-rtr.h3 <- sumc.h3[, all(is.na(H3)), by = c("trait.myos", "dlabel")][ V1 == TRUE]
-rtr.h3[, empty:=paste0(trait.myos, "/", dlabel)]
-sumc.h3[, ec:=paste0(trait.myos, "/", dlabel)]
-sumc.h3 <- sumc.h3[!ec %in% rtr.h3$empty]
-sumc.h3[, ec:=NULL]
+# sumc.h3 <- c2[pid %in% keypids, .(dlabel, trait.myos,  trait.other, H3)]
+# sumc.h3 <- sumc.h3 %>% tidyr::complete(dlabel, trait.myos, trait.other ) %>% as.data.table()
+# sumc.h3[, dlabel:=factor(dlabel, levels = rev(unique(dlabel)))]
+# sumc.h3[, trait.other:=factor(trait.other, levels = rev(unique(trait.other)))]
+# sumc.h3[,flag:=ifelse(H3>.8, "High", ifelse(H3>.5, "Med", "Low"))]
+# sumc.h3 <- sumc.h3[, .(dlabel, trait.myos, trait.other, H3, flag)]
 
-# Figure S13 - H3 panel
+# # Remove empty rows
+# rtr.h3 <- sumc.h3[, all(is.na(H3)), by = c("trait.myos", "dlabel")][ V1 == TRUE]
+# rtr.h3[, empty:=paste0(trait.myos, "/", dlabel)]
+# sumc.h3[, ec:=paste0(trait.myos, "/", dlabel)]
+# sumc.h3 <- sumc.h3[!ec %in% rtr.h3$empty]
+# sumc.h3[, ec:=NULL]
 
-gp.h3.alt <- ggplot(sumc.h3, aes(x =  trait.other, y = trait.myos, colour=flag, fill = H3)) +
-              geom_tile( color = "black", lwd = 0.2, linetype = 1) +
-              geom_tile(aes( colour = flag),
-                          lwd=1, linetype = 1, data = sumc.h3[H3 > 0.49]) +
-              scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
-              scale_fill_gradient(limits = c(0,1), na.value = "white")+
-              theme_minimal() +
-              theme(panel.grid.major = element_blank(),
-                    axis.title = element_blank(),
-                    axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5, size = 11),
-                    legend.position = "bottom",
-                    plot.margin = unit(c(0.1, 0.2, 0, 0.3), "cm"),
-                    strip.text.y.left = element_text(hjust = 1, angle = 0)
-                    )+
-              guides(fill = guide_colorbar(title.vjust = 0.8))+
-              facet_grid(forcats::fct_rev(dlabel)~., scales = "free_y", space = "free_y", switch = "y")+
-              scale_y_discrete(position = "right")+
-              labs(fill = "PP H3")
-gp.h3.alt
-ggsave("../figures/FigureS13_driverSNP_H3.png", gp.h3.alt, height =5.3 , width = 5.3, bg="white")
+# # Figure S13 - H3 panel
+
+# gp.h3.alt <- ggplot(sumc.h3, aes(x =  trait.other, y = trait.myos, colour=flag, fill = H3)) +
+#               geom_tile( color = "black", lwd = 0.2, linetype = 1) +
+#               geom_tile(aes( colour = flag),
+#                           lwd=1, linetype = 1, data = sumc.h3[H3 > 0.49]) +
+#               scale_colour_manual(values=c(High="green",Med="yellow"), guide=guide_none()) +
+#               scale_fill_gradient(limits = c(0,1), na.value = "white")+
+#               theme_minimal() +
+#               theme(panel.grid.major = element_blank(),
+#                     axis.title = element_blank(),
+#                     axis.text.x = element_text(angle = 270, hjust=0, vjust = 0.5, size = 11),
+#                     legend.position = "bottom",
+#                     plot.margin = unit(c(0.1, 0.2, 0, 0.3), "cm"),
+#                     strip.text.y.left = element_text(hjust = 1, angle = 0)
+#                     )+
+#               guides(fill = guide_colorbar(title.vjust = 0.8))+
+#               facet_grid(forcats::fct_rev(dlabel)~., scales = "free_y", space = "free_y", switch = "y")+
+#               scale_y_discrete(position = "right")+
+#               labs(fill = "PP H3")
+# gp.h3.alt
+# ggsave("../figures/FigureS13_driverSNP_H3.png", gp.h3.alt, height =5.3 , width = 5.3, bg="white")
+
+
+####
 
 
 # gp1.h3 <-  ggplot(sumc.h3[ grepl(pattern = "^DM|JDM \\(M\\)", trait.myos) ], aes(x =  trait.other, y = dlabel, colour=flag, fill = H3)) +
