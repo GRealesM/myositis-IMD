@@ -235,7 +235,7 @@ ap <- ap[,.(Trait, Label, First_Author, Population, PC, Delta, Var.Delta, P, FDR
 
 ###########################################
 
-# Figure S3
+# Figure S4
 
 # Extra figure to explore the relationship between N1 and FDR.overall, to help responding to a referee's question.
 
@@ -275,7 +275,7 @@ qrp
 
 qrf[ N1 > 2500 & FDR.overall >= 0.01, .(Label, N0, N1, N, FDR.overall, Population)][order(N1)]
 
-# ggsave("../figures/FigS3_N1_FDR.png", qrp, width = 7, height = 7,bg = "white")
+# ggsave("../figures/FigS4_N1_FDR.png", qrp, width = 7, height = 7,bg = "white")
 
 
 
@@ -355,7 +355,7 @@ Mahm
 
 ### 
 
-## Figure S14 -- Delta plot of all myositis datasets across all 7 PCs
+## Figure S15 -- Delta plot of all myositis datasets across all 7 PCs
 
 myoc <- c(`PM (R)` = "#CF000F", `PM (M)` = "#CF000F", `DM (R)` = "#2E8856", `DM (M)` = "#2E8856", `IIM (R)` = "#1460AA", `IIM (M)` = "#1460AA", `JDM (M)` = "#B8860B", `JDM (R)` = "#B8860B", `IBM (R)` = "#E65722", `Anti-Jo1+ (R)` ="#1C2833")
 
@@ -374,7 +374,7 @@ dpm <- ggplot(pmyo, aes(x = Delta, y = Label, xmin=Delta-ci, xmax=Delta+ci, colo
   theme(legend.position = "none", strip.text.y.left = element_text(angle = 0), axis.title.y = element_blank())
 dpm
 
-#ggsave("../figures/FigS14_deltaplot_myo.png", dpm, height = 10, width = 6, bg = "white")
+#ggsave("../figures/FigS15_deltaplot_myo.png", dpm, height = 10, width = 6, bg = "white")
 
 
 ###
@@ -405,13 +405,13 @@ kdp <- lapply(setNames(PCs, PCs), function(x){
         dpm
 })
 
-# ggsave("../figures/FigS4_deltaplots_PC1.png", kdp$PC1, bg = "white", height =5, width = 5)
-# ggsave("../figures/FigS5_deltaplots_PC2.png", kdp$PC2, bg = "white", height =4, width = 5)
-# ggsave("../figures/FigS6_deltaplots_PC3.png", kdp$PC3, bg = "white", height =6, width = 5)
-# ggsave("../figures/FigS7_deltaplots_PC8.png", kdp$PC8, bg = "white", height =4, width = 5)
-# ggsave("../figures/FigS8_deltaplots_PC9.png", kdp$PC9, bg = "white", height =3, width = 5)
-# ggsave("../figures/FigS9_deltaplots_PC12.png", kdp$PC12, bg = "white", height =5, width = 5)
-# ggsave("../figures/FigS10_deltaplots_PC13.png", kdp$PC13, bg = "white", height =5, width = 5)
+# ggsave("../figures/FigS5_deltaplots_PC1.png", kdp$PC1, bg = "white", height =5, width = 5)
+# ggsave("../figures/FigS6_deltaplots_PC2.png", kdp$PC2, bg = "white", height =4, width = 5)
+# ggsave("../figures/FigS7_deltaplots_PC3.png", kdp$PC3, bg = "white", height =6, width = 5)
+# ggsave("../figures/FigS8_deltaplots_PC8.png", kdp$PC8, bg = "white", height =4, width = 5)
+# ggsave("../figures/FigS9_deltaplots_PC9.png", kdp$PC9, bg = "white", height =3, width = 5)
+# ggsave("../figures/FigS10_deltaplots_PC12.png", kdp$PC12, bg = "white", height =5, width = 5)
+# ggsave("../figures/FigS11_deltaplots_PC13.png", kdp$PC13, bg = "white", height =5, width = 5)
 
 
 

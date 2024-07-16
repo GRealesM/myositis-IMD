@@ -1062,7 +1062,7 @@ sp3z <- ggplot(wR10, aes(x = -log10(P.focus), y = -log10(P.val)))+
 			theme_cowplot(font_size = 12)+
 			theme(axis.title.y = element_blank())
 
-sp <- plot_grid(sp1, sp1z, sp2, sp2z, sp3, sp3z, nrow = 3)
+sp <- plot_grid(sp1, sp1z, sp2, sp2z, sp3, sp3z, nrow = 3, labels = "AUTO")
 sp
 
 ggsave("../figures/Fig4_validation_SNPs_P_plot.png", sp, bg = "white", height = 8, width = 7)
@@ -1096,6 +1096,16 @@ nrow(ssv[ P.focus > 5e-8 & P.val > 5e-8 & P.focus > P.val]) / nrow(ssv)
 
 nrow(ssv[ P.focus > 5e-8 & P.val > 5e-8 & P.focus > P.val]) / nrow(ssv[ P.focus > 5e-8 & P.val > 5e-8])
 # 0.7419355
+
+
+# Are p.values significantly different in both groups?
+wilcox.test(ssv$P.focus, ssv$P.val, alternative = "two.sided", paired = TRUE)
+
+#         Wilcoxon signed rank test with continuity correction
+
+# data:  ssv$P.focus and ssv$P.val
+# V = 3249, p-value = 1.622e-08
+# alternative hypothesis: true location shift is not equal to 0
 
 
 sessionInfo()
