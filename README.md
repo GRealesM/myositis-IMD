@@ -1,12 +1,12 @@
 # Discovery of new IIM genetic associations through leveraging other IMD
 
-This is the GitHub repo for the code used in the manuscript, currently under review at HGG Advances:
+This is the GitHub repo for the code used in the manuscript, published in HGG Advances:
 
-*Discovery of new myositis genetic associations through leveraging other immune-mediated diseases* (Citation to come)
+> [Reales et al (2024) Discovery of new myositis genetic associations through leveraging other immune-mediated diseases. *HGG Advances*, 5(4), 10033637(23).](https://www.sciencedirect.com/science/article/pii/S2666247724000769)
 
-**Last updated:** 2024/05/09
+**Last updated:** 2024/09/04
 
-This repo contains the following sections, which are self-explanatory:
+This repo contains the following sections:
 
 * Code
 * Data
